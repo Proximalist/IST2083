@@ -1,0 +1,201 @@
+---
+title: "GitHub Kullanım Kılavuzu"
+subtitle: "IST2083 — ders deposunu indirme ve her hafta güncelleme"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format:
+  html:
+    toc: true
+    toc-depth: 2
+  pdf:
+    toc: true
+    toc-depth: 2
+editor: visual
+execute:
+  echo: true
+  eval: false
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+Bu kılavuz üç şeyi anlatır: GitHub hesabı açmayı, ders deposunu
+bilgisayarınıza indirmeyi ve **her hafta yeni materyali almayı.**
+
+Üçüncüsü en önemlisi. Depoyu bir kez indirip bırakırsanız 3. haftadan
+sonra elinizdeki materyal eskir.
+
+---
+
+## 1. GitHub hesabı açma
+
+1. <https://github.com/> adresine gidin, sağ üstten **Sign up**'a tıklayın.
+2. E-posta, kullanıcı adı ve şifre girin.
+3. Gelen onay e-postasındaki bağlantıya tıklayarak hesabı doğrulayın.
+
+**Hangi e-posta?** Herhangi bir e-posta adresiyle kayıt olabilirsiniz;
+`.edu.tr` zorunlu değildir. Ancak öğrenci e-postanızı hesabınıza eklerseniz
+**GitHub Student Developer Pack** başvurusu yapabilir, Codespaces için ek
+ücretsiz kullanım hakkı ve başka araçlara erişim kazanabilirsiniz:
+<https://education.github.com/pack>
+
+Öğrenci e-postanızı sonradan da ekleyebilirsiniz:
+*Settings → Emails → Add email address.*
+
+---
+
+## 2. Depoyu bilgisayarınıza indirme
+
+Bu adımdan önce R, RStudio ve **Git** kurulu olmalıdır. Kurulum için
+`R_RStudio_Kurulum_Rehberi` dosyasına bakınız.
+
+1. RStudio'yu açın.
+2. **File → New Project → Version Control → Git**
+
+   > *Version Control seçeneğini göremiyorsanız* Git kurulu değildir veya
+   > RStudio Git'i bulamamıştır. Kurulum rehberindeki Git bölümüne dönün.
+
+3. **Repository URL** alanına şunu yapıştırın:
+
+   ```
+   https://github.com/Proximalist/IST2083.git
+   ```
+
+4. **Project directory name**: `IST2083` olarak bırakın.
+5. **Create project as subdirectory of**: derslerinizi tuttuğunuz klasörü
+   seçin. Türkçe karakter ve boşluk içermeyen bir yol tercih edin
+   (`Belgeler/Dersler` gibi).
+6. **Create Project**'e tıklayın.
+
+İndirme bitince RStudio projeyi açar. Sağ altta dosya listesini, sağ üstte
+**Git** sekmesini görmelisiniz.
+
+### Doğrulama
+
+Console'a şunu yazın:
+
+```r
+library(here)
+here()
+file.exists(here("data", "example_data.csv"))
+```
+
+`TRUE` görüyorsanız her şey yolundadır.
+
+---
+
+## 3. Her hafta güncel materyali alma
+
+Ders materyali her hafta güncellenir. Yeni materyali almak için:
+
+**RStudio'da:** Git sekmesi → mavi aşağı ok (**Pull**) düğmesi.
+
+**Veya Console'da (Terminal sekmesi):**
+
+```
+git pull
+```
+
+Bunu **her dersten önce** yapın. Yeni haftanın klasörü, düzeltilmiş kodlar
+ve cevap anahtarları bu şekilde gelir.
+
+### "Pull çalışmıyor, hata veriyor"
+
+En sık karşılaşılan iki durum:
+
+**Durum A — ders dosyalarını değiştirdiniz ve pull reddedildi.**
+Hata şuna benzer: *"Your local changes would be overwritten by merge."*
+
+Ders dosyalarının üzerine yazmak yerine **kopyasını alıp** çalışın. Değişiklikleri
+atmak isterseniz:
+
+```
+git stash
+git pull
+```
+
+`git stash`, değişikliklerinizi kenara koyar; geri almak isterseniz
+`git stash pop` yazın.
+
+**Durum B — kendi dosyalarınız var ama takip edilmiyor.**
+Alıştırma çözümlerinizi `benim_calismalarim/` gibi kendi klasörünüzde
+tutarsanız pull hiç sorun çıkarmaz. Bu klasörü depoya göndermeniz gerekmez.
+
+> **Önemli:** Bu depoya `push` yapmanız beklenmiyor ve yetkiniz yok.
+> Depo tek yönlü çalışır: biz yayımlarız, siz `pull` ile alırsınız.
+
+---
+
+## 4. Alternatif: GitHub Codespaces (kurulum istemeyenler için)
+
+Bilgisayarınıza hiçbir şey kurmadan, tarayıcıda çalışabilirsiniz.
+
+1. <https://github.com/Proximalist/IST2083> adresine gidin.
+2. Yeşil **Code** düğmesi → **Codespaces** sekmesi →
+   **Create codespace on main**.
+3. Tarayıcıda bir editör açılır; R ve gerekli paketler hazır gelir.
+
+**Bilmeniz gerekenler:**
+
+- Codespaces ücretsiz kotayla çalışır (hesap türüne göre aylık belirli bir
+  süre). Kullanmadığınızda **Stop codespace** ile durdurun, kota tükenmesin.
+- Ders anlatımı RStudio arayüzü üzerinden yapılacaktır; Codespaces'te ekran
+  farklı görünür.
+- Codespaces içinde yaptığınız değişiklikler o codespace'te kalır,
+  bilgisayarınıza inmez.
+
+Uzun vadede yerel RStudio kurulumu tavsiye edilir; Codespaces kurulum
+sorununu çözemediğiniz haftalarda iyi bir yedektir.
+
+---
+
+## 5. Depoyu indirmenin en basit yolu (Git olmadan)
+
+Git ile uğraşmak istemiyorsanız:
+
+1. <https://github.com/Proximalist/IST2083> → yeşil **Code** düğmesi →
+   **Download ZIP**.
+2. ZIP'i açın, içindeki `IST2083.Rproj` dosyasına çift tıklayın.
+
+**Dezavantajı:** Her hafta yeniden indirmeniz gerekir ve eski klasörle
+karıştırma riski vardır. Git yolunu öğrenmek ilk hafta biraz zaman alır ama
+dönem boyunca zaman kazandırır.
+
+---
+
+## Kontrol listesi (2 dakikalık özet)
+
+- [ ] Git yüklü, `git --version` bir sürüm numarası döndürüyor
+- [ ] R ve RStudio yüklü
+- [ ] RStudio, *Tools → Global Options → Git/SVN* altında Git'i görüyor
+- [ ] **File → New Project → Version Control → Git** ile depo klonlandı
+- [ ] `here("data", "example_data.csv")` `TRUE` dönüyor (Kurulum Rehberi'ndeki doğrulama)
+- [ ] Güncelleme için: **Pull**
+
+### Birkaç ek hata senaryosu
+
+**"Permission denied (publickey)"**
+SSH adresi yerine bu kılavuzdaki **HTTPS** URL'ini kullandığınızdan emin
+olun: `https://github.com/Proximalist/IST2083.git`
+
+**"fatal: not a git repository"**
+Komutu proje klasörünün **içinde** çalıştırın. `pwd` (macOS/Linux) veya
+`cd` (Windows, argümansız) ile hangi klasörde olduğunuzu kontrol edin.
+
+**"already exists and is not an empty directory"**
+Aynı isimli bir klasör zaten var. Klonlarken farklı bir **Project
+directory name** seçin veya eski klasörü silin/taşıyın.
+
+## Sorun mu var?
+
+Depoda **Issues** sekmesini açıp yeni bir issue oluşturun. Şunları yazın:
+
+- Ne yapmaya çalıştığınız
+- Hata mesajının **tamamı** (ekran görüntüsü değil, metin olarak)
+- İşletim sisteminiz
+
+Aynı sorunu yaşayan arkadaşlarınız da cevabı görecektir.
+
+İyi çalışmalar!

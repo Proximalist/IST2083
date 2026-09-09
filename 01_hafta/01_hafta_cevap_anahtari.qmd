@@ -1,0 +1,107 @@
+---
+title: "1. Hafta — Cevap Anahtarı"
+subtitle: "İstatistiğin Anlamı; R, RStudio ve GitHub'a Giriş"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+Bu belge `1_Hafta_Alistirmalar.qmd` dosyasındaki 14 sorunun doğru
+cevaplarını ve kısa gerekçelerini içerir. Her sorunun altındaki gerekçe,
+yalnızca "doğru cevap bu" demekle kalmaz — **neden** doğru olduğunu da
+açıklar, çünkü sınavda sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — İstatistik Okuryazarlığı
+
+**1. Doğru cevap: b)** İstatistik kelimesi Almanca *Statistik*'ten,
+oradan da Yeni Latince *statisticus* ("devlet işlerine dair") ve
+İtalyanca *statista* ("devlet adamı") kelimelerinden gelir. Gottfried
+Achenwall bu terimi 1740'ların sonunda türetmiştir. Bkz. ders notu,
+Bölüm 1.1.
+
+**2. Doğru cevap: b)** Her iki grafik de aynı sayılardan (%38 ve %41)
+üretilmiştir. Tek fark, dikey eksenin nereden başladığıdır — eksen
+35'ten başlayınca 3 puanlık gerçek fark görsel olarak çok daha büyük
+görünür. Bu, veriyi değiştirmeden algıyı değiştirmenin klasik bir
+yoludur. (a) yanlıştır çünkü Grafik 2 ek bilgi içermez, yalnızca ölçeği
+farklıdır. (c) yanlıştır, Grafik 1 doğru hesaplanmıştır — hatta daha
+dürüst olan odur. (d) yanlıştır çünkü grafik kanıt değil, yalnızca bir
+sunum biçimidir.
+
+**3. Doğru cevap: c)** *Literary Digest* anketi 2 milyondan fazla
+kişiye ulaştı, ama bu kişiler yalnızca telefon ve otomobil sahiplerinden
+(dönemin görece varlıklı kesimi) seçilmişti — nüfusun tamamını temsil
+etmiyorlardı. Örneklem büyüklüğü tek başına güvenilirlik garantisi
+vermez; **kime ulaşıldığı** en az örneklem büyüklüğü kadar önemlidir.
+Bu vakayı 7. haftada örnekleme konusunda ayrıntılı işleyeceğiz.
+
+**4. Doğru cevap: c)** Dondurma satışı ile boğulma vakaları arasındaki
+ilişki, ikisinin de bağımsız olarak sıcak havadan etkilenmesinden
+kaynaklanır (yaz aylarında hem dondurma satışı hem yüzme/boğulma vakası
+artar). Bu, **korelasyonun nedensellik anlamına gelmediğinin** klasik
+örneğidir. (a) ve (b) yanlış bir nedensellik yönü varsayar; (d) yanlıştır
+çünkü aralarında bir ilişki (korelasyon) vardır — sadece nedensel değil.
+
+------------------------------------------------------------------------
+
+## Bölüm B — R Temelleri
+
+**5. Doğru cevap: a)** `%/%` tam bölme (bölümün tam sayı kısmını alma)
+operatörüdür. `5 / 3 = 1.67`, tam sayı kısmı `1`'dir.
+
+**6. Doğru cevap: c)** Karşılaştırma operatörleri bir vektöre
+uygulandığında **her elemana ayrı ayrı** uygulanır: `5 > 4` → `TRUE`,
+`3 > 4` → `FALSE`, `8 > 4` → `TRUE`. Sonuç, üç mantıksal değerden oluşan
+bir vektördür.
+
+**7. Doğru cevap: a)** `&` ve `|` vektörel çalışır — bir vektördeki tüm
+elemanları karşılaştırır. `&&` ve `||` ise yalnızca **ilk elemanı**
+karşılaştırır ve tek bir mantıksal değer döndürür. (b) yanlıştır çünkü
+birden fazla elemanlı vektörlerde farklı sonuçlar üretebilirler.
+
+**8. Doğru cevap: b)** R büyük/küçük harf duyarlıdır. `mean()` bir R
+fonksiyonudur; `Mean()` böyle bir fonksiyon tanımlı olmadığı için
+"could not find function" hatası verir.
+
+**9. Doğru cevap: c)** `seq(1, 10, by = 3)` dizisi 1'den başlar, her
+adımda 3 eklenir ve 10'u geçmeyecek şekilde durur: `1, 4, 7, 10`. Son
+eleman `10`'dur (bir sonraki adım `13` olurdu ve sınırı aşardı).
+
+**10. Doğru cevap: b)** `%in%` operatörü de büyük/küçük harf
+duyarlıdır. `"A"` (büyük harf) ile vektördeki `"a"` (küçük harf) farklı
+karakter dizileridir, bu yüzden sonuç `FALSE`'dur.
+
+**11. Doğru cevap: b)** `install.packages()` paketi bilgisayarınıza
+**bir kez** indirip kurar. `library()` ise kurulu bir paketi **her
+oturumda** kullanıma açar. Kurulum yapılmadan `library()` çağrılırsa
+"there is no package called..." hatası alınır.
+
+------------------------------------------------------------------------
+
+## Bölüm C — Versiyon Kontrolü
+
+**12. Doğru cevap: b)** Versiyon kontrolü, bir dosyada zaman içinde
+yapılan her değişikliği kaydeder ve gerektiğinde önceki bir hâle dönmeyi
+mümkün kılar. Bu, araştırmada **tekrarlanabilirliğin** temelidir.
+
+**13. Doğru cevap: b)** Reinhart ve Rogoff'un 2010 makalesinin
+dayandığı Excel tablosunda, formül bazı ülkelerin verilerini hesaba
+katmıyordu. Bu kodlama hatası, makalenin "kamu borcu %90'ı aşarsa
+büyüme durur" iddiasını geçersiz kıldı. Ders: Excel gibi arayüzler
+hesaplama adımlarını gizler; script ve versiyon geçmişi ise her adımı
+denetime açık bırakır.
+
+**14. Doğru cevap: b)** "Pull" komutu, uzak depodaki (GitHub'daki)
+güncellemeleri sizin yerel kopyanıza indirir. Bu derste her hafta yeni
+ders notu, sunum ve alıştırma dosyaları depoya eklendiği için, pull
+etmek güncel materyale erişmenizin tek yoludur.

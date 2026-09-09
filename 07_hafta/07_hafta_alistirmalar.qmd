@@ -1,0 +1,330 @@
+---
+title: "7. Hafta — Alıştırmalar"
+subtitle: "Örnekleme ve örneklem dağılımı"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+## Alıştırma 1:
+
+Bu alıştırmada, örnekleme verilerinin bir popülasyon hakkında gerçeği keşfetmek için nasıl kullanılabileceğini inceleyeceğiz. Popülasyon verilerimiz, Texas Üniversitesi Austin'deki istatistik öğrencilerinden toplanmıştır.
+
+```{r}
+library(here)
+# veriyi R'a okutalım
+survey <- read.csv(here("data", "StudentSurvey.csv"))
+
+```
+
+#### **Soru 1:**
+
+**Bu veri setinde kaç öğrenci bulunmaktadır?**
+
+```{r}
+str(survey)
+```
+
+#### **Soru 2:**
+
+**Veri setindeki ilk 10 öğrenciden kaçı 5 harften uzun bir isme sahiptir?**
+
+```{r}
+head_survey <- head(survey, 10)
+
+which(head_survey$name_letters>5)
+```
+
+#### **Soru 3:**
+
+**Veri setinde %40'tan daha az mutlu olan ilk öğrencinin isminin uzunluğu nedir?**
+
+```{r}
+happy <- survey[survey$happy<40,]
+head(happy)
+```
+
+#### **Soru 4:**
+
+**Hangi değişken, her öğrencinin ismindeki harf sayısını ifade eder? Veri setinde bu değişkenin adı nedir ve bu değişken kategorik mi yoksa nicel mi?**
+
+```{r}
+str(survey)
+```
+
+#### **Soru 5:**
+
+**Bir örnekleme dağılımı neyi ifade eder?**
+
+**Cevap:**
+Bir örnekleme dağılımı, örnek istatistiklerinin dağılımıdır. Örneğin, örneklem ortalamalarının dağılımı gibi.
+
+#### **Soru 6:**
+
+**Merkezi Limit Teoremi, örnekleme dağılımları hakkında ne söyler?**
+
+**Cevap:**
+
+1.  Örnek büyüklüğü arttıkça dağılım daha çok normal bir görünüme sahip olur.
+
+2.  Örneklem ortalamalarının değişkenliği, örnek büyüklüğü arttıkça azalır.
+
+3.  Örnekleme dağılımının merkezi, popülasyon ortalamasına eşittir.
+
+#### **Soru 7:**
+
+**Tipik bir Texas Üniversitesi öğrencisinin ismi kaç harften oluşur? Örneklem büyüklüğünü artırdıkça tahminimiz nasıl değişir?**
+
+```{r}
+hist(survey$name_letters)
+```
+
+```{r}
+# Calculate the population parameters
+summary(survey$name_letters)
+
+# By how many letters, on average, do names vary from the mean? (sd)
+sd(survey$name_letters)
+```
+
+### **Örnekleme Çalışması**
+
+#### 1. **Örneklem Büyüklüğü** n=5 
+
+1.  1000 örneklem çizelim ve her birinin ortalamasını hesaplayalım:
+
+```{r}
+xbar5 <- rep(NA, 1000)
+for (i in 1:1000) {
+  x <- sample(survey$name_letters, size = 5)
+  xbar5[i] <- mean(x)
+}
+```
+
+2.  Örnekleme dağılımının histogramını çizelim:
+
+```{r}
+# graph the histogram of 1000 sample means
+hist(xbar5, xlim = c(2,10))
+```
+
+3.  Örnekleme dağılımının ortalamasını ve standart hatasını hesaplayalım:
+
+```{r}
+# calculate mean and sd for sampling distributions
+mean(xbar5)
+sd(xbar5)
+```
+
+#### 2. **Örneklem Büyüklüğü** n=15
+
+1.  Aynı işlemi n=15 için tekrarlayalım:
+
+```{r}
+# Repeat for samples of size n=15
+xbar15 <- rep(NA, 1000)
+for (i in 1:1000) {
+  x <- sample(survey$name_letters, size = 15)
+  xbar15[i] <- mean(x)
+}
+```
+
+```{r}
+# check xbar15 hist
+hist(xbar15, xlim = c(2,10))
+```
+
+```{r}
+# mean and sd for xbar15
+mean(xbar15)
+sd(xbar15)
+```
+
+#### 3. **Örneklem Büyüklüğü** n=25
+
+1.  Aynı işlemi n=25 için tekrarlayalım
+
+```{r}
+# Repeat for samples of size n=25
+xbar25 <- rep(NA, 1000)
+for (i in 1:1000) {
+  x <- sample(survey$name_letters, size = 25)
+  xbar25[i] <- mean(x)
+}
+```
+
+```{r}
+# check xbar25 hist
+hist(xbar25, xlim = c(2,10))
+```
+
+```{r}
+mean(xbar25)
+sd(xbar25)
+```
+
+### **Örnekleme Dağılımlarını Gözlemleme**
+
+1.  Üç örnekleme dağılımı için ortalama yaklaşık olarak aynıydı.
+
+2.  Örneklem büyüklüğü 5’ten 25’e çıktıkça standart hata azaldı.
+
+3.  Örneklem büyüklüğü arttıkça dağılımlar daha çok normalleşti.
+
+### **Sonuç**
+
+Bu alıştırmada, üniversite öğrencilerinin isim uzunluklarının popülasyon ortalamasını bildiğimizi varsaydık:
+
+-   **Popülasyon Ortalaması:** 5.97 harf
+
+-   **Popülasyon Standart Sapması:** 1.49 harf
+
+**Merkezi Limit Teoremini** simüle etmek için farklı boyutlarda örneklemler çektik. Merkezi Limit Teoremi şunları söyler:
+
+1.  Örneklem büyüklüğü arttıkça, örnekleme dağılımları daha normal hale gelir.
+
+2.  Örnekleme dağılımının ortalaması, popülasyon ortalamasına eşittir.
+
+3.  Örneklem ortalamalarının değişkenliği, popülasyon standart sapmasının örneklem büyüklüğünün kareköküne bölünmesiyle tahmin edilebilir.
+
+Simülasyon sonuçlarımız bu teoriyi doğruladı. Örneklem büyüklüğünü 5’ten 25’e çıkardıkça, örneklem ortalamalarının değişkenliği azaldı ve ortalamalar gerçek popülasyon ortalamasına daha sıkı bir şekilde yaklaştı. Başka bir deyişle, örneklem ortalamaları, popülasyon ortalamasını daha iyi tahmin etmeye başladı.
+
+# Alıştırma 2:
+
+Üniversite öğrencileri zamanlarının ne kadarında mutludur? Örneklem büyüklüğü arttıkça gerçek ortalama tahminimiz nasıl değişir?,
+
+## Soru 1: 
+
+Popülasyonun mutluluk skorlarının şekli nedir?
+
+```{r}
+hist(survey$happy)
+```
+
+## Soru 2: 
+
+Üniversite öğrencileri zamanlarının ortalama olarak ne kadarında mutludur?
+
+```{r}
+summary(survey$happy)
+
+```
+
+## Soru 3: 
+
+Mutluluk yüzdesi skorlarının standart sapması nedir?
+
+```{r}
+sd(survey$happy)
+```
+
+### **Farklı Örneklem Büyüklüklerinde 1.000 Örneklem Çekme**
+
+#### Örneklem büyüklüğü n=5
+
+```{r}
+xbar5 <- rep(NA, 1000)
+
+for (i in 1:1000) {
+  x <- sample(survey$happy, size = 5)
+  xbar5[i] <- mean(x)
+}
+
+```
+
+Örneklem büyüklüğü n=15
+
+```{r}
+xbar15 <- rep(NA, 1000)
+
+for (i in 1:1000) {
+  x <- sample(survey$happy, size = 15)
+  xbar15[i] <- mean(x)
+}
+
+```
+
+Örneklem büyüklüğü n=25
+
+```{r}
+xbar25 <- rep(NA, 1000)
+
+for (i in 1:1000) {
+  x <- sample(survey$happy, size = 25)
+  xbar25[i] <- mean(x)
+}
+```
+
+Örnekleme Dağılımlarının Histogramları
+
+```{r}
+hist(xbar5)
+hist(xbar15)
+hist(xbar25)
+```
+
+Örneklem Ortalamaları
+
+```{r}
+mean(xbar5)
+mean(xbar15)
+mean(xbar25)
+```
+
+Örneklem Standart Sapmaları
+
+```{r}
+sd(xbar5)
+sd(xbar15)
+sd(xbar25)
+```
+
+### **Örnekleme Dağılımları İçin Gözlemler:**
+
+1.  Tüm örnekleme dağılımlarında ortalama yaklaşık olarak aynıydı.
+
+2.  Örneklem hatası (SESESE) örneklem büyüklüğü arttıkça azaldı.
+
+3.  Örneklem büyüklüğü arttıkça dağılımlar daha normal hale geldi.
+
+💡 **Genel Sonuç:**
+Eğer örneklem büyüklüğü yeterince büyükse, örnekleme dağılımı, popülasyonun şekli ne olursa olsun, normal bir dağılıma sahip olacaktır.
+
+------------------------------------------------------------------------
+
+### **Sonuç Çıkarımı**
+
+Yukarıdaki alıştırmada, üniversite öğrencilerinin zamanlarının ne kadarında mutlu olduklarının popülasyon ortalamasını biliyorduk:
+
+-   **Popülasyon Ortalaması:** 78.0378.0378.03
+
+-   **Popülasyon Standart Sapması:** 16.3116.3116.31
+
+-   **Mutluluk Skorlarının Şekli:** Negatif çarpık
+
+Farklı büyüklüklerde örneklemler çekerek **Merkezi Limit Teoremi'ni (CLT)** simüle ettik. Merkezi Limit Teoremi şu üç şeyi söyler:
+
+1.  Örneklem büyüklüğü arttıkça, örnekleme dağılımları daha normal hale gelir.
+
+2.  Örnekleme dağılımının ortalaması, popülasyon ortalamasına eşit olur.
+
+3.  Örneklem ortalamalarının değişkenliği veya standart hatası, popülasyon standart sapmasının örneklem büyüklüğünün kareköküne bölünmesiyle tahmin edilebilir.
+
+**Simülasyon Sonuçları:**
+Simülasyon sonuçlarımız bu teoriyle uyumluydu:
+
+-   Örneklem büyüklüğünü 5’ten 25’e çıkardıkça, örneklem ortalamalarının değişkenliği azaldı.
+
+-   Örneklem ortalamaları, gerçek popülasyon ortalamasına daha sıkı bir şekilde yaklaştı.
+
+-   Dağılımın şekli örneklem büyüklüğü arttıkça daha normal hale geldi.
+
+Başka bir deyişle, örneklem ortalamaları, popülasyon ortalamasını daha iyi tahmin etmeye başladı.

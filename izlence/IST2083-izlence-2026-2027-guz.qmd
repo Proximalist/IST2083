@@ -113,17 +113,17 @@ yazma istenmez; kod okuma, hata bulma ve sonuç yorumlama istenir.
 
 | \# | Tarih | Konu | Depo | Okuma |
 |---:|----|----|----|----|
-| 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio ve GitHub | `1_hafta/` | R4DS 1–3 |
-| 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `2_hafta/` | R4DS 27–28 |
+| 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio ve GitHub | `01_hafta/` | R4DS 1–3 |
+| 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `02_hafta/` | R4DS 27–28 |
 | — | **15 Ekim** | **Ders yapılmaz** — öğretim üyesi yurt dışı konferans | — | — |
-| 3 | 22 Ekim | Veri işleme: `dplyr`, `tidyr`; Quarto ile raporlama | `5_hafta/`, `6_hafta/` | R4DS 3–5, 19–20 |
+| 3 | 22 Ekim | Veri işleme: `dplyr`, `tidyr`; Quarto ile raporlama | `05_hafta/`, `06_hafta/` | R4DS 3–5, 19–20 |
 | — | **29 Ekim** | **Cumhuriyet Bayramı — resmî tatil** | — | — |
-| 4 | 5 Kasım | Veri görselleştirme: `ggplot2` | `3_hafta/` | R4DS 1, 9–11; socviz 3–5 |
-| 5 | 12 Kasım | **Tanımlayıcı istatistik** | `4_hafta/` | IMS 4–7 |
+| 4 | 5 Kasım | Veri görselleştirme: `ggplot2` | `03_hafta/` | R4DS 1, 9–11; socviz 3–5 |
+| 5 | 12 Kasım | **Tanımlayıcı istatistik** | `04_hafta/` | IMS 4–7 |
 | — | **19 Kasım** | **ARA SINAV** — kapsam: 1.–5. oturumlar | — | — |
-| 6 | 26 Kasım | Olasılık, rastgele değişkenler ve dağılımlar | `6_hafta/`, `8_hafta/` | IMS 3; LSR 9 |
-| 7 | 3 Aralık | Örnekleme, örneklem dağılımı ve Merkezi Limit Teoremi | `7_hafta/` | IMS 12–13; ModernDive 7 |
-| T | *Telafi* | Tahmin ve güven aralıkları | `9_hafta/` | IMS 14; ModernDive 8 |
+| 6 | 26 Kasım | Olasılık, rastgele değişkenler ve dağılımlar | `06_hafta/`, `08_hafta/` | IMS 3; LSR 9 |
+| 7 | 3 Aralık | Örnekleme, örneklem dağılımı ve Merkezi Limit Teoremi | `07_hafta/` | IMS 12–13; ModernDive 7 |
+| T | *Telafi* | Tahmin ve güven aralıkları | `09_hafta/` | IMS 14; ModernDive 8 |
 | 8 | 10 Aralık | Hipotez testi I: kurgu, p-değeri, t-testleri | `10_hafta/` | IMS 15–17; ModernDive 9 |
 | 9 | 17 Aralık | **Hipotez testi II: ki-kare ve ANOVA** | `10_hafta/` | IMS 18–19; LSR 12–14 |
 | 10 | 24 Aralık | Korelasyon, basit ve çoklu doğrusal regresyon | `11_hafta/`, `12_hafta/` | IMS 7, 24–25; ModernDive 5–6 |

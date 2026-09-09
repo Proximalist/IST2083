@@ -56,3 +56,12 @@ output.csv
 /_calisma/
 /sinav/
 /notlar/
+
+# --- Render ciktilari (kaynak .qmd dosyalari takip edilir, ciktilar
+# edilmez). Gerekce: kaynak degistiginde cikti bayatlar ve depoda
+# icerikle uyusmayan bir belge kalir. Nihai PDF/HTML uretimi CI'a
+# birakilmistir; yerel render'lariniz bu kurallarla goz ardi edilir.
+[0-9][0-9]_hafta/*.pdf
+[0-9][0-9]_hafta/*.html
+**/*_files/
+!14_hafta/SIMD 2020 INDICATOR DESCRIPTIONS.pdf

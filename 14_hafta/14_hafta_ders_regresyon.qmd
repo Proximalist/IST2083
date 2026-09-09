@@ -1,0 +1,75 @@
+---
+title: "14. Hafta: Regresyon — Ek Uygulama"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(here)
+library(tidyverse)
+library(janitor)
+library(kableExtra)
+library(coefplot)
+library(pscl)
+library(nnet)
+library(mlogit)
+library(AER)
+library(haven)
+
+```
+
+```{r}
+# reading the data
+ssa <-read_dta(here("data", "scottish.dta"))
+```
+
+```{r}
+str(ssa)
+```
+
+```{r}
+ssa <- ssa %>%
+          mutate(refvote = as_factor(RefvoteDum, levels="labels"),
+                 pid = as_factor(Party_Labels, levels="labels"),
+                 scot = ScotID_NoNa,
+                 trust = as.numeric(fct_rev(as_factor(GovTrust_NoNa))), 
+                 age = rage,
+                 edu1 = na_if(HEdQual2_NoNa,7),#this is a filler step 
+                 edu2 = recode(edu1, "8='7'"),
+                 edu = as.numeric(fct_rev(as_factor(edu2))))
+```
+
+```{r}
+ssa <- ssa %>%
+        mutate(trust_ordfac = ordered(as_factor(trust)))
+```
+
+```{r}
+ssa <- ssa %>%
+        mutate(pid1 = recode_factor(pid,
+          "1. Conservative" = "1. Conservative",
+          "2. Labour" = "2. Labour",
+          "4. SNP" = "3. SNP",
+          .default = NA_character_))
+
+```
+
+```{r}
+model.2 <- glm(refvote~scot+trust+age, 
+               family = binomial(link = "logit"), data=ssa)
+summary(model.2)
+```
+
+```{r}
+exp(model.2$coefficients[-1])
+```

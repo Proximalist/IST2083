@@ -2,13 +2,23 @@
 title: "R Hızlı Referans"
 subtitle: "IST2083 boyunca öğrenilen R sözdizimi — kümülatif başvuru belgesi"
 author: "Prof. Dr. Hakan Mehmetcik"
-date: last-modified
+date: "`r Sys.Date()`"
+lang: tr
 format:
+  html:
+    toc: true
+    toc-depth: 2
   pdf:
     toc: true
     toc-depth: 2
-    number-sections: false
 editor: visual
+execute:
+  echo: true
+  eval: false
+  warning: true
+  message: false
+  cache: false
+df-print: kable
 ---
 
 ## Bu Belge Nedir?

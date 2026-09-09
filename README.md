@@ -12,9 +12,9 @@ alıştırmalar, cevap anahtarları ve veri setleri.
 
 Derse hiç R kurmadan başlıyorsanız sırayla:
 
-1. **[R ve RStudio Kurulum Rehberi](R_RStudio_Kurulum_Rehberi.Rmd)** — R,
+1. **[R ve RStudio Kurulum Rehberi](R_RStudio_Kurulum_Rehberi.qmd)** — R,
    RStudio, Git ve gerekli paketlerin kurulumu.
-2. **[GitHub Kullanım Kılavuzu](GitHub_Kullanım_Kılavuzu.Rmd)** — bu deponun
+2. **[GitHub Kullanım Kılavuzu](GitHub_Kullanim_Kilavuzu.qmd)** — bu deponun
    bilgisayarınıza indirilmesi ve **her hafta güncellenmesi.**
 3. **[Ders İzlencesi](izlence/IST2083-izlence-2026-2027-guz.qmd)** — konular,
    tarihler, değerlendirme ve kaynaklar.
@@ -31,17 +31,17 @@ seçeneği de vardır; kılavuzda anlatılmıştır.
 
 | # | Tarih | Konu | Klasör |
 |---:|---|---|---|
-| 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio, GitHub | `1_hafta/` |
-| 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `2_hafta/` |
+| 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio, GitHub | `01_hafta/` |
+| 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `02_hafta/` |
 | — | 15 Ekim | *Ders yapılmaz* | — |
-| 3 | 22 Ekim | Veri işleme: `dplyr`, `tidyr`; Quarto ile raporlama | `5_hafta/`, `6_hafta/` |
+| 3 | 22 Ekim | Veri işleme: `dplyr`, `tidyr`; Quarto ile raporlama | `05_hafta/`, `06_hafta/` |
 | — | 29 Ekim | *Cumhuriyet Bayramı* | — |
-| 4 | 5 Kasım | Veri görselleştirme: `ggplot2` | `3_hafta/` |
-| 5 | 12 Kasım | Tanımlayıcı istatistik | `4_hafta/` |
+| 4 | 5 Kasım | Veri görselleştirme: `ggplot2` | `03_hafta/` |
+| 5 | 12 Kasım | Tanımlayıcı istatistik | `04_hafta/` |
 | — | 19 Kasım | **ARA SINAV** — kapsam: 1.–5. oturumlar | — |
-| 6 | 26 Kasım | Olasılık, rastgele değişkenler ve dağılımlar | `6_hafta/`, `8_hafta/` |
-| 7 | 3 Aralık | Örnekleme ve Merkezi Limit Teoremi | `7_hafta/` |
-| T | *Telafi* | Tahmin ve güven aralıkları | `9_hafta/` |
+| 6 | 26 Kasım | Olasılık, rastgele değişkenler ve dağılımlar | `06_hafta/`, `08_hafta/` |
+| 7 | 3 Aralık | Örnekleme ve Merkezi Limit Teoremi | `07_hafta/` |
+| T | *Telafi* | Tahmin ve güven aralıkları | `09_hafta/` |
 | 8 | 10 Aralık | Hipotez testi I: p-değeri ve t-testleri | `10_hafta/` |
 | 9 | 17 Aralık | Hipotez testi II: ki-kare ve ANOVA | `10_hafta/` |
 | 10 | 24 Aralık | Korelasyon, basit ve çoklu regresyon | `11_hafta/`, `12_hafta/` |
@@ -70,7 +70,7 @@ sınamanız içindir. Sınav soruları bu alıştırmalarla aynı biçimde kurgu
 ```
 IST2083/
 ├── izlence/         Ders izlencesi
-├── 1_hafta/ ...     Haftalık ders notları, sunumlar, alıştırmalar
+├── 01_hafta/ ...     Haftalık ders notları, sunumlar, alıştırmalar
 ├── data/            Tüm veri setleri (tek merkez)
 ├── images/          Görseller
 ├── IST2083.Rproj    RStudio proje dosyası — çalışmaya bunu açarak başlayın
