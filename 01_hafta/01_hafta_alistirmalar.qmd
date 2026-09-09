@@ -21,7 +21,7 @@ Bu alıştırmalar **notlandırılmaz ve teslim edilmez.** Amacı, sınavdan
 (çoktan seçmeli, tek doğru cevap) kurgulanır.
 
 Her soru 4 şıklıdır ve yalnızca **bir tanesi** doğrudur. Cevaplarınızı
-not edin, sonra `1_Hafta_Cevap_Anahtari.qmd` dosyasıyla karşılaştırın —
+not edin, sonra `01_hafta_cevap_anahtari.qmd` dosyasıyla karşılaştırın —
 her sorunun altında kısa bir gerekçe de bulacaksınız.
 
 ------------------------------------------------------------------------

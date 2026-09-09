@@ -25,19 +25,26 @@ df-print: kable
 
 ## 🎯 Öğrenme Hedefleri
 
-Bu haftanın sonunda öğrenciler: - R’daki temel veri türlerini (numeric, character, logical) tanımlayabilecek, - Basit matematiksel ve mantıksal işlemleri uygulayabilecek, - Yerleşik fonksiyonların (`sum()`, `mean()`, `length()`, vb.) kullanımını kavrayabilecek, - Vektör, liste, matris ve data frame gibi basit veri yapıları ile çalışabilecek, - Bir CSV dosyasını R’a aktarıp inceleyebilecek.
+Bu haftanın sonunda:
+
+-   Temel veri türlerini (numeric, character, logical) tanımlayabileceksiniz
+-   Matematiksel ve mantıksal işlemleri uygulayabileceksiniz
+-   Yerleşik fonksiyonları (`sum()`, `mean()`, `length()`) kullanabileceksiniz
+-   Vektör, liste, matris ve data frame ile çalışabileceksiniz
+-   **Mantıksal indeksleme** ile veri filtreleyebileceksiniz
+-   Bir CSV dosyasını R'a aktarıp inceleyebileceksiniz
 
 ------------------------------------------------------------------------
 
 ## 1) Değişkenler ve Atama
 
--   R’da veriler değişkenlerde saklanır.
+-   R'da veriler değişkenlerde saklanır
 -   Atama operatörü: `<-`
 
 ```{r}
-x <- 10   # x değişkenine 10 değerini atar
+x <- 10          # sayısal
 y <- "Merhaba"   # karakter dizesi
-z <- TRUE        # logical
+z <- TRUE        # mantıksal
 ```
 
 ------------------------------------------------------------------------
@@ -48,14 +55,31 @@ z <- TRUE        # logical
 -   **Karakter (character)**: metinler
 -   **Mantıksal (logical)**: `TRUE` / `FALSE`
 
-**Örnekler:**
+```{r}
+a     <- 5.7
+b     <- 10
+metin <- "R programlama dili"
+durum <- TRUE
+
+c(class(a), class(metin), class(durum))
+```
+
+------------------------------------------------------------------------
+
+## 2b) Uyarı: fonksiyon adlarını değişken adı yapmayın
+
+R sizi engellemez, ama okuyucu kaybolur:
 
 ```{r}
-a <- 5.7   # numeric (double)
-b <- 10    # numeric (integer benzeri)
-c <- "R programlama dili"  # character
-durum <- TRUE              # logical
+#| eval: false
+c <- "metin"      # c() vektör fonksiyonunun adı
+data <- 5         # data() fonksiyonunun adı
+mean <- 3         # mean() fonksiyonunun adı
 ```
+
+. . .
+
+**Kural:** değişken adları fonksiyon adlarıyla çakışmasın.
 
 ------------------------------------------------------------------------
 
@@ -63,69 +87,64 @@ durum <- TRUE              # logical
 
 ```{r}
 a <- 5; b <- 3
-toplam   <- a + b
-cikarma  <- a - b
-carpma   <- a * b
-bolme    <- a / b
-us       <- a ^ b
-list(toplam=toplam, cikarma=cikarma, carpma=carpma, bolme=bolme, us=us)
+c(toplam = a + b, cikarma = a - b, carpma = a * b,
+  bolme = a / b, us = a ^ b)
 ```
+
+. . .
 
 > 💡 **Soru:** `sum(c(TRUE, TRUE, FALSE))` kaç döner? Neden?
 
 ------------------------------------------------------------------------
 
-## 4) R'da Temel Fonksiyonlar (I)
+## 4) Temel Fonksiyonlar (I)
 
--   `print()`: Konsola yazdırır
--   `sum()`, `mean()`, `sd()`, `length()`
-
-```{r}
-print("Merhaba Dünya")
-toplam <- sum(c(1, 2, 3, 4, 5))
-ortalama <- mean(c(1, 2, 3, 4, 5))
-standart_sapma <- sd(c(1, 2, 3, 4, 5))
-uzunluk <- length(c(1, 2, 3, 4, 5))
-c(toplam=toplam, ortalama=ortalama, sd=standart_sapma, n=uzunluk)
-```
-
-------------------------------------------------------------------------
-
-## 5) R'da Temel Fonksiyonlar (II)
-
--   Dizi üretimi: `seq()`, `rep()`
--   Vektör oluşturma: `c()`
--   Data frame: `data.frame()`
--   Özet: `summary()`
+`print()`, `sum()`, `mean()`, `sd()`, `length()`
 
 ```{r}
-dizi <- seq(1, 10, by = 2)
-tekrar <- rep(1, times = 5)
 vektor <- c(1, 2, 3, 4, 5)
-veri <- data.frame(isim = c("Ali", "Ayşe", "Fatma"), yas = c(25, 30, 35))
-ozet <- summary(c(1, 2, 3, 4, 5))
-list(dizi=dizi, tekrar=tekrar, vektor=vektor, veri_basi=head(veri,1), ozet=ozet)
+
+c(toplam = sum(vektor), ortalama = mean(vektor),
+  std_sapma = sd(vektor), n = length(vektor))
 ```
 
 ------------------------------------------------------------------------
 
-## 6) Parametrelerle Fonksiyon Kullanımı
+## 5) Temel Fonksiyonlar (II)
 
--   `na.rm = TRUE` ile eksik değerleri yoksayma
+Dizi üretimi ve yapı kurma: `seq()`, `rep()`, `c()`, `data.frame()`, `summary()`
+
+```{r}
+seq(1, 10, by = 2)
+rep(1, times = 5)
+summary(c(1, 2, 3, 4, 5))
+```
+
+------------------------------------------------------------------------
+
+## 6) Parametreler ve Eksik Değerler
+
+Tek bir `NA`, tüm sonucu `NA` yapar:
 
 ```{r}
 sayilar <- c(10, 20, NA, 40, 50)
-ortalama <- mean(sayilar, na.rm = TRUE)
-ortalama
+mean(sayilar)
+```
+
+. . .
+
+```{r}
+mean(sayilar, na.rm = TRUE)
+sum(is.na(sayilar))          # kaç eksik değer var?
 ```
 
 ------------------------------------------------------------------------
 
 ## 7) Fonksiyon Oluşturma
 
-1)  `function` anahtar kelimesi\
-2)  Parametreleri belirtme\
-3)  Gövdede işlemler\
+1)  `function` anahtar kelimesi
+2)  Parametreler
+3)  Gövde
 4)  `return()` (opsiyonel)
 
 ```{r}
@@ -136,127 +155,196 @@ topla <- function(a, b) {
 topla(5, 3)
 ```
 
-**Yardım alma:**
+**Yardım:** `?mean` · `help(sum)`
+
+------------------------------------------------------------------------
+
+## 8) Veri Yapıları – Vektör
+
+Aynı türden değerler, tek boyut. **Konuma göre** erişim:
 
 ```{r}
-# ?mean
-# help(sum)
+vektor <- c(4, 7, 2, 9, 5)
+
+vektor[2]          # ikinci eleman
+vektor[4] <- 100   # dördüncü elemanı değiştir
+vektor
 ```
 
 ------------------------------------------------------------------------
 
-## 8) Basit Veri Yapıları – Vektör
+## 9) Mantıksal İndeksleme — Adım 1
 
--   Aynı türden değerler
--   İndeksleme, güncelleme
+Gerçek soru "beşinci eleman nedir?" değil, **"5'ten büyük olanlar hangileri?"**
 
 ```{r}
-numeric_vector <- c(1, 2, 3, 4, 5)
-character_vector <- c("a", "b", "c", "d")
-logical_vector <- c(TRUE, FALSE, TRUE)
+sayilar <- c(4, 7, 2, 9, 5)
+sayilar > 5
+```
 
-numeric_vector[2] <- 10
-total_sum <- sum(numeric_vector)
-list(numeric_vector=numeric_vector, character_vector=character_vector,
-     logical_vector=logical_vector, total_sum=total_sum)
+. . .
+
+Çıktı bir sayı değil — vektörle **aynı uzunlukta** bir `TRUE`/`FALSE`
+**maskesi**.
+
+------------------------------------------------------------------------
+
+## 10) Mantıksal İndeksleme — Adım 2
+
+Maskeyi köşeli parantezin içine koyarız:
+
+```{r}
+sayilar[sayilar > 5]
+```
+
+. . .
+
+R, `TRUE` olan konumları tutar, `FALSE` olanları atar.
+
+```{r}
+sayilar[sayilar > 3 & sayilar < 9]   # VE
+sayilar[!(sayilar == 2)]             # DEĞİL
+```
+
+::: callout-tip
+`sayilar[sayilar = 5]` hata verir. Eşitlik sınaması **daima** `==`.
+:::
+
+------------------------------------------------------------------------
+
+## 11) Veri Yapıları – Liste
+
+Farklı türleri bir arada tutar:
+
+```{r}
+liste <- list(ad = "Ali", yas = 25, ogrenci_mi = TRUE, notlar = c(85, 90, 78))
+
+liste$ad
+liste$notlar[1]
 ```
 
 ------------------------------------------------------------------------
 
-## 9) Basit Veri Yapıları – Liste
+## 12) Veri Yapıları – Matris
 
--   Farklı türleri bir arada tutar
+Aynı türden iki boyutlu yapı (satır × sütun):
 
 ```{r}
-my_list <- list(number = 5, greeting = "Hello", flag = TRUE, numbers = c(1, 2, 3))
-my_list$number <- 10
-my_list$greeting <- "Hi"
-my_list$new_element <- "New Element"
-my_list$new_element <- NULL  # silme
-my_list
+matris <- matrix(1:6, nrow = 2, ncol = 3)
+matris
+```
+
+. . .
+
+```{r}
+matris[2, 3]   # ikinci satır, üçüncü sütun
+matris[, 3]    # üçüncü sütunun tamamı
 ```
 
 ------------------------------------------------------------------------
 
-## 10) Basit Veri Yapıları – Matris
+## 13) Veri Yapıları – Data Frame
 
--   Aynı türden 2B yapı (satır x sütun)
-
-```{r}
-my_matrix <- matrix(1:6, nrow = 2, ncol = 3)
-my_matrix[1, 2] <- 10
-
-matrix1 <- matrix(1:4, nrow = 2)
-matrix2 <- matrix(5:8, nrow = 2)
-sum_matrix <- matrix1 + matrix2
-product_matrix <- matrix1 %*% matrix2
-list(my_matrix=my_matrix, sum_matrix=sum_matrix, product_matrix=product_matrix)
-```
-
-------------------------------------------------------------------------
-
-## 11) Basit Veri Yapıları – Data Frame
-
--   Sütunlar farklı türde olabilir
--   Tablo benzeri yapı
+Sütunları farklı türde olabilen tablo:
 
 ```{r}
-my_data_frame <- data.frame(
-  numbers = c(1, 2, 3, 4, 5),
-  letters = c("a", "b", "c", "d", "e"),
-  logicals = c(TRUE, FALSE, TRUE, FALSE, TRUE)
+df <- data.frame(
+  adi        = c("Ali", "Ayşe", "Fatma"),
+  yas        = c(23, 30, 27),
+  ogrenci_mi = c(TRUE, FALSE, TRUE)
 )
-
-my_data_frame[1, 2] <- "z"
-my_data_frame$numbers[2] <- 10
-
-my_data_frame$new_column <- c(10, 20, 30, 40, 50)
-new_row <- data.frame(numbers = 6, letters = "f", logicals = FALSE, new_column = 60)
-my_data_frame <- rbind(my_data_frame, new_row)
-
-new_column <- c(100, 200, 300, 400, 500, 600)
-my_data_frame <- cbind(my_data_frame, new_column)
-
-head(my_data_frame)
+df
 ```
 
 ------------------------------------------------------------------------
 
-## 12) Veri İçe Aktarma (CSV) ve İnceleme
+## 14) Data Frame Satırlarını Filtrelemek
 
--   En yaygın format: **CSV**
--   `read.csv()` ile içe aktar, `str()`, `summary()`, `head()` ile incele
+Mantıksal indeksleme burada asıl işini görür:
 
 ```{r}
-data <- read.csv("https://raw.githubusercontent.com/datasciencedojo/datasets/refs/heads/master/titanic.csv")
-head(data)
-str(data)
-summary(data)
+df[df$yas > 25, ]
 ```
 
-> Not: Excel (`readxl`), RDS (`saveRDS`, `readRDS`) konularını ileride ele alacağız.
+. . .
+
+**Virgül kritiktir:** öncesi satır, sonrası sütun seçer.
+
+```{r}
+df[df$ogrenci_mi == TRUE, "adi"]
+```
 
 ------------------------------------------------------------------------
 
-## 13) Uygulama – Kısa Görevler
+## 15) Dördünü Birlikte Görmek
 
-1.  Doğum yılınızı değişken olarak tanımlayın, yaşınızı hesaplayın.\
-2.  Bir vektör oluşturup (`c()`), ortalama ve sd hesaplayın.\
-3.  `isim`, `yaş`, `şehir` ile bir data frame oluşturun.\
-4.  `write.csv()` ile kaydedip tekrar R’a içe aktarın.\
-5.  Bir sütun için histogram çizin.
+![](images/veri-yapilari-tipolojisi.png){fig-align="center" width="78%"}
+
+------------------------------------------------------------------------
+
+## 15b) Şemanın İki İstisnası
+
+-   **Liste tablodan taşar:** bir listenin içinde başka bir liste olabilir
+-   **Data frame aslında özel bir listedir:** her sütunu bir vektör
+
+. . .
+
+Bu yüzden hem `df$sutun` (liste sözdizimi) hem `df[1, 2]` (tablo
+sözdizimi) çalışır.
+
+------------------------------------------------------------------------
+
+## 16) Veri İçe Aktarma ve İnceleme
 
 ```{r}
-# Örnek histogram (kendi verinizle değiştirin)
-set.seed(42)
-ornek <- rnorm(100, mean=50, sd=10)
-hist(ornek)
+titanic <- read.csv("https://raw.githubusercontent.com/datasciencedojo/datasets/refs/heads/master/titanic.csv")
+
+str(titanic)
 ```
+
+. . .
+
+`head()`, `tail()`, `summary()`, `nrow()`, `ncol()`, `names()`
+
+------------------------------------------------------------------------
+
+## 17) 3. Haftaya Köprü
+
+`df[df$yas > 25, ]` doğru ama hantal — veri çerçevesinin adını iki kez
+yazıyoruz.
+
+. . .
+
+3. haftada `dplyr` ile aynı işi şöyle yazacağız:
+
+```{r}
+#| eval: false
+filter(df, yas > 25)
+```
+
+. . .
+
+`dplyr`'ın yaptığı sihir değil: **bugün öğrendiğiniz mantığı okunabilir
+hâle getirmek.**
+
+------------------------------------------------------------------------
+
+## 18) Bu Hafta Ne Yapacaksınız?
+
+-   `02_hafta_lab.qmd` — derste birlikte, boşlukları siz dolduracaksınız
+-   `02_hafta_alistirmalar.qmd` — 16 çoktan seçmeli soru
+-   `02_hafta_cevap_anahtari.qmd` — gerekçeli cevaplar
+-   `R-Hizli-Referans.qmd` — bu haftanın sözdizimi oraya eklendi
 
 ------------------------------------------------------------------------
 
 ## 📚 Ek Kaynak
 
--   RStudio Cheat Sheet: **Base R**
--   Ders verileri ve örnekleri: kendi GitHub sınıf reposu
--   Yardım: `?fonksiyon_adi` / `help(fonksiyon_adi)`
+-   Posit **Base R Cheat Sheet**
+-   `?fonksiyon_adi` / `help(fonksiyon_adi)`
+
+::: callout-important
+Sınavda **yalnızca elle yazılmış** kişisel not kabul edilir. Basılı
+cheat sheet getirilemez — bu yüzden kendi referansınızı şimdiden
+yazmaya başlayın.
+:::

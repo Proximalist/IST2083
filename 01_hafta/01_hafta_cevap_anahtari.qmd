@@ -14,7 +14,7 @@ execute:
 df-print: kable
 ---
 
-Bu belge `1_Hafta_Alistirmalar.qmd` dosyasındaki 14 sorunun doğru
+Bu belge `01_hafta_alistirmalar.qmd` dosyasındaki 14 sorunun doğru
 cevaplarını ve kısa gerekçelerini içerir. Her sorunun altındaki gerekçe,
 yalnızca "doğru cevap bu" demekle kalmaz — **neden** doğru olduğunu da
 açıklar, çünkü sınavda sizden istenen de budur.

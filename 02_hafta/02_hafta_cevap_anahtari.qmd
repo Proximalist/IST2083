@@ -1,0 +1,141 @@
+---
+title: "2. Hafta — Cevap Anahtarı"
+subtitle: "Veri türleri, veri yapıları ve mantıksal indeksleme"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+Bu belge `02_hafta_alistirmalar.qmd` dosyasındaki 16 sorunun doğru
+cevaplarını ve kısa gerekçelerini içerir. Gerekçeler yalnızca "doğru
+cevap bu" demekle kalmaz — **neden** doğru olduğunu da açıklar, çünkü
+sınavda sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Veri Türleri ve Tür Zorlaması
+
+**1. Doğru cevap: b)** `"character"`. Bir vektörün tüm elemanları aynı
+türde olmak zorundadır, ama R bu durumda hata vermez — sessizce **tür
+zorlaması** (*coercion*) uygular ve hepsini en "geniş" ortak türe
+çevirir. Hiyerarşi şudur: `logical` → `numeric` → `character`. İçeride
+tek bir metin olduğu için 1 ve 2 sayıları da `"1"` ve `"2"` metinlerine
+dönüşür. (d) yanlıştır: hata verilmez, sessizce dönüştürülür — asıl
+tehlikeli olan da budur.
+
+**2. Doğru cevap: a)** `"numeric"`. Burada karakter yok, dolayısıyla
+hiyerarşide bir üst basamak olan `numeric`'te durulur: `TRUE` değeri `1`
+olarak okunur. Bu davranış işinize de yarar — `sum(c(TRUE, TRUE, FALSE))`
+ifadesi `2` döndürür, yani "koşulu kaç eleman sağlıyor" sorusunun
+cevabıdır.
+
+**3. Doğru cevap: b)** Sütunda sayı olmayan tek bir hücre (`"yok"`,
+`"-"`, `"bilinmiyor"`) tüm sütunu karakter yapar — 1. sorudaki tür
+zorlamasının gerçek veri üzerindeki karşılığıdır. (a) yanlıştır:
+`read.csv()` her sütunun türünü içeriğine bakarak belirler. (c)
+yanlıştır: `NA` sütunun türünü değiştirmez, `mean()` de `na.rm = TRUE`
+ile çalışır. (d) yanlıştır: sütun adı türü etkilemez.
+
+**4. Doğru cevap: c)** `NA`. Vektörde bir tane bile bilinmeyen değer
+varsa ortalama da bilinemez; R bunu sessizce atmak yerine dürüstçe `NA`
+döndürür. Eksik değerleri dışlamak istediğinizi açıkça belirtmelisiniz:
+`mean(sayilar, na.rm = TRUE)` bu durumda `23.33333` verir. (b) tüm
+elemanların toplamıdır (`sum(sayilar, na.rm = TRUE)`), ortalama değil.
+
+------------------------------------------------------------------------
+
+## Bölüm B — Temel Fonksiyonlar
+
+**5. Doğru cevap: a)** `1 4 7 10`. `by = 3` adım büyüklüğüdür: 1'den
+başlanır, üçer üçer artılır ve 10'u aşmayan son değerde durulur.
+(c) `by = 2` sonucudur, (d) ise `seq(3, 10, by = 3)` sonucudur.
+
+**6. Doğru cevap: b)** `1 2 1 2 1 2`. `times` **tüm vektörü** üç kez
+tekrarlar. (a) şıkkı `rep(c(1, 2), each = 3)` sonucudur — `each` her
+elemanı ayrı ayrı tekrarlar. `times` ile `each` farkı sınavda sık
+sorulur.
+
+**7. Doğru cevap: b)** `5`. `seq(0, 100, by = 25)` dizisi
+`0, 25, 50, 75, 100` yani beş elemandır. Buradaki tuzak, "kaç adım
+atıldığı" (4) ile "kaç eleman üretildiği" (5) arasındaki farktır;
+uç noktaların ikisi de diziye dahildir.
+
+**8. Doğru cevap: b)** `return()` R'da zorunlu değildir; fonksiyon
+gövdesindeki **son ifadenin değeri** otomatik olarak döndürülür. Yine de
+ders boyunca `return()` yazmanızı öneriyorum: kodu okuyan için neyin
+döndüğü açık olur. (d) yanlıştır — `x` fonksiyonun kendi parametresidir,
+küresel ortamda tanımlı olması gerekmez.
+
+------------------------------------------------------------------------
+
+## Bölüm C — Veri Yapıları
+
+**9. Doğru cevap: c)** `6`. `matrix(1:6, nrow = 2)` sayıları **sütun
+sütun** yerleştirir, yani matris şöyledir:
+
+```         
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+```
+
+`matris[2, 3]` ikinci satır, üçüncü sütundur: `6`. (b) şıkkı
+`matris[1, 3]` sonucudur. Satır satır doldurmak isterseniz
+`byrow = TRUE` eklemelisiniz.
+
+**10. Doğru cevap: c)** Liste. Tipoloji şemasını hatırlayın: iki soru
+soruyorduk — kaç boyutlu, ve elemanların türü aynı olmak zorunda mı?
+Liste tek boyutludur ama heterojendir. Vektör tek boyutlu ve homojen,
+matris iki boyutlu ve homojen, data frame iki boyutlu ve heterojendir.
+
+**11. Doğru cevap: b)** İkinci sütunu. Köşeli parantez içindeki virgül
+`[satır, sütun]` biçiminde okunur; virgülden önce bir şey yazılmaması
+"tüm satırlar" demektir. (d) yanlıştır: boş bırakmak hata değil, "hepsi"
+anlamına gelen geçerli bir yazımdır.
+
+**12. Doğru cevap: b)** `rbind()` satırları sütun adlarına göre
+eşleştirir; adlar tutmazsa hata alırsınız. Bu, data frame'in "aslında
+özel bir liste" olmasının sonucudur — her sütunun bir kimliği vardır,
+yalnızca bir konumu değil. (a) yanlıştır: eleman sayısının tutması tek
+başına yetmez.
+
+------------------------------------------------------------------------
+
+## Bölüm D — Mantıksal İndeksleme
+
+**13. Doğru cevap: c)** `FALSE TRUE FALSE TRUE FALSE`. Bu, konunun
+tamamının dayandığı noktadır: bir karşılaştırma size **elemanları değil,
+her eleman için bir yanıt** verir. Çıktı orijinal vektörle aynı
+uzunluktadır ve buna **maske** denir. (a) şıkkı bir sonraki adımın
+(`v[v > 5]`) sonucudur, (b) ise `which(v > 5)` sonucudur.
+
+**14. Doğru cevap: a)** `7 9`. Maskeyi köşeli parantezin içine
+koyduğunuzda R, `TRUE` olan konumlardaki elemanları tutar, `FALSE`
+olanları atar. 13. ve 14. sorular birlikte tek bir fikri iki adımda
+gösterir: **önce maske üretilir, sonra maske indeks olarak kullanılır.**
+
+**15. Doğru cevap: b)** `4 7 5`. Elemanları tek tek sınayın: 4 (3'ten
+büyük ✓, 9'dan küçük ✓), 7 (✓ ✓), 2 (3'ten büyük değil ✗), 9 (9'dan
+küçük değil ✗), 5 (✓ ✓). `&` operatörü iki koşulun **ikisinin birden**
+sağlanmasını ister. (a) şıkkı yalnızca ilk koşulun uygulanmasının (`v[v > 3]`) sonucudur — ikinci koşulu unutursanız buraya düşersiniz.
+
+**16. Doğru cevap: b)** `df[df$yas > 25, ]`. Sondaki virgül "tüm
+sütunları getir" demektir ve satır seçtiğinizi belirtir. (a) yanlıştır:
+virgülsüz kullanımda R **sütun** seçtiğinizi varsayar ve beklediğiniz
+sonucu vermez. (c) yanlıştır: virgülden sonra yazmak koşulu sütunlara
+uygular. (d) yanlıştır: `df > 25` tüm data frame'i sayıyla
+karşılaştırmaya çalışır.
+
+::: callout-note
+Bu son soru, 3. haftada `dplyr::filter()` öğrenirken neden rahatlayacağınızı
+da açıklıyor: `filter(df, yas > 25)` yazımında virgül tuzağı yoktur.
+Ama altta çalışan mantık aynıdır.
+:::
