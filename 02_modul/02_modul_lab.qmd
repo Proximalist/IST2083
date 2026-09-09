@@ -1,0 +1,416 @@
+---
+title: "Modül 02 — Rehberli Laboratuvar"
+subtitle: "Veri türleri, veri yapıları ve temel fonksiyonlar"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar
+başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–F): her görevde ne yapmanız gerektiği yazılıdır
+    ve altında **eksik bırakılmış** bir kod iskeleti vardır. Bu kodlar
+    render sırasında çalıştırılmaz — sizin RStudio'da elle tamamlamanız
+    içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli. Önce
+    kendiniz deneyin, tıkandığınızda bakın.
+
+::: callout-tip
+## Nasıl çalışılır
+
+Kod öbeğinin sağ üstündeki yeşil ▶ düğmesi o öbeği çalıştırır. Hata
+aldığınızda paniklemeyin: R'ın hata mesajını okuyun, çoğu zaman hangi
+satırda ne beklediğini açıkça söyler.
+:::
+
+------------------------------------------------------------------------
+
+# Bölüm A — Değişkenler ve Veri Türleri
+
+## Görev A1 — Üç türde değişken
+
+Sayısal, karakter ve mantıksal türde birer değişken tanımlayın; sonra
+her birinin türünü `class()` ile kontrol edin.
+
+```{r}
+#| eval: false
+sayi   <- ____
+metin  <- ____
+dogru  <- ____
+
+class(sayi)
+class(metin)
+class(dogru)
+```
+
+## Görev A2 — Tür zorlaması (coercion)
+
+Bir vektörün **tüm elemanları aynı türde olmak zorundadır**. Peki farklı
+türleri aynı `c()` içine koyarsanız R ne yapar? Tahmin edin, sonra
+çalıştırın.
+
+```{r}
+#| eval: false
+karisik1 <- c(1, 2, "üç")
+karisik2 <- c(1, 2, TRUE)
+
+class(karisik1)   # tahmininiz?
+class(karisik2)   # tahmininiz?
+```
+
+::: callout-important
+Bu, gerçek veri setlerinde en sık karşılaşacağınız hatanın kaynağıdır:
+sayısal olması gereken bir sütunun içinde tek bir metin hücresi varsa
+(örneğin "yok" ya da "-"), R **tüm sütunu** karakter yapar ve
+`mean()` çalışmaz.
+:::
+
+## Görev A3 — Eksik değer
+
+`NA` bir veri türü değil, "bu değer bilinmiyor" işaretidir. Aşağıdaki
+vektörün ortalamasını önce doğrudan, sonra eksik değerleri dışlayarak
+hesaplayın.
+
+```{r}
+#| eval: false
+notlar <- c(72, 85, NA, 91, 68)
+
+mean(notlar)              # ne döndü? neden?
+mean(notlar, na.rm = ____)
+sum(is.na(notlar))        # kaç eksik değer var?
+```
+
+------------------------------------------------------------------------
+
+# Bölüm B — Temel Fonksiyonlar
+
+## Görev B1 — Özet istatistikler
+
+Bir vektör oluşturup uzunluğunu, toplamını, ortalamasını, standart
+sapmasını ve beş sayı özetini hesaplayın.
+
+```{r}
+#| eval: false
+vektor <- c(4, 7, 2, 9, 5, 11, 3)
+
+length(vektor)
+sum(vektor)
+mean(vektor)
+sd(vektor)
+summary(____)
+```
+
+## Görev B2 — Dizi üretme
+
+`seq()` ve `rep()` kullanarak şunları üretin: (a) 0'dan 100'e 10'ar
+artan bir dizi, (b) `"A"` harfinin 5 kez tekrarı, (c) 1'den 20'ye kadar
+tek sayılar.
+
+```{r}
+#| eval: false
+a <- seq(0, 100, by = ____)
+b <- rep("A", times = ____)
+c_dizi <- seq(1, 20, by = ____)
+```
+
+::: callout-warning
+Üçüncü değişkene neden `c` demedik? Çünkü `c` R'ın vektör oluşturma
+fonksiyonunun adıdır. Değişken adlarınız fonksiyon adlarıyla
+çakışmasın.
+:::
+
+## Görev B3 — Kendi fonksiyonunuz
+
+Verilen bir sayısal vektörün **değişim katsayısını** (standart sapma /
+ortalama) hesaplayan bir fonksiyon yazın.
+
+```{r}
+#| eval: false
+degisim_katsayisi <- function(x) {
+  sonuc <- ____ / ____
+  return(sonuc)
+}
+
+degisim_katsayisi(c(10, 12, 14, 16))
+```
+
+------------------------------------------------------------------------
+
+# Bölüm C — Veri Yapıları
+
+## Görev C1 — Vektör
+
+Bir vektör oluşturun; ikinci elemanına erişin, dördüncü elemanını
+değiştirin, vektörü sıralayın, en büyük ve en küçük elemanı bulun.
+
+```{r}
+#| eval: false
+vektor <- c(4, 7, 2, 9, 5)
+
+vektor[____]          # ikinci eleman
+vektor[4] <- ____     # dördüncü elemanı değiştir
+sort(vektor)
+min(vektor); max(vektor)
+```
+
+## Görev C2 — Liste
+
+İçinde bir metin, bir sayı, bir mantıksal değer ve bir vektör bulunan
+bir liste kurun. Sonra vektör elemanının **ilk değerine** erişin.
+
+```{r}
+#| eval: false
+liste <- list(ad = ____, yas = ____, ogrenci_mi = ____, notlar = c(85, 90, 78))
+
+liste$ad
+liste$notlar[____]    # ilk not
+liste$bolum <- "İstatistik"   # yeni eleman ekleme
+liste$bolum <- NULL           # silme
+str(liste)
+```
+
+## Görev C3 — Matris
+
+3×3 bir matris oluşturun; ikinci satırı, üçüncü sütunu ve sol üstteki
+2×2 alt matrisi çıkarın. `dim()` ile boyutunu doğrulayın.
+
+```{r}
+#| eval: false
+matris <- matrix(1:9, nrow = 3, ncol = 3)
+
+matris[____, ]        # ikinci satır
+matris[, ____]        # üçüncü sütun
+matris[1:2, 1:2]      # alt matris
+dim(matris)
+```
+
+::: callout-note
+`matrix(1:9, nrow = 3)` sayıları **sütun sütun** doldurur. Satır satır
+doldurmak isterseniz `byrow = TRUE` ekleyin. Farkı görmek için ikisini
+de çalıştırıp karşılaştırın.
+:::
+
+## Görev C4 — Data frame
+
+Üç öğrencilik bir data frame kurun; yeni bir sütun ekleyin, bir hücreyi
+güncelleyin, yeni bir satır ekleyin ve yapıyı `str()` ile inceleyin.
+
+```{r}
+#| eval: false
+df <- data.frame(
+  adi        = c("Ali", "Ayşe", "Fatma"),
+  yas        = c(23, 30, 27),
+  ogrenci_mi = c(TRUE, FALSE, TRUE)
+)
+
+df$bolum <- c("Matematik", "İstatistik", "Biyoloji")
+df$yas[2] <- ____
+yeni_satir <- data.frame(adi = "Ahmet", yas = 22, ogrenci_mi = TRUE, bolum = "Fizik")
+df <- rbind(df, ____)
+
+str(df)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm D — Mantıksal İndeksleme
+
+Bu bölüm derste yeni öğrendiğiniz konunun uygulamasıdır ve 3. haftada
+göreceğiniz `dplyr::filter()` işleminin temelidir.
+
+## Görev D1 — Maske üretmek
+
+Önce koşulun kendisinin ne döndürdüğüne bakın, sonra onu indeks olarak
+kullanın.
+
+```{r}
+#| eval: false
+vektor <- c(4, 7, 2, 9, 5, 11, 3)
+
+vektor > 5              # ne döndü? kaç eleman uzunluğunda?
+vektor[vektor > 5]      # şimdi ne döndü?
+```
+
+## Görev D2 — Bileşik koşullar
+
+Vektörden (a) 3'ten büyük **ve** 10'dan küçük olanları, (b) 2'ye eşit
+**olmayan**ları seçin.
+
+```{r}
+#| eval: false
+vektor[vektor > 3 ____ vektor < 10]
+vektor[____(vektor == 2)]
+```
+
+## Görev D3 — Data frame satırlarını filtrelemek
+
+Yukarıdaki `df` üzerinde: (a) yaşı 25'ten büyük olan satırları,
+(b) öğrenci olanların yalnızca `adi` sütununu getirin.
+
+```{r}
+#| eval: false
+df[df$yas > ____, ]
+df[df$ogrenci_mi == TRUE, "____"]
+```
+
+::: callout-tip
+Köşeli parantez içindeki **virgül** kritiktir: virgülden öncesi
+satırları, sonrası sütunları seçer. `df[1, ]` birinci satır,
+`df[, 1]` birinci sütundur. Virgülü unutursanız R sütun seçtiğinizi
+varsayar.
+:::
+
+------------------------------------------------------------------------
+
+# Bölüm E — Veri İçe Aktarma
+
+Depodaki `data/` klasöründe hazır dosyalar var. Yolları elle yazmak
+yerine `here()` kullanıyoruz: bu fonksiyon proje kökünü kendisi bulur,
+böylece kod hem sizin bilgisayarınızda hem Codespaces'te çalışır.
+
+```{r}
+#| eval: false
+library(here)
+
+veri <- read.csv(here("data", "example_data.csv"))
+
+head(veri)
+str(veri)
+summary(veri)
+nrow(veri); ncol(veri)
+names(veri)
+```
+
+## Görev E1 — İnceleme
+
+`str()` çıktısına bakarak şu soruları yanıtlayın: veri seti kaç satır ve
+kaç sütun içeriyor? Hangi sütunlar sayısal, hangileri karakter? Sayısal
+görünüp aslında karakter olarak okunmuş bir sütun var mı?
+
+## Görev E2 — Kaydetme
+
+Filtrelediğiniz bir alt kümeyi diske yazın. Dikkat: aşağıdaki kod depo
+klasörünü kirletmemek için **geçici bir dosyaya** yazar.
+
+```{r}
+#| eval: false
+alt_kume <- veri[1:10, ]
+cikti_yolu <- file.path(tempdir(), "alt_kume.csv")
+write.csv(alt_kume, cikti_yolu, row.names = FALSE)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm F — Kendiniz Deneyin
+
+Bu bölümün çözümü aşağıda **verilmemiştir**. Takıldığınız yeri ofis
+saatinde getirin.
+
+1.  `data/` klasöründeki başka bir CSV dosyasını içe aktarın ve sayısal
+    bir sütununun ortalamasını, eksik değerleri dışlayarak hesaplayın.
+2.  O sütunda ortalamanın üzerinde değer alan satırları mantıksal
+    indekslemeyle seçin ve kaç satır kaldığını `nrow()` ile bulun.
+3.  Bir vektörün **medyanın üzerindeki** elemanlarının oranını
+    döndüren bir fonksiyon yazın.
+4.  `karisik <- c(1, 2, "3")` vektörünü sayısala çevirin
+    (`as.numeric()`) ve `class()` ile doğrulayın. Bu dönüşümün her zaman
+    güvenli olmadığı bir örnek düşünebilir misiniz?
+
+------------------------------------------------------------------------
+
+# Çözümler
+
+Aşağıdaki kod çalıştırılır; çıktıları görmek için render edilmiş PDF'e
+bakabilir ya da satırları RStudio'da kendiniz çalıştırabilirsiniz.
+
+```{r}
+#| label: cozumler
+# --- A1
+sayi <- 42; metin <- "Merhaba"; dogru <- TRUE
+c(class(sayi), class(metin), class(dogru))
+
+# --- A2  (R en "geniş" türe zorlar: logical < numeric < character)
+class(c(1, 2, "üç"))    # "character"
+class(c(1, 2, TRUE))    # "numeric"  — TRUE, 1 olarak okunur
+
+# --- A3
+notlar <- c(72, 85, NA, 91, 68)
+mean(notlar)                 # NA — tek bir eksik değer sonucu NA yapar
+mean(notlar, na.rm = TRUE)
+sum(is.na(notlar))
+
+# --- B1
+vektor <- c(4, 7, 2, 9, 5, 11, 3)
+c(uzunluk = length(vektor), toplam = sum(vektor),
+  ortalama = mean(vektor), std_sapma = sd(vektor))
+summary(vektor)
+
+# --- B2
+seq(0, 100, by = 10)
+rep("A", times = 5)
+seq(1, 20, by = 2)
+
+# --- B3
+degisim_katsayisi <- function(x) sd(x) / mean(x)
+degisim_katsayisi(c(10, 12, 14, 16))
+
+# --- C1
+v <- c(4, 7, 2, 9, 5)
+v[2]; v[4] <- 100; sort(v); c(min(v), max(v))
+
+# --- C2
+liste <- list(ad = "Ali", yas = 25, ogrenci_mi = TRUE, notlar = c(85, 90, 78))
+liste$notlar[1]
+
+# --- C3
+matris <- matrix(1:9, nrow = 3)
+matris[2, ]; matris[, 3]; dim(matris)
+
+# --- C4
+df <- data.frame(adi = c("Ali", "Ayşe", "Fatma"),
+                 yas = c(23, 30, 27),
+                 ogrenci_mi = c(TRUE, FALSE, TRUE))
+df$bolum <- c("Matematik", "İstatistik", "Biyoloji")
+df$yas[2] <- 32
+df <- rbind(df, data.frame(adi = "Ahmet", yas = 22,
+                           ogrenci_mi = TRUE, bolum = "Fizik"))
+df
+
+# --- D1, D2
+vektor > 5
+vektor[vektor > 5]
+vektor[vektor > 3 & vektor < 10]
+vektor[!(vektor == 2)]
+
+# --- D3
+df[df$yas > 25, ]
+df[df$ogrenci_mi == TRUE, "adi"]
+```
+
+```{r}
+#| label: cozum-E
+library(here)
+veri <- read.csv(here("data", "example_data.csv"))
+str(veri)
+alt_kume <- veri[1:10, ]
+write.csv(alt_kume, file.path(tempdir(), "alt_kume.csv"), row.names = FALSE)
+```
+
+::: callout-note
+📚 Ek kaynak: Posit **Base R Cheat Sheet**. Ayrıca bu haftaya kadar
+geçen tüm sözdizimi depodaki `R-Hizli-Referans.qmd` belgesinde
+toplanmaktadır.
+:::

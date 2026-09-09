@@ -1,0 +1,78 @@
+---
+title: "Modül 04 — Alıştırmalar"
+subtitle: "Tanımlayıcı istatistik"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+**Konu 1: Merkezi Eğilim Ölçüleri**
+
+1.  **Aşağıdaki veri seti için ortalama, medyan ve modu hesaplayın.**
+
+```         
+2, 4, 6, 8, 10, 12, 14, 16, 18, 20
+```
+
+2.  **Bir sınıftaki öğrencilerin yaşları şu şekildedir, bunu R'da bir vektör olarak girin**
+
+```         
+18, 19, 19, 20, 20, 20, 21, 21, 22, 23
+```
+
+-   Bu veri seti için en uygun merkezi eğilim ölçüsü hangisidir? Neden?
+-   R'da bu vektör iiçn Ortalama, medyan ve modu hesaplayın ve yorumlayın.
+
+3.  **Aşağıdaki durumların her biri için en uygun merkezi eğilim ölçüsünü belirleyin ve nedenini açıklayın:**
+
+-   Bir ülkedeki insanların gelir dağılımı
+-   Bir mağazada satılan ayakkabı numaraları
+-   Bir sınıftaki öğrencilerin en sevdikleri renkler
+
+**Konu 2: Değişkenlik Ölçüleri**
+
+1.  **Aşağıdaki veri setiniR 'da bir vektör olarak girin ve bu veri için R'da aralık, standart sapma ve çeyrekler arası aralığı hesaplayın:**
+
+```         
+10, 12, 14, 16, 18, 20, 22, 24, 26, 28
+```
+
+2.  **İki farklı sınıftaki öğrencilerin sınav notlarının standart sapmaları şu şekildedir:**
+
+-   Sınıf A: Standart sapma = 5
+-   Sınıf B: Standart sapma = 10
+
+Hangi sınıftaki öğrencilerin notlarının daha dağınık olduğunu açıklayın.
+
+3.  **Aşağıdaki değişkenler için hangi değişkenlik ölçüsünün daha uygun olduğunu belirleyin ve nedenini açıklayın:**
+
+-   Bir şehirdeki ev fiyatları
+-   Bir maraton koşusunda koşucuların bitirme süreleri
+-   Bir fabrikada üretilen ampullerin ömürleri
+
+**Konu 3: Korelasyon**
+
+1.  **Aşağıdaki iki değişken arasındaki korelasyon katsayısını yorumlayın:**
+
+-   Sıcaklık ile dondurma satışları arasındaki korelasyon katsayısı = 0.8
+-   Sigara içme ile akciğer kanseri arasındaki korelasyon katsayısı = 0.9
+
+2.  **Korelasyonun nedensellik anlamına gelmediğini açıklayın ve örnekler verin.**
+
+3.  **Anscombe's Quartet veri setini kullanarak korelasyon katsayısının tek başına bir ilişkinin tam resmini veremeyeceğini açıklayın.**
+
+**Konu 4: Eksik Veriler**
+
+1.  **Eksik verilerin neden sorun olduğunu ve veri analizini nasıl etkileyebileceğini açıklayın.**
+
+2.  **Eksik verilerle başa çıkmak için kullanılan farklı yöntemleri açıklayın.**
+
+3.  **Eksik verilerle başa çıkmak için hangi yöntemin kullanılacağına nasıl karar verileceğini açıklayın.**

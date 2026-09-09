@@ -29,24 +29,29 @@ seçeneği de vardır; kılavuzda anlatılmıştır.
 
 ## Ders programı
 
-| # | Tarih | Konu | Klasör |
+| Oturum | Tarih | Konu | Modül |
 |---:|---|---|---|
-| 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio, GitHub | `01_hafta/` |
-| 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `02_hafta/` |
+| 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio, GitHub | `01_modul/` |
+| 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `02_modul/` |
 | — | 15 Ekim | *Ders yapılmaz* | — |
-| 3 | 22 Ekim | Veri işleme: `dplyr`, `tidyr`; Quarto ile raporlama | `05_hafta/`, `06_hafta/` |
+| 3 | 22 Ekim | Veri işleme: `dplyr`, `tidyr`; Quarto ile raporlama | `05_modul/`, `06_modul/` |
 | — | 29 Ekim | *Cumhuriyet Bayramı* | — |
-| 4 | 5 Kasım | Veri görselleştirme: `ggplot2` | `03_hafta/` |
-| 5 | 12 Kasım | Tanımlayıcı istatistik | `04_hafta/` |
+| 4 | 5 Kasım | Veri görselleştirme: `ggplot2` | `03_modul/` |
+| 5 | 12 Kasım | Tanımlayıcı istatistik | `04_modul/` |
 | — | 19 Kasım | **ARA SINAV** — kapsam: 1.–5. oturumlar | — |
-| 6 | 26 Kasım | Olasılık, rastgele değişkenler ve dağılımlar | `06_hafta/`, `08_hafta/` |
-| 7 | 3 Aralık | Örnekleme ve Merkezi Limit Teoremi | `07_hafta/` |
-| T | *Telafi* | Tahmin ve güven aralıkları | `09_hafta/` |
-| 8 | 10 Aralık | Hipotez testi I: p-değeri ve t-testleri | `10_hafta/` |
-| 9 | 17 Aralık | Hipotez testi II: ki-kare ve ANOVA | `10_hafta/` |
-| 10 | 24 Aralık | Korelasyon, basit ve çoklu regresyon | `11_hafta/`, `12_hafta/` |
-| 11 | 31 Aralık | Lojistik regresyon ve genel tekrar | `13_hafta/` |
+| 6 | 26 Kasım | Olasılık, rastgele değişkenler ve dağılımlar | `06_modul/`, `08_modul/` |
+| 7 | 3 Aralık | Örnekleme ve Merkezi Limit Teoremi | `07_modul/` |
+| T | *Telafi* | Tahmin ve güven aralıkları | `09_modul/` |
+| 8 | 10 Aralık | Hipotez testi I: p-değeri ve t-testleri | `10_modul/` |
+| 9 | 17 Aralık | Hipotez testi II: ki-kare ve ANOVA | `10_modul/` |
+| 10 | 24 Aralık | Korelasyon, basit ve çoklu regresyon | `11_modul/`, `12_modul/` |
+| 11 | 31 Aralık | Lojistik regresyon ve genel tekrar | `13_modul/` |
 | — | 4–17 Ocak 2027 | **FİNAL SINAVI** | — |
+
+Soldaki numara **oturum** (takvimdeki ders günü), sağdaki `NN_modul/`
+ise depodaki **konu paketidir**. İkisi bire bir eşleşmez: 3. oturumda
+iki modül işlenir, 10. modül iki oturuma yayılır. Modül numaraları
+dönem boyunca değişmez.
 
 Ayrıntı ve okuma atamaları için izlenceye bakınız.
 
@@ -70,7 +75,7 @@ sınamanız içindir. Sınav soruları bu alıştırmalarla aynı biçimde kurgu
 ```
 IST2083/
 ├── izlence/         Ders izlencesi
-├── 01_hafta/ ...     Haftalık ders notları, sunumlar, alıştırmalar
+├── 01_modul/ ...     Haftalık ders notları, sunumlar, alıştırmalar
 ├── data/            Tüm veri setleri (tek merkez)
 ├── images/          Görseller
 ├── IST2083.Rproj    RStudio proje dosyası — çalışmaya bunu açarak başlayın

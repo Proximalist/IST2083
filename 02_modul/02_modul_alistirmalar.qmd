@@ -1,0 +1,190 @@
+---
+title: "Modül 02 — Alıştırmalar"
+subtitle: "Veri türleri, veri yapıları ve mantıksal indeksleme"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+## Bu Alıştırmalar Hakkında
+
+Bu alıştırmalar **notlandırılmaz ve teslim edilmez.** Amacı, sınavdan
+önce kendi durumunuzu ölçebilmenizdir. Sınav soruları da bu biçimde
+(çoktan seçmeli, tek doğru cevap) kurgulanır.
+
+Her soru 4 şıklıdır ve yalnızca **bir tanesi** doğrudur. Soruların
+çoğunda bir kod parçası verilir ve sizden **çıktıyı tahmin etmeniz**
+istenir. Önce kâğıt üzerinde düşünün; R'da çalıştırıp doğrulamayı
+sonraya bırakın — sınavda bilgisayar olmayacak.
+
+Cevaplarınızı not edin, sonra `02_modul_cevap_anahtari.qmd` dosyasıyla
+karşılaştırın.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Veri Türleri ve Tür Zorlaması
+
+**1.** Aşağıdaki kodun çıktısı nedir?
+
+```{r}
+#| eval: false
+class(c(1, 2, "üç"))
+```
+
+a) `"numeric"`\
+b) `"character"`\
+c) `"list"`\
+d) Kod hata verir, çünkü bir vektör farklı türleri barındıramaz
+
+**2.** Aşağıdaki kodun çıktısı nedir?
+
+```{r}
+#| eval: false
+class(c(1, 2, TRUE))
+```
+
+a) `"numeric"`\
+b) `"character"`\
+c) `"logical"`\
+d) `"mixed"`
+
+**3.** Bir veri setini içe aktardınız. `yas` sütununun sayısal olmasını
+bekliyorsunuz, ama `class(veri$yas)` size `"character"` döndürüyor ve
+`mean(veri$yas)` hata veriyor. Bunun en olası nedeni hangisidir?
+
+a) `read.csv()` tüm sütunları karakter olarak okur\
+b) Sütunda en az bir hücrede sayı olmayan bir değer var (örneğin `"yok"`
+veya `"-"`)\
+c) Sütunda eksik değer (`NA`) bulunuyor\
+d) Sütun adı Türkçe karakter içeriyor
+
+**4.** `sayilar <- c(10, 20, NA, 40)` tanımlandıktan sonra `mean(sayilar)`
+komutunun çıktısı nedir?
+
+a) `23.33333`\
+b) `70`\
+c) `NA`\
+d) `17.5`
+
+------------------------------------------------------------------------
+
+## Bölüm B — Temel Fonksiyonlar
+
+**5.** `seq(1, 10, by = 3)` komutunun çıktısı nedir?
+
+a) `1 4 7 10`\
+b) `1 2 3 ... 10`\
+c) `1 3 5 7 9`\
+d) `3 6 9`
+
+**6.** `rep(c(1, 2), times = 3)` komutunun çıktısı nedir?
+
+a) `1 1 1 2 2 2`\
+b) `1 2 1 2 1 2`\
+c) `1 2 3`\
+d) `3 3 3`
+
+**7.** `length(seq(0, 100, by = 25))` komutunun çıktısı nedir?
+
+a) `4`\
+b) `5`\
+c) `25`\
+d) `100`
+
+**8.** Aşağıdaki fonksiyon tanımı için hangisi doğrudur?
+
+```{r}
+#| eval: false
+oran <- function(x) {
+  sd(x) / mean(x)
+}
+oran(c(10, 12, 14, 16))
+```
+
+a) Fonksiyon hata verir, çünkü `return()` yazılmamış\
+b) Fonksiyon çalışır; gövdedeki son ifadenin değeri döndürülür\
+c) Fonksiyon çalışır ama `NULL` döndürür\
+d) Fonksiyon yalnızca `x` küresel ortamda tanımlıysa çalışır
+
+------------------------------------------------------------------------
+
+## Bölüm C — Veri Yapıları
+
+**9.** `matris <- matrix(1:6, nrow = 2, ncol = 3)` tanımlandıktan sonra
+`matris[2, 3]` neyi döndürür?
+
+a) `3`\
+b) `5`\
+c) `6`\
+d) `4`
+
+**10.** Tek boyutlu olan ve farklı türde elemanları bir arada tutabilen
+veri yapısı hangisidir?
+
+a) Vektör\
+b) Matris\
+c) Liste\
+d) Data frame
+
+**11.** `df` bir data frame olmak üzere `df[, 2]` ifadesi neyi döndürür?
+
+a) İkinci satırı\
+b) İkinci sütunu\
+c) İkinci satırın ikinci sütunundaki hücreyi\
+d) Hata verir, çünkü virgülden önce bir değer yazılmamış
+
+**12.** Bir data frame'e `rbind()` ile yeni bir satır eklemek için
+eklenecek satırın hangi koşulu sağlaması gerekir?
+
+a) Yalnızca eleman sayısı sütun sayısına eşit olmalıdır\
+b) Sütun adları mevcut data frame ile aynı olmalıdır\
+c) Tüm değerleri karakter türünde olmalıdır\
+d) `rbind()` yerine `cbind()` kullanılmalıdır
+
+------------------------------------------------------------------------
+
+## Bölüm D — Mantıksal İndeksleme
+
+Bu bölümdeki soruların tamamında şu vektör tanımlıdır:
+
+```{r}
+#| eval: false
+v <- c(4, 7, 2, 9, 5)
+```
+
+**13.** `v > 5` ifadesinin çıktısı nedir?
+
+a) `7 9` — koşulu sağlayan elemanlar\
+b) `2 4` — koşulu sağlayan elemanların konumları\
+c) `FALSE TRUE FALSE TRUE FALSE` — beş elemanlı mantıksal vektör\
+d) `2` — koşulu sağlayan eleman sayısı
+
+**14.** `v[v > 5]` ifadesinin çıktısı nedir?
+
+a) `7 9`\
+b) `FALSE TRUE FALSE TRUE FALSE`\
+c) `4 7 2 9 5`\
+d) `2 4`
+
+**15.** `v[v > 3 & v < 9]` ifadesinin çıktısı nedir?
+
+a) `4 7 9 5`\
+b) `4 7 5`\
+c) `7 5`\
+d) `4 5`
+
+**16.** `df` bir data frame olmak üzere, `yas` sütunu 25'ten büyük olan
+**satırları** getirmek için hangi ifade doğrudur?
+
+a) `df[df$yas > 25]`\
+b) `df[df$yas > 25, ]`\
+c) `df[, df$yas > 25]`\
+d) `df$yas[df > 25]`

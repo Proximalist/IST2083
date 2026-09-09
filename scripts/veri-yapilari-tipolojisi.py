@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 IST2083 — 2. hafta görseli: R'ın dört temel veri yapısının tipolojisi.
-Özgün üretim (matplotlib). Çıktı: 02_hafta/images/veri-yapilari-tipolojisi.png
+Özgün üretim (matplotlib). Çıktı: 02_modul/images/veri-yapilari-tipolojisi.png
 Yeniden üretmek için:  python3 scripts/veri-yapilari-tipolojisi.py
 """
 import matplotlib
@@ -73,6 +73,6 @@ ax.text(86, 11.5,
 ax.text(56, 2, "IST2083 — Temel İstatistik ve R ile Veri Analizi",
         ha="center", va="center", fontsize=8, color="#9A9AA5")
 
-fig.savefig("02_hafta/images/veri-yapilari-tipolojisi.png",
+fig.savefig("02_modul/images/veri-yapilari-tipolojisi.png",
             dpi=200, bbox_inches="tight", facecolor="white")
 print("üretildi")

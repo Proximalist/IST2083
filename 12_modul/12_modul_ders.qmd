@@ -1,0 +1,637 @@
+---
+title: "Modül 12: Regresyon Analizi — Devam"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+## Regresyon II
+
+#### Hatırlayalım: Regresyon Analizi Nedir?
+
+Regresyon analizi, bir **bağımlı değişken** ile bir veya daha fazla **bağımsız değişken** arasındaki ilişkiyi incelemek ve bu ilişkiyi bir matematiksel modelle açıklamak için kullanılan bir istatistiksel yöntemdir. Temel amacı, bağımlı değişkenin değerini tahmin etmek veya bağımsız değişkenlerin bağımlı değişken üzerindeki etkisini değerlendirmektir.
+
+#### Doğrusal (Linear) Regresyon Nedir?
+
+Doğrusal regresyon, bağımlı değişken ile bağımsız değişken(ler) arasındaki ilişkinin doğrusal olduğunu varsayar. Matematiksel olarak model:
+
+$$Y = \beta_0 + \beta_1 X + \epsilon $$
+
+şeklinde ifade edilir. Burada:
+
+-   Y: Bağımlı değişken
+
+-   X: Bağımsız değişken
+
+-   β0​: Kesme noktası (Intercept, X=0 olduğunda Y'nin değeri)
+
+-   β1​: Eğim katsayısı (Bağımsız değişkende bir birimlik değişiklik olduğunda Y'deki değişim)
+
+-   ϵ: Hata terimi (modelin açıklayamadığı rastgele değişkenlik)
+
+::: callout-note
+### R'da Doğrusal Regresyon
+
+R'da doğrusal regresyon yapmak için `lm()` fonksiyonu kullanılır.
+
+# Modeli tanımlama
+
+model \<- lm(Y \~ X, data = dataset)
+
+# Model özetini görüntüleme
+
+summary(model)
+
+### `summary()` Fonksiyonunun Ürettiği Sonuçlar
+
+1.  **Call:**
+
+    -   Modelin formülü ve kullanılan veri seti hakkında bilgi verir.
+
+2.  **Residuals:**
+
+    -   Modeldeki tahmin hatalarının (residuals) özet istatistiklerini (min, 1. çeyrek, medyan, 3. çeyrek, max) gösterir. Hataların küçük ve dengeli olması modelin iyi bir uyum sağladığını gösterir.
+
+3.  **Coefficients (Katsayılar):**
+
+    -   **Estimate:** Her bir değişken için tahmini katsayıyı gösterir.
+
+        -   **Intercept (**β0​): Bağımlı değişkenin X=0 olduğundaki tahmini değeri.
+
+        -   **Slope (**β1​): Bağımsız değişkende bir birimlik artış olduğunda bağımlı değişkendeki tahmini değişim.
+
+    -   **Std. Error:** Tahminlerin standart hatası.
+
+    -   **t value:** Katsayıların 0'dan farklı olup olmadığını test eden t-istatistiği.
+
+    -   **Pr(\>\|t\|):** Katsayının anlamlı olup olmadığını belirten p-değeri (\<0.05 ise anlamlıdır).
+
+4.  **Residual Standard Error (Hata Terimlerinin Standart Hatası):**
+
+    -   Modelin hata terimlerinin standart sapmasını ifade eder. Daha düşük bir değer daha iyi bir uyum anlamına gelir.
+
+5.  **R-squared (R²):**
+
+    -   Bağımlı değişkenin toplam varyansının ne kadarının model tarafından açıklandığını gösterir. 1'e yakın bir değer modelin iyi bir uyum sağladığını ifade eder.
+
+6.  **Adjusted R-squared:**
+
+    -   R²'nin düzeltilmiş hali. Özellikle çoklu bağımsız değişkenler olduğunda daha güvenilir bir ölçüttür.
+
+7.  **F-statistic:**
+
+    -   Modelin genel anlamlılığını test eder. P-değeri \<0.05 ise model genel olarak anlamlıdır.
+:::
+
+Bu hafta regresyon üzerine farklı örnekler yapacağız. Ancak her bir örnekte, veri setine yönelik farklı soruların cevaplarını da araştıracağız. Bu yöntemle, şimdiye kadar öğrendiğimiz çeşitli teknik ve analizleri regresyon analiziyle birleştirmiş olacağız. Ayrıca, bu haftanın bir diğer konu başlığı, kategorik değişkenlerin regresyon analizinde nasıl kullanılacağı olacak.
+
+### Örnek 1:
+
+Bu alıştırma için, dünya rekoru kırılan atletizm (örneğin 100 metre koşu) ve saha (örneğin gülle atma) etkinliklerinin dünya rekor sürelerini ve mesafelerini içeren bir veri setimiz var. Bu veri seti, rekoru kıran kişi, milliyeti, rekorun kırıldığı yer ve kırıldığı yıl gibi bilgileri içeriyor. Unutmayın ki tüm dünya rekorları Olimpiyatlarda kırılmamıştır; birçok rekor bölgesel veya ulusal yarışmalarda gerçekleşmiştir.
+
+```{r}
+# gerekli paketler
+library(tidyverse)
+library(here)
+# veri setini R'a ekle
+wr <- read_csv(here("data", "worldrecord.csv"))
+```
+
+### Veriyi İnceleme
+
+#### Soru 1:
+
+Veri setinde kaç farklı etkinlik türü ("Erkekler 100m", "Kadınlar gülle atma" vb.) bulunmaktadır?
+
+```{r}
+# Kaç farklı etkinlik olduğunu görmek için
+wr %>%
+  count(Event) %>%
+  arrange(desc(n))
+
+
+```
+
+#### Soru 2:
+
+Usain Bolt erkekler 100 metre koşusunda ilk dünya rekorunu hangi yıl kırdı?
+
+```{r}
+wr %>%
+  filter(Athlete == "Usain Bolt") %>%
+  select(Event, Year, Record)
+
+```
+
+#### Soru 3:
+
+Kadınlar 1 mil dünya rekorunu 260 saniyenin altında bir sürede ilk kez kıran kadın kimdi?
+
+```{r}
+wr %>%
+  filter(Event == "Womens Mile", Record < 260) %>%
+  arrange(Year) %>%
+  slice(1)
+
+
+```
+
+#### Soru 4:
+
+Rekoru belirleyen süre veya mesafeyi hangi değişken gösteriyor? Bu değişkenin türü nedir?
+
+```{r}
+wr %>%
+  glimpse()
+```
+
+#### Soru 5:
+
+Kadınlar ve erkekler için gülle atma rekoru mesafesi ile yıl arasındaki dağılımı gösteren bir scatterplot (dağılım grafiği) oluşturalım. Neden?
+
+**Cevap**: Scatterplot, bu iki sayısal değişken arasında doğrusal bir ilişki olup olmadığını görmemizi sağlar.
+
+Erkeler için gülle atma rekoru ile yıl arasındaki ilişkiyi gösteren scatterplot
+
+```{r}
+mens_shotput <- wr %>%
+  filter(Event == "Mens Shotput")
+
+mens_shotput %>%
+  ggplot(aes(x = Year, y = Record)) +
+  geom_point() +
+  labs(title = "Erkekler Gülle Atma Rekoru", x = "Yıl", y = "Mesafe (metre)") +
+  theme_minimal()
+
+```
+
+Kadınlar için gülle atma rekoru ile yıl arasındaki ilişkiyi gösteren scatterplo
+
+```{r}
+womens_shotput <- wr %>%
+  filter(Event == "Womens Shotput")
+
+womens_shotput %>%
+  ggplot(aes(x = Year, y = Record)) +
+  geom_point() +
+  labs(title = "Kadınlar Gülle Atma Rekoru", x = "Yıl", y = "Mesafe (metre)") +
+  theme_minimal()
+
+```
+
+**Scatterplot Analizi**: Erkekler ve kadınlar için rekor mesafesi ile yıl arasında pozitif doğrusal bir ilişki görülmektedir.
+
+#### Soru 7:
+
+Bu gülle atma dünya rekoru verilerine bir doğrusal model (linear model) oluşturduğumuzda neyi belirleyebiliriz? Erkekler için dünya rekoru mesafesini tahmin eden model denklemi nedir?
+
+```{r}
+lm_mdl_men <- lm(Record~Year, data = mens_shotput)
+summary(lm_mdl_men)
+```
+
+**Intercept Yorumlaması**: Yıl sıfırdan başlamadığı için intercept (kesişme noktası) anlamlı değildir.
+
+```{r}
+mens_shotput <- mens_shotput %>%
+  mutate(Year = Year - min(Year))  # Yılı sıfırdan başlatma
+
+lm_mdl_men <- lm(Record ~ Year, data = mens_shotput)
+summary(lm_mdl_men)
+
+```
+
+Kadınlar için dünya rekoru mesafesini tahmin eden model denklemi nedir?
+
+```{r}
+womens_shotput <- womens_shotput %>%
+  mutate(Year = Year - min(Year))  # Yılı sıfırdan başlatma
+
+lm_mdl_women <- lm(Record ~ Year, data = womens_shotput)
+summary(lm_mdl_women)
+```
+
+### **Sonuç**
+
+Erkekler ve kadınlar gülle atma dünya rekorları için dağılım grafikleri, bu etkinliklerin yıllar boyunca güçlü ve pozitif bir doğrusal ilişki gösterdiğini ortaya koymaktadır. Erkeklerde rekor mesafesi yılda ortalama 0.13 metre, kadınlarda ise 0.23 metre artmaktadır. Ancak, başlangıç yılına bağlı olan intercept (kesişme noktası), sorunun bağlamına göre doğrudan yorumlanamaz. Bu nedenle, yılı yeniden düzenleyerek modeller oluşturulmuş ve verilerle iyi bir uyum gösterilmiştir. Fakat çarpıcı bir biçimde, modelimize göre kadınlar için yıllık değişim oranı erkeklere göre daha büyüktür ve bu sonuç istatistiksel olarak anlamlıdır.
+
+### **Örnek 2:**
+
+**Araştırma Sorusu:** *"Erkekler ve kadınlar için 1 mil dünya rekoru süreleri yıllar içinde nasıl değişti?"*
+
+#### Soru 1: Veri modeline geçmeden önce ilk ne yapılmalı?
+
+**Cevap:** İlgi duyulan iki değişkenin scatterplot’unu (dağılım grafiği) oluşturun.
+
+#### Soru 2: Bir doğrusal modelde, bağımlı değişkendeki varyansın ne kadarı bağımsız değişkenle açıklanabilir?
+
+**Cevap:** R-kare değeri bu bilgiyi verir.
+
+#### Soru 3: Hangi scatterplot daha güçlü bir doğrusal ilişki gösteriyor?
+
+```{r}
+library(tidyverse)
+
+# Erkekler ve kadınlar için veri alt kümeleri
+mens_mile <- wr %>% filter(Event == "Mens Mile")
+womens_mile <- wr %>% filter(Event == "Womens Mile")
+
+# Erkekler için scatterplot
+mens_mile %>%
+  ggplot(aes(x = Year, y = Record)) +
+  geom_point() +
+  labs(title = "Erkekler 1 Mil Dünya Rekoru", x = "Yıl", y = "Süre (saniye)") +
+  theme_minimal()
+
+# Kadınlar için scatterplot
+womens_mile %>%
+  ggplot(aes(x = Year, y = Record)) +
+  geom_point() +
+  labs(title = "Kadınlar 1 Mil Dünya Rekoru", x = "Yıl", y = "Süre (saniye)") +
+  theme_minimal()
+
+```
+
+#### Soru 4: Erkekler için dünya rekoru süresi her yıl ortalama kaç saniye azalıyor?
+
+```{r}
+men_model <- lm(Record ~ Year, data = mens_mile)
+summary(men_model)
+
+```
+
+#### Soru 5: Kadınlar için dünya rekoru süresi her yıl ortalama kaç saniye azalıyor?
+
+```{r}
+women_model <- lm(Record ~ Year, data = womens_mile)
+summary(women_model)
+
+```
+
+#### Soru 6: Erkeklerin rekor süresinin 1 saniye azalması için kaç yıl geçmesi gerekir?
+
+```{r}
+1 / abs(coef(men_model)["Year"])
+
+```
+
+#### Soru 7: Kadınların rekor süresinin 1 saniye azalması için kaç yıl geçmesi gerekir?
+
+```{r}
+1 / abs(coef(women_model)["Year"])
+
+```
+
+#### Soru 8: Erkekler ve kadınlar için dünya rekoru sürelerinin varyansının ne kadarı yıl ile açıklanabilir?
+
+**Cevap:**
+
+-   Erkekler: Adjusted R-squared: 0.9767
+
+-   Kadınlar: Adjusted R-squared: 0.8861
+
+#### Çıkarım:
+
+Erkekler ve kadınlar için 1 mil dünya rekoru etkinliklerine ait scatterplot'lara (dağılım grafikleri) bakıldığında, her iki etkinliğin de zamanla güçlü ve negatif bir ilişki izlediği görülmektedir. Her iki grup için de doğrusal (lineer) ilişki varsayımı sağlanmış görünmektedir.
+
+-   Erkekler için 1 mil dünya rekoru süresi yılda ortalama 0.393 saniye azalırken, kadınlar için bu süre yılda ortalama 0.976 saniye azalmaktadır.
+
+-   **Kesişme noktası (intercept)** tahmini, yıl sıfıra eşit olduğunda rekor süresinin değerini ifade ettiğinden, bu bağlamda yorumlanamaz.
+
+Her iki lineer model de verilere iyi bir uyum sağlamaktadır:
+
+-   Erkekler için **R-kare değeri** 0.976'dır, yani performanstaki değişimin %97.7'si yıl değişkeniyle açıklanabilmektedir.
+
+-   Kadınlar için **R-kare değeri** 0.886'dır, yani performanstaki değişimin %88.6'sı yıl değişkeniyle açıklanabilmektedir.
+
+Bu analiz, erkekler ve kadınlar için dünya rekoru sürelerinin son birkaç on yılda doğrusal olarak azaldığını ortaya koymaktadır.
+
+### Örnek 3:
+
+**Dünya Rekoru Verileriyle Çalışmaya Devam Ediyoruz:** Şimdi, 1970'ten itibaren erkekler sırıkla atlama dünya rekorları için en iyi uyum sağlayan doğrusal modeli bulmak istiyoruz.
+
+**Adım 1:** İlk olarak, 1970 ve sonrası yıllarda erkekler sırıkla atlama etkinliğindeki dünya rekorlarını içeren bir veri çerçevesi oluşturalım.
+
+```{r}
+menspole <- wr %>%
+  filter(Event == "Mens Polevault" & Year >= 1970)
+
+```
+
+**Soru 1:** Erkekler sırıkla atlamadaki güncel dünya rekoru yüksekliği (metre cinsinden) nedir?
+
+```{r}
+max_record <- menspole %>%
+  summarise(Max_Record = max(Record))
+max_record
+```
+
+**Soru 2:** Sırıkla atlama rekoru ilk kez 6 metreyi hangi yıl geçti?
+
+```{r}
+menspole %>%
+  filter(Record > 6)
+
+```
+
+**Soru 3:** 1970'ten itibaren erkekler sırıkla atlama rekorlarını yıl fonksiyonu olarak gösteren bir scatterplot oluşturun ve verilere doğrusal bir model uydurun.
+
+```{r}
+# Lineer modeli oluşturma
+men_mdl_pole <- lm(Record ~ Year, data = menspole)
+
+# Scatterplot ve modelin çizimi
+menspole %>%
+  ggplot(aes(x = Year, y = Record)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "1970'ten İtibaren Erkekler Sırıkla Atlama Dünya Rekorları",
+    x = "Yıl",
+    y = "Rekor Yüksekliği (metre)"
+  ) +
+  theme_minimal()
+
+```
+
+**Soru 4:** Rekorun değişimini en iyi şekilde ne açıklar?
+
+**Cevap:** Dağılım grafiğinde açıkça görüldüğü üzere, sırıkla atlama rekor yüksekliği zamanla sürekli artmıştır. Bunun için rekoru yıl (zaman) bağlamında değerlendirmek (bir model oluşturmak) mantıklı olacaktır.
+
+**Soru 5:** 1970'ten itibaren erkekler sırıkla atlama dünya rekorunun değişimini tanımlayan doğrusal model için katsayı tahminlerini rapor edin.
+
+```{r}
+summary(men_mdl_pole)
+
+```
+
+Intercept'in negatif olması, yıl değişkeninin başlangıç noktasının modele uygun olmadığını gösterir. Bu nedenle, yılı transpoze ederek modeli tekrar oluşturabiliriz. Yıl değişkenini 1970'ten başlayacak şekilde yeniden düzenleyelim ve ardından doğrusal modeli tekrar çalıştıralım.
+
+```{r}
+# Yılı transpoze et
+menspole <- menspole %>%
+  mutate(Year_Transposed = Year - 1970)
+
+# Yeni model oluştur
+men_mdl_pole_transposed <- lm(Record ~ Year_Transposed, data = menspole)
+
+# Modelin özetini incele
+summary(men_mdl_pole_transposed)
+
+```
+
+### Modelin Yorumu:
+
+#### 1. **Kesme Noktası (Intercept):**
+
+-   **Değer:** 5.4871
+
+-   Bu değer, **1970 yılında erkekler sırıkla atlama dünya rekorunun** yüksekliğini temsil eder ve anlamlı bir sonuçtur.
+
+-   1970 yılında dünya rekoru yaklaşık **5.49 metre** olarak tahmin edilmiştir.
+
+#### 2. **Eğim (Slope):**
+
+-   **Değer:** 0.0291
+
+-   Bu katsayı, **1970'ten sonra geçen her yıl için sırıkla atlama dünya rekorunun ortalama 0.029 metre (yaklaşık 2.91 cm) arttığını** ifade eder.
+
+-   Bu artış oranı, rekorların zamanla düzenli bir şekilde geliştiğini göstermektedir.
+
+#### 3. **Model Uyumunun Gücü (R-squared):**
+
+-   **Multiple R-squared:** 0.973
+
+-   **Adjusted R-squared:** 0.9722
+
+-   Model, rekor yüksekliğindeki varyansın %97.3'ünü açıklamaktadır. Bu da modelin oldukça güçlü bir uyum sağladığını gösterir.
+
+#### 4. **F-Testi ve p-Değeri:**
+
+-   **F-statistic:** 1260
+
+-   **p-value:** \< 2.2e-16
+
+-   Modelin geneli istatistiksel olarak anlamlıdır. Bu, "Yıl" değişkeninin rekor yüksekliğini açıklamada önemli bir faktör olduğunu ifade eder.
+
+### Kategorik Açıklayıcı Değişkenler
+
+Kategorik değişkenler, regresyon analizinde özel bir dikkat gerektirir. Bu değişkenler, sürekli ya da iki kategorili değişkenler gibi doğrudan regresyon denklemine eklenemez. Bunun yerine, regresyon modeline dahil edilebilmeleri için farklı bir kodlama sistemi kullanılarak bir dizi değişkene dönüştürülmeleri gerekir. Kodlama sistemleri farklı olabilir, ancak seçilen kodlama sistemi değişkenin genel etkisini değiştirmez.
+
+### Örnek 4:
+
+Balık veri seti, yedi yaygın balık türünü ve bu balıkların ağırlıkları gibi bilgilerle bir tahmin modeli geliştirmek için kullanılabilir. Amaç, balık türlerine göre ağırlık tahmini yapmaktır.
+
+```{r}
+fish <- read.csv(here("data", "Fish.csv"))
+species <- c("Bream", "Perch", "Pike", "Roach")
+fish <- fish[fish$Species %in% species,]
+head(fish)
+```
+
+#### Soru 1: Dağılım Grafiği Oluşturma
+
+```{r}
+ggplot(data = fish, aes(x = Weight)) + 
+  geom_histogram(bins = 9, fill = "skyblue", color = "black") +
+  facet_wrap(~Species) +
+  labs(title = "Balık Türlerine Göre Ağırlık Dağılımı", 
+       x = "Ağırlık (gram)", y = "Frekans") +
+  theme_minimal()
+
+```
+
+#### Soru 2: Türlere Göre Ortalama Ağırlık
+
+```{r}
+fish |> 
+  group_by(Species) |> 
+  summarise(mean_weight = mean(Weight, na.rm = TRUE)) |> 
+  arrange(desc(mean_weight))
+
+```
+
+#### Soru 3: Türlere Göre Ağırlık Değişimini Açıklayan Modelin Katsayıları
+
+```{r}
+model_with_intercept <- lm(Weight ~ Species, data = fish)
+summary(model_with_intercept)
+
+```
+
+#### **Soru 4: Modelin Problemi**
+
+Bu modelde, intercept değeri **Bream** türü için raporlanmıştır ve diğer türler için negatif ağırlık değerleri üretmektedir. Bu durum anlamlı değildir. Çözüm bir sıfır kesişimli model üretmektir:
+
+```{r}
+model_no_intercept <- lm(Weight ~ Species + 0, data = fish)
+summary(model_no_intercept)
+
+```
+
+Her bir balık türü için katsayılar (coefficients) tahmini ağırlıkları verir. Bu modelde kesme noktası (intercept) sıfırdır, bu nedenle her türün ağırlığı bağımsız olarak raporlanmıştır:
+
+-   **SpeciesBream (617.83 gram)**: Levrek türü için tahmini ağırlık. Bu katsayı, yüksek bir t-değerine (11.657) ve çok düşük bir p-değerine (\< 2e-16) sahip, bu da tahminin oldukça anlamlı olduğunu gösteriyor.
+
+-   **SpeciesPerch (382.24 gram)**: Sazan türü için tahmini ağırlık. Anlamlı bir tahmin (p-değeri 1.66e-15).
+
+-   **SpeciesPike (718.71 gram)**: Turna balığı için tahmini ağırlık. Bu da oldukça anlamlı bir tahmindir (p-değeri 2.70e-16).
+
+-   **SpeciesRoach (152.05 gram)**: Kızılkanat balığı için tahmini ağırlık. Anlamlılık seviyesi daha düşüktür (p-değeri 0.032), ancak %5 anlamlılık düzeyinde istatistiksel olarak anlamlıdır.
+
+Model, türlere göre ağırlık tahmin etmekte oldukça başarılıdır (R-Square: %71.63 varyans açıklanıyor).
+
+### Örnek 5:
+
+Regresyon, açıklayıcı değişkenlerin bilinen değerlerinden bir yanıt değişkeninin değerlerini tahmin etmenizi sağlar. Hangi değişkeni yanıt değişkeni olarak kullanacağınız, yanıtlamak istediğiniz soruya bağlıdır, ancak birçok veri setinde tahmin edilmesi ilginç olacak değişkenler için açık bir seçim bulunur. Bu alıştırmalar boyunca, Tayvan emlak veri setini keşfedeceksiniz. Bu veri seti, Yeni Taipei Şehri, Tayvan'ın Sindian Bölgesi'nden toplanan bir gayrimenkul değerleme tarihçesine dayanmaktadır. Bu veri setinde, gayrimenkul değerleme bir regresyon problemidir.
+
+```{r}
+library(fst)
+taiwan_real_estate <- read.fst(here("data", "taiwan_real_estate.fst"))
+str(taiwan_real_estate)
+
+```
+
+#### Soru 1:
+
+Veri setini görüntüleyerek hangi değişkenin iyi bir yanıt değişkeni olacağını belirleyin.
+
+```{r}
+View(taiwan_real_estate)
+```
+
+**Cevap:** Fiyat tahmini, yaygın bir iş görevidir, bu nedenle **house price** (ev fiyatı) iyi bir yanıt değişkenidir. Bu veri setinde, `price_twd_msq` değişkeni yanıt değişkenlerinden biri olabilir.
+
+#### Soru 2:
+
+Bir istatistiksel model çalıştırmadan önce, veri setini görselleştirmek genellikle iyi bir fikirdir. Burada, ev fiyatı (alan başına fiyat) ile yakınlardaki market (convenience store) sayısı arasındaki ilişkiyi inceleyeceğiz.
+
+```{r}
+ggplot(data = taiwan_real_estate, aes(x = n_convenience, y = price_twd_msq)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_x_continuous("Yürüme mesafesindeki market sayısı") +
+  scale_y_continuous("Alan başına ev fiyatı (TWD/metrekare)") +
+  ggtitle("Tayvan Emlak Fiyatı: Market Sayısının Fiyat Üzerindeki Etkisi") +
+  theme_bw()
+```
+
+#### Soru 3:
+
+Doğrusal regresyon modelleri her zaman verilere bir doğru çizgisi uydurur. Doğru çizgileri iki özellikle tanımlanır: kesişim noktası (intercept) ve eğim (slope).
+
+Bu alıştırmada, `price_twd_msq` yanıt değişkeni, `n_convenience` ise açıklayıcı değişken olarak kullanılarak bir doğrusal regresyon modeli çalıştıracağız.
+
+```{r}
+taiwan_model <- lm(price_twd_msq ~ n_convenience, data = taiwan_real_estate)
+plot(price_twd_msq ~ n_convenience, data = taiwan_real_estate)
+abline(reg = taiwan_model, col = "red")
+
+```
+
+```{r}
+summary(taiwan_model)
+```
+
+#### Soru 4:
+
+Modelin `(Intercept)` katsayısı `8.2242` olarak hesaplanmıştır. Bu ne anlama gelir?
+
+**Cevap:** Ortalama olarak, yakında market bulunmayan bir evin metrekare fiyatı **8.2242 TWD**'dir.
+
+#### Soru 5:
+
+Modelin `n_convenience` katsayısı `0.7981` olarak hesaplanmıştır. Bu ne anlama gelir?
+
+**Cevap:** Yakındaki market sayısını bir artırdığınızda, ev fiyatında beklenen artış **0.7981 TWD/metrekare** olur.
+
+### Örnek 6:
+
+Açıklayıcı değişken kategorik olduğunda, verileri görselleştirmek için daha önce kullanılan dağılım grafiği uygun değildir. Bunun yerine, her kategori için bir çubuk grafiği veya histogram oluşturmak iyi bir seçenektir.
+
+Tayvan emlak veri setinde, her evin yaşını gösteren kategorik bir değişken bulunmaktadır. Yaşlar şu şekilde 3 gruba ayrılmıştır: **0-15 yıl**, **15-30 yıl**, ve **30-45 yıl**.
+
+#### Soru 1:
+
+Tayvan emlak veri setini kullanarak `price_twd_msq` için bir histogram çizin.
+
+```{r}
+# ggplot ile histogram ve kategorik gruplandırma
+ggplot(data = taiwan_real_estate, aes(x = price_twd_msq)) +
+  geom_histogram(bins = 10, fill = "blue", alpha = 0.7) +
+  facet_wrap(~house_age_years) +
+  labs(
+    title = "Ev Fiyatları (TWD/m²) Yaşa Göre Dağılım",
+    x = "TWD/m² Fiyatı",
+    y = "Frekans"
+  ) +
+  theme_minimal()
+```
+
+#### Soru 2:
+
+Ev yaşına (`house_age_years`) göre verileri gruplandırın.
+
+```{r}
+taiwan_real_estate |> 
+  count(house_age_years)
+```
+
+#### Soru 3:
+
+Her grup için `price_twd_msq` ortalamasını hesaplayın.
+
+```{r}
+taiwan_real_estate |> 
+  group_by(house_age_years) |> 
+  summarise(mean_price = mean(price_twd_msq, na.rm = TRUE))
+```
+
+#### Soru 4:
+
+`price_twd_msq`'i yanıt değişkeni, `house_age_years`'i açıklayıcı değişken olarak kullanarak bir doğrusal regresyon modeli çalıştırın. Modeli `mdl_price_vs_age` olarak atayın.
+
+```{r}
+mdl_price_vs_age <- lm(price_twd_msq ~ house_age_years + 0, data = taiwan_real_estate)
+summary(mdl_price_vs_age)
+```
+
+### Sonuç:
+
+-   **0-15 yaş** arası evler ortalama olarak **12.635 TWD/m²** maliyete sahiptir.
+
+-   **15-30 yaş** arası evler daha ucuz olup ortalama **9.987 TWD/m²** maliyete sahiptir.
+
+-   **30 yıldan daha eski evler**, orta yaşlı evlerden daha pahalıdır. Bu durum dikkatle incelenmelidir.
+
+**Açıklama:** Daha eski evlerin daha büyük olması, fiyatlarının daha yüksek olmasının bir nedeni olabilir. Bu nedenle, ev büyüklüğü Tayvan emlak piyasasında fiyat tahminlerinde daha iyi bir belirleyici olabilir.
+
+### Regresyon Analizinde Dikkat Edilmesi Gereken Noktalar
+
+1.  **Negatif Kesme Noktası (Intercept):**
+
+    -   Kesme noktası (β0​) negatif olduğunda, bu değerin fiziksel anlamı olup olmadığını değerlendirmek önemlidir. Örneğin, negatif bir fiyat fiziksel olarak anlamlı değildir ve model bu durumda yeniden değerlendirilmelidir.
+
+2.  **Kategorik Bağımsız Değişkenler:**
+
+    -   Kategorik değişkenler regresyon modeline doğrudan dahil edilemez. Bunun yerine, kategorik değişkenler **dummy değişkenlere** dönüştürülmelidir. Örneğin, "evet/hayır" gibi iki kategorili bir değişken bir 0 ve 1 değeriyle kodlanabilir.
+
+3.  **Lineerlik Varsayımı:**
+
+    -   Doğrusal regresyon, bağımlı ve bağımsız değişkenler arasındaki ilişkinin doğrusal olduğunu varsayar. Bu varsayımı doğrulamak için grafiksel analiz (dağılım grafikleri) yapılmalıdır.
+
+4.  **Ölçüm Birimleri:**
+
+    -   Bağımsız değişkenlerin birimleri modelde büyük farklar yaratabilir. Bu nedenle, bazı durumlarda değişkenleri standardize etmek faydalıdır. (**z-skorları hatırlayın!**)
+
+5.  **Hata Terimleri:**
+
+    -   Hata terimlerinin normal dağılım ve sabit varyans varsayımlarını sağladığından emin olunmalıdır.

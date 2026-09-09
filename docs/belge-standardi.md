@@ -4,44 +4,62 @@ Bu belge, depodaki tüm ders belgelerinin **dosya adlandırması** ve **YAML
 başlığı** için tek geçerli kuralı tanımlar. Yeni bir belge üretirken bu
 sayfaya bakılır; istisna yapılmaz.
 
+## 0. Oturum mu, modül mü?
+
+Depo iki farklı numaralandırma kullanır ve bunlar **kasten** birbirinden
+ayrıdır:
+
+- **Oturum**, takvimdeki bir ders günüdür (1. oturum = 1 Ekim). Yalnızca
+  izlencede geçer. Dönem içinde tatil, telafi veya iptal olduğunda
+  değişebilir.
+- **Modül**, bir konu paketidir (`05_modul/` = veri işleme). Depodaki
+  klasör ve dosya adları modül numarasını taşır ve bu numara dönem
+  boyunca **değişmez**.
+
+İkisi bire bir eşleşmez: 3. oturum iki modülü birden işler
+(`05_modul/` + `06_modul/`), 10. modül ise iki oturuma yayılır (8. ve
+9. oturum). Hangi oturumda hangi modülün işleneceği **yalnızca
+izlencedeki tabloda** tanımlıdır; başka hiçbir yerde tekrarlanmaz ki
+çelişme ihtimali olmasın.
+
+Bu yüzden belge başlıkları "5. Hafta" demez, **"Modül 05"** der.
+Ders notlarının **metni içinde** ise oturum numarası kullanılır
+("3. oturumda `dplyr` göreceğiz"), çünkü öğrenci için anlamlı olan
+takvimdir.
+
 ## 1. Klasör adları
 
 ```
-NN_hafta/          NN = 01 … 14, daima iki haneli
+NN_modul/          NN = 01 … 14, daima iki haneli
 ```
 
 İki hane zorunludur: aksi hâlde hem `ls` hem GitHub dosya listesi
 `10, 11, 12, 13, 14, 1, 2, 3 …` sırasıyla dizer ve klasörler karışır.
 
-> **Not:** Klasör numarası, izlencedeki **oturum** numarasıyla aynı
-> değildir. İzlence 3. oturum `05_hafta/` ve `06_hafta/` klasörlerini
-> kullanır. Klasör numarası bir *modül* numarasıdır; hangi oturumda hangi
-> modülün işlendiği yalnızca izlence tablosunda tanımlıdır.
-
 ## 2. Dosya adları
 
 ```
-NN_hafta_<tur>[_<ek>].qmd
+NN_modul_<tur>[_<ek>].qmd
 ```
 
 `<tur>` sabit bir sözlükten seçilir:
 
 | `<tur>` | Belge |
 |---|---|
-| `ders` | Haftanın ders notu (ana içerik) |
+| `ders` | Modülün ders notu (ana içerik) |
 | `sunum` | Derste yansıtılan revealjs sunumu |
 | `lab` | Derste birlikte yapılan rehberli uygulama |
 | `alistirmalar` | Çoktan seçmeli alıştırma seti |
 | `cevap_anahtari` | Alıştırmaların gerekçeli cevapları |
 
 `<ek>` yalnızca **aynı türden birden fazla belge** varsa kullanılır:
-`06_hafta_ders_olasilik.qmd`, `14_hafta_alistirmalar_1.qmd`.
+`06_modul_ders_olasilik.qmd`, `14_modul_alistirmalar_1.qmd`.
 
 Kurallar:
 
-- Dosya adı klasör adını tekrar eder (`02_hafta/02_hafta_ders.qmd`).
+- Dosya adı klasör adını tekrar eder (`02_modul/02_modul_ders.qmd`).
   Gereksiz görünür ama gereklidir: RStudio sekme çubuğu yalnızca dosya
-  adını gösterir; üç haftanın `ders.qmd` dosyası açıkken hangisinin
+  adını gösterir; üç modülün `ders.qmd` dosyası açıkken hangisinin
   hangisi olduğu ayırt edilemez.
 - Türkçe karakter, boşluk ve büyük harf **kullanılmaz**. Dosya adları
   yalnızca `a-z`, `0-9` ve `_` içerir. Gerekçe: macOS'un dosya
@@ -58,7 +76,7 @@ isteğe bağlı `subtitle` ve `format` bloğu değişir.
 
 ```yaml
 ---
-title: "N. Hafta: Konu Başlığı"
+title: "Modül NN: Konu Başlığı"
 subtitle: "yalnızca lab/alıştırma/cevap anahtarı için"
 author: "Prof. Dr. Hakan Mehmetcik"
 date: "`r Sys.Date()`"
@@ -78,7 +96,7 @@ df-print: kable
 
 ```yaml
 ---
-title: "N. Hafta: Konu Başlığı"
+title: "Modül NN: Konu Başlığı"
 author: "Prof. Dr. Hakan Mehmetcik"
 date: "`r Sys.Date()`"
 lang: tr
@@ -143,7 +161,7 @@ izlenmez (nihai PDF'e zaten gömülürler). `_calisma/`, `sinav/` ve
 ## 5. Görsel yolları
 
 Görseller belgenin **kendi klasöründeki** `images/` altında tutulur
-(`02_hafta/images/...`) ve belgede `images/dosya.png` biçiminde,
+(`02_modul/images/...`) ve belgede `images/dosya.png` biçiminde,
 göreli olarak çağrılır. RStudio belgeleri kendi klasörlerine göre
 render eder; proje köküne göre yazılan yollar (`../images/...`)
 çalışmaz.
