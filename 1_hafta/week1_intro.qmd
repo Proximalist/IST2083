@@ -60,7 +60,7 @@ Bu ders de tam olarak ikincisini hedeflemekte ve sizi bu doğrultuda yetiştirme
 
 *(Görsel: "Diagram of the causes of mortality in the army in the East", Florence Nightingale, 1858 — kamu malı, Wikimedia Commons, `File:Nightingale-mortality.jpg`. Görseli depoya eklemek için: dosyayı indirip `images/nightingale-rose-diagram.jpg` olarak kaydedin, aşağıdaki satırı yorumdan çıkarın.)*
 
-\![Nightingale'in 1858 tarihli gül diyagramı\](images/nightingale-rose-diagram.jpg)
+![Nightingale'in gül diyagramı (1858) — kamu malı, Wikimedia Commons](images/nightingale-rose-diagram.jpg)
 :::
 
 ::: callout-note
@@ -68,7 +68,7 @@ Bu ders de tam olarak ikincisini hedeflemekte ve sizi bu doğrultuda yetiştirme
 
 *(Kaynak: Library of Congress, Daniel Murray Koleksiyonu — `loc.gov/pictures/item/2005679642/`, 1900 tarihli, kamu malı. Görseli eklemek isterseniz koleksiyondan bir grafiği indirip `images/dubois-1900-paris.jpg` olarak kaydedin.)*
 
-\![*Library of Congress, Daniel Murray Koleksiyonu\](`mages/dubois-1900-paris.jpg)`*
+![Du Bois'nın 1900 Paris Sergisi infografiklerinden biri — kamu malı, Library of Congress](images/dubois-1900-paris.jpg)
 :::
 
 ## 1.3 Neden İstatistik?
