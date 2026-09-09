@@ -49,8 +49,18 @@ R’da değişkenlerin farklı veri türleri olabilir. R’ın sık kullanılan 
 -   **Karakter (Character)**: Metin veya harf dizisi olarak saklanan veriler.
 
     ```{r}
-    c <- "R programlama dili" # Karakter veri türünde bir veri
+    metin <- "R programlama dili" # Karakter veri türünde bir veri
     ```
+
+    ::: callout-warning
+    ## Değişken adı seçerken dikkat
+
+    R, bir değişkene `c`, `data`, `sum`, `mean` gibi **yerleşik fonksiyon
+    adları** vermenizi engellemez. `c <- "metin"` yazmak hata üretmez, ama
+    kodunuzu okuyan (ve birkaç hafta sonra sizin de olacağınız) kişi için
+    ciddi bir kafa karışıklığı kaynağıdır. Kural: **değişken adları
+    fonksiyon adlarıyla çakışmasın.**
+    :::
 
 -   **Mantıksal (Logical)**: TRUE veya FALSE değerlerini saklayan değişkenler.
 
@@ -101,7 +111,7 @@ us <- a^b
 print(us) # Çıktı: 125
 ```
 
-# 3. R'da Temel Fonksiyonlar
+# 2. R'da Temel Fonksiyonlar
 
 R programlama dilinde temel fonksiyonlar, veri analizi ve istatistiksel hesaplamalar için yaygın olarak kullanılır. İşte bazı temel fonksiyonlar ve örnek kullanımları:
 
@@ -210,7 +220,8 @@ Bir R fonksiyonu hakkında bilgi almak için ? veya help() komutlarını kullana
 **Örnekler**:
 
 ```{r}
-?mean   # mean() fonksiyonu hakkında yardım alır
+#| eval: false
+?mean      # mean() fonksiyonu hakkında yardım alır
 help(sum)  # sum() fonksiyonu hakkında yardım alır
 ```
 
@@ -223,10 +234,11 @@ R’ın tüm fonksiyonlarının nasıl çalıştığını, örnekler ve açıkla
 **Örnek**:
 
 ```{r}
+#| eval: false
 help(mean)  # Ortalama hesaplayan mean() fonksiyonunu anlamak için yardım alabiliriz
 ```
 
-# 4. Basit Veri Yapıları
+# 3. Basit Veri Yapıları
 
 R dilinde, veriler çeşitli veri yapıları kullanılarak organize edilir. Temel veri yapıları, vektörler, listeler ve matrislerdir.
 
@@ -262,6 +274,52 @@ print(numeric_vector)
 print(sum_vector)
 print(total_sum)
 ```
+
+## Mantıksal İndeksleme
+
+Yukarıda vektör elemanlarına **konumlarına** göre eriştik: `vektor[2]`
+"ikinci elemanı ver" demektir. Ama gerçek veri analizinde soru neredeyse
+hiç böyle sorulmaz. "Beşinci ülkenin nüfusu nedir?" diye sormayız;
+"nüfusu 50 milyondan **büyük olan** ülkeler hangileridir?" diye sorarız.
+
+Bunun için R'da köşeli parantezin içine bir konum numarası değil, bir
+**mantıksal ifade** yazarız.
+
+### Adım 1: Karşılaştırma bir mantıksal vektör üretir
+
+```{r}
+sayilar <- c(4, 7, 2, 9, 5)
+sayilar > 5
+```
+
+Dikkat edin: çıktı bir sayı değil, `sayilar` ile **aynı uzunlukta** bir
+`TRUE`/`FALSE` vektörüdür. Her eleman için "bu koşulu sağlıyor mu?"
+sorusunun cevabıdır.
+
+### Adım 2: Bu maskeyi indeks olarak kullanırız
+
+```{r}
+sayilar[sayilar > 5]
+```
+
+R, `TRUE` olan konumlardaki elemanları tutar, `FALSE` olanları atar. Bu
+işleme **mantıksal indeksleme** (İng. *logical subsetting*) ya da
+**maskeleme** denir.
+
+Koşulları 1. haftada gördüğünüz `&` (ve), `|` (veya), `!` (değil)
+operatörleriyle birleştirebilirsiniz:
+
+```{r}
+sayilar[sayilar > 3 & sayilar < 9]   # 3'ten büyük VE 9'dan küçük
+sayilar[!(sayilar == 2)]             # 2'ye eşit OLMAYANLAR
+```
+
+::: callout-tip
+## Sık yapılan hata: `=` ile `==` karışıklığı
+
+`sayilar[sayilar = 5]` **hata verir**. Eşitliği sınamak için daima çift
+eşittir (`==`) kullanın; tek eşittir (`=`) atama içindir.
+:::
 
 ## Listeler
 
@@ -335,13 +393,17 @@ my_data_frame <- data.frame(
 
 # Data frame elemanlarına erişim
 print(my_data_frame[1, 2])  # "a"
-print(my_data_frame[2, ])  # c(2, "b", FALSE)
+print(my_data_frame[2, ])  # tek satırlık bir data frame (vektör değil!)
 print(my_data_frame[, 3])  # c(TRUE, FALSE, TRUE, FALSE, TRUE)
 print(my_data_frame$numbers)  # c(1, 2, 3, 4, 5)
 
 # Data frame elemanlarını güncelleme
 my_data_frame[1, 2] <- "z"
 my_data_frame$numbers[2] <- 10
+
+# Mantıksal indekslemeyi satır filtrelemek için kullanma
+# Virgülden ÖNCESİ satırları, SONRASI sütunları seçer:
+my_data_frame[my_data_frame$numbers > 2, ]
 
 # Yeni bir sütun ekleme
 my_data_frame$new_column <- c(10, 20, 30, 40, 50)
@@ -358,9 +420,18 @@ my_data_frame <- cbind(my_data_frame, new_column)
 print(my_data_frame)
 ```
 
-![](https://th.bing.com/th/id/OIP.JjZYjvyBurwgQa1RBRtzAAAAAA?rs=1&pid=ImgDetMain)
+::: callout-note
+## 3. haftaya köprü
 
-# 5. Veri İçe Aktarma ve Kaydetme
+`my_data_frame[my_data_frame$numbers > 2, ]` yazımı doğru ama hantaldır:
+veri çerçevesinin adını iki kez tekrarlamak zorunda kalırsınız. 3.
+haftada `dplyr` paketini öğrendiğinizde aynı işi
+`filter(my_data_frame, numbers > 2)` biçiminde yazacaksınız. `dplyr`'ın
+yaptığı sihir bu değildir — **taban R'da zaten var olan bu mantığı**
+okunabilir hale getirmesidir. Bu yüzden önce burayı öğreniyoruz.
+:::
+
+# 4. Veri İçe Aktarma ve Kaydetme
 
 Veri içe aktarma ve temel manipülasyon, veri analizi sürecinin önemli adımlarıdır. R dilinde veri içe aktarma ve temel manipülasyon işlemleri için çeşitli fonksiyonlar ve paketler kullanılır.
 
@@ -369,8 +440,8 @@ Veri içe aktarma ve temel manipülasyon, veri analizi sürecinin önemli adıml
 R dilinde veri içe aktarmak için read.csv(), read.table(), read_excel() gibi fonksiyonlar kullanılır.
 
 ```{r}
-# CSV dosyasını içe aktarma
-data <- read.csv("https://raw.githubusercontent.com/datasciencedojo/datasets/refs/heads/master/titanic.csv")   # ("path/to/your/file.csv")
+# CSV dosyasını içe aktarma (doğrudan bir internet adresinden)
+titanic <- read.csv("https://raw.githubusercontent.com/datasciencedojo/datasets/refs/heads/master/titanic.csv")
 ```
 
 ```{r}
@@ -378,10 +449,9 @@ data <- read.csv("https://raw.githubusercontent.com/datasciencedojo/datasets/ref
 # install.packages("readxl")
 library(readxl)
 library(here)
-path <- "data"
 
-# Excel dosyasını içe aktarma
-data <- read_excel(here(path, "sample_excel.xlsx"))
+# Excel dosyasını içe aktarma (depo içindeki data/ klasöründen)
+ornek <- read_excel(here("data", "sample_excel.xlsx"))
 ```
 
 ## Veri Kaydetme
@@ -411,15 +481,17 @@ R dilinde veri kaydetmek için çeşitli fonksiyonlar kullanabilirsiniz. En yayg
 Veri inceleme, veri analizi sürecinin önemli bir parçasıdır. R dilinde veri incelemek için çeşitli fonksiyonlar ve paketler kullanabilirsiniz. Bu işlemler arasında veri yapısını kontrol etme, özet istatistikler oluşturma ve veri görselleştirme gibi işlemler bulunur. Veri yapısını incelemek için str(), summary(), head(), ve tail() fonksiyonlarını kullanabilirsiniz.
 
 ```{r}
-# Veri yapısını kontrol etme
-str(data)
-# Özet istatistikler
-summary(data)
+# Veri yapısını kontrol etme: kaç satır, kaç sütun, her sütun hangi türde?
+str(titanic)
+
+# Sayısal sütunlar için özet istatistikler
+summary(titanic)
+
 # İlk birkaç satırı görüntüleme
-head(data)
+head(titanic)
 
 # Son birkaç satırı görüntüleme
-tail(data)
+tail(titanic)
 ```
 
 ::: callout-note

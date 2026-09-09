@@ -7,7 +7,6 @@ editor: visual
 execute: 
   echo: true
   warning: true
-  output: asis
 df-print: kable
 ---
 

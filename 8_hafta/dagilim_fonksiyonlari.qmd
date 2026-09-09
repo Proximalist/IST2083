@@ -163,7 +163,7 @@ Grafik, ortalama $(μ=0)$ ve standart sapması $(σ=1)$ olan standart normal da�
 
 -   **Üstel Dağılım:** Belirli bir cihazın arızalanma süresini modellemek.
 
-![](images/üstsel.png)
+![](images/üstsel.png)
 
 Grafik, ölçek parametresi $(\lambda^{-1} = 1)$ olan üstel dağılımın yoğunluk fonksiyonunu (PDF) gösterir.
 
@@ -183,7 +183,7 @@ Grafik, ölçek parametresi $(\lambda^{-1} = 1)$ olan üstel dağılımın yoğu
 
 **Basitçe:** Üstel dağılım, olaylar arasındaki süreyi modellemek için kullanılır.
 
-![](images/olasilikdağilim.png)
+![](images/olasilikdağilim.png)
 
 ------------------------------------------------------------------------
 
