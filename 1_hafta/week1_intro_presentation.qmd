@@ -35,7 +35,7 @@ execute:
 
 ## Tarihte Bir Örnek: Nightingale'in Gül Diyagramı (1858)
 
-![Nightingale'in gül diyagramı — kamu malı, Wikimedia Commons](../images/nightingale-rose-diagram.jpg){height="480"}
+![Nightingale'in gül diyagramı — kamu malı, Wikimedia Commons](images/nightingale-rose-diagram.jpg){height="480"}
 
 ::: {.notes}
 Kırım Savaşı'nda askerlerin çoğu çarpışmada değil, önlenebilir hastane
@@ -46,7 +46,7 @@ büyük, tek bakışta görülüyor.
 
 ## Tarihte Bir Örnek: Du Bois'nın Paris Sergisi (1900)
 
-![Du Bois'nın el çizimi infografiklerinden biri — kamu malı, LOC](../images/dubois-1900-paris.jpg){height="420"}
+![Du Bois'nın el çizimi infografiklerinden biri — kamu malı, LOC](images/dubois-1900-paris.jpg){height="420"}
 
 ::: {.notes}
 Sosyolog W.E.B. Du Bois, Atlanta Üniversitesi öğrencileriyle 58 grafik
