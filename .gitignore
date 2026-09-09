@@ -17,6 +17,13 @@ _site/
 _book/
 _freeze/
 
+# PDF/LaTeX render icin uretilen ara figur klasorleri (nihai PDF'e
+# zaten gomulur, ayrica takip edilmesine gerek yok). Not: bu kural
+# revealjs/HTML sunumlar icin gereken *_files/libs/ klasorlerine
+# DOKUNMAZ, yalnizca figure-pdf ve figure-latex alt klasorlerini kapsar.
+**/*_files/figure-pdf/
+**/*_files/figure-latex/
+
 # --- LaTeX ara dosyalari ---
 *.aux
 *.fls

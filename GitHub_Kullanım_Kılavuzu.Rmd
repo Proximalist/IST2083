@@ -152,6 +152,29 @@ dönem boyunca zaman kazandırır.
 
 ---
 
+## Kontrol listesi (2 dakikalık özet)
+
+- [ ] Git yüklü, `git --version` bir sürüm numarası döndürüyor
+- [ ] R ve RStudio yüklü
+- [ ] RStudio, *Tools → Global Options → Git/SVN* altında Git'i görüyor
+- [ ] **File → New Project → Version Control → Git** ile depo klonlandı
+- [ ] `here("data", "example_data.csv")` `TRUE` dönüyor (Kurulum Rehberi'ndeki doğrulama)
+- [ ] Güncelleme için: **Pull**
+
+### Birkaç ek hata senaryosu
+
+**"Permission denied (publickey)"**
+SSH adresi yerine bu kılavuzdaki **HTTPS** URL'ini kullandığınızdan emin
+olun: `https://github.com/Proximalist/IST2083.git`
+
+**"fatal: not a git repository"**
+Komutu proje klasörünün **içinde** çalıştırın. `pwd` (macOS/Linux) veya
+`cd` (Windows, argümansız) ile hangi klasörde olduğunuzu kontrol edin.
+
+**"already exists and is not an empty directory"**
+Aynı isimli bir klasör zaten var. Klonlarken farklı bir **Project
+directory name** seçin veya eski klasörü silin/taşıyın.
+
 ## Sorun mu var?
 
 Depoda **Issues** sekmesini açıp yeni bir issue oluşturun. Şunları yazın:
