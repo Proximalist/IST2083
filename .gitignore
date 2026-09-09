@@ -1,4 +1,41 @@
-.Rproj.user
+# --- R / RStudio ---
+.Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
+
+# --- renv (kilit dosyasi takip edilir, kutuphane edilmez) ---
+renv/library/
+renv/local/
+renv/staging/
+renv/python/
+renv/sandbox/
+
+# --- Quarto ---
+/.quarto/
+_site/
+_book/
+_freeze/
+
+# --- LaTeX ara dosyalari ---
+*.aux
+*.fls
+*.out
+*.toc
+*.fdb_latexmk
+*.synctex.gz
+*.log
+*.tex
+
+# --- Isletim sistemi ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Ogrenci alistirmalarinin urettigi ciktilar ---
+output.csv
+/ciktilar/
+
+# --- Editor ---
+.vscode/
+.idea/

@@ -84,7 +84,7 @@ Aşağıdaki adımları izleyin:
 
 ```{r}
 # İnternetten bir CSV dosyası içe aktarın
-veri <- read.csv("https://raw.githubusercontent.com/HakanMehmetcik/IST2083/refs/heads/main/Data/example_data.csv")
+veri <- read.csv(here::here("data", "example_data.csv"))
 
 # Bu veri setinin ilk birkaç satırını görüntüleyin ve kaydedin
 head(veri)

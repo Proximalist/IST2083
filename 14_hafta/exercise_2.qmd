@@ -14,7 +14,7 @@ df-print: kable
 # loaded packages
 library(tidyverse)
 library(here)
-dpath <- "13_hafta_exercises"
+dpath <- "data"
 
 ```
 
@@ -219,7 +219,7 @@ simd_lc |>
 We often want to re-arrange a variable’s values. This is especially the case when we have a variable that is substantively ordinal, but is currently coded as unordered. If we put the unordered version in a regression, R will treat it as an ordered variable instead of a nominal variable - R is not that smart (yet). Note, R will treat any factor variable as nominal and will automatically ‘dummy it out’ in a regression. Let’s use data from a 2019 survey about perceptions of voter fraud in England. The name of the data file is VF England.csv and we will read it in using the read_csv() function.
 
 ```{r}
-vf_england <- read_csv(here(dpath, "VF England.csv"))
+vf_england <- read_csv(here(dpath, "VF_England.csv"))
 ```
 
 Let’s look at the variable vfproblem from the vf_england data using the count() function.

@@ -14,7 +14,7 @@ df-print: kable
 # loaded packages
 library(tidyverse)
 library(here)
-dpath <- "13_hafta_exercises"
+dpath <- "data"
 ```
 
 # Exercise 1: Exploring the Data
@@ -227,7 +227,7 @@ We see that Glasgow has 113 of the 293 datazones where 25% or more of its reside
 Tidyverse provides a number of ways to merge data through the use of join() functions from the dplyr package. The key, pun intended, of all the join() functions is that there needs to be a variable (a key) in each dataset we are merging that can individually identify the cases/observations. Without this key we are unable to merge the data. We specify the key using the by= option in the join() functions. We start by using the inner_join() function, which we use when the datasets all have the same number of observations; otherwise, all unmatched observations will be deleted. We are going to merge the 2020 SIMD data with a dataset that has the NHS Scotland health boards by datazone. We need to first read-in the health board data (titled scottish health boards by datazone.xlsx) using the read_xlsx() function.
 
 ```{r}
-healthboard <- readxl::read_xlsx((here(dpath, "scottish health boards by datazone.xlsx")))
+healthboard <- readxl::read_xlsx((here(dpath, "scottish_health_boards_by_datazone.xlsx")))
 glimpse(healthboard)
 ```
 
@@ -264,7 +264,7 @@ In this case, the merged_simd2 dataset is the same as the merged_simd1 dataset b
 We can perform an array of different data pivoting using the tidyr package. If you have done table pivoting in Excel, then you are already familiar with the concept of data pivoting. Pivoting simply involves simultaneously transforming columns to rows and row to columns. We commonly pivot data for specific types of data visualizations and statistical analysis techniques. Let’s read-in a new dataset on the number of COVID-19 cases by NHS Scotland health board to demonstrate data pivoting. The file is called covid total by health board.xlsx and we’ll use the read_xlsx() function.
 
 ```{r}
-covid <-readxl::read_xlsx(here(dpath, "covid total by health board.xlsx"))
+covid <-readxl::read_xlsx(here(dpath, "covid_total_by_health_board.xlsx"))
 covid
 ```
 

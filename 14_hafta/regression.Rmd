@@ -20,7 +20,7 @@ library(haven)
 
 ```{r}
 # reading the data
-ssa <-read_dta(here("13_hafta_exercises", "scottish.dta"))
+ssa <-read_dta(here("data", "scottish.dta"))
 ```
 
 ```{r}

@@ -21,7 +21,7 @@ library(mdsr)
 library(mosaicData)
 library(fec16)
 
-dpath <- "~/Desktop/IST2083/Data"
+dpath <- "data"
 ```
 
 # 3. Hafta: Veri Görselleştirme ve ggplot Kullanımı

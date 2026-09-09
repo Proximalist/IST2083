@@ -14,7 +14,7 @@ df-print: kable
 # loaded packages
 library(tidyverse)
 library(here)
-dpath <- "Lectures/week7_exercises"
+dpath <- "data"
 ```
 
 # Exercise 3: Data Visualization
@@ -48,7 +48,7 @@ We use bar plots to visually represent nominal- and ordinal-level categorical va
 We will use data from the 2019 survey about perceptions of voter fraud in England. The name of the data file is VF England.csv and we will read it in using the read_csv() function.
 
 ```{r}
-vf_england <- read_csv(here(dpath, "VF England.csv"))
+vf_england <- read_csv(here(dpath, "VF_England.csv"))
 ```
 
 We will start with a basic bar plot and then build the complexity.
