@@ -122,13 +122,23 @@ df-print: kable
 
 ## 4. Render çıktıları
 
-`.pdf` ve `.html` çıktıları ile `*_files/` klasörleri **depoda
-tutulmaz** (bkz. `.gitignore`). Kaynak `.qmd` değiştiğinde çıktı
-bayatlar ve depoda içerikle uyuşmayan bir belge kalır. Öğrenciye
-sunulacak nihai PDF üretimi CI'a bırakılmıştır.
+Render edilmiş `.pdf` / `.html` belgeler ve revealjs sunumlarının
+`*_files/` klasörleri **depoda tutulur.** Gerekçe: öğrenci kaynak
+dosyayı kendi bilgisayarında render edemediğinde (paket eksik, LaTeX
+kurulu değil, Codespaces kotası dolmuş) hazır belgeye erişebilmelidir.
 
-Tek istisna: `14_hafta/SIMD 2020 INDICATOR DESCRIPTIONS.pdf` — bu bir
-render çıktısı değil, veri setinin kaynak dokümantasyonudur.
+Bunun bir bedeli vardır ve kural budur:
+
+> **Bir `.qmd` dosyasını düzenlediyseniz, aynı commit'te onu yeniden
+> render edip çıktısını da ekleyin.** Unutulursa depoda içerikle
+> uyuşmayan bir belge kalır ve öğrenci yanlış sürümü okur.
+
+Bu kural, CI kurulana kadar elle uygulanır. CI kurulduğunda render
+otomatikleşir ve bu madde yeniden değerlendirilir.
+
+İstisnalar: `figure-pdf/` ve `figure-latex/` ara figür klasörleri
+izlenmez (nihai PDF'e zaten gömülürler). `_calisma/`, `sinav/` ve
+`notlar/` klasörleri hiçbir koşulda izlenmez.
 
 ## 5. Görsel yolları
 
@@ -139,3 +149,14 @@ render eder; proje köküne göre yazılan yollar (`../images/...`)
 çalışmaz.
 
 Görsel dosya adlarında Türkçe karakter kullanılmaz (bkz. §2).
+
+Kod ile üretilen görsellerin kaynak betiği `scripts/` altında,
+görselle aynı adı taşıyacak biçimde tutulur ve proje kökünden
+çalıştırılır:
+
+```
+python3 scripts/veri-yapilari-tipolojisi.py
+```
+
+Böylece görsel yeniden üretilebilir kalır; PNG'yi elden düzeltmek
+yerine betik düzenlenir.
