@@ -11,6 +11,9 @@ format:
     number-sections: false
     papersize: a4
     geometry: margin=2.5cm
+editor:
+  markdown:
+    wrap: 72
 ---
 
 ## Ders Bilgileri
@@ -84,7 +87,8 @@ Sınav soruları bu alıştırmalarla aynı biçimde kurgulanır.
 ### Sınavların biçimi
 
 Her iki sınav da **sınıf içinde, gözetim altında** yapılır. Sınavlar
-öncelikle **R çıktısı okuma ve yorumlama** üzerine kuruludur: öğrenciye bir
+**test formatında, 50 çoktan seçmeli soru** şeklinde gerçekleştirilir.
+Sorular öncelikle **R çıktısı okuma ve yorumlama** üzerine kuruludur: bir
 `summary()` tablosu, bir grafik veya bir test sonucu verilir ve bunu
 yorumlaması istenir. Ezberden uzun kod yazma istenmez; kod okuma, hata bulma
 ve sonuç yorumlama istenir.
@@ -127,7 +131,7 @@ Perşembe'nin üçü ders dışıdır: 15 Ekim (konferans), 29 Ekim (resmî tati
 ::: {.callout-important}
 **Telafi dersi.** 15 Ekim'de yapılamayan oturum, Aralık ayı içinde Perşembe
 dışı bir günde telafi edilir; tarih ve saat bölümle koordine edilerek en az
-iki hafta önceden duyurulur.
+iki hafta önceden duyurulacaktır.
 :::
 
 ::: {.callout-note}
@@ -208,18 +212,12 @@ Türkçe ücretsiz kaynaklar sınırlıdır ve büyük ölçüde güncelliğini 
 yine de terminolojiye alışmak için başlangıçta yararlıdır.
 
 - **Emre Toros, *Sosyal Bilimler Araştırmaları için R*** —
-  <https://bookdown.org/emretoros/r_kitabi/> · Ücretsiz. Yazarı metnin hızlı
-  yazıldığını ve hata içerebileceğini belirtir; kod örnekleri için R4DS ile
-  birlikte okunmalıdır.
+  <https://bookdown.org/emretoros/r_kitabi/> · Ücretsiz. Kod örnekleri için
+  R4DS ile birlikte okunmalıdır.
 - **Sosyal Bilimler R Platformu** —
   <https://bookdown.org/burak2358/SARP-TR/> · Ücretsiz, İngilizceden
   çevrilmiş uygulama odaklı derleme.
 
-Basılı Türkçe kaynaklar (kütüphaneden):
-
-- İbrahim Demir, *R ile Uygulamalı İstatistik* (Seçkin)
-- Suat Atan & Hakan Emekçi, *R ile Veri Analizi* (Seçkin) — sosyal bilim odaklı
-- *R ile İstatistiksel Analiz ve Programlama* (Nobel Akademik)
 
 ### Başvuru kaynakları ve etkileşimli araçlar
 
@@ -255,6 +253,10 @@ parçasını** paylaşın.
 - Sınavlarda izinsiz materyal ve cihaz kullanımı yasaktır.
 - Sınavlar öğrencinin kendi çalışmasını yansıtmalıdır.
 - Ders materyallerinin izinsiz çoğaltılması ve dağıtılması telif ihlalidir.
+
+**Kendi notunuz (cheat sheet):** Sınavlarda öğrencilerin kendi hazırladıkları
+**elle yazılmış** notları kullanmalarına izin verilir. Not, öğrencinin kendi
+bireysel çalışması olmalıdır; sınav esnasında not alışverişi mümkün değildir.
 
 **Yapay zekâ araçları hakkında:** Alıştırmalar notlandırılmadığı için bu
 araçları öğrenme sürecinde kullanmak serbesttir ve teşvik edilir. Ancak
