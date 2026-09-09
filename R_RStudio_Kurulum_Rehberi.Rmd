@@ -1,58 +1,190 @@
-
 ---
-title: "R ve RStudio Kurulum Rehberi"
+title: "R, RStudio ve Git Kurulum Rehberi — IST2083"
 author: "Hakan Mehmetcik"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
-## R ve RStudio Kurulum Rehberi
+Dört adım var ve **sırası önemlidir**: önce R, sonra RStudio, sonra Git,
+en son paketler. Toplam süre 20–30 dakika (indirme hızınıza bağlı).
 
-Bu rehber, R ve RStudio’yu bilgisayarınıza nasıl kuracağınızı adım adım anlatmaktadır. R, veri analizi ve istatistiksel hesaplamalar için kullanılan bir programlama dilidir. RStudio ise R ile çalışmayı kolaylaştıran bir geliştirme ortamıdır.
+Neden Git de gerekiyor? Ders materyalini her hafta güncel almak için.
+Git kurulu değilse RStudio'da o seçenek hiç görünmez.
 
-### 1. R’ı İndirin ve Kurun
+---
 
-1. **R’ı İndirin**:
-   - [CRAN (Comprehensive R Archive Network)](https://cran.r-project.org/) web sitesine gidin.
-   - Ana sayfada, “Download R for…” kısmından işletim sisteminize uygun olan seçeneği seçin (Windows, macOS veya Linux).
-   - İlgili bağlantıya tıklayın ve ardından "base" altında bulunan “Download R x.x.x for Windows” (veya diğer işletim sistemleri) seçeneğine tıklayın.
+## 1. R'ı kurun
 
-2. **R’ı Kurun**:
-   - İndirdiğiniz dosyayı açın.
-   - Ekranda çıkan kurulum sihirbazında “Next” (İleri) butonuna tıklayarak devam edin.
-   - Lisans sözleşmesini kabul edin.
-   - Varsayılan ayarları seçerek kurulumu tamamlayın. 
+R, hesaplamayı yapan motordur. Doğrudan kullanmayacaksınız ama olmadan
+RStudio çalışmaz.
 
-### 2. RStudio’yu İndirin ve Kurun
+<https://cran.r-project.org/>
 
-1. **RStudio’yu İndirin**:
-   - [RStudio İndirme Sayfası](https://www.rstudio.com/products/rstudio/download/)na gidin.
-   - “RStudio Desktop” altında “Free” (Ücretsiz) seçeneğine tıklayın.
-   - İşletim sisteminize uygun olan indirme bağlantısına tıklayın.
+- **Windows:** *Download R for Windows* → **base** → *Download R x.x.x for
+  Windows* → indirilen `.exe` dosyasını çalıştırın, varsayılan ayarlarla
+  ilerleyin.
+- **macOS:** *Download R for macOS* → işlemcinize uygun `.pkg` dosyasını
+  seçin. **Apple Silicon (M1/M2/M3/M4)** için `arm64` yazan sürümü,
+  eski Intel Mac'ler için düz sürümü indirin. Emin değilseniz:
+  *Elma menüsü → Bu Mac Hakkında* → "Çip" satırında "Apple" yazıyorsa
+  arm64'tür.
+- **Linux:** Dağıtımınıza göre CRAN sayfasındaki talimatları izleyin.
 
-2. **RStudio’yu Kurun**:
-   - İndirdiğiniz dosyayı açın.
-   - Ekranda çıkan kurulum sihirbazında “Next” (İleri) butonuna tıklayarak devam edin.
-   - Lisans sözleşmesini kabul edin.
-   - Varsayılan ayarları seçerek kurulumu tamamlayın. 
+---
 
-### 3. R ve RStudio’yu Başlatma
+## 2. RStudio'yu kurun
 
-- R ve RStudio kurulumunu tamamladıktan sonra, bilgisayarınızın başlat menüsünden veya uygulama menüsünden RStudio’yu bulun ve açın.
-- RStudio açıldığında, R programı otomatik olarak başlatılacaktır.
+RStudio, R ile çalıştığınız arayüzdür. (RStudio'yu geliştiren şirket 2022'de
+adını **Posit** olarak değiştirdi; indirme sayfası posit.co altındadır. Ürünün
+adı hâlâ RStudio'dur.)
 
-### 4. İlk Komutunuzu Çalıştırma
+<https://posit.co/download/rstudio-desktop/>
 
-- RStudio açıldıktan sonra, sağ üst köşede bulunan "Console" (Konsol) bölümüne gidin.
-- Aşağıdaki komutu yazın ve “Enter” tuşuna basın:
+**RStudio Desktop — Free** sürümünü indirin. Sayfa işletim sisteminizi
+otomatik tanır. Kurulumu varsayılan ayarlarla tamamlayın.
 
-```R
-print("Merhaba, R ve RStudio'ya hoş geldiniz!")
+Açtığınızda dört bölmeli bir pencere görmelisiniz. Sol alttaki **Console**
+bölmesi komut yazdığınız yerdir.
+
+---
+
+## 3. Git'i kurun
+
+**macOS**
+
+Terminal'i açın (Spotlight → "Terminal") ve şunu yazın:
+
+```
+git --version
 ```
 
-- Eğer “Merhaba, R ve RStudio'ya hoş geldiniz!” mesajını görüyorsanız, kurulumunuz başarılı olmuştur!
+Sürüm numarası çıkıyorsa Git zaten kuruludur, 4. adıma geçin. Çıkmıyorsa
+bir kurulum penceresi açılır; **Install** deyin. Alternatif olarak:
+
+```
+xcode-select --install
+```
+
+**Windows**
+
+<https://git-scm.com/download/win> adresinden indirin. Kurulum sihirbazında
+**tüm varsayılan ayarları değiştirmeden** ilerleyin.
+
+**Linux**
+
+```
+sudo apt install git        # Debian/Ubuntu
+sudo dnf install git        # Fedora
+```
+
+### Kurulumdan sonra: kimlik bilgisi
+
+Terminal'de (veya RStudio'nun **Terminal** sekmesinde) bir kez çalıştırın:
+
+```
+git config --global user.name "Adınız Soyadınız"
+git config --global user.email "eposta@adresiniz"
+```
+
+### RStudio Git'i görüyor mu?
+
+RStudio'yu **kapatıp yeniden açın** (Git'i kurduktan sonra bu şart), sonra:
+
+*Tools → Global Options → Git/SVN* → **Git executable** alanında bir yol
+yazıyor olmalı. Boşsa **Browse** ile Git'in konumunu gösterin
+(Windows'ta genellikle `C:/Program Files/Git/bin/git.exe`).
 
 ---
 
-Bu rehberle R ve RStudio’yu başarıyla kurabilirsiniz. Eğer kurulum sırasında herhangi bir sorunla karşılaşırsanız, bana danışabilirsiniz. 
+## 4. Paketleri kurun
+
+R'ın kendisi çıplak gelir; dersimizin araçları paketlerle gelir. RStudio'nun
+**Console** bölmesine aşağıdakini yapıştırıp Enter'a basın:
+
+```r
+install.packages(c(
+  "tidyverse",   # dplyr, ggplot2, tidyr, readr — dersin omurgası
+  "here",        # dosya yollarını taşınabilir kılar
+  "readxl",      # Excel dosyaları
+  "haven",       # Stata/SPSS dosyaları
+  "janitor",     # veri temizliği
+  "knitr",       # rapor üretimi
+  "rmarkdown"
+))
+```
+
+Bu birkaç dakika sürer ve çok satır çıktı üretir; normaldir. Sarı renkli
+uyarılar (`Warning`) sorun değildir; kırmızı `Error` satırları sorundur.
+
+**Windows'ta soru gelirse:** *"Do you want to install from sources the
+packages which need compilation?"* → **no** yazıp Enter'a basın.
+
+Dersin ilerleyen haftalarında birkaç paket daha eklenecektir; o haftanın
+dosyasının başında hangi paketin gerektiği yazılıdır.
+
+### Quarto
+
+Ders notları Quarto ile yazılmıştır. Güncel RStudio sürümleri Quarto'yu
+içinde getirir. Ayrıca kurmak isterseniz: <https://quarto.org/docs/download/>
+
+---
+
+## 5. Kurulumu doğrulayın
+
+Console'a sırayla yazın:
+
+```r
+print("Merhaba, R ve RStudio'ya hoş geldiniz!")
+
+library(tidyverse)
+library(here)
+
+R.version.string
+```
+
+Üçü de hatasız çalışıyorsa kurulum tamamdır.
+
+Grafik testi:
+
+```r
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(x = "Ağırlık", y = "Mil/Galon")
+```
+
+Sağ alt bölmede bir dağılım grafiği görmelisiniz.
+
+---
+
+## 6. Sonraki adım
+
+`GitHub_Kullanım_Kılavuzu` dosyasına geçin ve ders deposunu
+bilgisayarınıza indirin.
+
+---
+
+## Sık karşılaşılan sorunlar
+
+**"there is no package called 'tidyverse'"**
+Paket kurulmamış veya kurulum hata vermiş. `install.packages("tidyverse")`
+komutunu tekrar çalıştırın ve çıktıda kırmızı `Error` satırı arayın.
+
+**Türkçe karakterler bozuk görünüyor (Windows)**
+*Tools → Global Options → Code → Saving* → **Default text encoding**'i
+**UTF-8** yapın.
+
+**Kurulum "Kütüphane yazılabilir değil" hatası veriyor**
+Kullanıcı adınızda Türkçe karakter varsa R kütüphane klasörünü
+oluşturamayabilir. RStudio'yu yönetici olarak çalıştırmayı deneyin; sorun
+sürerse Issues'ta bildirin.
+
+**RStudio açılıyor ama Console'da hiçbir şey olmuyor**
+R kurulmadan RStudio kurulmuş olabilir. R'ı kurup RStudio'yu yeniden başlatın.
+
+Çözemediğiniz sorun için depodaki **Issues** sekmesini kullanın; hata
+mesajının tamamını ve işletim sisteminizi yazın.
+
 İyi çalışmalar!
