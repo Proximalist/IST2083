@@ -39,3 +39,13 @@ output.csv
 # --- Editor ---
 .vscode/
 .idea/
+
+# --- OGRENCIYE ACIK OLMAYAN MATERYAL ---
+# Bu depo herkese aciktir. Asagidaki klasorler yerelde tutulur,
+# asla takip edilmez ve push edilmez.
+# _calisma/ : ic degerlendirme, denetim notlari, gelistirme planlari
+# sinav/    : vize/final sorulari, cevaplari, olcme anahtarlari
+# notlar/   : ogrenci notlari, yoklama, kisisel kayitlar
+/_calisma/
+/sinav/
+/notlar/
