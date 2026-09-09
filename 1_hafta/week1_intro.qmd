@@ -16,17 +16,12 @@ df-print: kable
 
 Bu oturumun sonunda:
 
--   İstatistiğin ne olduğunu, neden önemli olduğunu ve hangi kararları
-    beslediğini açıklarsınız.
--   Bir sayının veya grafiğin ne zaman yanıltıcı olabileceğini
-    sorgulayabilirsiniz.
--   R ve RStudio'nun temel bileşenlerini tanımlar; konsol ile script
-    farkını kavrarsınız.
--   R'da temel aritmetik, karşılaştırma ve mantıksal işlemleri
-    uygularsınız.
--   İlk R hatalarınızı okuyup yardım kaynaklarını kullanabilirsiniz.
--   Versiyon kontrolünün ne olduğunu ve araştırmada neden gerekli
-    olduğunu açıklarsınız.
+- İstatistiğin ne olduğunu, neden önemli olduğunu ve hangi kararları beslediğini açıklarsınız.
+- Bir sayının veya grafiğin ne zaman yanıltıcı olabileceğini sorgulayabilirsiniz.
+- R ve RStudio'nun temel bileşenlerini tanımlar; konsol ile script farkını kavrarsınız.
+- R'da temel aritmetik, karşılaştırma ve mantıksal işlemleri uygularsınız.
+- İlk R hatalarınızı okuyup yardım kaynaklarını kullanabilirsiniz.
+- Versiyon kontrolünün ne olduğunu ve araştırmada neden gerekli olduğunu açıklarsınız.
 
 ------------------------------------------------------------------------
 
@@ -34,130 +29,118 @@ Bu oturumun sonunda:
 
 ## 1.1 İstatistik Nedir?
 
-İstatistik, **verilerden anlam çıkarma sanatıdır**. Sayılardan ibaret
-değildir; sayıların arkasındaki hikâyeyi keşfetmeye çalışır. İstatistik,
-karmaşık veri yığınlarını **düzenlememizi, özetlememizi ve
-yorumlamamızı** sağlar.
+İstatistik, **verilerden anlam çıkarma sanatıdır**. Sayılardan ibaret değildir; sayıların arkasındaki hikâyeyi keşfetmeye çalışır. İstatistik, karmaşık veri yığınlarını **düzenlememizi, özetlememizi ve yorumlamamızı** sağlar.
 
 ::: callout-tip
-**Kısa tanım:** İstatistik, belirsizlik altında veriye dayanarak
-**çıkarım** yapma ve **karar** alma sürecidir.
+**Kısa tanım:** İstatistik, belirsizlik altında veriye dayanarak **çıkarım** yapma ve **karar** alma sürecidir.
 :::
 
-## 1.2 Bir SBF Öğrencisinin İstatistikle İlk Karşılaşması
+## 1.2 Bir Sosyal Bilim Öğrencisinin İstatistikle İlk Karşılaşması
 
-Bu senaryoyu tanıdık bulabilirsiniz: Siyaset bilimi okumaya karar
-verdiğinizde muhtemelen aklınızda sayılar yoktu — kurumlar, söylemler,
-karar süreçleri vardı. Sonra müfredatta bir istatistik dersi çıktı ve ilk
-tepki genellikle şuydu: *"Ben bu bölümü sayılardan kaçmak için seçtim."*
+Bu senaryo size tanıdık gelebilir: Siyaset bilimi, Kamu Yönetimi ya da İşletme gibi bir sosyal bilim dalında okumaya karar verdiğinizde aklınızda genellikle sayılar değil; kurumlar, söylemler ve karar süreçleri vardı. Ancak müfredatta istatistik dersi belirdiğinde ilk tepki çoğu zaman şöyle olur: “Ben bu bölümü sayılardan kaçmak için seçtim.” Yıllardır bu alanda eğitim veren bir akademisyen olarak, bu tutumla sıklıkla karşılaşıyorum.
 
-Bu tepki anlaşılır ama **yanlış bir varsayıma** dayanır: istatistiğin
-"sayısal bilimlere ait, siyaset bilimine yabancı" bir araç olduğu
-varsayımına. Oysa gerçek tam tersi. Bir seçim sonucunu yorumlamak,
-"halk hoşnutsuz" gibi bir cümleyi kanıtla desteklemek, bir kamu
-politikasının etkisini değerlendirmek — bunların hiçbiri istatistiksel
-akıl yürütme olmadan **savunulabilir** biçimde yapılamaz. Fark
-şudur: mühendislik öğrencisi istatistiği bir hesaplama aracı olarak
-öğrenir, siyaset bilimi öğrencisi ise bir **argüman kurma aracı**
-olarak öğrenir. Bu ders ikincisini hedefler.
+Bu tepki anlaşılır, fakat yanlış bir varsayıma dayanıyor: istatistiğin “sayısal bilimlere ait, sosyal bilimlere yabancı” bir araç olduğu düşüncesine. Oysa gerçek tam tersi. Bir seçim sonucunu yorumlamak, “halk hoşnutsuz” gibi bir ifadeyi kanıtla desteklemek, bir kamu politikasının etkisini değerlendirmek ya da bir işletmenin iş akışındaki tıkanıklığı tespit etmek—bunların hiçbiri istatistiksel akıl yürütme olmadan savunulabilir biçimde yapılamaz.
+
+Bugünün dünyasında istatistiksel düşünmeye her zamankinden daha çok ihtiyaç duyuyoruz. Veri bombardımanı altında yaşıyoruz ve sezgilerimiz bizi çoğu kez yanıltıyor. Haberler, politikalar, sağlık önerileri ve pazarlama mesajları sürekli istatistiksel iddialarla karşımıza çıkıyor. İstatistiksel düşünme, bu iddiaları eleştirel biçimde değerlendirmemizi; örneklem hatalarını, yanlılığı ve rastlantısallığı ayırt etmemizi sağlar.
+
+Bir sosyal bilim öğrencisi olarak farkınız şudur: mühendislik öğrencisi istatistiği bir hesaplama aracı olarak öğrenirken, siz onu bir argüman kurma ve kanıt oluşturma aracı olarak öğrenirsiniz.
+
+Bu ders de tam olarak ikincisini hedeflemekte ve sizi bu doğrultuda yetiştirmek üzere kurgulanmıştır.
 
 ::: callout-note
-**Dönem sonunda test edilecek bir iddia:** Bu dersin sonunda, bir
-gazete haberindeki "araştırmaya göre" cümlesinin arkasındaki sayıyı
-sorgulayabilecek, hangi sorunun sorulması gerektiğini bilecek
-duruma geleceksiniz. Bu iddiayı 16. hafta genel tekrarda birlikte
-sınayacağız.
+**Dönem sonunda test edilecek bir iddia:** Bu dersin sonunda, bir gazete haberindeki "araştırmaya göre" cümlesinin arkasındaki sayıyı sorgulayabilecek, hangi sorunun sorulması gerektiğini bilecek duruma geleceksiniz. Bu iddiayı 16. hafta genel tekrarda birlikte sınayacağız.
 :::
 
 ## 1.3 Neden İstatistik?
 
 Günlük hayatta sürekli veriyle karşılaşırız:
 
--   Kamuoyu araştırmalarında parti desteği,
--   Ekonomi haberlerinde enflasyon ve işsizlik oranları,
--   Sağlık haberlerinde bir tedavinin etkinliği,
--   Sosyal medyada "araştırmalar gösteriyor ki..." ile başlayan
-    paylaşımlar.
+- Kamuoyu araştırmalarında parti desteği,
+- Ekonomi haberlerinde enflasyon ve işsizlik oranları,
+- Sağlık haberlerinde bir tedavinin etkinliği,
+- Sosyal medyada "araştırmalar gösteriyor ki..." ile başlayan paylaşımlar.
 
-Bu örneklerin tümü istatistiğin farklı uygulama alanlarını gösterir.
-**İstatistik olmadan güvenilir karar vermek** çoğu zaman mümkün
-değildir — ama istatistiği *okuyamamak*, yanlış kurulmuş bir iddiayı
-sorgusuz kabul etmek anlamına da gelir.
+Bu örneklerin tümü istatistiğin farklı uygulama alanlarını gösterir. **İstatistik olmadan güvenilir karar vermek** çoğu zaman mümkün değildir — ama istatistiği *okuyamamak*, yanlış kurulmuş bir iddiayı sorgusuz kabul etmek anlamına da gelir.
 
 ## 1.4 İstatistiğin Kullanım Alanları
 
--   **Bilimsel araştırmalarda:** hipotez testleri, araştırma
-    sonuçlarının değerlendirilmesi.
--   **Ekonomi ve siyasette:** büyüme, enflasyon, işsizlik verileri;
-    seçim tahminleri, kamuoyu araştırmaları.
--   **Sağlıkta:** ilaç etkinliği, salgın yayılımının izlenmesi.
--   **Günlük yaşamda:** reklam etkinliği, müşteri tercihleri, trafik
-    yoğunluğu.
+- **Bilimsel araştırmalarda:** hipotez testleri, araştırma sonuçlarının değerlendirilmesi.
+- **Ekonomi ve siyasette:** büyüme, enflasyon, işsizlik verileri; seçim tahminleri, kamuoyu araştırmaları.
+- **Sağlıkta:** ilaç etkinliği, salgın yayılımının izlenmesi.
+- **Günlük yaşamda:** reklam etkinliği, müşteri tercihleri, trafik yoğunluğu.
 
 ## 1.5 İstatistik Ne İşe Yarar?
 
 İstatistik:
 
--   **Özetler:** Büyük veri kümelerini birkaç sayı (ortalama, medyan,
-    sapma) ya da grafikle anlaşılır kılar.
--   **Karşılaştırır:** Gruplar arasındaki benzerlik/farklılıkları
-    ortaya çıkarır.
--   **Tahmin eder:** Eğilimleri ve olası gelecek değerlerini öngörür.
--   **Karar destekler:** Politika, iş dünyası ve bireysel seçimlerde
-    daha bilinçli karar almamıza hizmet eder.
+- **Özetler:** Büyük veri kümelerini birkaç sayı (ortalama, medyan, sapma) ya da grafikle anlaşılır kılar.
+- **Karşılaştırır:** Gruplar arasındaki benzerlik/farklılıkları ortaya çıkarır.
+- **Tahmin eder:** Eğilimleri ve olası gelecek değerlerini öngörür.
+- **Karar destekler:** Politika, iş dünyası ve bireysel seçimlerde daha bilinçli karar almamıza hizmet eder.
 
 ## 1.6 Neden İstatistik Okumalıyız?
 
-İstatistik, yalnızca teknik bir araç değil, **eleştirel düşünme**
-becerisidir. Bir grafiğe ya da rakama bakınca şu soruları
-sorabilmeliyiz:
+İstatistik, yalnızca teknik bir araç değil, **eleştirel düşünme** becerisidir. Bir grafiğe ya da rakama bakınca şu soruları sorabilmeliyiz:
 
--   Bu sayı **ne anlama** geliyor?
--   Doğru ve **bağlamında** mı sunulmuş?
--   **Alternatif** yorumlar mümkün mü?
--   Bu sonuç **kaç kişiden** elde edildi?
+- Bu sayı **ne anlama** geliyor?
+- Doğru ve **bağlamında** mı sunulmuş?
+- **Alternatif** yorumlar mümkün mü?
+- Bu sonuç **kaç kişiden** elde edildi?
 
-Bu sorgulama, çağımızda **veri okuryazarlığının** temelidir ve tam da
-bir önceki bölümde sözünü verdiğimiz "argüman kurma becerisi"nin
-başlangıç noktasıdır.
+Bu sorgulama, çağımızda **veri okuryazarlığının** temelidir ve tam da bir önceki bölümde sözünü verdiğimiz "argüman kurma becerisi"nin başlangıç noktasıdır.
+
+:::: callout-tip
+::: callout-tip
+**“Üç tür yalan vardır: yalan, nitelikli yalan ve istatistik.” (Anonim)**\
+Bu söz, istatistiklerin son derece güçlü bir ikna aracı olduğunu; ancak yanlış, eksik ya da kasıtlı biçimde kullanıldığında en tehlikeli yalanları bile “bilimsel” ve “nesnel” bir görünüm altında sunabileceğini vurgulamaktadır. Rakamların ve grafiklerin yarattığı otorite algısı, dinleyicinin eleştirel sorgulamasını zayıflatabilir; böylece yanıltıcı iddialar, sanki kanıtlanmış gerçeklermiş gibi kabul görebilir. Dolayısıyla, bilimsel gerçeklik adı altında karşılaştığımız onlarca bilgiyi ancak iyi bir istatistik okuru olarak aşabiliriz.
+:::
+::::
 
 ## 1.7 Yanıltıcı İstatistik ve Görselleştirme
 
-Aynı veriyi farklı biçimlerde sunmak, tamamen farklı izlenimler
-yaratabilir. Somut bir örnekle görelim.
+Aynı veriyi farklı biçimlerde sunmak, tamamen farklı izlenimler yaratabilir. Somut bir örnekle görelim.
 
-**Kurgusal örnek.** Bir ankette A partisine desteğin %38, B partisine
-desteğin %41 çıktığını varsayalım. Aradaki fark 3 puan. Şimdi bu
-farkın iki farklı grafikte nasıl göründüğüne bakalım:
+**Kurgusal örnek.** Bir ankette A partisine desteğin %38, B partisine desteğin %41 çıktığını varsayalım. Aradaki fark 3 puan. Şimdi bu farkın iki farklı grafikte nasıl göründüğüne bakalım:
 
--   **Grafik 1:** Dikey eksen 0'dan 100'e kadar gidiyor. İki çubuk
-    neredeyse aynı yükseklikte — gerçek durumu, yani farkın küçük
-    olduğunu, doğru yansıtıyor.
--   **Grafik 2:** Dikey eksen 35'ten başlıyor. Aynı 3 puanlık fark artık
-    B çubuğunun A çubuğundan **çok daha uzun** görünmesine yol açıyor
-    — sanki B partisi ezici bir üstünlükle önde gibi bir izlenim
-    veriyor.
+- **Grafik 1:** Dikey eksen 0'dan 100'e kadar gidiyor. İki çubuk neredeyse aynı yükseklikte — gerçek durumu, yani farkın küçük olduğunu, doğru yansıtıyor.
 
-İki grafik de **aynı sayılardan** üretildi. Aradaki tek fark eksenin
-nereden başladığı. Bu, veriyi değiştirmeden algıyı değiştirmenin en
-yaygın yollarından biridir.
+  ```{r}
+  # Veri
+  partiler <- c("A", "B")
+  destek <- c(38, 41)
+
+  # Grafik 1: Eksen 0–100
+  barplot(destek,
+          names.arg = partiler,
+          col = c("steelblue", "tomato"),
+          ylim = c(0, 100),
+          main = "Parti Destekleri (Eksen 0–100)",
+          ylab = "Yüzde Destek")
+  ```
+
+- **Grafik 2:** Dikey eksen 35'ten başlıyor. Aynı 3 puanlık fark artık B çubuğunun A çubuğundan **çok daha uzun** görünmesine yol açıyor — sanki B partisi ezici bir üstünlükle önde gibi bir izlenim veriyor.
+
+```{r}
+# Grafik 2: Eksen 35–45
+barplot(destek,
+        names.arg = partiler,
+        col = c("steelblue", "tomato"),
+        ylim = c(35, 45),
+        main = "Parti Destekleri (Eksen 35–45)",
+        ylab = "Yüzde Destek")
+
+```
+
+İki grafik de **aynı sayılardan** üretildi. Aradaki tek fark eksenin nereden başladığı. Bu, veriyi değiştirmeden algıyı değiştirmenin en yaygın yollarından biridir.
 
 Diğer sık görülen yanıltma biçimleri:
 
--   **Veri seçmeciliği (cherry-picking):** Bir zaman serisinin yalnızca
-    lehe olan kısmını göstermek.
--   **Oran yerine ham sayı kullanmak:** "500 vaka artışı" demek, bu
-    500'ün 10.000 kişilik bir nüfusta mı yoksa 10 milyonluk bir
-    nüfusta mı olduğunu söylemeden bir şey ifade etmez.
--   **Örneklem büyüklüğünü gizlemek:** "%80 destekliyor" ifadesi, bu
-    %80'in 10 kişiden mi 10.000 kişiden mi geldiğini bilmeden
-    yorumlanamaz. (Örneklem büyüklüğünün güvenilirliğe etkisini 7.
-    haftada örnekleme konusunda ayrıntılı işleyeceğiz.)
+- **Veri seçmeciliği (cherry-picking):** Bir zaman serisinin yalnızca lehe olan kısmını göstermek.
+- **Oran yerine ham sayı kullanmak:** "500 vaka artışı" demek, bu 500'ün 10.000 kişilik bir nüfusta mı yoksa 10 milyonluk bir nüfusta mı olduğunu söylemeden bir şey ifade etmez.
+- **Örneklem büyüklüğünü gizlemek:** "%80 destekliyor" ifadesi, bu %80'in 10 kişiden mi 10.000 kişiden mi geldiğini bilmeden yorumlanamaz. (Örneklem büyüklüğünün güvenilirliğe etkisini 7. haftada örnekleme konusunda ayrıntılı işleyeceğiz.)
 
 ::: callout-important
-**Bu haftadan çıkaracağınız tek şey bu olsun:** Bir grafik veya sayı
-gördüğünüzde önce eksenlere, sonra örneklem büyüklüğüne bakın. İkisi de
-söylenmemişse, sonuç henüz değerlendirilebilir değildir.
+**Bu haftadan çıkaracağınız tek şey bu olsun:** Bir grafik veya sayı gördüğünüzde önce eksenlere, sonra örneklem büyüklüğüne bakın. İkisi de söylenmemişse, sonuç henüz değerlendirilebilir değildir.
 :::
 
 ------------------------------------------------------------------------
@@ -166,30 +149,21 @@ söylenmemişse, sonuç henüz değerlendirilebilir değildir.
 
 ## 2.1 Neden R? (Python ile Kısa Karşılaştırma)
 
--   **R:** İstatistik ve görselleştirmede güçlü; akademide çok yaygın;
-    zengin paket ekosistemi (örn. *tidyverse*, *ggplot2*, *dplyr*).
--   **Python:** Genel amaçlı dil; makine öğrenmesi ve üretim
-    ortamlarında güçlü.
--   **Not:** Birini bilmek diğerini öğrenmeyi **kolaylaştırır**,
-    birbirini tamamlar. Bu derste R'ı seçmemizin sebebi, istatistiksel
-    düşünmeyi öğretme amacına en doğrudan hizmet eden dil olması.
+- **R:** İstatistik ve görselleştirmede güçlü; akademide çok yaygın; zengin paket ekosistemi (örn. *tidyverse*, *ggplot2*, *dplyr*).
+- **Python:** Genel amaçlı dil; makine öğrenmesi ve üretim ortamlarında güçlü.
+- **Not:** Birini bilmek diğerini öğrenmeyi **kolaylaştırır**, birbirini tamamlar. Bu derste R'ı seçmemizin sebebi, istatistiksel düşünmeyi öğretme amacına en doğrudan hizmet eden dil olması.
 
 ## 2.2 RStudio Arayüzü
 
-RStudio, R ile çalışmayı kolaylaştıran bir IDE'dir (geliştirme
-ortamı). Temel paneller:
+RStudio, R ile çalışmayı kolaylaştıran bir IDE'dir (geliştirme ortamı). Temel paneller:
 
--   **Source (Script):** Kalıcı kod dosyaları.
--   **Console:** Anlık komut çalıştırma.
--   **Environment/History:** Nesneler ve komut geçmişi.
--   **Plots/Files/Packages/Help:** Grafikler, dosyalar, paketler,
-    yardım.
+- **Source (Script):** Kalıcı kod dosyaları.
+- **Console:** Anlık komut çalıştırma.
+- **Environment/History:** Nesneler ve komut geçmişi.
+- **Plots/Files/Packages/Help:** Grafikler, dosyalar, paketler, yardım.
 
 ::: callout-important
-**Konsol vs Script:** Konsol anlık denemeler içindir; **script** ise
-tekrar çalıştırılabilir analizlerinizi **kalıcı** hale getirir. Bu
-dersteki tüm örnekler script mantığıyla yazılmıştır — konsola tek tek
-yazmak yerine bir `.R` veya `.qmd` dosyasında çalışmaya alışın.
+**Konsol vs Script:** Konsol anlık denemeler içindir; **script** ise tekrar çalıştırılabilir analizlerinizi **kalıcı** hale getirir. Bu dersteki tüm örnekler script mantığıyla yazılmıştır — konsola tek tek yazmak yerine bir `.R` veya `.qmd` dosyasında çalışmaya alışın.
 :::
 
 ## 2.3 İlk Komutlar
@@ -199,16 +173,14 @@ yazmak yerine bir `.R` veya `.qmd` dosyasında çalışmaya alışın.
 mean(c(1, 2, 3, 4, 5))
 ```
 
-Örnek veri kümeleriyle çalışmak — R'ın içinde hazır gelen `iris` veri
-setiyle ısınalım:
+Örnek veri kümeleriyle çalışmak — R'ın içinde hazır gelen `iris` veri setiyle ısınalım:
 
 ```{r}
 head(iris)
 mean(iris$Sepal.Length)
 ```
 
-Aynı mantığı, alanınıza daha yakın bir örnekle de deneyelim. Üç ilin
-nüfusunu bir vektörde tutalım:
+Aynı mantığı, alanınıza daha yakın bir örnekle de deneyelim. Üç ilin nüfusunu bir vektörde tutalım:
 
 ```{r}
 il_adi   <- c("İstanbul", "Ankara", "İzmir")
@@ -219,8 +191,7 @@ nufus
 mean(nufus)
 ```
 
-R, yalnızca "istatistik yazılımı" değil; elinizdeki gerçek sayılarla
-düşünmenizi sağlayan genel bir araçtır.
+R, yalnızca "istatistik yazılımı" değil; elinizdeki gerçek sayılarla düşünmenizi sağlayan genel bir araçtır.
 
 ## 2.4 Temel Aritmetik Operasyonlar
 
@@ -281,11 +252,7 @@ rep(1:3, times = 3)
 ```
 
 ::: callout-note
-**Bu operatörleri neden şimdi görüyoruz?** Bu haftaki amaç R'ın
-sözdizimine göz alıştırmak — vektör ve veri çerçevesi gibi veri
-yapılarının **kendisini** 2. haftada ayrıntılı işleyeceğiz. Burada
-gördüğünüz `vec <- c(1,2,3,4,5)` satırı yalnızca `%in%` operatörünü
-göstermek içindir.
+**Bu operatörleri neden şimdi görüyoruz?** Bu haftaki amaç R'ın sözdizimine göz alıştırmak — vektör ve veri çerçevesi gibi veri yapılarının **kendisini** 2. haftada ayrıntılı işleyeceğiz. Burada gördüğünüz `vec <- c(1,2,3,4,5)` satırı yalnızca `%in%` operatörünü göstermek içindir.
 :::
 
 ------------------------------------------------------------------------
@@ -294,9 +261,7 @@ göstermek içindir.
 
 ## 3.1 Hataları Okumak
 
-R ile ilk saatlerinizde hata mesajlarıyla sık karşılaşacaksınız. Bu
-normaldir — deneyimli kullanıcılar da her gün hata alır. Önemli olan
-hatayı **okuyup anlamaktır**, ezberlemek değil.
+R ile ilk saatlerinizde hata mesajlarıyla sık karşılaşacaksınız. Bu normaldir — deneyimli kullanıcılar da her gün hata alır. Önemli olan hatayı **okuyup anlamaktır**, ezberlemek değil.
 
 **Hata 1 — sözdizimi hatası:**
 
@@ -305,19 +270,15 @@ hatayı **okuyup anlamaktır**, ezberlemek değil.
 3 * 5     # Doğrusu: çarpma işareti * , harf x değil
 ```
 
-**Hata 2 — kapanmamış parantez.** Aşağıdaki satırı olduğu gibi
-çalıştırırsanız R sizden girdi beklemeye devam eder (konsolda `+`
-işareti görürsünüz):
+**Hata 2 — kapanmamış parantez.** Aşağıdaki satırı olduğu gibi çalıştırırsanız R sizden girdi beklemeye devam eder (konsolda `+` işareti görürsünüz):
 
-```
+```         
 mean(c(1, 2, 3)
 ```
 
-Çözüm: parantezi kapatın —`mean(c(1, 2, 3))`. Konsol `+` bekliyorsa
-`Esc` tuşuna basıp yeniden yazabilirsiniz.
+Çözüm: parantezi kapatın —`mean(c(1, 2, 3))`. Konsol `+` bekliyorsa `Esc` tuşuna basıp yeniden yazabilirsiniz.
 
-**Hata 3 — büyük/küçük harf duyarlılığı.** R'da `Mean()` ile `mean()`
-farklı şeylerdir:
+**Hata 3 — büyük/küçük harf duyarlılığı.** R'da `Mean()` ile `mean()` farklı şeylerdir:
 
 ```{r}
 #| error: true
@@ -328,15 +289,10 @@ Mean(c(1, 2, 3))   # Hata: could not find function "Mean"
 mean(c(1, 2, 3))    # Doğrusu, küçük harfle
 ```
 
-**Hata 4 — eşleşmeyen tırnak işareti.** `"metin` gibi tek tırnaklı bir
-ifade bırakırsanız R satırın bittiğini anlamaz. Çözüm: her açılan
-tırnağın bir kapanışı olduğundan emin olun.
+**Hata 4 — eşleşmeyen tırnak işareti.** `"metin` gibi tek tırnaklı bir ifade bırakırsanız R satırın bittiğini anlamaz. Çözüm: her açılan tırnağın bir kapanışı olduğundan emin olun.
 
 ::: callout-important
-**Genel kural:** Hata mesajını **tam okuyun** — çoğu zaman hangi
-satırda ve ne tür bir sorun olduğunu doğrudan söyler. Panik yapıp
-kodu silmek yerine, mesajdaki anahtar kelimeyi (`unexpected symbol`,
-`could not find function`, `unused argument` gibi) not alın.
+**Genel kural:** Hata mesajını **tam okuyun** — çoğu zaman hangi satırda ve ne tür bir sorun olduğunu doğrudan söyler. Panik yapıp kodu silmek yerine, mesajdaki anahtar kelimeyi (`unexpected symbol`, `could not find function`, `unused argument` gibi) not alın.
 :::
 
 ## 3.2 Yardım Alma Yolları
@@ -347,10 +303,7 @@ help(mean)
 example(mean)
 ```
 
-Paket belgeleri (CRAN), RStudio **Help** paneli ve topluluk kaynakları
-(Stack Overflow, Posit Community forumu) değerlidir. Hata mesajının
-tamamını arama motoruna yapıştırmak, çoğu zaman en hızlı çözümdür —
-büyük ihtimalle aynı hatayla sizden önce biri karşılaşmıştır.
+Paket belgeleri (CRAN), RStudio **Help** paneli ve topluluk kaynakları (Stack Overflow, Posit Community forumu) değerlidir. Hata mesajının tamamını arama motoruna yapıştırmak, çoğu zaman en hızlı çözümdür — büyük ihtimalle aynı hatayla sizden önce biri karşılaşmıştır.
 
 ------------------------------------------------------------------------
 
@@ -358,38 +311,20 @@ büyük ihtimalle aynı hatayla sizden önce biri karşılaşmıştır.
 
 ## 4.1 Versiyon Kontrolü Nedir?
 
-**Versiyon kontrolü**, bir dosyada (kodda, yazıda) yapılan her
-değişikliğin zaman içinde kaydedilmesi ve istenildiğinde önceki bir
-duruma dönülebilmesidir. **Git**, bunu yapan yazılımın adıdır.
-**GitHub**, Git ile tutulan projelerin bulutta saklandığı ve
-paylaşıldığı platformdur.
+**Versiyon kontrolü**, bir dosyada (kodda, yazıda) yapılan her değişikliğin zaman içinde kaydedilmesi ve istenildiğinde önceki bir duruma dönülebilmesidir. **Git**, bunu yapan yazılımın adıdır. **GitHub**, Git ile tutulan projelerin bulutta saklandığı ve paylaşıldığı platformdur.
 
-## 4.2 Neden Bir Siyaset Bilimi Öğrencisi Bunu Bilmeli?
+## 4.2 Neden Bir Sosyal Bilim Öğrencisi Bunu Bilmeli?
 
-Bu sorunun cevabı **tekrarlanabilirlik** kavramında yatıyor.
-Bir araştırmacı bir bulguyu yayımladığında, başka birinin — hatta
-altı ay sonra kendisinin — aynı analizi aynı veriyle tekrar
-çalıştırıp **aynı sonucu** alabilmesi gerekir. Bu, bilimin temel
-ilkelerinden biridir ve versiyon kontrolü olmadan neredeyse imkânsızdır:
+Bu sorunun cevabı **tekrarlanabilirlik** kavramında yatıyor. Bir araştırmacı bir bulguyu yayımladığında, başka birinin — hatta altı ay sonra kendisinin — aynı analizi aynı veriyle tekrar çalıştırıp **aynı sonucu** alabilmesi gerekir. Bu, bilimin temel ilkelerinden biridir ve versiyon kontrolü olmadan neredeyse imkânsızdır:
 
--   Hangi kod dosyasının makaledeki Tablo 2'yi ürettiğini bir yıl sonra
-    hatırlamak zordur — versiyon kontrolü bunu kayıt altına alır.
--   Bir veri setini temizlerken yaptığınız bir değişikliğin sonucu
-    bozduğunu fark ettiğinizde, önceki çalışan haline dönebilirsiniz.
--   Bir tez veya makale üzerinde danışmanınızla ortak çalışırken, kim
-    neyi ne zaman değiştirdi sorusunun cevabı otomatik olarak
-    kaydedilir.
+- Hangi kod dosyasının makaledeki Tablo 2'yi ürettiğini bir yıl sonra hatırlamak zordur — versiyon kontrolü bunu kayıt altına alır.
+- Bir veri setini temizlerken yaptığınız bir değişikliğin sonucu bozduğunu fark ettiğinizde, önceki çalışan haline dönebilirsiniz.
+- Bir tez veya makale üzerinde danışmanınızla ortak çalışırken, kim neyi ne zaman değiştirdi sorusunun cevabı otomatik olarak kaydedilir.
 
-Bu ders boyunca kullanacağınız ders deposu da bir GitHub deposudur —
-her hafta güncellenen içeriği **pull** ederek almanız, aslında bu
-sistemin en temel kullanımıdır.
+Bu ders boyunca kullanacağınız ders deposu da bir GitHub deposudur — her hafta güncellenen içeriği **pull** ederek almanız, aslında bu sistemin en temel kullanımıdır.
 
 ::: callout-note
-**Uygulamalı adımlar bu dosyada değil.** GitHub hesabı açma, depoyu
-klonlama ve haftalık güncelleme alma adımlarının tamamı
-**`GitHub Kullanım Kılavuzu`**'ndadır. R ve RStudio kurulumu için
-**`R ve RStudio Kurulum Rehberi`**'ne bakınız. Bu bölümün amacı
-yalnızca kavramı tanıtmaktır.
+**Uygulamalı adımlar bu dosyada değil.** GitHub hesabı açma, depoyu klonlama ve haftalık güncelleme alma adımlarının tamamı **`GitHub Kullanım Kılavuzu`**'ndadır. R ve RStudio kurulumu için **`R ve RStudio Kurulum Rehberi`**'ne bakınız. Bu bölümün amacı yalnızca kavramı tanıtmaktır.
 :::
 
 ------------------------------------------------------------------------
@@ -397,16 +332,10 @@ yalnızca kavramı tanıtmaktır.
 # Sık Sorulan Sorular
 
 **S: R mi Python mu?**\
-**C:** İkisi de güçlü araçlardır; R istatistik/görselleştirmede,
-Python genel amaçlı ve üretim uygulamalarında öne çıkar. Birini
-bilmek diğerini öğrenmeyi kolaylaştırır.
+**C:** İkisi de güçlü araçlardır; R istatistik/görselleştirmede, Python genel amaçlı ve üretim uygulamalarında öne çıkar. Birini bilmek diğerini öğrenmeyi kolaylaştırır.
 
 **S: R zor mu?**\
-**C:** Temel sözdizimi kısa sürede öğrenilir. RStudio arayüzü ve hazır
-paketler öğrenme eğrisini yumuşatır. İlk haftaki hata mesajları
-sizi yıldırmasın — bölüm 3.1'de gördüğünüz gibi, bunlar herkesin
-yaşadığı, çözümü olan sorunlardır.
+**C:** Temel sözdizimi kısa sürede öğrenilir. RStudio arayüzü ve hazır paketler öğrenme eğrisini yumuşatır. İlk haftaki hata mesajları sizi yıldırmasın — bölüm 3.1'de gördüğünüz gibi, bunlar herkesin yaşadığı, çözümü olan sorunlardır.
 
 **S: LaTeX gerekiyor mu (PDF için)?**\
-**C:** Quarto'da PDF üretmek için sisteminizde bir TeX dağıtımı
-gerekebilir. HTML formatı ek kurulum gerektirmez.
+**C:** Quarto'da PDF üretmek için sisteminizde bir TeX dağıtımı gerekebilir. HTML formatı ek kurulum gerektirmez.
