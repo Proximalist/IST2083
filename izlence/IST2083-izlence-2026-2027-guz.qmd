@@ -87,8 +87,11 @@ Sınav soruları bu alıştırmalarla aynı biçimde kurgulanır.
 ### Sınavların biçimi
 
 Her iki sınav da **sınıf içinde, gözetim altında** yapılır. Sınavlar
-**test formatında, 50 çoktan seçmeli soru** şeklinde gerçekleştirilir.
-Sorular öncelikle **R çıktısı okuma ve yorumlama** üzerine kuruludur: bir
+**test formatında, 50 çoktan seçmeli soru** şeklinde ve **sınırlı sürede**
+gerçekleştirilir. Sınıf mevcudu nedeniyle sınav **en az beş farklı soru
+grubu** hâlinde uygulanır; gruplar arasında hem soru sırası hem de şık
+sırası değişir. Sorular öncelikle **R çıktısı okuma ve yorumlama** üzerine
+kuruludur: bir
 `summary()` tablosu, bir grafik veya bir test sonucu verilir ve bunu
 yorumlaması istenir. Ezberden uzun kod yazma istenmez; kod okuma, hata bulma
 ve sonuç yorumlama istenir.
@@ -257,6 +260,8 @@ parçasını** paylaşın.
 **Kendi notunuz (cheat sheet):** Sınavlarda öğrencilerin kendi hazırladıkları
 **elle yazılmış** notları kullanmalarına izin verilir. Not, öğrencinin kendi
 bireysel çalışması olmalıdır; sınav esnasında not alışverişi mümkün değildir.
+**Yalnızca elle yazılmış not kabul edilir; basılı, fotokopi veya çıktı alınmış
+hiçbir materyal — Posit özet kartları dâhil — kabul edilmez.**
 
 **Yapay zekâ araçları hakkında:** Alıştırmalar notlandırılmadığı için bu
 araçları öğrenme sürecinde kullanmak serbesttir ve teşvik edilir. Ancak
