@@ -29,7 +29,7 @@ Bu oturumun sonunda:
 
 ## 1.1 İstatistik Nedir?
 
-**Kelimenin kökeni bile size ait.** "İstatistik" kelimesi, Almanca *Statistik*'ten gelir; bu terimi 1740'ların sonunda Gottfried Achenwall türetmiştir. Kaynağı ise Yeni Latince *statisticus* ("devlet işlerine dair") ve İtalyanca *statista* ("devlet adamı, siyasetçi") kelimeleridir. Yani istatistik, en baştan beri **devletleri, toplumları ve nüfusları anlama** ihtiyacından doğmuş bir bilimdir — mühendislik veya doğa bilimlerinden ödünç alınmış değil. Bir siyaset bilimi, kamu yönetimi veya işletme öğrencisi olarak siz bu disiplinin **yabancısı değil, tarihsel ev sahibisiniz.**
+"İstatistik" kelimesi, Almanca *Statistik*'ten gelir; bu terimi 1740'ların sonunda Gottfried Achenwall türetmiştir. Kaynağı ise Yeni Latince *statisticus* ("devlet işlerine dair") ve İtalyanca *statista* ("devlet adamı, siyasetçi") kelimeleridir. Yani istatistik, en baştan beri **devletleri, toplumları ve nüfusları anlama** ihtiyacından doğmuş bir bilimdir — mühendislik veya doğa bilimlerinden ödünç alınmış değil. Bir siyaset bilimi, kamu yönetimi veya işletme öğrencisi olarak siz bu disiplinin **yabancısı değil, tarihsel ev sahibisiniz.**
 
 İstatistik, **verilerden anlam çıkarma sanatıdır**. Sayılardan ibaret değildir; sayıların arkasındaki hikâyeyi keşfetmeye çalışır. İstatistik, karmaşık veri yığınlarını **düzenlememizi, özetlememizi ve yorumlamamızı** sağlar.
 
@@ -43,9 +43,9 @@ Bu senaryo size tanıdık gelebilir: Siyaset bilimi, Kamu Yönetimi ya da İşle
 
 Bu tepki anlaşılır, fakat yanlış bir varsayıma dayanıyor: istatistiğin “sayısal bilimlere ait, sosyal bilimlere yabancı” bir araç olduğu düşüncesine. Oysa gerçek tam tersi. Bir seçim sonucunu yorumlamak, “halk hoşnutsuz” gibi bir ifadeyi kanıtla desteklemek, bir kamu politikasının etkisini değerlendirmek ya da bir işletmenin iş akışındaki tıkanıklığı tespit etmek—bunların hiçbiri istatistiksel akıl yürütme olmadan savunulabilir biçimde yapılamaz.
 
-Bugünün dünyasında istatistiksel düşünmeye her zamankinden daha çok ihtiyaç duyuyoruz. Veri bombardımanı altında yaşıyoruz ve sezgilerimiz bizi çoğu kez yanıltıyor. Haberler, politikalar, sağlık önerileri ve pazarlama mesajları sürekli istatistiksel iddialarla karşımıza çıkıyor. İstatistiksel düşünme, bu iddiaları eleştirel biçimde değerlendirmemizi; örneklem hatalarını, yanlılığı ve rastlantısallığı ayırt etmemizi sağlar.
+En önemlisi ise, bugünün dünyasında istatistiksel düşünmeye her zamankinden daha çok ihtiyaç duyuyoruz. Veri bombardımanı altında yaşıyoruz ve sezgilerimiz bizi çoğu kez yanıltıyor. Haberler, politikalar, sağlık önerileri ve pazarlama mesajları sürekli istatistiksel iddialarla karşımıza çıkıyor. İstatistiksel düşünme, bu iddiaları eleştirel biçimde değerlendirmemizi; örneklem hatalarını, yanlılığı ve rastlantısallığı ayırt etmemizi sağlar.
 
-Bir sosyal bilim öğrencisi olarak farkınız şudur: mühendislik öğrencisi istatistiği bir hesaplama aracı olarak öğrenirken, siz onu bir argüman kurma ve kanıt oluşturma aracı olarak öğrenirsiniz.
+Dolayısı ile istatistik ve istatistiksel düşünme yeteneği bir sosyal bilim eğitiminin olmazsa olmazı durumundadır. Fakat bir sosyal bilim öğrencisi olarak farkınız şudur: mühendislik öğrencisi istatistiği bir hesaplama aracı olarak öğrenirken, siz onu bir argüman kurma ve kanıt oluşturma aracı olarak öğrenirsiniz.
 
 Bu ders de tam olarak ikincisini hedeflemekte ve sizi bu doğrultuda yetiştirmek üzere kurgulanmıştır.
 
@@ -60,13 +60,15 @@ Bu ders de tam olarak ikincisini hedeflemekte ve sizi bu doğrultuda yetiştirme
 
 *(Görsel: "Diagram of the causes of mortality in the army in the East", Florence Nightingale, 1858 — kamu malı, Wikimedia Commons, `File:Nightingale-mortality.jpg`. Görseli depoya eklemek için: dosyayı indirip `images/nightingale-rose-diagram.jpg` olarak kaydedin, aşağıdaki satırı yorumdan çıkarın.)*
 
-<!-- ![Nightingale'in 1858 tarihli gül diyagramı](images/nightingale-rose-diagram.jpg) -->
+\![Nightingale'in 1858 tarihli gül diyagramı\](images/nightingale-rose-diagram.jpg)
 :::
 
 ::: callout-note
 **Tarihte bir örnek: Du Bois'nın Paris Sergisi İnfografikleri (1900).** Sosyolog W.E.B. Du Bois, 1900 Paris Dünya Sergisi'nde "Amerikalı Zenciler" (The Exhibit of American Negroes) başlıklı bölüm için Atlanta Üniversitesi'ndeki öğrencileriyle birlikte 58 adet elle çizilmiş istatistiksel grafik hazırladı. Bu grafikler, Amerika'daki siyahi nüfusun eğitim, gelir, meslek ve göç örüntülerini — dönemin ırkçı "bilimsel" iddialarına karşı — somut sayılarla göstererek güçlü bir argümana dönüştürdü. Bugün bu grafikler hem veri görselleştirme tarihinin hem de "veri toplumsal bir tartışmayı nasıl değiştirir" sorusunun en çarpıcı örneklerinden sayılır.
 
 *(Kaynak: Library of Congress, Daniel Murray Koleksiyonu — `loc.gov/pictures/item/2005679642/`, 1900 tarihli, kamu malı. Görseli eklemek isterseniz koleksiyondan bir grafiği indirip `images/dubois-1900-paris.jpg` olarak kaydedin.)*
+
+\![*Library of Congress, Daniel Murray Koleksiyonu\](`mages/dubois-1900-paris.jpg)`*
 :::
 
 ## 1.3 Neden İstatistik?
