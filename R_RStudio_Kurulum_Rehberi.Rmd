@@ -112,7 +112,8 @@ install.packages(c(
   "haven",       # Stata/SPSS dosyaları
   "janitor",     # veri temizliği
   "knitr",       # rapor üretimi
-  "rmarkdown"
+  "rmarkdown",
+  "gapminder"    # ders boyunca kullanacağımız veri seti (1. haftadan itibaren)
 ))
 ```
 

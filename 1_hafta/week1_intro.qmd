@@ -29,6 +29,8 @@ Bu oturumun sonunda:
 
 ## 1.1 İstatistik Nedir?
 
+**Kelimenin kökeni bile size ait.** "İstatistik" kelimesi, Almanca *Statistik*'ten gelir; bu terimi 1740'ların sonunda Gottfried Achenwall türetmiştir. Kaynağı ise Yeni Latince *statisticus* ("devlet işlerine dair") ve İtalyanca *statista* ("devlet adamı, siyasetçi") kelimeleridir. Yani istatistik, en baştan beri **devletleri, toplumları ve nüfusları anlama** ihtiyacından doğmuş bir bilimdir — mühendislik veya doğa bilimlerinden ödünç alınmış değil. Bir siyaset bilimi, kamu yönetimi veya işletme öğrencisi olarak siz bu disiplinin **yabancısı değil, tarihsel ev sahibisiniz.**
+
 İstatistik, **verilerden anlam çıkarma sanatıdır**. Sayılardan ibaret değildir; sayıların arkasındaki hikâyeyi keşfetmeye çalışır. İstatistik, karmaşık veri yığınlarını **düzenlememizi, özetlememizi ve yorumlamamızı** sağlar.
 
 ::: callout-tip
@@ -49,6 +51,22 @@ Bu ders de tam olarak ikincisini hedeflemekte ve sizi bu doğrultuda yetiştirme
 
 ::: callout-note
 **Dönem sonunda test edilecek bir iddia:** Bu dersin sonunda, bir gazete haberindeki "araştırmaya göre" cümlesinin arkasındaki sayıyı sorgulayabilecek, hangi sorunun sorulması gerektiğini bilecek duruma geleceksiniz. Bu iddiayı 16. hafta genel tekrarda birlikte sınayacağız.
+:::
+
+"Veri, argüman kurma aracıdır" iddiasının soyut kalmaması için tarihten iki örnek verelim.
+
+::: callout-note
+**Tarihte bir örnek: Nightingale'in Gül Diyagramı (1858).** Florence Nightingale, hemşirelik alanındaki çalışmalarıyla tanınır — ama aynı zamanda döneminin önde gelen istatistikçilerindendi. Kırım Savaşı sırasında, İngiliz askerlerinin çoğunun **çarpışmada değil, önlenebilir hastane koşullarından** öldüğünü fark etti. Bunu İngiliz Parlamentosu'na anlatmak için "gül diyagramı" (coxcomb) adı verilen özgün bir daire grafiği tasarladı: hastalıktan ölümleri temsil eden dilim, savaş yaralarından ölümleri temsil eden dilimden çok daha büyüktü — tek bakışta görülüyordu. Bu grafik, sıhhi koşulların iyileştirilmesi için siyasi iradeyi harekete geçirdi.
+
+*(Görsel: "Diagram of the causes of mortality in the army in the East", Florence Nightingale, 1858 — kamu malı, Wikimedia Commons, `File:Nightingale-mortality.jpg`. Görseli depoya eklemek için: dosyayı indirip `images/nightingale-rose-diagram.jpg` olarak kaydedin, aşağıdaki satırı yorumdan çıkarın.)*
+
+<!-- ![Nightingale'in 1858 tarihli gül diyagramı](images/nightingale-rose-diagram.jpg) -->
+:::
+
+::: callout-note
+**Tarihte bir örnek: Du Bois'nın Paris Sergisi İnfografikleri (1900).** Sosyolog W.E.B. Du Bois, 1900 Paris Dünya Sergisi'nde "Amerikalı Zenciler" (The Exhibit of American Negroes) başlıklı bölüm için Atlanta Üniversitesi'ndeki öğrencileriyle birlikte 58 adet elle çizilmiş istatistiksel grafik hazırladı. Bu grafikler, Amerika'daki siyahi nüfusun eğitim, gelir, meslek ve göç örüntülerini — dönemin ırkçı "bilimsel" iddialarına karşı — somut sayılarla göstererek güçlü bir argümana dönüştürdü. Bugün bu grafikler hem veri görselleştirme tarihinin hem de "veri toplumsal bir tartışmayı nasıl değiştirir" sorusunun en çarpıcı örneklerinden sayılır.
+
+*(Kaynak: Library of Congress, Daniel Murray Koleksiyonu — `loc.gov/pictures/item/2005679642/`, 1900 tarihli, kamu malı. Görseli eklemek isterseniz koleksiyondan bir grafiği indirip `images/dubois-1900-paris.jpg` olarak kaydedin.)*
 :::
 
 ## 1.3 Neden İstatistik?
@@ -94,38 +112,45 @@ Bu sorgulama, çağımızda **veri okuryazarlığının** temelidir ve tam da bi
 Bu söz, istatistiklerin son derece güçlü bir ikna aracı olduğunu; ancak yanlış, eksik ya da kasıtlı biçimde kullanıldığında en tehlikeli yalanları bile “bilimsel” ve “nesnel” bir görünüm altında sunabileceğini vurgulamaktadır. Rakamların ve grafiklerin yarattığı otorite algısı, dinleyicinin eleştirel sorgulamasını zayıflatabilir; böylece yanıltıcı iddialar, sanki kanıtlanmış gerçeklermiş gibi kabul görebilir. Dolayısıyla, bilimsel gerçeklik adı altında karşılaştığımız onlarca bilgiyi ancak iyi bir istatistik okuru olarak aşabiliriz.
 :::
 
+::: callout-tip
+**Önden bir uyarı: Korelasyon nedensellik değildir.** İki şeyin birlikte değişmesi, birinin diğerine yol açtığı anlamına gelmez. Klasik örnek: dondurma satışları arttıkça boğulma vakaları da artar — ama dondurma boğulmaya yol açmaz, ikisi de aynı üçüncü sebepten, **sıcak havadan**, kaynaklanır. Bu ayrımı 12. haftada regresyon konusunda ayrıntılı işleyeceğiz; şimdilik yalnızca "birlikte hareket ediyor" ile "biri diğerine sebep oluyor" cümlelerini birbirine karıştırmamayı hatırınızda tutun.
+:::
+
 ## 1.7 Yanıltıcı İstatistik ve Görselleştirme
 
 Aynı veriyi farklı biçimlerde sunmak, tamamen farklı izlenimler yaratabilir. Somut bir örnekle görelim.
 
-**Kurgusal örnek.** Bir ankette A partisine desteğin %38, B partisine desteğin %41 çıktığını varsayalım. Aradaki fark 3 puan. Şimdi bu farkın iki farklı grafikte nasıl göründüğüne bakalım:
+**Kurgusal örnek.** Bir ankette A partisine desteğin %38, B partisine desteğin %41 çıktığını varsayalım. Aradaki fark 3 puan. Şimdi bu farkın iki farklı grafikte nasıl göründüğüne bakalım.
+
+::: callout-note
+**Önizleme:** Aşağıdaki kodda `ggplot2` paketini kullanıyoruz — bu paketi ve söz dizimini **resmî olarak 4. haftada** ayrıntılı öğreneceğiz. Şimdilik kodun her satırını anlamanız gerekmiyor; amacımız yalnızca sonucu görmek. R'a resmî girişi birazdan Bölüm 2'de yapacağız.
+:::
 
 - **Grafik 1:** Dikey eksen 0'dan 100'e kadar gidiyor. İki çubuk neredeyse aynı yükseklikte — gerçek durumu, yani farkın küçük olduğunu, doğru yansıtıyor.
 
   ```{r}
-  # Veri
-  partiler <- c("A", "B")
-  destek <- c(38, 41)
+  library(ggplot2)
 
-  # Grafik 1: Eksen 0–100
-  barplot(destek,
-          names.arg = partiler,
-          col = c("steelblue", "tomato"),
-          ylim = c(0, 100),
-          main = "Parti Destekleri (Eksen 0–100)",
-          ylab = "Yüzde Destek")
+  veri <- data.frame(
+    parti = factor(c("A Partisi", "B Partisi")),
+    destek = c(38, 41)
+  )
+
+  ggplot(veri, aes(x = parti, y = destek, fill = parti)) +
+    geom_col(width = 0.5, show.legend = FALSE) +
+    coord_cartesian(ylim = c(0, 100)) +
+    labs(title = "Gerçek: Baş Başa Bir Yarış", y = "% Destek", x = "") +
+    theme_minimal()
   ```
 
 - **Grafik 2:** Dikey eksen 35'ten başlıyor. Aynı 3 puanlık fark artık B çubuğunun A çubuğundan **çok daha uzun** görünmesine yol açıyor — sanki B partisi ezici bir üstünlükle önde gibi bir izlenim veriyor.
 
   ```{r}
-  # Grafik 2: Eksen 35–45
-  barplot(destek,
-          names.arg = partiler,
-          col = c("steelblue", "tomato"),
-          ylim = c(35, 45),
-          main = "Parti Destekleri (Eksen 35–45)",
-          ylab = "Yüzde Destek")
+  ggplot(veri, aes(x = parti, y = destek, fill = parti)) +
+    geom_col(width = 0.5, show.legend = FALSE) +
+    coord_cartesian(ylim = c(35, 45)) +
+    labs(title = "Algı: B Partisi Ezici Farkla Önde", y = "% Destek", x = "") +
+    theme_minimal()
   ```
 
 İki grafik de **aynı sayılardan** üretildi. Aradaki tek fark eksenin nereden başladığı. Bu, veriyi değiştirmeden algıyı değiştirmenin en yaygın yollarından biridir.
@@ -134,7 +159,7 @@ Diğer sık görülen yanıltma biçimleri:
 
 - **Veri seçmeciliği (cherry-picking):** Bir zaman serisinin yalnızca lehe olan kısmını göstermek.
 - **Oran yerine ham sayı kullanmak:** "500 vaka artışı" demek, bu 500'ün 10.000 kişilik bir nüfusta mı yoksa 10 milyonluk bir nüfusta mı olduğunu söylemeden bir şey ifade etmez.
-- **Örneklem büyüklüğünü gizlemek:** "%80 destekliyor" ifadesi, bu %80'in 10 kişiden mi 10.000 kişiden mi geldiğini bilmeden yorumlanamaz. (Örneklem büyüklüğünün güvenilirliğe etkisini 7. haftada örnekleme konusunda ayrıntılı işleyeceğiz.)
+- **Örneklem büyüklüğünü gizlemek:** "%80 destekliyor" ifadesi, bu %80'in 10 kişiden mi 10.000 kişiden mi geldiğini bilmeden yorumlanamaz. Büyük örneklem bile yanlış olabilir: 1936'da bir dergi 2 milyondan fazla kişiye anket yaparak yanlış adayı kazanan ilan etmişti — sorun sayı değil, **kimlere** ulaşıldığıydı. Bu ünlü vakayı 7. haftada örnekleme konusunda ayrıntılı işleyeceğiz.
 
 ::: callout-important
 **Bu haftadan çıkaracağınız tek şey bu olsun:** Bir grafik veya sayı gördüğünüzde önce eksenlere, sonra örneklem büyüklüğüne bakın. İkisi de söylenmemişse, sonuç henüz değerlendirilebilir değildir.
@@ -163,6 +188,10 @@ RStudio, R ile çalışmayı kolaylaştıran bir IDE'dir (geliştirme ortamı). 
 **Konsol vs Script:** Konsol anlık denemeler içindir; **script** ise tekrar çalıştırılabilir analizlerinizi **kalıcı** hale getirir. Bu dersteki tüm örnekler script mantığıyla yazılmıştır — konsola tek tek yazmak yerine bir `.R` veya `.qmd` dosyasında çalışmaya alışın.
 :::
 
+::: callout-tip
+**Neden Quarto?** Elinizdeki bu ders notu bir `.qmd` (Quarto) dosyasıdır — metin, çalıştırılabilir R kodu ve kodun ürettiği çıktı (tablo, grafik) **aynı belgede** bir arada durur. Buna **okunabilir programlama** (literate programming) denir. Bir analizi altı ay sonra açtığınızda hangi kodun hangi sonucu ürettiğini hatırlamanıza gerek kalmaz — belge zaten bunu gösterir. Bu, Bölüm 4'te göreceğimiz tekrarlanabilirlik ilkesinin R'daki karşılığıdır.
+:::
+
 ## 2.3 İlk Komutlar
 
 ```{r}
@@ -189,6 +218,24 @@ mean(nufus)
 ```
 
 R, yalnızca "istatistik yazılımı" değil; elinizdeki gerçek sayılarla düşünmenizi sağlayan genel bir araçtır.
+
+Az önce üç ilin nüfusunu elle bir vektörde topladık. Şimdi onlarca ülkeyi, elli yılı ve birden fazla değişkeni içeren gerçek bir veri setine bakalım — **`gapminder`**. Bu, ülkelerin yıllara göre yaşam beklentisi, nüfus ve kişi başı gelirini içeren, dünya çapında istatistik ve veri bilimi eğitiminde yaygın kullanılan bir veri setidir. Bu ders boyunca sık sık bu veri setine döneceğiz.
+
+```{r}
+library(gapminder)
+
+head(gapminder)
+```
+
+Türkiye'ye ait satırları filtreleyelim (bu filtreleme sözdizimini 3. haftada ayrıntılı işleyeceğiz — şimdilik yalnızca sonuca bakın):
+
+```{r}
+gapminder[gapminder$country == "Turkey", c("year", "lifeExp", "gdpPercap")]
+```
+
+::: callout-tip
+**`gapminder` nereden geliyor?** İsveçli istatistikçi Hans Rosling'in kurduğu Gapminder Vakfı'nın derlediği bu veriler, 1952'den 2007'ye kadar çok sayıda ülkenin kalkınma göstergelerini içerir. R'da kullanmak için ek bir dosya indirmenize gerek yok — yalnızca `library(gapminder)` yazmanız yeterli, tıpkı `iris` gibi.
+:::
 
 ## 2.4 Temel Aritmetik Operasyonlar
 
@@ -317,6 +364,10 @@ Bu sorunun cevabı **tekrarlanabilirlik** kavramında yatıyor. Bir araştırmac
 - Hangi kod dosyasının makaledeki Tablo 2'yi ürettiğini bir yıl sonra hatırlamak zordur — versiyon kontrolü bunu kayıt altına alır.
 - Bir veri setini temizlerken yaptığınız bir değişikliğin sonucu bozduğunu fark ettiğinizde, önceki çalışan haline dönebilirsiniz.
 - Bir tez veya makale üzerinde danışmanınızla ortak çalışırken, kim neyi ne zaman değiştirdi sorusunun cevabı otomatik olarak kaydedilir.
+
+::: callout-important
+**Bunun bedeli gerçek olabilir: Reinhart-Rogoff Vakası (2010).** Ekonomistler Carmen Reinhart ve Kenneth Rogoff, kamu borcu GSYH'nin %90'ını aştığında ekonomik büyümenin ciddi biçimde yavaşladığını iddia eden etkili bir makale yayımladılar — bu tez, birçok ülkede kemer sıkma politikalarını savunmak için kullanıldı. 2013'te bir doktora öğrencisi analizi tekrar etmeye çalıştığında, makalenin dayandığı **Excel tablosunda bazı ülkelerin formüle dahil edilmediğini** keşfetti. Hata düzeltildiğinde iddia edilen keskin eşik ortadan kalktı. **Ders:** Excel gibi arayüzler hesaplama adımlarını gizler; bir R script'i ve versiyon geçmişi ise her adımı denetime açık bırakır.
+:::
 
 Bu ders boyunca kullanacağınız ders deposu da bir GitHub deposudur — her hafta güncellenen içeriği **pull** ederek almanız, aslında bu sistemin en temel kullanımıdır.
 
