@@ -18,6 +18,9 @@ Derse hiç R kurmadan başlıyorsanız sırayla:
    bilgisayarınıza indirilmesi ve **her hafta güncellenmesi.**
 3. **[Ders İzlencesi](izlence/IST2083-izlence-2026-2027-guz.qmd)** — konular,
    tarihler, değerlendirme ve kaynaklar.
+4. **[R Hızlı Referans](R-Hizli-Referans.qmd)** — dönem boyunca öğrenilen
+   R sözdizimini tek yerde toplayan, her hafta büyüyen başvuru belgesi.
+   Bir sözdizimini unuttuğunuzda önce buraya bakın.
 
 Bilgisayarınıza hiçbir şey kurmak istemiyorsanız GitHub Codespaces
 seçeneği de vardır; kılavuzda anlatılmıştır.

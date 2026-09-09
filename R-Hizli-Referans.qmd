@@ -1,0 +1,290 @@
+---
+title: "R Hızlı Referans"
+subtitle: "IST2083 boyunca öğrenilen R sözdizimi — kümülatif başvuru belgesi"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: last-modified
+format:
+  pdf:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+editor: visual
+---
+
+## Bu Belge Nedir?
+
+Bu, **her hafta büyüyen** bir başvuru belgesidir. Yeni bir ders notunda
+yeni bir R fonksiyonu veya sözdizimi geçtiğinde, buraya kısa bir girişle
+eklenir. Amaç: 9. haftada bir sözdiziminin nasıl yazıldığını
+unuttuğunuzda, o haftanın ders notunu baştan açmak yerine buraya bakıp
+tek satırda hatırlamanız.
+
+::: callout-important
+**Bu belgedeki kod örnekleri çalıştırılmaz** (render sırasında
+işletilmez) — bunlar birbirinden bağımsız, kısa hatırlatma parçalarıdır,
+tam bir script değildir. Çalışan, açıklamalı örnekler için ilgili
+haftanın ders notuna bakınız; her girişte hangi haftada işlendiği
+belirtilmiştir.
+:::
+
+Her giriş şu düzendedir: **ne işe yarar**, kısa örnek, hangi haftada
+tanıtıldı.
+
+------------------------------------------------------------------------
+
+# Operatörler
+
+## Aritmetik
+
+```r
+5 + 3    # toplama
+5 - 3    # çıkarma
+5 * 3    # çarpma
+5 / 3    # bölme
+2 ^ 3    # üs alma
+5 %% 3   # modülüs (kalan)
+5 %/% 3  # tam bölme
+```
+
+*1. hafta*
+
+## Karşılaştırma
+
+```r
+5 == 3   # eşit mi?
+5 != 3   # eşit değil mi?
+5 > 3; 5 < 3
+5 >= 3; 5 <= 3
+```
+
+*1. hafta*
+
+## Mantıksal
+
+```r
+TRUE & FALSE    # VE (vektörel — tüm elemanları karşılaştırır)
+TRUE && FALSE   # VE (yalnızca ilk elemanı karşılaştırır)
+TRUE | FALSE    # VEYA (vektörel)
+TRUE || FALSE   # VEYA (yalnızca ilk eleman)
+!TRUE           # DEĞİL
+```
+
+*1. hafta*
+
+## Diğer
+
+```r
+1:10               # ardışık sayı dizisi (kolon operatörü)
+seq(1, 10, by = 2) # dizi oluşturma, adım belirterek
+rep(1:3, times = 3) # tekrar
+3 %in% c(1, 2, 3)  # üyelik sorgusu — sağdaki vektörde var mı?
+```
+
+*1. hafta*
+
+------------------------------------------------------------------------
+
+# Değişkenler ve Atama
+
+```r
+x <- 10   # standart atama (tercih edilen)
+y = 20    # de çalışır, ama R camiasında <- yaygın
+```
+
+*1. hafta*
+
+R'da temel veri türleri: sayısal (`numeric`), karakter (`character`),
+mantıksal (`logical`). Bir değişkenin türünü öğrenmek için:
+
+```r
+class(x)
+```
+
+*2. hafta*
+
+------------------------------------------------------------------------
+
+# Veri Yapıları
+
+## Vektör
+
+Aynı türden elemanların sıralı listesi.
+
+```r
+v <- c(1, 2, 3, 4, 5)     # sayısal vektör
+k <- c("a", "b", "c")     # karakter vektör
+m <- c(TRUE, FALSE, TRUE) # mantıksal vektör
+
+v[2]          # 2. elemana eriş
+v[2] <- 10    # 2. elemanı güncelle
+sum(v)        # elemanların toplamı
+```
+
+*2. hafta*
+
+## Liste
+
+Farklı türden elemanları bir arada tutar.
+
+```r
+l <- list(sayi = 5, mesaj = "Merhaba", bayrak = TRUE)
+
+l$sayi          # elemana isimle eriş
+l$sayi <- 10    # güncelle
+l$yeni <- "ek"  # yeni eleman ekle
+l$yeni <- NULL  # elemanı sil
+```
+
+*2. hafta*
+
+## Matris
+
+Aynı türden, satır-sütun düzeninde iki boyutlu veri.
+
+```r
+mat <- matrix(1:6, nrow = 2, ncol = 3)
+
+mat[1, 2]   # 1. satır, 2. sütun
+mat[2, ]    # 2. satırın tamamı
+mat[, 3]    # 3. sütunun tamamı
+
+mat1 %*% mat2   # matris çarpımı (eleman eleman değil!)
+```
+
+*2. hafta*
+
+## Veri Çerçevesi (Data Frame)
+
+Farklı türden sütunları olan tablo — en çok kullanacağınız yapı.
+
+```r
+df <- data.frame(
+  sayi = c(1, 2, 3),
+  harf = c("a", "b", "c")
+)
+
+df[1, 2]       # 1. satır, 2. sütun
+df$sayi        # bir sütunun tamamı (isimle)
+df$sayi[2]     # bir sütunun belirli bir elemanı
+
+df$yeni <- c(10, 20, 30)          # yeni sütun ekle
+df <- rbind(df, list(4, "d", 40)) # yeni satır ekle
+```
+
+*2. hafta*
+
+::: callout-note
+**Eksik ve yakında eklenecek: mantıksal indeksleme.** `df[df$sayi > 1, ]`
+gibi bir koşula göre satır seçme sözdizimi henüz bu belgede yok — 2.
+hafta denetimi tamamlandığında buraya eklenecektir. Practical alternatif
+olarak 3. haftadan itibaren `dplyr::filter()` kullanacağız.
+:::
+
+------------------------------------------------------------------------
+
+# Veri İnceleme
+
+```r
+head(df)      # ilk birkaç satır
+tail(df)      # son birkaç satır
+str(df)       # yapı özeti (sütun türleri)
+summary(df)   # her sütun için özet istatistik
+class(df)     # nesnenin türü
+```
+
+*2. hafta*
+
+------------------------------------------------------------------------
+
+# Fonksiyonlar
+
+## Hazır fonksiyon kullanma
+
+```r
+mean(c(1, 2, 3))   # ortalama
+sum(c(1, 2, 3))    # toplam
+```
+
+*1. hafta*
+
+## Kendi fonksiyonunu yazma
+
+```r
+toplama_fonksiyonu <- function(a, b) {
+  return(a + b)
+}
+
+toplama_fonksiyonu(3, 5)
+```
+
+*2. hafta*
+
+------------------------------------------------------------------------
+
+# Paketler
+
+```r
+install.packages("gapminder")  # bir kez, kurulum aşamasında
+library(gapminder)              # her R oturumunda, kullanmadan önce
+```
+
+*1. hafta*
+
+------------------------------------------------------------------------
+
+# Yardım Alma
+
+```r
+?mean            # fonksiyonun yardım sayfasını aç
+help(mean)        # aynı şey, uzun biçim
+example(mean)     # fonksiyonun örnek kullanımını çalıştır
+```
+
+*1. hafta*
+
+------------------------------------------------------------------------
+
+# Veri İçe Aktarma / Kaydetme
+
+```r
+read.csv("dosya.csv")            # CSV okuma
+
+library(readxl)
+read_excel("dosya.xlsx")         # Excel okuma
+
+write.csv(df, "dosya.csv", row.names = FALSE)  # CSV'e kaydetme
+```
+
+*2. hafta*
+
+------------------------------------------------------------------------
+
+# Görselleştirme (ggplot2)
+
+::: callout-note
+`ggplot2` resmî olarak **4. haftada** ayrıntılı işlenecek. Aşağıdaki
+temel iskelet, o haftaya kadar karşılaştığınız örnekleri hatırlamanız
+içindir.
+:::
+
+```r
+library(ggplot2)
+
+ggplot(veri, aes(x = degisken1, y = degisken2)) +
+  geom_col() +              # veya geom_point(), geom_line(), ...
+  labs(title = "Başlık", x = "X Ekseni", y = "Y Ekseni") +
+  theme_minimal()
+```
+
+*1. hafta (önizleme), 4. hafta (ayrıntılı)*
+
+------------------------------------------------------------------------
+
+# Ders Boyunca Kullanılan Veri Setleri
+
+| Veri seti | İçeriği | Nasıl yüklenir |
+|---|---|---|
+| `iris` | Çiçek türlerine ait ölçümler; R'ın içinde hazır gelir | Hiçbir şey — doğrudan kullanılır |
+| `gapminder` | Ülke/yıl bazlı yaşam beklentisi, nüfus, GSYH (1952–2007) | `library(gapminder)` |
+
+*1. hafta*
