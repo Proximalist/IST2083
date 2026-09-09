@@ -58,17 +58,13 @@ Bu ders de tam olarak ikincisini hedeflemekte ve sizi bu doğrultuda yetiştirme
 ::: callout-note
 **Tarihte bir örnek: Nightingale'in Gül Diyagramı (1858).** Florence Nightingale, hemşirelik alanındaki çalışmalarıyla tanınır — ama aynı zamanda döneminin önde gelen istatistikçilerindendi. Kırım Savaşı sırasında, İngiliz askerlerinin çoğunun **çarpışmada değil, önlenebilir hastane koşullarından** öldüğünü fark etti. Bunu İngiliz Parlamentosu'na anlatmak için "gül diyagramı" (coxcomb) adı verilen özgün bir daire grafiği tasarladı: hastalıktan ölümleri temsil eden dilim, savaş yaralarından ölümleri temsil eden dilimden çok daha büyüktü — tek bakışta görülüyordu. Bu grafik, sıhhi koşulların iyileştirilmesi için siyasi iradeyi harekete geçirdi.
 
-*(Görsel: "Diagram of the causes of mortality in the army in the East", Florence Nightingale, 1858 — kamu malı, Wikimedia Commons, `File:Nightingale-mortality.jpg`. Görseli depoya eklemek için: dosyayı indirip `images/nightingale-rose-diagram.jpg` olarak kaydedin, aşağıdaki satırı yorumdan çıkarın.)*
-
-\![Nightingale'in 1858 tarihli gül diyagramı\](images/nightingale-rose-diagram.jpg)
+[![1858 tarihli gül diyagramı](images/nightingale-rose-diagram.jpg)](images/nightingale-rose-diagram.jpg)
 :::
 
 ::: callout-note
 **Tarihte bir örnek: Du Bois'nın Paris Sergisi İnfografikleri (1900).** Sosyolog W.E.B. Du Bois, 1900 Paris Dünya Sergisi'nde "Amerikalı Zenciler" (The Exhibit of American Negroes) başlıklı bölüm için Atlanta Üniversitesi'ndeki öğrencileriyle birlikte 58 adet elle çizilmiş istatistiksel grafik hazırladı. Bu grafikler, Amerika'daki siyahi nüfusun eğitim, gelir, meslek ve göç örüntülerini — dönemin ırkçı "bilimsel" iddialarına karşı — somut sayılarla göstererek güçlü bir argümana dönüştürdü. Bugün bu grafikler hem veri görselleştirme tarihinin hem de "veri toplumsal bir tartışmayı nasıl değiştirir" sorusunun en çarpıcı örneklerinden sayılır.
 
-*(Kaynak: Library of Congress, Daniel Murray Koleksiyonu — `loc.gov/pictures/item/2005679642/`, 1900 tarihli, kamu malı. Görseli eklemek isterseniz koleksiyondan bir grafiği indirip `images/dubois-1900-paris.jpg` olarak kaydedin.)*
-
-\![*Library of Congress, Daniel Murray Koleksiyonu\](`mages/dubois-1900-paris.jpg)`*
+![Dubois 1900](images/dubois-1900-paris.jpg)
 :::
 
 ## 1.3 Neden İstatistik?

@@ -19,7 +19,7 @@ editor:
 ## Ders Bilgileri
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | **Ders Kodu** | IST2083 |
 | **Ders Adı** | İstatistik (Temel İstatistik ve R ile Veri Analizi) |
 | **Yarıyıl** | 2026–2027 Güz |
@@ -112,7 +112,7 @@ yazma istenmez; kod okuma, hata bulma ve sonuç yorumlama istenir.
 14:00–17:00 · **Derslik:** RTE.S1.138
 
 | \# | Tarih | Konu | Depo | Okuma |
-|--------------:|---------------|---------------|---------------|---------------|
+|---:|----|----|----|----|
 | 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio ve GitHub | `1_hafta/` | R4DS 1–3 |
 | 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `2_hafta/` | R4DS 27–28 |
 | — | **15 Ekim** | **Ders yapılmaz** — öğretim üyesi yurt dışı konferans | — | — |
@@ -224,7 +224,7 @@ yitirmiştir; yine de terminolojiye alışmak için başlangıçta yararlıdır.
 ### Başvuru kaynakları ve etkileşimli araçlar
 
 | Kaynak | Bağlantı | Ne için |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Posit özet kartları (cheatsheets) | posit.co/resources/cheatsheets | `dplyr`, `ggplot2`, RStudio — tek sayfalık hatırlatıcılar |
 | *ggplot2: Elegant Graphics for Data Analysis* (3e) | ggplot2-book.org | Grafik dilbilgisinin tam referansı |
 | R Graph Gallery | r-graph-gallery.com | Grafik türü → hazır kod |
