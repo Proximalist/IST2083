@@ -420,6 +420,21 @@ my_data_frame <- cbind(my_data_frame, new_column)
 print(my_data_frame)
 ```
 
+## Dördünü Birlikte Görmek
+
+Bu dört yapıyı ezberlemenize gerek yok. Elinizdeki veriye **iki soru**
+sorarsanız hangisine ihtiyacınız olduğunu kendiniz bulursunuz: veri kaç
+boyutlu, ve elemanların türü aynı olmak zorunda mı?
+
+![R'ın dört temel veri yapısının boyut ve tür-homojenliği eksenlerindeki konumu](images/veri-yapilari-tipolojisi.png){width=95%}
+
+Şemanın altındaki iki not önemlidir. **Liste bu tablodan taşar:** bir
+listenin elemanı yine bir liste olabilir, bu yüzden aslında iki boyutlu
+bir tabloya tam oturmaz — R'ın en esnek yapısıdır. **Data frame ise
+aslında özel bir listedir:** her sütunu bir vektör olan, tüm sütunları
+eşit uzunlukta olmak zorunda olan bir liste. Bu yüzden hem `df$sutun`
+(liste sözdizimi) hem `df[1, 2]` (tablo sözdizimi) çalışır.
+
 ::: callout-note
 ## 3. haftaya köprü
 
