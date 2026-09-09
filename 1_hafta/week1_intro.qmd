@@ -89,12 +89,10 @@ Bu örneklerin tümü istatistiğin farklı uygulama alanlarını gösterir. **�
 
 Bu sorgulama, çağımızda **veri okuryazarlığının** temelidir ve tam da bir önceki bölümde sözünü verdiğimiz "argüman kurma becerisi"nin başlangıç noktasıdır.
 
-:::: callout-tip
 ::: callout-tip
 **“Üç tür yalan vardır: yalan, nitelikli yalan ve istatistik.” (Anonim)**\
 Bu söz, istatistiklerin son derece güçlü bir ikna aracı olduğunu; ancak yanlış, eksik ya da kasıtlı biçimde kullanıldığında en tehlikeli yalanları bile “bilimsel” ve “nesnel” bir görünüm altında sunabileceğini vurgulamaktadır. Rakamların ve grafiklerin yarattığı otorite algısı, dinleyicinin eleştirel sorgulamasını zayıflatabilir; böylece yanıltıcı iddialar, sanki kanıtlanmış gerçeklermiş gibi kabul görebilir. Dolayısıyla, bilimsel gerçeklik adı altında karşılaştığımız onlarca bilgiyi ancak iyi bir istatistik okuru olarak aşabiliriz.
 :::
-::::
 
 ## 1.7 Yanıltıcı İstatistik ve Görselleştirme
 
@@ -120,16 +118,15 @@ Aynı veriyi farklı biçimlerde sunmak, tamamen farklı izlenimler yaratabilir.
 
 - **Grafik 2:** Dikey eksen 35'ten başlıyor. Aynı 3 puanlık fark artık B çubuğunun A çubuğundan **çok daha uzun** görünmesine yol açıyor — sanki B partisi ezici bir üstünlükle önde gibi bir izlenim veriyor.
 
-```{r}
-# Grafik 2: Eksen 35–45
-barplot(destek,
-        names.arg = partiler,
-        col = c("steelblue", "tomato"),
-        ylim = c(35, 45),
-        main = "Parti Destekleri (Eksen 35–45)",
-        ylab = "Yüzde Destek")
-
-```
+  ```{r}
+  # Grafik 2: Eksen 35–45
+  barplot(destek,
+          names.arg = partiler,
+          col = c("steelblue", "tomato"),
+          ylim = c(35, 45),
+          main = "Parti Destekleri (Eksen 35–45)",
+          ylab = "Yüzde Destek")
+  ```
 
 İki grafik de **aynı sayılardan** üretildi. Aradaki tek fark eksenin nereden başladığı. Bu, veriyi değiştirmeden algıyı değiştirmenin en yaygın yollarından biridir.
 
