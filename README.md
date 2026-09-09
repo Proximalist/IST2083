@@ -1,7 +1,7 @@
 # IST2083 — Temel İstatistik ve R ile Veri Analizi
 
 **Marmara Üniversitesi, Siyasal Bilgiler Fakültesi · 2026–2027 Güz**
-Doç. Dr. Hakan Mehmetcik · Perşembe, öğleden önce
+Prof. Dr. Hakan Mehmetcik · Perşembe 14:00–17:00 · RTE.S1.138
 
 Bu depo dersin tüm materyallerini barındırır: ders notları, sunumlar,
 alıştırmalar, cevap anahtarları ve veri setleri.

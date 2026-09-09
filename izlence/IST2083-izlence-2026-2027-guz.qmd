@@ -1,7 +1,7 @@
 ---
 title: "IST2083 — Temel İstatistik ve R ile Veri Analizi"
 subtitle: "Ders İzlencesi · 2026–2027 Güz Yarıyılı"
-author: "Doç. Dr. Hakan Mehmetcik"
+author: "Prof. Dr. Hakan Mehmetcik"
 date: last-modified
 lang: tr
 format:
@@ -23,15 +23,15 @@ editor:
 | **Ders Kodu** | IST2083 |
 | **Ders Adı** | İstatistik (Temel İstatistik ve R ile Veri Analizi) |
 | **Yarıyıl** | 2026–2027 Güz |
-| **Gün / Saat** | Perşembe, öğleden önce, 3 ders saati |
-| **Derslik** | *(bölüm tarafından ilan edilecek)* |
+| **Gün / Saat** | Perşembe, 14:00–17:00 (3 ders saati) |
+| **Derslik** | RTE.S1.138 |
 | **Kredi / AKTS** | 3 / 3 |
 | **Ders Türü** | Zorunlu |
 | **Dil** | Türkçe |
-| **Öğretim Üyesi** | Doç. Dr. Hakan Mehmetcik |
+| **Öğretim Üyesi** | Prof. Dr. Hakan Mehmetcik |
 | **E-posta** | hakan.mehmetcik@marmara.edu.tr |
 | **Ofis** | Siyasal Bilgiler Fakültesi, Maltepe RTE Yerleşkesi, Oda 131 |
-| **Ofis Saatleri** | Perşembe, ders sonrası |
+| **Ofis Saatleri** | Perşembe, 11:00–14:00 |
 | **Ders Deposu** | <https://github.com/Proximalist/IST2083> |
 
 ---
@@ -105,7 +105,7 @@ ve sonuç yorumlama istenir.
 
 ## Ders Programı — 2026–2027 Güz
 
-**Yarıyıl:** 28 Eylül 2026 – 3 Ocak 2027 · **Ders günü:** Perşembe
+**Yarıyıl:** 28 Eylül 2026 – 3 Ocak 2027 · **Ders saati:** Perşembe 14:00–17:00 · **Derslik:** RTE.S1.138
 
 | # | Tarih | Konu | Depo | Okuma |
 |---:|---|---|---|---|
