@@ -1,0 +1,278 @@
+---
+title: "IST2083 — Temel İstatistik ve R ile Veri Analizi"
+subtitle: "Ders İzlencesi · 2026–2027 Güz Yarıyılı"
+author: "Doç. Dr. Hakan Mehmetcik"
+date: last-modified
+lang: tr
+format:
+  pdf:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    papersize: a4
+    geometry: margin=2.5cm
+---
+
+## Ders Bilgileri
+
+| | |
+|---|---|
+| **Ders Kodu** | IST2083 |
+| **Ders Adı** | İstatistik (Temel İstatistik ve R ile Veri Analizi) |
+| **Yarıyıl** | 2026–2027 Güz |
+| **Gün / Saat** | Perşembe, öğleden önce, 3 ders saati |
+| **Derslik** | *(bölüm tarafından ilan edilecek)* |
+| **Kredi / AKTS** | 3 / 3 |
+| **Ders Türü** | Zorunlu |
+| **Dil** | Türkçe |
+| **Öğretim Üyesi** | Doç. Dr. Hakan Mehmetcik |
+| **E-posta** | hakan.mehmetcik@marmara.edu.tr |
+| **Ofis** | Siyasal Bilgiler Fakültesi, Maltepe RTE Yerleşkesi, Oda 131 |
+| **Ofis Saatleri** | Perşembe, ders sonrası |
+| **Ders Deposu** | <https://github.com/Proximalist/IST2083> |
+
+---
+
+## Dersin Amacı
+
+Bu ders, öğrencilere **R programlama dilini kullanarak veri analizi yapma
+becerisi** kazandırmayı amaçlar. Ders iki eksende ilerler: önce veriyi R'da
+okuma, düzenleme ve görselleştirme; sonra bu veri üzerinde istatistiksel
+çıkarım yapma.
+
+Ders, R ve istatistik konularında **hiçbir ön bilgisi olmayan** öğrenciler için
+tasarlanmıştır.
+
+---
+
+## Öğrenim Çıktıları
+
+Dersi başarıyla tamamlayan öğrenci:
+
+1. R ve RStudio ortamında temel veri yapılarıyla çalışabilir.
+2. Veri setlerini içe aktarabilir, temizleyebilir, dönüştürebilir ve birleştirebilir.
+3. `ggplot2` ile amaca uygun grafikler üretip yorumlayabilir.
+4. Bir veri setini tanımlayıcı istatistiklerle özetleyebilir.
+5. Olasılık dağılımlarını tanır ve R'ın dağılım fonksiyonlarını kullanabilir.
+6. Örneklem dağılımı ve Merkezi Limit Teoremi'ni açıklayabilir.
+7. Güven aralığı hesaplayabilir ve yorumlayabilir.
+8. Uygun hipotez testini seçip uygulayabilir (t-testi, ki-kare, ANOVA).
+9. Doğrusal ve lojistik regresyon modeli kurup katsayıları yorumlayabilir.
+10. Bir analizin **varsayımlarını denetleyebilir** ve sonucun geçerliliği
+    hakkında karar verebilir.
+
+---
+
+## Değerlendirme
+
+| Değerlendirme | Ağırlık |
+|---|---|
+| **Ara Sınav (Vize)** | **%40** |
+| **Yarıyıl Sonu Sınavı (Final)** | **%60** |
+| **Toplam** | **%100** |
+
+Bu dersin **başka hiçbir notlandırılmış değerlendirme bileşeni yoktur.**
+Proje, ödev, kısa sınav veya katılım notu uygulanmaz.
+
+### Notlandırılmayan alıştırmalar
+
+Her oturumun ardından ders deposunda o konuya ait bir **alıştırma dosyası ve
+cevap anahtarı** yayımlanır. Bu alıştırmalar **notlandırılmaz ve teslim
+edilmez.** Amacı, öğrencinin sınav öncesinde kendi durumunu ölçebilmesidir.
+Sınav soruları bu alıştırmalarla aynı biçimde kurgulanır.
+
+### Sınavların biçimi
+
+Her iki sınav da **sınıf içinde, gözetim altında** yapılır. Sınavlar
+öncelikle **R çıktısı okuma ve yorumlama** üzerine kuruludur: öğrenciye bir
+`summary()` tablosu, bir grafik veya bir test sonucu verilir ve bunu
+yorumlaması istenir. Ezberden uzun kod yazma istenmez; kod okuma, hata bulma
+ve sonuç yorumlama istenir.
+
+- **Vize kapsamı (19 Kasım):** 1.–5. oturumlar — R temelleri, veri işleme,
+  görselleştirme ve **tanımlayıcı istatistik.**
+- **Final kapsamı:** Dönemin tamamı; ağırlık 6.–12. oturumlarda
+  (olasılık, çıkarım ve modelleme).
+
+---
+
+## Ders Programı — 2026–2027 Güz
+
+**Yarıyıl:** 28 Eylül 2026 – 3 Ocak 2027 · **Ders günü:** Perşembe
+
+| # | Tarih | Konu | Depo | Okuma |
+|---:|---|---|---|---|
+| 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio ve GitHub | `1_hafta/` | R4DS 1–3 |
+| 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `2_hafta/` | R4DS 27–28 |
+| — | **15 Ekim** | **Ders yapılmaz** — öğretim üyesi yurt dışı konferans | — | — |
+| 3 | 22 Ekim | Veri işleme: `dplyr`, `tidyr`; Quarto ile raporlama | `5_hafta/`, `6_hafta/` | R4DS 3–5, 19–20 |
+| — | **29 Ekim** | **Cumhuriyet Bayramı — resmî tatil** | — | — |
+| 4 | 5 Kasım | Veri görselleştirme: `ggplot2` | `3_hafta/` | R4DS 1, 9–11; socviz 3–5 |
+| 5 | 12 Kasım | **Tanımlayıcı istatistik** | `4_hafta/` | IMS 4–7 |
+| — | **19 Kasım** | **ARA SINAV** — kapsam: 1.–5. oturumlar | — | — |
+| 6 | 26 Kasım | Olasılık, rastgele değişkenler ve dağılımlar | `6_hafta/`, `8_hafta/` | IMS 3; LSR 9 |
+| 7 | 3 Aralık | Örnekleme, örneklem dağılımı ve Merkezi Limit Teoremi | `7_hafta/` | IMS 12–13; ModernDive 7 |
+| T | *Telafi* | Tahmin ve güven aralıkları | `9_hafta/` | IMS 14; ModernDive 8 |
+| 8 | 10 Aralık | Hipotez testi I: kurgu, p-değeri, t-testleri | `10_hafta/` | IMS 15–17; ModernDive 9 |
+| 9 | 17 Aralık | **Hipotez testi II: ki-kare ve ANOVA** | `10_hafta/` | IMS 18–19; LSR 12–14 |
+| 10 | 24 Aralık | Korelasyon, basit ve çoklu doğrusal regresyon | `11_hafta/`, `12_hafta/` | IMS 7, 24–25; ModernDive 5–6 |
+| 11 | 31 Aralık | Lojistik regresyon ve genel tekrar | `13_hafta/` | IMS 26; QSS 6 |
+| — | 4–17 Ocak 2027 | **YARIYIL SONU SINAVI** (tarih bölümce ilan edilir) | — | — |
+| — | 18–24 Ocak 2027 | Bütünleme sınavı | — | — |
+
+**Toplam: 11 Perşembe oturumu + 1 telafi = 12 oturum.** Yarıyıldaki 14
+Perşembe'nin üçü ders dışıdır: 15 Ekim (konferans), 29 Ekim (resmî tatil),
+19 Kasım (ara sınav).
+
+::: {.callout-important}
+**Telafi dersi.** 15 Ekim'de yapılamayan oturum, Aralık ayı içinde Perşembe
+dışı bir günde telafi edilir; tarih ve saat bölümle koordine edilerek en az
+iki hafta önceden duyurulur.
+:::
+
+::: {.callout-note}
+**31 Aralık uyarısı.** Son oturum yılbaşı arifesine denk gelir. Resmî tatil
+değildir, ancak katılım düşük olabilir. Bu oturum yapılamazsa lojistik
+regresyon 10. oturumun sonuna eklenir ve genel tekrar ders deposu üzerinden
+yazılı olarak yürütülür. Bu nedenle final için kritik olan konular
+(hipotez testi, ANOVA, regresyon) bilinçli olarak bu tarihten önce
+konumlandırılmıştır.
+:::
+
+---
+
+## Ders Ortamı ve Gerekli Materyaller
+
+Dersin materyalleri **GitHub deposu** üzerinden dağıtılır. Öğrenci iki
+ortamdan birini seçebilir:
+
+- **RStudio (yerel kurulum)** — kendi dizüstü bilgisayarına R ve RStudio
+  kurar. Kurulum rehberi depodadır (`R_RStudio_Kurulum_Rehberi`).
+- **GitHub Codespaces (bulut)** — tarayıcı üzerinden çalışır, kurulum
+  gerektirmez. Depo, gerekli tüm paketleri içeren bir ortam tanımıyla gelir.
+
+Her iki yol da desteklenir; ders anlatımı RStudio arayüzü üzerinden yapılır.
+Derse dizüstü bilgisayar getirilmesi tavsiye edilir.
+
+---
+
+## Kaynaklar
+
+Bu dersin kaynak seçiminde iki ilke gözetilmiştir: **ücretsiz ve çevrimiçi
+erişilebilir olmak**, ve **güncel olmak**. Aşağıdaki temel kaynakların tamamı
+ücretsizdir ve yazarları tarafından sürekli güncellenmektedir.
+
+### Temel kaynaklar (zorunlu okuma kaynağı)
+
+**R4DS — *R for Data Science* (2. baskı)**
+Hadley Wickham, Mine Çetinkaya-Rundel, Garrett Grolemund
+<https://r4ds.hadley.nz/>
+Dersin R ve veri işleme omurgası. `dplyr`, `ggplot2`, `tidyr` ve Quarto
+bölümleri doğrudan ders programına karşılık gelir.
+
+**IMS — *Introduction to Modern Statistics* (2. baskı)**
+Mine Çetinkaya-Rundel, Johanna Hardin · OpenIntro
+<https://openintro-ims.netlify.app/>
+Dersin istatistik omurgası. Keşifsel veri analizine ağırlık verir ve çıkarımı
+hem simülasyon (permütasyon, bootstrap) hem de klasik MLT yaklaşımıyla
+anlatır. Ders slaytları, laboratuvarları ve etkileşimli öğreticileri
+openintro.org/book/ims adresinden ücretsiz indirilebilir.
+
+**ModernDive — *Statistical Inference via Data Science* (2. baskı)**
+Chester Ismay, Albert Y. Kim, Arturo Valdivia
+<https://moderndive.com/v2/>
+R ile istatistiksel çıkarım arasındaki köprü. `infer` paketiyle güven aralığı
+ve hipotez testini formülden önce simülasyonla gösterir. Bu dersin
+"çıktıyı anla, formülü ezberleme" yaklaşımıyla birebir örtüşür.
+
+### Siyaset bilimi ve sosyal bilim odaklı
+
+**QSS — *Quantitative Social Science: An Introduction***
+Kosuke Imai · <https://qss.princeton.press/>
+Siyaset biliminde nicel yöntemin standart giriş kitabı. Örnekleri seçim,
+savaş, kamuoyu ve politika verileri üzerinden kurulur.
+
+**Kieran Healy, *Data Visualization: A Practical Introduction***
+<https://socviz.co/>
+`ggplot2`'yi sosyal bilimci gözüyle anlatır: hangi grafik hangi soruya cevap
+verir, hangi grafik yanıltır.
+
+**Rohan Alexander, *Telling Stories with Data***
+<https://tellingstorieswithdata.com/>
+Veri toplamadan yayımlamaya kadar tüm süreci ele alır. Ölçüm, veri kaynağı
+eleştirisi ve yeniden üretilebilirlik bölümleri özellikle değerlidir.
+
+### Türkçe kaynaklar
+
+Türkçe ücretsiz kaynaklar sınırlıdır ve büyük ölçüde güncelliğini yitirmiştir;
+yine de terminolojiye alışmak için başlangıçta yararlıdır.
+
+- **Emre Toros, *Sosyal Bilimler Araştırmaları için R*** —
+  <https://bookdown.org/emretoros/r_kitabi/> · Ücretsiz. Yazarı metnin hızlı
+  yazıldığını ve hata içerebileceğini belirtir; kod örnekleri için R4DS ile
+  birlikte okunmalıdır.
+- **Sosyal Bilimler R Platformu** —
+  <https://bookdown.org/burak2358/SARP-TR/> · Ücretsiz, İngilizceden
+  çevrilmiş uygulama odaklı derleme.
+
+Basılı Türkçe kaynaklar (kütüphaneden):
+
+- İbrahim Demir, *R ile Uygulamalı İstatistik* (Seçkin)
+- Suat Atan & Hakan Emekçi, *R ile Veri Analizi* (Seçkin) — sosyal bilim odaklı
+- *R ile İstatistiksel Analiz ve Programlama* (Nobel Akademik)
+
+### Başvuru kaynakları ve etkileşimli araçlar
+
+| Kaynak | Bağlantı | Ne için |
+|---|---|---|
+| Posit özet kartları (cheatsheets) | posit.co/resources/cheatsheets | `dplyr`, `ggplot2`, RStudio — tek sayfalık hatırlatıcılar |
+| *ggplot2: Elegant Graphics for Data Analysis* (3e) | ggplot2-book.org | Grafik dilbilgisinin tam referansı |
+| R Graph Gallery | r-graph-gallery.com | Grafik türü → hazır kod |
+| From Data to Viz | data-to-viz.com | Veri türü → doğru grafik türü kararı |
+| swirl | swirlstats.com | R konsolu içinde etkileşimli alıştırma |
+| Posit Recipes | posit.cloud/learn/recipes | Sık görevlerin kısa çözümleri |
+| Quarto belgeleri | quarto.org | Rapor ve sunum üretimi |
+
+### Klasik ve arka plan kaynakları
+
+- Danielle Navarro, *Learning Statistics with R* —
+  <https://learningstatisticswithr.com/> · Ders deposundaki birçok veri
+  setinin kaynağı; ANOVA ve ki-kare bölümleri özellikle ayrıntılıdır.
+- Peter Dalgaard, *Introductory Statistics with R* (Springer)
+- Venables, Smith & R Core Team, *An Introduction to R* — cran.r-project.org
+
+### Yardım alma
+
+Bir hata mesajıyla karşılaştığınızda sırasıyla: R içinde `?fonksiyon`
+yardımı → ders deposunun **Issues** sekmesi → <https://forum.posit.co> →
+Stack Overflow (`r` etiketi). Sorunuzu sorarken hatayı üreten **en kısa kod
+parçasını** paylaşın.
+
+---
+
+## Akademik Dürüstlük
+
+- Sınavlarda izinsiz materyal ve cihaz kullanımı yasaktır.
+- Sınavlar öğrencinin kendi çalışmasını yansıtmalıdır.
+- Ders materyallerinin izinsiz çoğaltılması ve dağıtılması telif ihlalidir.
+
+**Yapay zekâ araçları hakkında:** Alıştırmalar notlandırılmadığı için bu
+araçları öğrenme sürecinde kullanmak serbesttir ve teşvik edilir. Ancak
+dersin ölçtüğü beceri — bir çıktıyı okuyup doğru yorumlamak — sınıf içi
+gözetimli sınavda ölçülür. Bir modele analiz yaptırıp sonucu anlamadan
+kopyalamak, bu sınavda karşılığı olmayan bir çalışma biçimidir.
+
+---
+
+## İletişim
+
+Dersle ilgili sorular için e-posta en hızlı yoldur. Teknik sorular
+(kurulum, paket hatası, kod çalışmıyor) için ders deposunun **Issues**
+sekmesi kullanılabilir; böylece aynı sorunu yaşayan diğer öğrenciler de
+cevabı görür.
+
+---
+
+*Bu izlencedeki içerik ve program, önceden duyurulmak kaydıyla öğretim
+üyesinin takdirine bağlı olarak değiştirilebilir. Akademik takvim kaynağı:
+<https://takvim.marmara.edu.tr/year/2026>*
