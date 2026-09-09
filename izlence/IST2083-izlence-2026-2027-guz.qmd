@@ -19,11 +19,11 @@ editor:
 ## Ders Bilgileri
 
 |  |  |
-|----|----|
+|------------------------------------|------------------------------------|
 | **Ders Kodu** | IST2083 |
 | **Ders Adı** | İstatistik (Temel İstatistik ve R ile Veri Analizi) |
 | **Yarıyıl** | 2026–2027 Güz |
-| **Gün / Saat** | Perşembe, 14:00–17:00 (3 ders saati) |
+| **Gün / Saat** | Perşembe, 08:30–11:30 (3 ders saati) |
 | **Derslik** | RTE.S1.138 |
 | **Kredi / AKTS** | 3 / 3 |
 | **Ders Türü** | Zorunlu |
@@ -31,7 +31,7 @@ editor:
 | **Öğretim Üyesi** | Prof. Dr. Hakan Mehmetcik |
 | **E-posta** | hakan.mehmetcik\@marmara.edu.tr |
 | **Ofis** | Siyasal Bilgiler Fakültesi, Maltepe RTE Yerleşkesi, Oda 131 |
-| **Ofis Saatleri** | Perşembe, 11:00–14:00 |
+| **Ofis Saatleri** | Perşembe, 11:30–14:30 |
 | **Ders Deposu** | <https://github.com/Proximalist/IST2083> |
 
 ------------------------------------------------------------------------
@@ -109,10 +109,10 @@ yazma istenmez; kod okuma, hata bulma ve sonuç yorumlama istenir.
 ## Ders Programı — 2026–2027 Güz
 
 **Yarıyıl:** 28 Eylül 2026 – 3 Ocak 2027 · **Ders saati:** Perşembe
-14:00–17:00 · **Derslik:** RTE.S1.138
+08:30–11:30 · **Derslik:** RTE.S1.138
 
 | \# | Tarih | Konu | Depo | Okuma |
-|---:|----|----|----|----|
+|--------------:|---------------|---------------|---------------|---------------|
 | 1 | 1 Ekim | Giriş: istatistiğin anlamı; R, RStudio ve GitHub | `01_hafta/` | R4DS 1–3 |
 | 2 | 8 Ekim | R'da veri türleri, veri yapıları ve temel fonksiyonlar | `02_hafta/` | R4DS 27–28 |
 | — | **15 Ekim** | **Ders yapılmaz** — öğretim üyesi yurt dışı konferans | — | — |
@@ -224,7 +224,7 @@ yitirmiştir; yine de terminolojiye alışmak için başlangıçta yararlıdır.
 ### Başvuru kaynakları ve etkileşimli araçlar
 
 | Kaynak | Bağlantı | Ne için |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Posit özet kartları (cheatsheets) | posit.co/resources/cheatsheets | `dplyr`, `ggplot2`, RStudio — tek sayfalık hatırlatıcılar |
 | *ggplot2: Elegant Graphics for Data Analysis* (3e) | ggplot2-book.org | Grafik dilbilgisinin tam referansı |
 | R Graph Gallery | r-graph-gallery.com | Grafik türü → hazır kod |
@@ -275,10 +275,12 @@ kopyalamak, bu sınavda karşılığı olmayan bir çalışma biçimidir.
 
 ## İletişim
 
-Dersle ilgili sorular için e-posta en hızlı yoldur. Teknik sorular
-(kurulum, paket hatası, kod çalışmıyor) için ders deposunun **Issues**
-sekmesi kullanılabilir; böylece aynı sorunu yaşayan diğer öğrenciler de
-cevabı görür.
+Dersle ilgili sorular için e-posta en hızlı yoldur.\
+Email: hakan.mehmetcik@marmara.edu.tr
+
+Teknik sorular (kurulum, paket hatası, kod çalışmıyor) için ders
+deposunun **Issues** sekmesi kullanılabilir; böylece aynı sorunu yaşayan
+diğer öğrenciler de cevabı görür.
 
 ------------------------------------------------------------------------
 
