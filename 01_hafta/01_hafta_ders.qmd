@@ -11,6 +11,9 @@ execute:
   message: false
   cache: false
 df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
 ---
 
 ## Öğrenme Çıktıları
@@ -345,9 +348,10 @@ mean(c(1, 2, 3))    # Doğrusu, küçük harfle
 ## 3.2 Yardım Alma Yolları
 
 ```{r}
-?mean
-help(mean)
-example(mean)
+#| eval: false
+?mean          # yardım sayfasını açar
+help(mean)     # ?mean ile aynı işi yapar
+example(mean)  # yardım sayfasındaki örnekleri çalıştırır
 ```
 
 Paket belgeleri (CRAN), RStudio **Help** paneli ve topluluk kaynakları (Stack Overflow, Posit Community forumu) değerlidir. Hata mesajının tamamını arama motoruna yapıştırmak, çoğu zaman en hızlı çözümdür — büyük ihtimalle aynı hatayla sizden önce biri karşılaşmıştır.

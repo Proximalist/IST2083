@@ -251,9 +251,10 @@ mean(c(1, 2, 3))
 ## Yardım Alma
 
 ```{r}
-?mean
-help(mean)
-example(mean)
+#| eval: false
+?mean          # yardım sayfasını açar
+help(mean)     # ?mean ile aynı işi yapar
+example(mean)  # yardım sayfasındaki örnekleri çalıştırır
 ```
 
 ------------------------------------------------------------------------
