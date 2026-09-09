@@ -102,7 +102,7 @@ Veri, bir argümana dönüştü.
 -   Dondurma satışı artar → boğulma vakaları da artar
 -   Dondurma boğulmaya yol açmıyor
 -   İkisi de **sıcak hava**dan kaynaklanıyor
--   Ayrıntısı: **12. hafta**, regresyon
+-   Ayrıntısı: **10. oturum**, regresyon
 
 ## Yanıltıcı İstatistik: Kurgusal Örnek
 
@@ -138,7 +138,7 @@ ggplot(veri, aes(x = parti, y = destek, fill = parti)) +
 ```
 
 ::: {.notes}
-ggplot2 sözdizimini 4. haftada ayrıntılı öğreneceğiz — şimdilik yalnızca
+ggplot2 sözdizimini 4. oturumda ayrıntılı öğreneceğiz — şimdilik yalnızca
 sonuca bakın.
 :::
 
@@ -148,7 +148,7 @@ sonuca bakın.
 -   **Oran yerine ham sayı:** "500 vaka artışı" — hangi nüfusta?
 -   **Örneklem büyüklüğünü gizlemek:** 1936'da 2 milyon kişiye
     ulaşılmasına rağmen yanlış tahmin — *kime* ulaşıldığı önemliydi
-    (ayrıntı: **7. hafta**)
+    (ayrıntı: **7. oturum**)
 
 ------------------------------------------------------------------------
 
@@ -298,6 +298,6 @@ geçmişi her adımı denetime açık bırakır.
 
 -   Bu haftanın **alıştırma dosyası** ve **cevap anahtarı** depoda
 -   Notlandırılmıyor — kendi durumunuzu ölçmek için
--   2. hafta: veri türleri, veri yapıları, temel fonksiyonlar
+-   2. oturum: veri türleri, veri yapıları, temel fonksiyonlar
 
 # Soru & Cevap

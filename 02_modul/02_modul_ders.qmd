@@ -309,7 +309,7 @@ R, `TRUE` olan konumlardaki elemanları tutar, `FALSE` olanları atar. Bu
 işleme **mantıksal indeksleme** (İng. *logical subsetting*) ya da
 **maskeleme** denir.
 
-Koşulları 1. haftada gördüğünüz `&` (ve), `|` (veya), `!` (değil)
+Koşulları 1. oturumda gördüğünüz `&` (ve), `|` (veya), `!` (değil)
 operatörleriyle birleştirebilirsiniz:
 
 ```{r}
@@ -439,7 +439,7 @@ eşit uzunlukta olmak zorunda olan bir liste. Bu yüzden hem `df$sutun`
 (liste sözdizimi) hem `df[1, 2]` (tablo sözdizimi) çalışır.
 
 ::: callout-note
-## 3. haftaya köprü
+## 3. oturuma köprü
 
 `my_data_frame[my_data_frame$numbers > 2, ]` yazımı doğru ama hantaldır:
 veri çerçevesinin adını iki kez tekrarlamak zorunda kalırsınız. 3.

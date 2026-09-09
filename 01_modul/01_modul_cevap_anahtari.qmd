@@ -43,7 +43,7 @@ kişiye ulaştı, ama bu kişiler yalnızca telefon ve otomobil sahiplerinden
 (dönemin görece varlıklı kesimi) seçilmişti — nüfusun tamamını temsil
 etmiyorlardı. Örneklem büyüklüğü tek başına güvenilirlik garantisi
 vermez; **kime ulaşıldığı** en az örneklem büyüklüğü kadar önemlidir.
-Bu vakayı 7. haftada örnekleme konusunda ayrıntılı işleyeceğiz.
+Bu vakayı 7. oturumda örnekleme konusunda ayrıntılı işleyeceğiz.
 
 **4. Doğru cevap: c)** Dondurma satışı ile boğulma vakaları arasındaki
 ilişki, ikisinin de bağımsız olarak sıcak havadan etkilenmesinden

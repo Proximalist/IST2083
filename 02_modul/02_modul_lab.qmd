@@ -228,7 +228,7 @@ str(df)
 
 # Bölüm D — Mantıksal İndeksleme
 
-Bu bölüm derste yeni öğrendiğiniz konunun uygulamasıdır ve 3. haftada
+Bu bölüm derste yeni öğrendiğiniz konunun uygulamasıdır ve 3. oturumda
 göreceğiniz `dplyr::filter()` işleminin temelidir.
 
 ## Görev D1 — Maske üretmek

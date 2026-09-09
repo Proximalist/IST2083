@@ -308,14 +308,14 @@ str(titanic)
 
 ------------------------------------------------------------------------
 
-## 17) 3. Haftaya Köprü
+## 17) 3. Oturuma Köprü
 
 `df[df$yas > 25, ]` doğru ama hantal — veri çerçevesinin adını iki kez
 yazıyoruz.
 
 . . .
 
-3. haftada `dplyr` ile aynı işi şöyle yazacağız:
+3. oturumda `dplyr` ile aynı işi şöyle yazacağız:
 
 ```{r}
 #| eval: false
@@ -329,7 +329,7 @@ hâle getirmek.**
 
 ------------------------------------------------------------------------
 
-## 18) Bu Hafta Ne Yapacaksınız?
+## 18) Bu Modülde Ne Yapacaksınız?
 
 -   `02_modul_lab.qmd` — derste birlikte, boşlukları siz dolduracaksınız
 -   `02_modul_alistirmalar.qmd` — 16 çoktan seçmeli soru

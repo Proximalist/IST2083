@@ -135,7 +135,7 @@ uygular. (d) yanlıştır: `df > 25` tüm data frame'i sayıyla
 karşılaştırmaya çalışır.
 
 ::: callout-note
-Bu son soru, 3. haftada `dplyr::filter()` öğrenirken neden rahatlayacağınızı
+Bu son soru, 3. oturumda `dplyr::filter()` öğrenirken neden rahatlayacağınızı
 da açıklıyor: `filter(df, yas > 25)` yazımında virgül tuzağı yoktur.
 Ama altta çalışan mantık aynıdır.
 :::
