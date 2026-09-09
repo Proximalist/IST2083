@@ -10,9 +10,9 @@
 <link href="week1_intro_presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.57">
 
-  <meta name="author" content="Hakan Mehmetcik">
-  <meta name="dcterms.date" content="2025-09-24">
-  <title>1. Hafta: Giriş — İstatistiğin Anlamı ve Önemi; GitHub, R ve RStudio’a Giriş</title>
+  <meta name="author" content="Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik">
+  <meta name="dcterms.date" content="2026-09-09">
+  <title>1. Hafta: Giriş — İstatistiğin Anlamı ve Önemi; R, RStudio ve GitHub’a Giriş</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -392,22 +392,42 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">1. Hafta: Giriş — İstatistiğin Anlamı ve Önemi; GitHub, R ve RStudio’a Giriş</h1>
+  <h1 class="title">1. Hafta: Giriş — İstatistiğin Anlamı ve Önemi; R, RStudio ve GitHub’a Giriş</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Hakan Mehmetcik 
+Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik 
 </div>
 </div>
 </div>
 
-  <p class="date">2025-09-24</p>
+  <p class="date">2026-09-09</p>
 </section>
 <section>
 <section id="istatistiğin-anlamı-ve-önemi" class="title-slide slide level1 center">
 <h1>İstatistiğin Anlamı ve Önemi</h1>
 
+</section>
+<section id="kelimenin-kökeni-bile-size-ait" class="slide level2">
+<h2>Kelimenin Kökeni Bile Size Ait</h2>
+<ul>
+<li><em>Statistik</em> (Almanca) → Achenwall, 1740’ların sonu</li>
+<li>Kaynağı: <em>statisticus</em> (devlet işleri) + <em>statista</em> (devlet adamı)</li>
+<li>İstatistik en baştan beri <strong>devletleri, toplumları anlama</strong> bilimi</li>
+<li>Siz bu disiplinin yabancısı değil, <strong>ev sahibisiniz</strong></li>
+</ul>
+</section>
+<section id="bir-tanıdık-tepki" class="slide level2">
+<h2>Bir Tanıdık Tepki</h2>
+<blockquote>
+<p>“Ben bu bölümü sayılardan kaçmak için seçtim.”</p>
+</blockquote>
+<ul>
+<li>Anlaşılır ama yanlış bir varsayıma dayanıyor</li>
+<li>Mühendis istatistiği <strong>hesaplama</strong> aracı olarak öğrenir</li>
+<li>Siz onu <strong>argüman kurma ve kanıt oluşturma</strong> aracı olarak öğrenirsiniz</li>
+</ul>
 </section>
 <section id="istatistik-nedir" class="slide level2">
 <h2>İstatistik Nedir?</h2>
@@ -417,21 +437,64 @@ Hakan Mehmetcik
 <li>Düzenleme, özetleme, yorumlama</li>
 </ul>
 </section>
+<section id="tarihte-bir-örnek-nightingalein-gül-diyagramı-1858" class="slide level2">
+<h2>Tarihte Bir Örnek: Nightingale’in Gül Diyagramı (1858)</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/nightingale-rose-diagram.jpg" height="480"></p>
+<figcaption>Nightingale’in gül diyagramı — kamu malı, Wikimedia Commons</figcaption>
+</figure>
+</div>
+<aside class="notes">
+<p>Kırım Savaşı’nda askerlerin çoğu çarpışmada değil, önlenebilir hastane koşullarından öldü. Nightingale bunu Parlamentoya anlatmak için bu grafiği tasarladı — hastalık dilimi savaş yarası diliminden çok daha büyük, tek bakışta görülüyor.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="tarihte-bir-örnek-du-boisnın-paris-sergisi-1900" class="slide level2">
+<h2>Tarihte Bir Örnek: Du Bois’nın Paris Sergisi (1900)</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/dubois-1900-paris.jpg" height="420"></p>
+<figcaption>Du Bois’nın el çizimi infografiklerinden biri — kamu malı, LOC</figcaption>
+</figure>
+</div>
+<aside class="notes">
+<p>Sosyolog W.E.B. Du Bois, Atlanta Üniversitesi öğrencileriyle 58 grafik hazırladı — Amerika’daki siyahi nüfusun eğitim, gelir, meslek örüntülerini dönemin ırkçı iddialarına karşı somut sayılarla gösterdi. Veri, bir argümana dönüştü.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="neden-istatistik" class="slide level2">
 <h2>Neden İstatistik?</h2>
 <ul>
-<li>Sosyal medya etkileşimleri</li>
-<li>Spor müsabakaları istatistikleri</li>
-<li>Seçim anketleri</li>
+<li>Kamuoyu araştırmaları, seçim tahminleri</li>
+<li>Ekonomi haberleri (enflasyon, işsizlik)</li>
 <li>Sağlık araştırmaları</li>
-<li><strong>Karar vermede kritik rol</strong></li>
+<li>“Araştırmalara göre…” ile başlayan her iddia</li>
 </ul>
 </section>
 <section id="kullanım-alanları" class="slide level2">
 <h2>Kullanım Alanları</h2>
 <ul>
 <li>Bilimsel araştırmalar</li>
-<li>Ekonomi &amp; siyaset</li>
+<li>Ekonomi ve siyaset</li>
 <li>Sağlık</li>
 <li>Günlük yaşam (reklam, müşteri, trafik)</li>
 </ul>
@@ -452,33 +515,83 @@ Hakan Mehmetcik
 <li>Grafik ve rakamları sorgulama</li>
 <li>Veri okuryazarlığı</li>
 </ul>
+<blockquote>
+<p>“Üç tür yalan vardır: yalan, nitelikli yalan ve istatistik.” (Anonim)</p>
+</blockquote>
 </section>
-<section id="istatistiğe-dair-önyargılar" class="slide level2">
-<h2>İstatistiğe Dair Önyargılar</h2>
+<section id="önden-bir-uyarı-korelasyon-nedensellik" class="slide level2">
+<h2>Önden Bir Uyarı: Korelasyon ≠ Nedensellik</h2>
 <ul>
-<li>“Sıkıcı, ezber, zor” algısı</li>
-<li>Oysa:
-<ul>
-<li>Gerçek hayatla bağlantılı</li>
-<li>Problemleri anlamayı kolaylaştırır</li>
-<li>Merak uyandırır</li>
-</ul></li>
+<li>Dondurma satışı artar → boğulma vakaları da artar</li>
+<li>Dondurma boğulmaya yol açmıyor</li>
+<li>İkisi de <strong>sıcak hava</strong>dan kaynaklanıyor</li>
+<li>Ayrıntısı: <strong>12. hafta</strong>, regresyon</li>
 </ul>
 </section>
-<section id="yanıltıcı-istatistik" class="slide level2">
-<h2>Yanıltıcı İstatistik</h2>
+<section id="yanıltıcı-istatistik-kurgusal-örnek" class="slide level2">
+<h2>Yanıltıcı İstatistik: Kurgusal Örnek</h2>
 <ul>
-<li>Eksen kırpma</li>
-<li>Veri seçmeciliği</li>
-<li>Oran yerine ham sayı</li>
+<li>Ankette A Partisi %38, B Partisi %41</li>
+<li>Aradaki fark yalnızca 3 puan</li>
+<li>Aynı sayılar, iki farklı eksenle…</li>
+</ul>
+</section>
+<section id="grafik-1-dürüst-eksen-0100" class="slide level2">
+<h2>Grafik 1 — Dürüst (Eksen 0–100)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href=""></a></span>
+<span id="cb1-3"><a href=""></a>veri <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-4"><a href=""></a>  <span class="at">parti =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"A Partisi"</span>, <span class="st">"B Partisi"</span>)),</span>
+<span id="cb1-5"><a href=""></a>  <span class="at">destek =</span> <span class="fu">c</span>(<span class="dv">38</span>, <span class="dv">41</span>)</span>
+<span id="cb1-6"><a href=""></a>)</span>
+<span id="cb1-7"><a href=""></a></span>
+<span id="cb1-8"><a href=""></a><span class="fu">ggplot</span>(veri, <span class="fu">aes</span>(<span class="at">x =</span> parti, <span class="at">y =</span> destek, <span class="at">fill =</span> parti)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb1-10"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb1-11"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gerçek: Baş Başa Bir Yarış"</span>, <span class="at">y =</span> <span class="st">"% Destek"</span>, <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb1-12"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="week1_intro_presentation_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
+<section id="grafik-2-yanıltıcı-eksen-3545" class="slide level2">
+<h2>Grafik 2 — Yanıltıcı (Eksen 35–45)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">ggplot</span>(veri, <span class="fu">aes</span>(<span class="at">x =</span> parti, <span class="at">y =</span> destek, <span class="at">fill =</span> parti)) <span class="sc">+</span></span>
+<span id="cb2-2"><a href=""></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-3"><a href=""></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">45</span>)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Algı: B Partisi Ezici Farkla Önde"</span>, <span class="at">y =</span> <span class="st">"% Destek"</span>, <span class="at">x =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a href=""></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="week1_intro_presentation_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"><aside class="notes">
+<p>ggplot2 sözdizimini 4. haftada ayrıntılı öğreneceğiz — şimdilik yalnızca sonuca bakın.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="diğer-yanıltma-biçimleri" class="slide level2">
+<h2>Diğer Yanıltma Biçimleri</h2>
+<ul>
+<li><strong>Veri seçmeciliği:</strong> zaman serisinin yalnızca lehe kısmı</li>
+<li><strong>Oran yerine ham sayı:</strong> “500 vaka artışı” — hangi nüfusta?</li>
+<li><strong>Örneklem büyüklüğünü gizlemek:</strong> 1936’da 2 milyon kişiye ulaşılmasına rağmen yanlış tahmin — <em>kime</em> ulaşıldığı önemliydi (ayrıntı: <strong>7. hafta</strong>)</li>
 </ul>
 </section>
 <section class="slide level2">
 
 </section></section>
 <section>
-<section id="r-ve-rstudioa-hızlı-giriş" class="title-slide slide level1 center">
-<h1>R ve RStudio’a Hızlı Giriş</h1>
+<section id="r-ve-rstudioya-hızlı-giriş" class="title-slide slide level1 center">
+<h1>R ve RStudio’ya Hızlı Giriş</h1>
 
 </section>
 <section id="neden-r" class="slide level2">
@@ -486,34 +599,43 @@ Hakan Mehmetcik
 <ul>
 <li>İstatistik ve görselleştirmede güçlü</li>
 <li>Akademide yaygın, geniş paket ekosistemi</li>
-<li>Python ile tamamlayıcı</li>
+<li>Python ile tamamlayıcı, birbirini dışlamaz</li>
 </ul>
 </section>
 <section id="rstudio-arayüzü" class="slide level2">
 <h2>RStudio Arayüzü</h2>
 <ul>
-<li>Script vs Console</li>
-<li>Environment / History</li>
-<li>Plots / Files / Help</li>
+<li><strong>Source (Script)</strong> — kalıcı kod</li>
+<li><strong>Console</strong> — anlık deneme</li>
+<li><strong>Environment / History</strong></li>
+<li><strong>Plots / Files / Packages / Help</strong></li>
+</ul>
+</section>
+<section id="neden-quarto" class="slide level2">
+<h2>Neden Quarto?</h2>
+<ul>
+<li>Metin + çalıştırılabilir kod + çıktı, <strong>aynı belgede</strong></li>
+<li>“Okunabilir programlama” (literate programming)</li>
+<li>Altı ay sonra hangi kodun neyi ürettiğini hatırlamanıza gerek yok</li>
 </ul>
 </section>
 <section id="ilk-komutlar" class="slide level2">
 <h2>İlk Komutlar</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
 </div>
 </section>
-<section id="örnek-veri-seti" class="slide level2">
-<h2>Örnek Veri Seti</h2>
+<section id="isınma-iris" class="slide level2">
+<h2>Isınma: <code>iris</code></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">head</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">head</span>(iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 1          5.1         3.5          1.4         0.2  setosa
@@ -523,16 +645,47 @@ Hakan Mehmetcik
 5          5.0         3.6          1.4         0.2  setosa
 6          5.4         3.9          1.7         0.4  setosa</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">mean</span>(iris<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">mean</span>(iris<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.843333</code></pre>
 </div>
 </div>
 </section>
+<section id="ders-boyunca-süren-veri-setimiz-gapminder" class="slide level2">
+<h2>Ders Boyunca Süren Veri Setimiz: <code>gapminder</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb11-2"><a href=""></a><span class="fu">head</span>(gapminder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  country     continent  year lifeExp      pop gdpPercap
+  &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+1 Afghanistan Asia       1952    28.8  8425333      779.
+2 Afghanistan Asia       1957    30.3  9240934      821.
+3 Afghanistan Asia       1962    32.0 10267083      853.
+4 Afghanistan Asia       1967    34.0 11537966      836.
+5 Afghanistan Asia       1972    36.1 13079460      740.
+6 Afghanistan Asia       1977    38.4 14880372      786.</code></pre>
+</div>
+</div>
+<aside class="notes">
+<p>Hans Rosling’in Gapminder Vakfı — ülkelerin yaşam beklentisi, nüfus, kişi başı gelir. 1952–2007. Bu ders boyunca sık sık döneceğiz.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="temel-aritmetik" class="slide level2">
 <h2>Temel Aritmetik</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="dv">5</span> <span class="sc">+</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">-</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">*</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">/</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="dv">5</span> <span class="sc">+</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">-</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">*</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">/</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8</code></pre>
 </div>
@@ -545,7 +698,7 @@ Hakan Mehmetcik
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.666667</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span>; <span class="dv">5</span> <span class="sc">%%</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">%/%</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span>; <span class="dv">5</span> <span class="sc">%%</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">%/%</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8</code></pre>
 </div>
@@ -560,7 +713,7 @@ Hakan Mehmetcik
 <section id="karşılaştırma-operatörleri" class="slide level2">
 <h2>Karşılaştırma Operatörleri</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="dv">5</span> <span class="sc">==</span> <span class="dv">5</span>; <span class="dv">5</span> <span class="sc">!=</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">&gt;</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">&lt;</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="dv">5</span> <span class="sc">==</span> <span class="dv">5</span>; <span class="dv">5</span> <span class="sc">!=</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">&gt;</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">&lt;</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -578,7 +731,7 @@ Hakan Mehmetcik
 <section id="mantıksal-operatörler" class="slide level2">
 <h2>Mantıksal Operatörler</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href=""></a><span class="cn">TRUE</span> <span class="sc">&amp;</span> <span class="cn">FALSE</span>; <span class="cn">TRUE</span> <span class="sc">|</span> <span class="cn">FALSE</span>; <span class="sc">!</span><span class="cn">TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="cn">TRUE</span> <span class="sc">&amp;</span> <span class="cn">FALSE</span>; <span class="cn">TRUE</span> <span class="sc">|</span> <span class="cn">FALSE</span>; <span class="sc">!</span><span class="cn">TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
@@ -593,15 +746,15 @@ Hakan Mehmetcik
 <section id="diğer-operatörler" class="slide level2">
 <h2>Diğer Operatörler</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href=""></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href=""></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 3 5 7 9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href=""></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">times =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">times =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 1 2 3 1 2 3</code></pre>
 </div>
@@ -611,26 +764,41 @@ Hakan Mehmetcik
 
 </section></section>
 <section>
-<section id="rda-hatalar-ve-yardım" class="title-slide slide level1 center">
-<h1>R’da Hatalar ve Yardım</h1>
+<section id="rda-hatalar-ve-yardım-alma" class="title-slide slide level1 center">
+<h1>R’da Hatalar ve Yardım Alma</h1>
 
+</section>
+<section id="en-sık-karşılaşılan-hatalar" class="slide level2">
+<h2>En Sık Karşılaşılan Hatalar</h2>
+<ul>
+<li>Sözdizimi: <code>3 x 5</code> yerine <code>3 * 5</code></li>
+<li>Kapanmamış parantez → konsolda <code>+</code> işareti</li>
+<li><strong>Büyük/küçük harf duyarlılığı:</strong> <code>Mean()</code> ≠ <code>mean()</code></li>
+<li>Eşleşmeyen tırnak işareti</li>
+</ul>
 </section>
 <section id="hata-örneği" class="slide level2">
 <h2>Hata Örneği</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href=""></a><span class="co"># 3 x 5  # hata</span></span>
-<span id="cb33-2"><a href=""></a><span class="dv">3</span> <span class="sc">*</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href=""></a><span class="fu">Mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `Mean()`:
+! could not find function "Mean"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href=""></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 15</code></pre>
+<pre><code>[1] 2</code></pre>
 </div>
 </div>
 </section>
 <section id="yardım-alma" class="slide level2">
 <h2>Yardım Alma</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href=""></a>?mean</span>
-<span id="cb35-2"><a href=""></a><span class="fu">help</span>(mean)</span>
-<span id="cb35-3"><a href=""></a><span class="fu">example</span>(mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href=""></a>?mean</span>
+<span id="cb41-2"><a href=""></a><span class="fu">help</span>(mean)</span>
+<span id="cb41-3"><a href=""></a><span class="fu">example</span>(mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 mean&gt; x &lt;- c(0:10, 50)
@@ -646,55 +814,70 @@ mean&gt; c(xm, mean(x, trim = 0.10))
 
 </section></section>
 <section>
-<section id="git-ve-githuba-kısa-giriş" class="title-slide slide level1 center">
-<h1>Git ve GitHub’a Kısa Giriş</h1>
+<section id="versiyon-kontrolü-git-ve-github" class="title-slide slide level1 center">
+<h1>Versiyon Kontrolü: Git ve GitHub</h1>
 
 </section>
-<section id="git-nedir" class="slide level2">
-<h2>Git Nedir?</h2>
+<section id="versiyon-kontrolü-nedir" class="slide level2">
+<h2>Versiyon Kontrolü Nedir?</h2>
 <ul>
-<li>Versiyon kontrol sistemi</li>
+<li>Bir dosyadaki her değişikliğin zaman içinde kaydı</li>
+<li>İstenildiğinde önceki bir duruma dönebilme</li>
+<li><strong>Git</strong> = yazılım, <strong>GitHub</strong> = bulut platformu</li>
 </ul>
 </section>
-<section id="github-nedir" class="slide level2">
-<h2>GitHub Nedir?</h2>
+<section id="neden-bir-sosyal-bilim-öğrencisi-bunu-bilmeli" class="slide level2">
+<h2>Neden Bir Sosyal Bilim Öğrencisi Bunu Bilmeli?</h2>
 <ul>
-<li>Kod/analiz paylaşımı</li>
-<li>İşbirliği ve açık bilim</li>
+<li>Anahtar kavram: <strong>tekrarlanabilirlik</strong></li>
+<li>Bir bulgu, altı ay sonra <strong>aynı sonucu</strong> verebilmeli</li>
+<li>Hangi kod hangi tabloyu üretti? Versiyon kontrolü bunu kaydeder</li>
 </ul>
 </section>
-<section id="temel-akış" class="slide level2">
-<h2>Temel Akış</h2>
-<div class="sourceCode" id="cb37"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href=""></a><span class="fu">git</span> init</span>
-<span id="cb37-2"><a href=""></a><span class="fu">git</span> add .</span>
-<span id="cb37-3"><a href=""></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"ilk kayıt"</span></span>
-<span id="cb37-4"><a href=""></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="sınıf-içi-uygulama" class="slide level2">
-<h2>Sınıf İçi Uygulama</h2>
+<section id="bedeli-gerçek-olabilir-reinhart-rogoff-2010" class="slide level2">
+<h2>Bedeli Gerçek Olabilir: Reinhart-Rogoff (2010)</h2>
 <ul>
-<li>Hazır bir repo indir</li>
-<li>R script çalıştır</li>
-<li>Küçük değişiklik yap, commit et</li>
+<li>“Kamu borcu %90’ı aşarsa büyüme durur” tezi</li>
+<li>Kemer sıkma politikalarını savunmak için kullanıldı</li>
+<li>2013: bir doktora öğrencisi tekrar etmeye çalıştı</li>
+<li><strong>Excel tablosunda bazı ülkeler formüle dahil edilmemiş</strong></li>
+</ul>
+<aside class="notes">
+<p>Ders: Excel arayüzü hesaplama adımlarını gizler. R script’i ve versiyon geçmişi her adımı denetime açık bırakır.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="bu-derste-ne-yapacağız" class="slide level2">
+<h2>Bu Derste Ne Yapacağız?</h2>
+<ul>
+<li>Ders deposu bir GitHub deposu</li>
+<li>Her hafta <strong>pull</strong> ederek güncel materyali alacaksınız</li>
+<li>Uygulamalı adımlar: <em>GitHub Kullanım Kılavuzu</em> ve <em>R ve RStudio Kurulum Rehberi</em></li>
 </ul>
 </section>
 <section class="slide level2">
 
 </section></section>
-<section>
-<section id="alıştırmalar" class="title-slide slide level1 center">
-<h1>Alıştırmalar</h1>
-<ol type="1">
-<li><code>iris</code> veri setinin ilk 10 satırını gösterin.</li>
-<li><code>Sepal.Length</code> ortalamasını hesaplayın.</li>
-<li><code>1:20</code> aralığından çift sayıları çıkarın.</li>
-<li>Script dosyası oluşturun ve kaydedin.</li>
-<li>(Opsiyonel) Git ile commit yapın.</li>
-</ol>
+<section id="sırada-ne-var" class="title-slide slide level1 center">
+<h1>Sırada Ne Var?</h1>
+<ul>
+<li>Bu haftanın <strong>alıştırma dosyası</strong> ve <strong>cevap anahtarı</strong> depoda</li>
+<li>Notlandırılmıyor — kendi durumunuzu ölçmek için</li>
+<li><ol start="2" type="1">
+<li>hafta: veri türleri, veri yapıları, temel fonksiyonlar</li>
+</ol></li>
+</ul>
 </section>
-<section class="slide level2">
 
-</section></section>
 <section id="soru-cevap" class="title-slide slide level1 center">
 <h1>Soru &amp; Cevap</h1>
 <div class="quarto-auto-generated-content">
