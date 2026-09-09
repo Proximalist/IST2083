@@ -1,10 +1,10 @@
 ---
-title: "1. Hafta: Giriş — İstatistiğin Anlamı ve Önemi; GitHub, R ve RStudio’a Giriş"
-author: "Hakan Mehmetcik"
+title: "1. Hafta: Giriş — İstatistiğin Anlamı ve Önemi; R, RStudio ve GitHub'a Giriş"
+author: "Prof. Dr. Hakan Mehmetcik"
 date: "`r Sys.Date()`"
 format: revealjs
 editor: visual
-execute: 
+execute:
   echo: true
   warning: false
   message: false
@@ -12,24 +12,60 @@ execute:
 
 # İstatistiğin Anlamı ve Önemi
 
+## Kelimenin Kökeni Bile Size Ait
+
+-   *Statistik* (Almanca) → Achenwall, 1740'ların sonu
+-   Kaynağı: *statisticus* (devlet işleri) + *statista* (devlet adamı)
+-   İstatistik en baştan beri **devletleri, toplumları anlama** bilimi
+-   Siz bu disiplinin yabancısı değil, **ev sahibisiniz**
+
+## Bir Tanıdık Tepki
+
+> "Ben bu bölümü sayılardan kaçmak için seçtim."
+
+-   Anlaşılır ama yanlış bir varsayıma dayanıyor
+-   Mühendis istatistiği **hesaplama** aracı olarak öğrenir
+-   Siz onu **argüman kurma ve kanıt oluşturma** aracı olarak öğrenirsiniz
+
 ## İstatistik Nedir?
 
 -   Verilerden anlam çıkarma sanatı
 -   Sayıların arkasındaki hikâyeyi keşfetme
 -   Düzenleme, özetleme, yorumlama
 
+## Tarihte Bir Örnek: Nightingale'in Gül Diyagramı (1858)
+
+![Nightingale'in gül diyagramı — kamu malı, Wikimedia Commons](../images/nightingale-rose-diagram.jpg){height="480"}
+
+::: {.notes}
+Kırım Savaşı'nda askerlerin çoğu çarpışmada değil, önlenebilir hastane
+koşullarından öldü. Nightingale bunu Parlamentoya anlatmak için bu
+grafiği tasarladı — hastalık dilimi savaş yarası diliminden çok daha
+büyük, tek bakışta görülüyor.
+:::
+
+## Tarihte Bir Örnek: Du Bois'nın Paris Sergisi (1900)
+
+![Du Bois'nın el çizimi infografiklerinden biri — kamu malı, LOC](../images/dubois-1900-paris.jpg){height="420"}
+
+::: {.notes}
+Sosyolog W.E.B. Du Bois, Atlanta Üniversitesi öğrencileriyle 58 grafik
+hazırladı — Amerika'daki siyahi nüfusun eğitim, gelir, meslek
+örüntülerini dönemin ırkçı iddialarına karşı somut sayılarla gösterdi.
+Veri, bir argümana dönüştü.
+:::
+
 ## Neden İstatistik?
 
--   Sosyal medya etkileşimleri
--   Spor müsabakaları istatistikleri
--   Seçim anketleri
+-   Kamuoyu araştırmaları, seçim tahminleri
+-   Ekonomi haberleri (enflasyon, işsizlik)
 -   Sağlık araştırmaları
--   Karar vermede kritik rol
+-   "Araştırmalara göre..." ile başlayan her iddia
 
 ## Kullanım Alanları
 
 -   Bilimsel araştırmalar
--   Ekonomi & siyaset
+-   Ekonomi ve siyaset
 -   Sağlık
 -   Günlük yaşam (reklam, müşteri, trafik)
 
@@ -46,35 +82,83 @@ execute:
 -   Grafik ve rakamları sorgulama
 -   Veri okuryazarlığı
 
-## İstatistiğe Dair Önyargılar
+> "Üç tür yalan vardır: yalan, nitelikli yalan ve istatistik." (Anonim)
 
--   “Sıkıcı, ezber, zor” algısı
--   Oysa:
-    -   Gerçek hayatla bağlantılı
-    -   Problemleri anlamayı kolaylaştırır
-    -   Merak uyandırır
+## Önden Bir Uyarı: Korelasyon ≠ Nedensellik
 
-## Yanıltıcı İstatistik
+-   Dondurma satışı artar → boğulma vakaları da artar
+-   Dondurma boğulmaya yol açmıyor
+-   İkisi de **sıcak hava**dan kaynaklanıyor
+-   Ayrıntısı: **12. hafta**, regresyon
 
--   Eksen kırpma
--   Veri seçmeciliği
--   Oran yerine ham sayı
+## Yanıltıcı İstatistik: Kurgusal Örnek
+
+-   Ankette A Partisi %38, B Partisi %41
+-   Aradaki fark yalnızca 3 puan
+-   Aynı sayılar, iki farklı eksenle...
+
+## Grafik 1 — Dürüst (Eksen 0–100)
+
+```{r}
+library(ggplot2)
+
+veri <- data.frame(
+  parti = factor(c("A Partisi", "B Partisi")),
+  destek = c(38, 41)
+)
+
+ggplot(veri, aes(x = parti, y = destek, fill = parti)) +
+  geom_col(width = 0.5, show.legend = FALSE) +
+  coord_cartesian(ylim = c(0, 100)) +
+  labs(title = "Gerçek: Baş Başa Bir Yarış", y = "% Destek", x = "") +
+  theme_minimal()
+```
+
+## Grafik 2 — Yanıltıcı (Eksen 35–45)
+
+```{r}
+ggplot(veri, aes(x = parti, y = destek, fill = parti)) +
+  geom_col(width = 0.5, show.legend = FALSE) +
+  coord_cartesian(ylim = c(35, 45)) +
+  labs(title = "Algı: B Partisi Ezici Farkla Önde", y = "% Destek", x = "") +
+  theme_minimal()
+```
+
+::: {.notes}
+ggplot2 sözdizimini 4. haftada ayrıntılı öğreneceğiz — şimdilik yalnızca
+sonuca bakın.
+:::
+
+## Diğer Yanıltma Biçimleri
+
+-   **Veri seçmeciliği:** zaman serisinin yalnızca lehe kısmı
+-   **Oran yerine ham sayı:** "500 vaka artışı" — hangi nüfusta?
+-   **Örneklem büyüklüğünü gizlemek:** 1936'da 2 milyon kişiye
+    ulaşılmasına rağmen yanlış tahmin — *kime* ulaşıldığı önemliydi
+    (ayrıntı: **7. hafta**)
 
 ------------------------------------------------------------------------
 
-# R ve RStudio’a Hızlı Giriş
+# R ve RStudio'ya Hızlı Giriş
 
 ## Neden R?
 
 -   İstatistik ve görselleştirmede güçlü
 -   Akademide yaygın, geniş paket ekosistemi
--   Python ile tamamlayıcı
+-   Python ile tamamlayıcı, birbirini dışlamaz
 
 ## RStudio Arayüzü
 
--   Script vs Console
--   Environment / History
--   Plots / Files / Help
+-   **Source (Script)** — kalıcı kod
+-   **Console** — anlık deneme
+-   **Environment / History**
+-   **Plots / Files / Packages / Help**
+
+## Neden Quarto?
+
+-   Metin + çalıştırılabilir kod + çıktı, **aynı belgede**
+-   "Okunabilir programlama" (literate programming)
+-   Altı ay sonra hangi kodun neyi ürettiğini hatırlamanıza gerek yok
 
 ## İlk Komutlar
 
@@ -83,12 +167,24 @@ execute:
 mean(c(1, 2, 3, 4, 5))
 ```
 
-## Örnek Veri Seti
+## Isınma: `iris`
 
 ```{r}
 head(iris)
 mean(iris$Sepal.Length)
 ```
+
+## Ders Boyunca Süren Veri Setimiz: `gapminder`
+
+```{r}
+library(gapminder)
+head(gapminder)
+```
+
+::: {.notes}
+Hans Rosling'in Gapminder Vakfı — ülkelerin yaşam beklentisi, nüfus,
+kişi başı gelir. 1952–2007. Bu ders boyunca sık sık döneceğiz.
+:::
 
 ## Temel Aritmetik
 
@@ -119,13 +215,24 @@ rep(1:3, times = 3)
 
 ------------------------------------------------------------------------
 
-# R’da Hatalar ve Yardım
+# R'da Hatalar ve Yardım Alma
+
+## En Sık Karşılaşılan Hatalar
+
+-   Sözdizimi: `3 x 5` yerine `3 * 5`
+-   Kapanmamış parantez → konsolda `+` işareti
+-   **Büyük/küçük harf duyarlılığı:** `Mean()` ≠ `mean()`
+-   Eşleşmeyen tırnak işareti
 
 ## Hata Örneği
 
 ```{r}
-# 3 x 5  # hata
-3 * 5
+#| error: true
+Mean(c(1, 2, 3))
+```
+
+```{r}
+mean(c(1, 2, 3))
 ```
 
 ## Yardım Alma
@@ -138,42 +245,45 @@ example(mean)
 
 ------------------------------------------------------------------------
 
-# Git ve GitHub’a Kısa Giriş
+# Versiyon Kontrolü: Git ve GitHub
 
-## Git Nedir?
+## Versiyon Kontrolü Nedir?
 
--   Versiyon kontrol sistemi
+-   Bir dosyadaki her değişikliğin zaman içinde kaydı
+-   İstenildiğinde önceki bir duruma dönebilme
+-   **Git** = yazılım, **GitHub** = bulut platformu
 
-## GitHub Nedir?
+## Neden Bir Sosyal Bilim Öğrencisi Bunu Bilmeli?
 
--   Kod/analiz paylaşımı
--   İşbirliği ve açık bilim
+-   Anahtar kavram: **tekrarlanabilirlik**
+-   Bir bulgu, altı ay sonra **aynı sonucu** verebilmeli
+-   Hangi kod hangi tabloyu üretti? Versiyon kontrolü bunu kaydeder
 
-## Temel Akış
+## Bedeli Gerçek Olabilir: Reinhart-Rogoff (2010)
 
-``` bash
-git init
-git add .
-git commit -m "ilk kayıt"
-git push
-```
+-   "Kamu borcu %90'ı aşarsa büyüme durur" tezi
+-   Kemer sıkma politikalarını savunmak için kullanıldı
+-   2013: bir doktora öğrencisi tekrar etmeye çalıştı
+-   **Excel tablosunda bazı ülkeler formüle dahil edilmemiş**
 
-## Sınıf İçi Uygulama
+::: {.notes}
+Ders: Excel arayüzü hesaplama adımlarını gizler. R script'i ve versiyon
+geçmişi her adımı denetime açık bırakır.
+:::
 
--   Hazır bir repo indir
--   R script çalıştır
--   Küçük değişiklik yap, commit et
+## Bu Derste Ne Yapacağız?
 
-------------------------------------------------------------------------
-
-# Alıştırmalar
-
-1.  `iris` veri setinin ilk 10 satırını gösterin.
-2.  `Sepal.Length` ortalamasını hesaplayın.
-3.  `1:20` aralığından çift sayıları çıkarın.
-4.  Script dosyası oluşturun ve kaydedin.
-5.  (Opsiyonel) Git ile commit yapın.
+-   Ders deposu bir GitHub deposu
+-   Her hafta **pull** ederek güncel materyali alacaksınız
+-   Uygulamalı adımlar: *GitHub Kullanım Kılavuzu* ve
+    *R ve RStudio Kurulum Rehberi*
 
 ------------------------------------------------------------------------
+
+# Sırada Ne Var?
+
+-   Bu haftanın **alıştırma dosyası** ve **cevap anahtarı** depoda
+-   Notlandırılmıyor — kendi durumunuzu ölçmek için
+-   2. hafta: veri türleri, veri yapıları, temel fonksiyonlar
 
 # Soru & Cevap
