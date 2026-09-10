@@ -11,6 +11,12 @@
 #
 # Render edilen belgeler _quarto.yml içindeki render listesiyle
 # sınırlıdır; henüz denetlenmemiş modüller kasten dışarıdadır.
+#
+# Türkçe heceleme paketi CI'da KURULMAZ (bkz. _quarto-ci.yml). Günlükte
+# her belge için 'Possibly missing hyphenation file' uyarısı görürsünüz;
+# beklenen davranıştır, PDF üretimini engellemez. CI'ın ürettiği PDF'ler
+# geçici artefakttır; öğrenciye giden belgeler yerel makinede render
+# edilir ve orada heceleme kuruludur.
 
 name: Render doğrulama
 
@@ -52,10 +58,6 @@ jobs:
             any::gapminder
             any::readxl
             any::writexl
-
-      - name: Türkçe heceleme paketi (kurulamazsa render yine sürer)
-        continue-on-error: true
-        run: tlmgr install hyphen-turkish babel-turkish
 
       - name: Render
         env:
