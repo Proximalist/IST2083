@@ -1,0 +1,182 @@
+---
+title: "Modül 03 — Cevap Anahtarı"
+subtitle: "Veri görselleştirme: ggplot2"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+Bu belge `03_modul_alistirmalar.qmd` dosyasındaki 20 sorunun doğru
+cevaplarını ve gerekçelerini içerir. Gerekçeler yalnızca "doğru cevap
+bu" demekle kalmaz — **neden** doğru olduğunu da açıklar, çünkü sınavda
+sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Katmanlar ve Sözdizimi
+
+**1. Doğru cevap: b)** R, bir ifadenin bittiğine satır sonunda karar
+verir. `+` satırın **başında** olduğu için R ilk satırı (`ggplot(...)`)
+tam bir ifade sayar ve onu çalıştırır: yalnızca eksenleri çizen, hiçbir
+geom içermeyen boş bir panel çizilir. İkinci satır, başında yalnız
+başına bir `+` işareti bulunan `+ geom_point()` ifadesidir ve R bunu
+geçerli bir R ifadesi olarak yorumlayamayıp hata verir. Kural: `+`
+**satırın sonunda** durur.
+
+**2. Doğru cevap: b)** `geom_point()` satırının sonunda `+` eksik. R
+grafiği burada tam bir ifade sayıp bitirir ve **hiçbir hata vermeden**
+çizer — ama başlıksız. Sonraki iki satır (`labs(...)` ve varsa
+`theme_minimal()`) ayrı bir ifade olarak sessizce çalışır ve ekrana
+hiçbir şey basmaz. Bu, hata mesajı vermediği için fark edilmesi en zor
+hatalardan biridir.
+
+**3. Doğru cevap: d)** `geom_col()` hazır bir `y` değeri **bekler** ve
+her `x` kategorisi için tek bir `y` değeri olmasını varsayar. Veride
+aynı `a` değeri için birden fazla ham satır varsa (özetlenmemiş veri),
+`geom_col()` bu satırları üst üste yığar; bu, hataya değil ama genelde
+istenmeyen bir sonuca yol açar — asıl istenen önce `count()` veya
+`group_by() |> summarise()` ile özetlemektir. (a) yanlıştır: `x` her
+zaman kategorik olmak zorunda değildir. (c) tam tersine `geom_col()`
+için beklenen durumdur.
+
+------------------------------------------------------------------------
+
+## Bölüm B — Eşleme mi, Sabit Ayar mı?
+
+**4. Doğru cevap: b)** `aes()` içindeki her şey **veri** olarak
+yorumlanır. `"red"` metni bir renk adı değil, bütün satırlarda aynı
+değeri taşıyan tek kategorili bir değişkendir. ggplot2 bu tek
+kategoriye kendi varsayılan paletinin ilk rengini (kırmızı değil,
+pembemsi turuncu) atar ve kategorinin adını ("red") lejanta yazar.
+
+**5. Doğru cevap: b)** Sabit bir değer, `aes()` **dışına**, geom
+fonksiyonunun kendi argümanı olarak yazılır: `geom_point(size = 3)`.
+(a) ve (c) `size`'ı veriye eşmiş gibi davranır ve anlamsız bir lejant
+üretir; (d) `ggplot2`'de böyle bir fonksiyon yoktur.
+
+**6. Doğru cevap: a)** `shape` estetiği yalnızca **kategorik**
+değişkenlerle çalışır, çünkü şekiller sonlu ve sıralı olmayan bir
+kümedir (en fazla altı farklı şekil ayırt edilebilir). `lifeExp` sürekli
+sayısal bir değişken olduğu için ggplot2 render sırasında "a continuous
+variable cannot be mapped to the shape aesthetic" hatası verir.
+
+------------------------------------------------------------------------
+
+## Bölüm C — Tek Değişkenin Dağılımı
+
+**7. Doğru cevap: b)** Çok küçük bir `binwidth`, her çubuğu birkaç
+gözleme indirger; bu durumda dağılımın **gerçek yapısı** yerine
+örneklemden kaynaklanan rastgele iniş-çıkışlar öne çıkar. Çok büyük bir
+`binwidth` ise tam tersi bir hataya yol açar: yapıyı düzleştirip
+gizler. İkisi arasında, verinin gerçek desenini en dürüst gösteren bir
+orta nokta aranır.
+
+**8. Doğru cevap: a)** Kod 1'de veri zaten `count()` ile özetlenmiş;
+her kıta için hazır bir sayı (`n`) var. `geom_bar()` ise arka planda
+her zaman kendi sayma işlemini (`stat = "count"`) çalıştırır ve bir `y`
+eşlemesi **kabul etmez**; `y = n` verildiği için R hata verir: "stat_count()
+must only have an x or y aesthetic." Kod 2'de veri hâlâ ham (her satır
+bir ülke) ve `y` hiç verilmemiş; `geom_bar()` `continent` sütununu
+kendisi sayar ve sorunsuz çalışır. Bir sütunu önceden saydıysanız
+(veya bir ortalama/toplam gibi hazır bir değeriniz varsa), `geom_bar()`
+yerine `geom_col()` kullanmanız gerekir.
+
+**9. Doğru cevap: b)** Bıyıklar, kutunun (çeyrekler açıklığının) 1,5
+katını aşmayan **en uç gözleme** kadar uzanır; mutlak minimum ve
+maksimuma değil. Bu sınırın ötesinde kalan gözlemler ayrı noktalar
+olarak, aykırı değer adayı diye işaretlenir.
+
+------------------------------------------------------------------------
+
+## Bölüm D — İki Sayısal Değişken
+
+**10. Doğru cevap: c)** Rengi değiştirmek (örneğin hepsini kırmızı
+yapmak) üst üste binen noktaların sayısını **görünür kılmaz**;
+noktalar hâlâ birbirinin üstünde durur, yalnızca renk değişir.
+Saydamlık (a), titreştirme (b) ve boyutu küçültmek (d) üst üste binmeyi
+azaltan veya çakışan noktaları ayıran gerçek çözümlerdir.
+
+**11. Doğru cevap: b)** `geom_abline(intercept = 0, slope = 1)`,
+veriden hesaplanan bir doğru değil, **teorik bir öngörüyü** (Gamson
+Yasası'nın "bakanlık payı = sandalye payı" iddiasını) grafiğe sabit bir
+referans olarak ekler. Veriden en iyi uyan doğruyu çizmek isteseydik
+`geom_smooth(method = "lm")` kullanırdık.
+
+**12. Doğru cevap: b)** `coord_equal()`, iki eksenin bir biriminin
+ekranda eşit uzunlukta görünmesini sağlar. Bu, özellikle iki eksen aynı
+şeyi (örneğin ikisi de bir oranı) ölçtüğünde ve aralarındaki açısal
+ilişkinin (örneğin 45 derecelik bir referans doğrusunun) doğru
+görünmesi gerektiğinde önemlidir.
+
+------------------------------------------------------------------------
+
+## Bölüm E — Kategorik Değişkenler ve Konum Ayarları
+
+**13. Doğru cevap: c)** `position = "fill"` her çubuğu %100'e
+tamamlar ve grup büyüklüğü bilgisini feda ederek **grup içi oranları**
+doğrudan karşılaştırılabilir kılar. `"stack"` toplam büyüklüğü
+gösterir ama iç oranları okumayı zorlaştırır; `"dodge"` mutlak sayıları
+yan yana koyar ama farklı büyüklükteki gruplar arasında oran
+karşılaştırmasını yanıltıcı hâle getirir.
+
+**14. Doğru cevap: b)** R, bir karakter değişkeninin taşıdığı sıralı
+anlamı **bilemez**; varsayılan olarak bütün karakter/faktör
+değişkenlerini alfabetik sıralar. "Agree", alfabetik sırada "Strongly
+agree"den önce geldiği için basamaklar mantıksal sıradan
+(katılmıyorumdan katılıyoruma) kopar. Doğru sıralama, `factor(...,
+levels = ...)` ile elle verilmelidir.
+
+**15. Doğru cevap: c)** `reorder(kategori, deger)`, kategorileri
+verilen sayısal değere göre (varsayılan olarak ortalamasına göre)
+yeniden sıralar ve bunu doğrudan `aes()` içinde kullanmanızı sağlar.
+`factor()` bir sıralama **belirtmenizi** sağlar ama sırayı sizin elle
+yazmanızı gerektirir; doğal bir sırası olmayan ama bir **değere göre**
+sıralanacak kategoriler için `reorder()` daha pratiktir.
+
+------------------------------------------------------------------------
+
+## Bölüm F — Zaman, Ölçekler ve Üçüncü Değişken
+
+**16. Doğru cevap: c)** `gapminder` verisinde her yıl için 142 ülkenin
+142 ayrı değeri vardır. `group` estetiği verilmediğinde ggplot2, hangi
+noktaların **aynı çizgiye** ait olduğunu bilemez ve bütün noktaları
+tek bir çizgide, yıl sırasına göre birleştirir; bu da anlamsız bir
+zikzak üretir. Doğrusu `aes(x = year, y = lifeExp, group = country)`
+ya da `color = country` (az sayıda ülke için) kullanmaktır.
+
+**17. Doğru cevap: b)** `scale_x_log10()`, eşit **oranları** eşit
+mesafeye çevirdiği için sağa çarpık dağılımlarda (gelir, nüfus gibi)
+küçük değerleri birbirinden ayırt edilebilir kılar ve genellikle
+doğrusal olmayan bir ilişkiyi doğrusala yaklaştırır. (a) verinin
+yönünü tersine çevirir, çarpıklığı düzeltmez. (c) `sqrt` bazen
+işe yarasa da "her zaman log'dan iyi" iddiası yanlıştır; hangisinin
+uygun olduğu verinin çarpıklık derecesine bağlıdır.
+
+**18. Doğru cevap: b)** `ggplot()` içinde (genel düzeyde) verilen bir
+eşleme **bütün katmanlara miras kalır**. `color = continent` genel
+düzeyde verildiği için hem `geom_point()` hem `geom_smooth()` bunu
+kullanır ve `geom_smooth(method = "lm")` **her kıta için ayrı** bir
+doğru hesaplar. Tek bir doğru istenseydi, rengi yalnızca
+`geom_point(aes(color = continent))` içine, yani yerel düzeye
+yazmak gerekirdi.
+
+**19. Doğru cevap: b)** Bu, ders notlarındaki SAT örneğinin ta
+kendisidir: bir ilişki, veri **gruplara ayrıldığında yön
+değiştiriyor**. Buna Simpson paradoksu denir. Nedeni, üçüncü bir
+değişkenin (burada sınava giren öğrenci oranı) hem açıklayıcı hem
+yanıt değişkenini birlikte etkilemesidir.
+
+**20. Doğru cevap: c)** Hazır bir tema (`theme_minimal()`) kendinden
+**önce** yazılmış özel `theme()` ayarlarını sıfırlar. Bu yüzden önce
+hazır temayı, sonra üzerine eklemek istediğiniz özel ayarları
+yazmalısınız. Ters sırada yazarsanız, `legend.position = "bottom"`
+ayarı `theme_minimal()` tarafından ezilir ve lejant varsayılan
+konumuna döner.

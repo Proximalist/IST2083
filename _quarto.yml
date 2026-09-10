@@ -18,10 +18,10 @@ project:
     - izlence/*.qmd
     - 01_modul/*.qmd
     - 02_modul/*.qmd
+    - 03_modul/*.qmd
     - R-Hizli-Referans.qmd
     - GitHub_Kullanim_Kilavuzu.qmd
     - R_RStudio_Kurulum_Rehberi.qmd
-    # - 03_modul/*.qmd     # denetim bekliyor
     # - 04_modul/*.qmd     # denetim bekliyor
     # - 05_modul/*.qmd     # denetim bekliyor
     # - 06_modul/*.qmd     # denetim bekliyor

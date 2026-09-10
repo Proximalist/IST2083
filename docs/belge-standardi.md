@@ -233,3 +233,29 @@ knitr:
 R'ın varsayılan `pdf()` aygıtı tek baytlık kodlamaya düşer ve grafik
 başlıklarındaki `ş`, `ı`, `ğ` harflerini sessizce düşürür
 (`mbcsToSbcs` uyarısı). Sunumlarda (PNG çıktı) gerek yoktur.
+
+## 10. `date` alanı: R kodu içermeyen belgede `` `r Sys.Date()` `` kullanmayın
+
+Bir belgede **hiç** çalıştırılabilir R öbeği yoksa (çoğu `cevap_anahtari`
+belgesi böyledir), Quarto o belge için knitr motorunu hiç devreye
+sokmaz ve YAML'daki `` `r Sys.Date()` `` ifadesi hiç değerlendirilmeden
+pandoc'a düz metin olarak geçer; pandoc bunu bir tarih olarak
+ayrıştıramayıp sessizce **"Invalid Date"** basar. Render hata vermediği
+için bu, PDF'e bakılmadan fark edilmez.
+
+Kural: hiç R öbeği içermeyen belgelerde tarih alanı için
+
+```yaml
+date: today
+```
+
+yazılır — bu, R'a ihtiyaç duymadan Quarto'nun kendisi tarafından
+çözülür. En az bir R öbeği içeren belgelerde (`ders`, `lab`,
+`alistirmalar`) `` `r Sys.Date()` `` kullanmaya devam edilir, çünkü
+knitr zaten çalışıyor olacaktır.
+
+**Bilinen etkilenmiş belgeler:** `01_modul/01_modul_cevap_anahtari.qmd`
+ve `02_modul/02_modul_cevap_anahtari.qmd` bu hatayı taşıyor (PDF'lerinde
+"Invalid Date" yazıyor); 03. modül denetimi sırasında fark edildi,
+düzeltilmedi çünkü kapsam dışıydı. Bu iki dosyanın `date` alanı ve
+render edilmiş PDF'leri ayrı bir düzenlemede güncellenmeli.

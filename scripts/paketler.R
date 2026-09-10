@@ -6,23 +6,25 @@
 #
 # Kullanım:  Rscript scripts/paketler.R
 
-# --- Denetimden geçmiş modüllerin (01, 02) ve izlencenin ihtiyaçları ---
+# --- Denetimden geçmiş modüllerin (01, 02, 03) ve izlencenin ihtiyaçları ---
 temel <- c(
   "knitr", "rmarkdown",   # render altyapısı
   "here",                 # proje köküne göre dosya yolu
   "ggplot2", "dplyr",     # görselleştirme ve veri işleme
-  "gapminder",            # 01. modülde kullanılan örnek veri seti
+  "scales",               # 03. modülde eksen biçimlendirme (label_dollar)
+  "gapminder",            # 01. ve 03. modülde kullanılan sürekli veri seti
+  "mosaicData",           # 03. modülde Simpson paradoksu örneği (SAT verisi)
   "readxl", "writexl"     # Excel okuma/yazma
 )
 
-# --- Henüz denetlenmemiş modüllerin (03-14) ek ihtiyaçları -------------
+# --- Henüz denetlenmemiş modüllerin (04-14) ek ihtiyaçları -------------
 # Bu modüller _quarto.yml render listesinde kapalı; paketleri de
 # şimdilik isteğe bağlı. Modül denetimden geçtikçe ilgili satırlar
 # yukarıdaki "temel" vektörüne taşınır.
 ek <- c(
-  "tidyverse", "tidyr", "lubridate", "scales", "patchwork",
+  "tidyverse", "tidyr", "lubridate", "patchwork",
   "kableExtra", "janitor", "haven", "fst",
-  "nycflights13", "mosaicData", "NHANES", "mdsr", "macleish", "fec16",
+  "nycflights13", "NHANES", "mdsr", "macleish", "fec16",
   "ggmosaic", "wesanderson",
   "AER", "coefplot", "pscl", "nnet", "mlogit"
 )

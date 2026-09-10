@@ -14,115 +14,247 @@ execute:
 df-print: kable
 ---
 
-## R ile Veri Görselleştirme Alıştırmalar
+## Bu Alıştırmalar Hakkında
 
-### 1. Örnek 1: Matematik Puanları Histogramı
+Bu alıştırmalar **notlandırılmaz ve teslim edilmez.** Amacı, sınavdan
+önce kendi durumunuzu ölçebilmenizdir. Sınav soruları da bu biçimde
+(çoktan seçmeli, tek doğru cevap) kurgulanır.
 
-**Amaç**: numerik sürekli bir değişkenin dağılımını görselleştirme
+Her soru 4 şıklıdır ve yalnızca **bir tanesi** doğrudur. Soruların
+çoğunda bir kod parçası verilir ve sizden **çıktıyı** ya da **hatayı**
+tahmin etmeniz istenir. Önce kâğıt üzerinde düşünün; R'da çalıştırıp
+doğrulamayı sonraya bırakın — sınavda bilgisayar olmayacak.
 
-```{r}
-# Gerekli kütüphaneleri yükleyin
-library(ggplot2)
-library(mdsr)
+Cevaplarınızı not edin, sonra `03_modul_cevap_anahtari.qmd` dosyasıyla
+karşılaştırın.
 
-# Histogram oluşturma
-ggplot(SAT_2010, aes(x = math)) +
-  geom_histogram(binwidth = 10, fill = "lightblue", color = "black") +
-  labs(title = "Matematik Puanlarının Dağılımı",
-       x = "Matematik Puanı",
-       y = "Frekans") +
-  theme_minimal()
+------------------------------------------------------------------------
 
-```
+## Bölüm A — Katmanlar ve Sözdizimi
 
-### Pratik Sorular:
-
--   Histogramda hangi puan aralığında en fazla öğrenci bulunmaktadır?
-
--   Bin genişliğini değiştirerek grafiğin nasıl değiştiğini gözlemleyin.
-
-### 2. Örnek 2: Kutu Grafiği ile Puan Dağılımı
-
-**Amaç**: Kategorik bir değişken ile sürekli bir değişken arasındaki ilişkileri görmek.
+**1.** Aşağıdaki kod çalıştırıldığında ne olur?
 
 ```{r}
-# Kutu grafiği oluşturma
-ggplot(SAT_2010, aes(y = math, x = factor(state))) +
-  geom_boxplot(fill = "lightgreen") +
-  labs(title = "Eyaletlere Göre Matematik Puanlarının Kutu Grafiği",
-       y = "Matematik Puanı",
-       x = "Eyalet") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme_minimal()
+#| eval: false
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp))
+  + geom_point()
 ```
 
-### Pratik Sorular:
+a\) Beklenen dağılım grafiği çizilir\
+b) Boş bir eksen çizilir, ikinci satır hata verir\
+c) `geom_point()` yok sayılır, yalnızca eksenler çizilir\
+d) Sözdizimi hatası: kod hiç çalışmaz
 
--   Hangi eyaletin matematik puanı diğerlerinden daha yüksektir?
-
--   Aykırı değerlerin bulunduğu eyaletler hangileridir?
-
-### 3. Örnek 3: Dağılım Grafiği
-
-**Amaç**: İki sayısal değişken arasındaki ilişkiyi incelemek.
+**2.** Aşağıdaki kod hiçbir hata mesajı vermeden çalışıyor, ama beklenen
+grafiği üretmiyor. Sorun nedir?
 
 ```{r}
-# Dağılım grafiği oluşturma
-ggplot(SAT_2010, aes(x = expenditure, y = math)) +
-  geom_point(aes(color = state), size = 3, alpha = 0.7) +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +
-  labs(title = "Matematik Puanları ve Öğrenci Başına Harcama Arasındaki İlişki",
-       x = "Öğrenci Başına Harcama (binlerce ABD Doları)",
-       y = "Matematik Puanı") +
-  theme_minimal()
-
+#| eval: false
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+  labs(title = "Gelir ve yaşam beklentisi")
 ```
 
-### Pratik Sorular:
+a\) `labs()` yanlış paketten geliyor\
+b) `geom_point()` satırının sonunda `+` eksik; başlık hiç eklenmez\
+c) `title` argümanı `labs()` içinde kullanılamaz\
+d) `aes()` içindeki argüman sırası yanlış
 
--   Harcama ile matematik puanları arasında bir ilişki var mı? Varsa, bu ilişki nasıl bir eğilim gösteriyor?
+**3.** `ggplot(veri, aes(x = a, y = b)) + geom_col()` kodu hangi durumda
+hata verir?
 
--   Trend çizgisinin eğimi neyi ifade ediyor?
+a\) `a` bir karakter değişkeniyse\
+b) `veri` içinde `a` ve `b` dışında sütun varsa\
+c) `b` sütunu zaten önceden hesaplanmış bir toplam veya ortalamaysa\
+d) `veri`'de her `a` değeri için birden fazla ham satır varsa ve siz
+onları önceden `count()` veya `summarise()` ile özetlemediyseniz
 
-### 4. Örnek 4: Çubuk Grafiği ile Ortalama Puanlar
+------------------------------------------------------------------------
 
-**Amaç**: Kategorik verilerin ortalamalarını karşılaştırmak.
+## Bölüm B — Eşleme mi, Sabit Ayar mı?
+
+**4.** Aşağıdaki kodun sonucu nedir?
 
 ```{r}
-# Çubuk grafiği oluşturma
-ggplot(SAT_2010, aes(x = reorder(state, math), y = math)) +
-  geom_bar(stat = "summary", fun = "mean", fill = "lightblue") +
-  labs(title = "Eyaletlere Göre Ortalama Matematik Puanı",
-       x = "Eyalet",
-       y = "Ortalama Matematik Puanı") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme_minimal()
-
+#| eval: false
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp, color = "red")) +
+  geom_point()
 ```
 
-### Pratik Sorular:
+a\) Bütün noktalar kırmızı çizilir, lejant oluşmaz\
+b) Bütün noktalar tek bir renkte çizilir (kırmızı değil) ve sağda
+"red" yazan bir lejant belirir\
+c) Kod hata verir, çünkü renk `aes()` içinde metin olamaz\
+d) Her nokta rastgele bir renkte çizilir
 
--   Hangi eyaletlerin ortalama matematik puanı diğerlerinden daha yüksektir?
+**5.** Bir öğrenci noktaların boyutunun sabit olarak 3 olmasını
+istiyor. Doğru kod hangisidir?
 
--   Eyaletler arasındaki performans farklılıkları hakkında ne çıkarımlarda bulunabilirsiniz?
+a\) `geom_point(aes(size = 3))`\
+b) `geom_point(size = 3)`\
+c) `aes(size = "3")`\
+d) `scale_size_manual(value = 3)`
 
-### 5. Örnek 5: Yoğunluk Grafiği
+**6.** `aes(shape = lifeExp)` yazan bir öğrenci render sırasında bir
+hata alıyor. Neden?
 
-**Amaç**: Sürekli bir değişkenin dağılımını pürüzsüz bir eğri ile göstermek.
+a\) `shape` estetiği yalnızca kategorik değişkenlerle kullanılabilir,
+`lifeExp` sayısaldır\
+b) `shape` estetiği `ggplot2`'de yoktur\
+c) `lifeExp` çok fazla benzersiz değer içerdiği için bellek hatası
+oluşur\
+d) `shape`, yalnızca `geom_line()` ile kullanılabilir
+
+------------------------------------------------------------------------
+
+## Bölüm C — Tek Değişkenin Dağılımı
+
+**7.** Bir histogramda `binwidth` değerini çok küçük seçtiğinizde ne
+olur?
+
+a\) Grafik render edilmez\
+b) Dağılımın genel yapısı kaybolur, rastgele gürültü öne çıkar\
+c) Tüm çubuklar aynı yükseklikte görünür\
+d) Histogram otomatik olarak yoğunluk grafiğine dönüşür
+
+**8.** Aşağıdaki iki kod parçasından hangisi **hata verir**?
 
 ```{r}
-# Yoğunluk grafiği oluşturma
-ggplot(SAT_2010, aes(x = math)) +
-  geom_density(fill = "lightblue", alpha = 0.5) +
-  labs(title = "Matematik Puanlarının Yoğunluk Grafiği",
-       x = "Matematik Puanı",
-       y = "Yoğunluk") +
-  theme_minimal()
+#| eval: false
+# Kod 1
+sayilar <- gapminder_2007 |> count(continent)
+ggplot(sayilar, aes(x = continent, y = n)) + geom_bar()
 
+# Kod 2
+ggplot(gapminder_2007, aes(x = continent)) + geom_bar()
 ```
 
-### Pratik Sorular:
+a\) Yalnızca Kod 1\
+b) Yalnızca Kod 2\
+c) İkisi de hata verir\
+d) İkisi de çalışır, ama farklı grafikler üretir
 
--   Matematik puanlarının yoğunluğu hakkında ne söyleyebilirsiniz?
+**9.** Bir kutu grafiğinde bıyıkların (whiskers) ne gösterdiği doğru
+tanımlanmış hangisidir?
 
--   Hangi puan aralıkları daha fazla yoğunluğa sahip?
+a\) Veri setinin mutlak minimum ve maksimum değerleri\
+b) Kutunun 1,5 katı uzunluğu aşmayan en uç gözlemlere kadar uzanan
+aralık\
+c) Ortalamadan bir standart sapma uzaklık\
+d) Q1 ve Q3'ün tam ortası
+
+------------------------------------------------------------------------
+
+## Bölüm D — İki Sayısal Değişken
+
+**10.** Bir dağılım grafiğinde çok sayıda nokta birbirinin üzerine
+biniyor (aşırı çizim). Bunu azaltmak için **en az etkili** yöntem
+hangisidir?
+
+a\) `geom_point(alpha = 0.2)`\
+b) `geom_jitter()`\
+c) `geom_point(color = "red")`\
+d) Nokta boyutunu küçültmek (`size` değerini düşürmek)
+
+**11.** `data/gamson.csv` verisinde bir çizgiyi `geom_abline(intercept = 0, slope = 1)`
+ile eklemenin amacı nedir?
+
+a\) Verideki en iyi uyan doğrusal regresyon çizgisini göstermek\
+b) Belirli bir teorik öngörüyü (burada: bakanlık payı = sandalye
+payı) referans olarak göstermek\
+c) Grafiğin eksen sınırlarını sabitlemek\
+d) İki değişken arasındaki korelasyonu hesaplamak
+
+**12.** `coord_equal()` fonksiyonunun etkisi nedir?
+
+a\) İki ekseni de sıfırdan başlatır\
+b) İki eksenin birimini eşit uzunlukta çizer\
+c) Grafiği kare şeklinde kırpar\
+d) `x` ve `y` değişkenlerinin yerini değiştirir
+
+------------------------------------------------------------------------
+
+## Bölüm E — Kategorik Değişkenler ve Konum Ayarları
+
+**13.** İki kategorik değişkenin ilişkisini gösteren bir çubuk
+grafiğinde, "her grubun **içindeki** oranları karşılaştırmak"
+istiyorsanız hangi konum ayarını kullanmalısınız?
+
+a\) `position = "stack"`\
+b) `position = "dodge"`\
+c) `position = "fill"`\
+d) `position = "identity"`
+
+**14.** Bir öğrenci sıralı bir anket ölçeğini (`"Kesinlikle
+katılmıyorum"`'dan `"Kesinlikle katılıyorum"`'a) hiçbir işlem
+yapmadan `geom_bar()` ile çiziyor. Sonuç ne olur?
+
+a\) R otomatik olarak mantıksal sırayı tanır ve doğru dizer\
+b) Basamaklar alfabetik sıraya göre dizilir, mantıksal sıra kaybolur\
+c) Kod hata verir, çünkü metin verisi çizilemez\
+d) Yalnızca ilk ve son basamak gösterilir
+
+**15.** Doğal bir sırası olmayan bir kategorik değişkeni (örneğin
+kıtalar) bir değere göre sıralamak için hangi fonksiyon kullanılır?
+
+a\) `sort()`\
+b) `factor()`\
+c) `reorder(kategori, deger)`\
+d) `arrange()`
+
+------------------------------------------------------------------------
+
+## Bölüm F — Zaman, Ölçekler ve Üçüncü Değişken
+
+**16.** Aşağıdaki kod çalıştırıldığında elde edilen grafik neden
+anlamsız bir zikzak çizer?
+
+```{r}
+#| eval: false
+ggplot(gapminder, aes(x = year, y = lifeExp)) +
+  geom_line()
+```
+
+a\) `geom_line()` yalnızca tek bir ülke için kullanılabilir\
+b) `year` bir tarih sınıfında değil\
+c) `group` estetiği eksik; ggplot2 hangi noktaların aynı ülkeye ait
+olduğunu bilemiyor\
+d) Veri `gapminder_2007` yerine `gapminder` olarak yazılmış
+
+**17.** Bir değişkenin dağılımı aşırı sağa çarpık olduğunda (birkaç
+çok büyük değer, çoğunluk küçük değerler), hangi ölçek genellikle daha
+bilgilendiricidir?
+
+a\) `scale_x_reverse()`\
+b) `scale_x_log10()`\
+c) `scale_x_sqrt()` her zaman log'dan iyidir\
+d) Ölçek değişikliği hiçbir zaman gerekmez
+
+**18.** Kişi başı gelir (`x`) ile yaşam beklentisi (`y`) arasındaki
+ilişkiyi çizip `color = continent` eşlemesini **`ggplot()`** içine
+(genel düzeyde) yazan bir öğrenci, sonra `geom_smooth(method = "lm")`
+ekliyor. Sonuç kaç eğilim çizgisi üretir?
+
+a\) Her zaman tek bir çizgi\
+b) Kıta sayısı kadar ayrı çizgi\
+c) Hiç çizgi üretilmez\
+d) Yalnızca en kalabalık kıta için bir çizgi
+
+**19.** Guber (1999) verisinde (`SAT`), harcama ile SAT puanı arasında
+**bütün eyaletlerde** negatif bir ilişki görülüyor, ama eyaletler
+sınava giren öğrenci oranına göre gruplandığında **her grubun
+içinde** ilişki pozitife dönüyor. Bu olguya ne ad verilir?
+
+a\) Ekolojik hata\
+b) Simpson paradoksu\
+c) Anscombe etkisi\
+d) Aşırı uydurma (overfitting)
+
+**20.** `theme_minimal()` ile `theme(legend.position = "bottom")`
+birlikte kullanılacaksa, doğru sıralama hangisidir?
+
+a\) Sıra önemli değildir, ikisi de aynı sonucu verir\
+b) `theme(legend.position = "bottom")` daima önce yazılmalıdır\
+c) `theme_minimal()` önce, `theme(legend.position = "bottom")` sonra
+yazılmalıdır; aksi hâlde hazır tema özel ayarı sıfırlar\
+d) İkisi aynı katmanda, `+` olmadan yazılmalıdır

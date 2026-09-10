@@ -1,0 +1,558 @@
+---
+title: "Modül 03 — Rehberli Laboratuvar"
+subtitle: "Veri görselleştirme: ggplot2"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+    fig.width: 5.5
+    fig.height: 3.2
+    fig.align: "center"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar
+başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–G): her görevde ne yapmanız gerektiği yazılıdır
+    ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____` gördüğünüz
+    yerleri siz dolduracaksınız. Bu kodlar render sırasında çalıştırılmaz —
+    sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli ve
+    grafiklerin kendisi. Önce kendiniz deneyin, tıkandığınızda bakın.
+
+::: callout-tip
+## Nasıl çalışılır
+
+Her görevde grafiği çizdikten sonra **bir cümleyle** ne gördüğünüzü
+yazın (kod öbeğinin altına, düz metin olarak). Sınavda sizden istenecek
+olan kod yazmak değil, bu cümleyi kurmaktır.
+:::
+
+Başlamadan önce paketleri yükleyin ve 2007 verisini hazırlayın:
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(gapminder)
+library(here)
+
+gapminder_2007 <- gapminder |> filter(year == 2007)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm A — İlk Grafik ve Katmanlar
+
+## Görev A1 — Üç katman
+
+2007 yılında **nüfus** (`pop`) ile **yaşam beklentisi** (`lifeExp`)
+arasındaki ilişkiyi bir dağılım grafiğiyle çizin.
+
+```{r}
+#| eval: false
+ggplot(____, aes(x = ____, y = ____)) +
+  ____()
+```
+
+## Görev A2 — Log ölçeği ekleyin
+
+A1'deki grafikte noktaların neredeyse hepsi sol kenara yığıldı. Neden?
+Grafiğe `x` ekseni için bir log ölçeği ekleyin ve grafiği yeniden
+yorumlayın: nüfus ile yaşam beklentisi arasında bir ilişki var mı?
+
+```{r}
+#| eval: false
+ggplot(gapminder_2007, aes(x = pop, y = lifeExp)) +
+  geom_point() +
+  ____()
+```
+
+------------------------------------------------------------------------
+
+# Bölüm B — Eşleme mi, Sabit Ayar mı?
+
+## Görev B1 — Hatayı bulun
+
+Aşağıdaki kodu yazan öğrenci **bütün noktaların koyu yeşil ve yarı
+saydam** olmasını istiyor. Kodu çalıştırın, sonucun neden istenen gibi
+olmadığını açıklayın ve düzeltin.
+
+```{r}
+#| eval: false
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp,
+                           color = "darkgreen", alpha = 0.4)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+## Görev B2 — Rengi veriye eşleyin
+
+Aynı grafikte bu kez noktaların rengi **kıtaya** (`continent`), boyutu
+ise **nüfusa** (`pop`) göre değişsin; saydamlık bütün noktalar için
+0,6 olsun.
+
+```{r}
+#| eval: false
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(aes(color = ____, size = ____), alpha = ____) +
+  scale_x_log10()
+```
+
+------------------------------------------------------------------------
+
+# Bölüm C — Dağılımlar
+
+## Görev C1 — Histogramın aralık genişliği
+
+2007'de kişi başı gelirin (`gdpPercap`) histogramını üç farklı aralık
+genişliğiyle çizin: 1000, 5000 ve 20000 dolar. Hangisi dağılımın
+yapısını en dürüst gösteriyor?
+
+```{r}
+#| eval: false
+ggplot(gapminder_2007, aes(x = gdpPercap)) +
+  geom_histogram(binwidth = ____, fill = "grey70", color = "white")
+```
+
+## Görev C2 — Kıtaları karşılaştırın
+
+2007'de kıtalara göre kişi başı gelirin kutu grafiğini çizin. Kıtaları
+**ortanca gelire göre** sıralayın ve `y` eksenine log ölçeği verin.
+Hangi kıtada ülkeler arasındaki gelir farkı en büyük?
+
+```{r}
+#| eval: false
+ggplot(gapminder_2007,
+       aes(x = reorder(____, ____, FUN = median), y = gdpPercap)) +
+  geom_boxplot() +
+  scale_y_log10()
+```
+
+## Görev C3 — Sayma mı, hazır değer mi?
+
+Aşağıdaki kod hata veriyor. Hata mesajını okuyun ve **iki farklı yolla**
+düzeltin: biri `geom_bar()` ile, biri `geom_col()` ile.
+
+```{r}
+#| eval: false
+kita_sayilari <- gapminder_2007 |> count(continent)
+
+ggplot(kita_sayilari, aes(x = continent, y = n)) +
+  geom_bar()
+```
+
+------------------------------------------------------------------------
+
+# Bölüm D — Gamson Yasası
+
+`data/gamson.csv` dosyasında her satır bir koalisyon partisidir:
+`seat_share` partinin koalisyon içindeki sandalye payı,
+`portfolio_share` kabinedeki bakanlık payıdır.
+
+## Görev D1 — Grafik ve referans çizgisi
+
+Veriyi okuyun; sandalye payını `x`'e, bakanlık payını `y`'ye veren bir
+dağılım grafiği çizin. Aşırı çizimi azaltmak için saydamlık kullanın ve
+Gamson Yasası'nın öngörüsünü ($y = x$) kırmızı bir doğru olarak ekleyin.
+
+```{r}
+#| eval: false
+gamson <- read.csv(here("data", "gamson.csv"))
+
+ggplot(gamson, aes(x = seat_share, y = portfolio_share)) +
+  geom_point(alpha = ____) +
+  geom_abline(intercept = ____, slope = ____, color = "firebrick") +
+  coord_equal()
+```
+
+## Görev D2 — Grafiği sayıyla doğrulayın
+
+Grafikte küçük partilerin doğrunun üstünde kaldığını gördük. Bunu
+sayıyla doğrulayın: sandalye payı **%10'un altında** olan partilerin
+yüzde kaçı, sandalye payından **daha fazla** bakanlık almış?
+
+İpucu: `mean()` bir mantıksal vektöre uygulandığında `TRUE`
+oranını verir (2. oturum).
+
+```{r}
+#| eval: false
+gamson |>
+  filter(seat_share < ____) |>
+  summarise(oran = mean(portfolio_share > ____))
+```
+
+------------------------------------------------------------------------
+
+# Bölüm E — Kategorik Değişkenler
+
+## Görev E1 — Brexit ve cinsiyet
+
+`data/VF_England.csv` dosyasını okuyun. Referandum oyu bilinmeyenleri
+çıkarın, sonra **cinsiyete** (`gender`) göre Brexit oyunun
+(`brexit_vote`) dağılımını gösteren bir oransal çubuk grafiği çizin.
+Kadınlar ile erkekler arasında belirgin bir fark var mı?
+
+```{r}
+#| eval: false
+vf <- read.csv(here("data", "VF_England.csv"))
+
+vf |>
+  filter(!is.na(____)) |>
+  ggplot(aes(y = ____, fill = ____)) +
+  geom_bar(position = "____")
+```
+
+## Görev E2 — Sıralı ölçek
+
+`vfsafe` değişkeni de yedi basamaklı bir katılım ölçeğidir. Önce
+doğrudan bir çubuk grafiği çizin ve basamakların sırasına bakın. Sonra
+basamakları doğru sıraya dizip grafiği yeniden çizin.
+
+```{r}
+#| eval: false
+olcek <- c("Strongly disagree", "Disagree", "Slightly disagree",
+           "Neither agree nor disagree",
+           "Slightly agree", "Agree", "Strongly agree")
+
+vf |>
+  mutate(vfsafe = factor(vfsafe, levels = ____)) |>
+  ggplot(aes(y = vfsafe)) +
+  geom_bar()
+```
+
+------------------------------------------------------------------------
+
+# Bölüm F — Zaman ve İletişim
+
+## Görev F1 — Türkiye ve komşuları
+
+Türkiye, Yunanistan ve İran'ın **kişi başı gelirini** 1952–2007 arasında
+çizgi grafiğiyle karşılaştırın. `y` eksenine log ölçeği verin.
+
+```{r}
+#| eval: false
+gapminder |>
+  filter(country %in% c("Turkey", ____, ____)) |>
+  ggplot(aes(x = year, y = gdpPercap, color = ____)) +
+  geom_line(linewidth = 1) +
+  scale_y_log10()
+```
+
+## Görev F2 — Grafiği yayına hazırlayın ve kaydedin
+
+F1'deki grafiği bir nesneye atayın; ona bir **bulgu** olarak yazılmış
+başlık, birimli eksen adları ve kaynak künyesi ekleyin. Sonra grafiği
+`gelir_karsilastirma.png` adıyla, 16 × 10 cm boyutunda kaydedin.
+
+```{r}
+#| eval: false
+grafik <- ____ +
+  labs(title = ____,
+       x = NULL,
+       y = ____,
+       color = NULL,
+       caption = ____) +
+  theme_minimal()
+
+ggsave(____, plot = grafik, width = ____, height = ____, units = "cm")
+```
+
+------------------------------------------------------------------------
+
+# Bölüm G — Hata Ayıklama
+
+Aşağıdaki dört kodun her birinde **bir** hata var. Her birini çalıştırın,
+ne olduğunu gözlemleyin, hatayı bulun ve düzeltin. Dikkat: bunların
+bazıları hata mesajı **vermez**; sadece yanlış bir grafik çizer.
+
+**G1.**
+
+```{r}
+#| eval: false
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp))
+  + geom_point()
+```
+
+**G2.**
+
+```{r}
+#| eval: false
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+  labs(title = "Gelir ve yaşam beklentisi") +
+  theme_minimal()
+```
+
+**G3.**
+
+```{r}
+#| eval: false
+ggplot(gapminder_2007, aes(x = continent)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme_minimal()
+```
+
+**G4.**
+
+```{r}
+#| eval: false
+ggplot(gapminder, aes(x = year, y = lifeExp)) +
+  geom_line(alpha = 0.2)
+```
+
+------------------------------------------------------------------------
+
+# Çözümler
+
+## A1
+
+```{r}
+ggplot(gapminder_2007, aes(x = pop, y = lifeExp)) +
+  geom_point()
+```
+
+## A2
+
+```{r}
+ggplot(gapminder_2007, aes(x = pop, y = lifeExp)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+Nüfus da gelir gibi aşırı sağa çarpıktır: Çin ve Hindistan'ın nüfusu
+bir milyarı aşarken ülkelerin çoğunun nüfusu birkaç milyon ile birkaç on
+milyon arasındadır. Log ölçeği ülkeleri birbirinden ayırt edilebilir
+kılar. Grafik, nüfus ile yaşam beklentisi arasında **belirgin bir ilişki
+olmadığını** gösteriyor: her nüfus büyüklüğünde hem yüksek hem düşük
+yaşam beklentili ülkeler var. İlişki yokluğu da bir bulgudur.
+
+## B1
+
+`aes()` içindeki her şey **veri** olarak yorumlanır. `"darkgreen"`
+burada bir renk değil, tek kategorili bir değişkendir; ggplot2 ona kendi
+paletinin ilk rengini (pembemsi turuncu) atar ve lejanta "darkgreen"
+yazar. `alpha = 0.4` de aynı biçimde eşlenir ve ikinci bir anlamsız
+lejant üretir. Sabit ayarlar `aes()` dışına, geom'un içine yazılır:
+
+```{r}
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(color = "darkgreen", alpha = 0.4) +
+  scale_x_log10()
+```
+
+## B2
+
+```{r}
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(aes(color = continent, size = pop), alpha = 0.6) +
+  scale_x_log10()
+```
+
+`color` ve `size` veriye bağlı olduğu için `aes()` içinde; `alpha` bütün
+noktalara aynı uygulandığı için dışında.
+
+## C1
+
+```{r}
+#| layout-ncol: 3
+#| fig-width: 2.6
+#| fig-height: 2.4
+ggplot(gapminder_2007, aes(x = gdpPercap)) +
+  geom_histogram(binwidth = 1000, fill = "grey70", color = "white") +
+  labs(title = "1000")
+ggplot(gapminder_2007, aes(x = gdpPercap)) +
+  geom_histogram(binwidth = 5000, fill = "grey70", color = "white") +
+  labs(title = "5000")
+ggplot(gapminder_2007, aes(x = gdpPercap)) +
+  geom_histogram(binwidth = 20000, fill = "grey70", color = "white") +
+  labs(title = "20000")
+```
+
+Üçü de sağa çarpıklığı gösterir, ama farklı ayrıntı düzeyinde. 20000
+dolarlık aralıklar ülkelerin yarısından fazlasını ilk çubuğa sıkıştırır
+ve yoksul ülkeler arasındaki farkları tamamen siler. 1000 dolarlık
+aralıklar bu farkları gösterir ama sağ tarafta boşluklu, dağınık bir
+görüntü üretir. 5000 makul bir orta noktadır; ancak asıl çözüm, 9.
+bölümde gördüğümüz gibi, gelire **log ölçeğinde** bakmaktır.
+
+## C2
+
+```{r}
+ggplot(gapminder_2007,
+       aes(x = reorder(continent, gdpPercap, FUN = median), y = gdpPercap)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  labs(x = NULL, y = "Kişi başı gelir (log ölçek)")
+```
+
+Kutunun genişliği (burada dikey uzunluğu), ortadaki yarının ne kadar
+yayıldığını gösterir. **Asya**'nın kutusu en uzun olanlardan biridir ve
+bıyıkları en yoksul ülkelerden en zenginlere uzanır: kıta içinde gelir
+farkı çok büyüktür. Log ölçeği olmasa Afrika'nın kutusu eksenin dibinde
+bir çizgiye dönüşürdü.
+
+## C3
+
+`geom_bar()` satırları kendisi sayar ve bir `y` eşlemesi kabul etmez.
+Burada sayım zaten yapılmış (`n` sütunu). İki çözüm:
+
+```{r}
+#| layout-ncol: 2
+#| fig-width: 3.6
+#| fig-height: 2.6
+# 1. Ham veriyi verin, geom_bar() saysın
+ggplot(gapminder_2007, aes(x = continent)) +
+  geom_bar()
+
+# 2. Hazır sayımı verin, geom_col() çizsin
+kita_sayilari <- gapminder_2007 |> count(continent)
+ggplot(kita_sayilari, aes(x = continent, y = n)) +
+  geom_col()
+```
+
+## D1
+
+```{r}
+#| fig-height: 3.6
+gamson <- read.csv(here("data", "gamson.csv"))
+
+ggplot(gamson, aes(x = seat_share, y = portfolio_share)) +
+  geom_point(alpha = 0.25) +
+  geom_abline(intercept = 0, slope = 1, color = "firebrick") +
+  coord_equal() +
+  labs(x = "Sandalye payı", y = "Bakanlık payı")
+```
+
+## D2
+
+```{r}
+gamson |>
+  filter(seat_share < 0.10) |>
+  summarise(parti_sayisi = n(),
+            oran = mean(portfolio_share > seat_share))
+```
+
+Sandalye payı %10'un altındaki partilerin büyük çoğunluğu, sandalye
+payından fazla bakanlık almış. Grafikte gözle gördüğümüz sapmayı
+artık bir sayıyla ifade edebiliyoruz. Aynı hesabı sandalye payı %60'ın
+üstündeki partiler için yapın; oran ne oluyor?
+
+## E1
+
+```{r}
+#| fig-height: 2.4
+vf <- read.csv(here("data", "VF_England.csv"))
+
+vf |>
+  filter(!is.na(brexit_vote)) |>
+  ggplot(aes(y = gender, fill = brexit_vote)) +
+  geom_bar(position = "fill") +
+  labs(x = "Oran", y = NULL, fill = NULL)
+```
+
+İki cinsiyette de Kal ve Ayrıl oyları birbirine yakın; parti yakınlığına
+göre gördüğümüz büyük farkların yanında cinsiyet farkı küçüktür.
+`position = "fill"` burada zorunludur: iki grubun büyüklüğü farklıysa
+ham sayılar oranlar hakkında yanıltıcı olur.
+
+## E2
+
+```{r}
+#| fig-height: 2.8
+olcek <- c("Strongly disagree", "Disagree", "Slightly disagree",
+           "Neither agree nor disagree",
+           "Slightly agree", "Agree", "Strongly agree")
+
+vf |>
+  mutate(vfsafe = factor(vfsafe, levels = olcek)) |>
+  ggplot(aes(y = vfsafe)) +
+  geom_bar() +
+  labs(x = "Seçmen sayısı", y = NULL)
+```
+
+`levels` vermezseniz R basamakları alfabetik sıralar ve "Agree" ile
+"Strongly agree" birbirinden kopar. `levels` içindeki bir yazım hatası
+(örneğin fazladan bir boşluk) o basamağın bütün cevaplarını `NA`
+yapar; grafikte beklenmedik bir `NA` çubuğu görürseniz ilk bakacağınız
+yer burasıdır.
+
+## F1 ve F2
+
+```{r}
+grafik <- gapminder |>
+  filter(country %in% c("Turkey", "Greece", "Iran")) |>
+  ggplot(aes(x = year, y = gdpPercap, color = country)) +
+  geom_line(linewidth = 1) +
+  scale_y_log10() +
+  labs(title = "Türkiye ile Yunanistan arasındaki gelir farkı kapanmadı",
+       x = NULL,
+       y = "Kişi başı gelir (log ölçek, ABD doları)",
+       color = NULL,
+       caption = "Kaynak: Gapminder Vakfı, gapminder R paketi.") +
+  theme_minimal()
+
+grafik
+```
+
+```{r}
+#| eval: false
+ggsave("gelir_karsilastirma.png", plot = grafik,
+       width = 16, height = 10, units = "cm")
+```
+
+Başlığın bir **bulgu** olarak yazıldığına dikkat edin. Log ölçekte iki
+çizgi arasındaki dikey mesafe, iki ülkenin gelirinin **oranını** gösterir;
+Türkiye ve Yunanistan çizgilerinin 55 yıl boyunca kabaca paralel
+gitmesi, oranın pek değişmediği anlamına gelir. İran'ın çizgisi ise
+1970'lerin ortasında zirve yapıp 1979 devrimi ve ardından gelen savaş
+yıllarında sert biçimde düşüyor.
+
+## G1
+
+`+` satırın **başına** yazılmış. R ilk satırı tam bir ifade olarak
+okur ve boş eksenler çizer; ikinci satırda ise başında hiçbir şey
+olmayan `+ geom_point()` ifadesiyle karşılaşıp hata verir. `+` daima
+satırın **sonunda** durur.
+
+## G2
+
+`geom_point()` satırının sonunda `+` eksik. R grafiği o satırda bitirir
+ve **başlıksız** çizer; sonraki iki satır ayrı bir ifade olarak çalışır
+ve hata vermeden hiçbir şey üretmez. Hata mesajı çıkmadığı için bu,
+en sinsi hatadır: kodunuzda yazdığınız bir katmanın grafikte görünmediğini
+fark ederseniz, önceki satırın sonuna bakın.
+
+## G3
+
+`theme_minimal()` hazır bir temadır ve kendinden **önce** yazılmış
+`theme()` ayarlarını sıfırlar; eksen etiketleri döndürülmeden çizilir.
+Doğru sıra: önce hazır tema, sonra ayar.
+
+```{r}
+#| fig-height: 2.6
+ggplot(gapminder_2007, aes(x = continent)) +
+  geom_bar() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## G4
+
+`group` estetiği eksik. ggplot2 hangi noktaların aynı ülkeye ait
+olduğunu bilmediği için bütün noktaları tek bir testere dişi çizgiyle
+birleştirir. Doğrusu: `aes(x = year, y = lifeExp, group = country)`.
