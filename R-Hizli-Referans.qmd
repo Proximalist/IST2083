@@ -25,19 +25,19 @@ df-print: kable
 
 Bu, **her hafta büyüyen** bir başvuru belgesidir. Yeni bir ders notunda
 yeni bir R fonksiyonu veya sözdizimi geçtiğinde, buraya kısa bir girişle
-eklenir. Amaç: 9. haftada bir sözdiziminin nasıl yazıldığını
-unuttuğunuzda, o haftanın ders notunu baştan açmak yerine buraya bakıp
+eklenir. Amaç: 9. oturumda bir sözdiziminin nasıl yazıldığını
+unuttuğunuzda, o oturumun ders notunu baştan açmak yerine buraya bakıp
 tek satırda hatırlamanız.
 
 ::: callout-important
 **Bu belgedeki kod örnekleri çalıştırılmaz** (render sırasında
 işletilmez) — bunlar birbirinden bağımsız, kısa hatırlatma parçalarıdır,
 tam bir script değildir. Çalışan, açıklamalı örnekler için ilgili
-haftanın ders notuna bakınız; her girişte hangi haftada işlendiği
+oturumun ders notuna bakınız; her girişte hangi oturumda işlendiği
 belirtilmiştir.
 :::
 
-Her giriş şu düzendedir: **ne işe yarar**, kısa örnek, hangi haftada
+Her giriş şu düzendedir: **ne işe yarar**, kısa örnek, hangi oturumda
 tanıtıldı.
 
 ------------------------------------------------------------------------
@@ -56,7 +56,7 @@ tanıtıldı.
 5 %/% 3  # tam bölme
 ```
 
-*1. hafta*
+*1. oturum*
 
 ## Karşılaştırma
 
@@ -67,7 +67,7 @@ tanıtıldı.
 5 >= 3; 5 <= 3
 ```
 
-*1. hafta*
+*1. oturum*
 
 ## Mantıksal
 
@@ -79,7 +79,7 @@ TRUE || FALSE   # VEYA (yalnızca ilk eleman)
 !TRUE           # DEĞİL
 ```
 
-*1. hafta*
+*1. oturum*
 
 ## Diğer
 
@@ -90,7 +90,7 @@ rep(1:3, times = 3) # tekrar
 3 %in% c(1, 2, 3)  # üyelik sorgusu — sağdaki vektörde var mı?
 ```
 
-*1. hafta*
+*1. oturum*
 
 ------------------------------------------------------------------------
 
@@ -101,7 +101,7 @@ x <- 10   # standart atama (tercih edilen)
 y = 20    # de çalışır, ama R camiasında <- yaygın
 ```
 
-*1. hafta*
+*1. oturum*
 
 R'da temel veri türleri: sayısal (`numeric`), karakter (`character`),
 mantıksal (`logical`). Bir değişkenin türünü öğrenmek için:
@@ -110,7 +110,7 @@ mantıksal (`logical`). Bir değişkenin türünü öğrenmek için:
 class(x)
 ```
 
-*2. hafta*
+*2. oturum*
 
 ------------------------------------------------------------------------
 
@@ -130,7 +130,7 @@ v[2] <- 10    # 2. elemanı güncelle
 sum(v)        # elemanların toplamı
 ```
 
-*2. hafta*
+*2. oturum*
 
 ## Liste
 
@@ -145,7 +145,7 @@ l$yeni <- "ek"  # yeni eleman ekle
 l$yeni <- NULL  # elemanı sil
 ```
 
-*2. hafta*
+*2. oturum*
 
 ## Matris
 
@@ -161,7 +161,7 @@ mat[, 3]    # 3. sütunun tamamı
 mat1 %*% mat2   # matris çarpımı (eleman eleman değil!)
 ```
 
-*2. hafta*
+*2. oturum*
 
 ## Veri Çerçevesi (Data Frame)
 
@@ -181,14 +181,31 @@ df$yeni <- c(10, 20, 30)          # yeni sütun ekle
 df <- rbind(df, list(4, "d", 40)) # yeni satır ekle
 ```
 
-*2. hafta*
+*2. oturum*
 
-::: callout-note
-**Eksik ve yakında eklenecek: mantıksal indeksleme.** `df[df$sayi > 1, ]`
-gibi bir koşula göre satır seçme sözdizimi henüz bu belgede yok — 2.
-hafta denetimi tamamlandığında buraya eklenecektir. Practical alternatif
-olarak 3. haftadan itibaren `dplyr::filter()` kullanacağız.
-:::
+## Mantıksal indeksleme
+
+Köşeli parantezin içine konum numarası yerine bir **koşul** yazarsanız,
+R önce koşulu her eleman için sınayıp bir `TRUE`/`FALSE` **maskesi**
+üretir, sonra `TRUE` olan konumları tutar.
+
+```r
+v <- c(4, 7, 2, 9, 5)
+
+v > 5                  # maske: FALSE TRUE FALSE TRUE FALSE
+v[v > 5]               # 7 9
+v[v > 3 & v < 9]       # 4 7 5      (VE)
+v[v > 8 | v < 3]       # 2 9        (VEYA)
+v[!(v == 2)]           # 4 7 9 5    (DEĞİL)
+
+df[df$sayi > 1, ]      # koşulu sağlayan SATIRLAR
+df[df$sayi > 1, "harf"] # koşulu sağlayan satırların bir sütunu
+```
+
+Virgül kritiktir: öncesi satırları, sonrası sütunları seçer.
+Eşitlik sınaması daima `==` iledir; `=` atama içindir.
+
+*2. oturum*
 
 ------------------------------------------------------------------------
 
@@ -202,7 +219,7 @@ summary(df)   # her sütun için özet istatistik
 class(df)     # nesnenin türü
 ```
 
-*2. hafta*
+*2. oturum*
 
 ------------------------------------------------------------------------
 
@@ -215,7 +232,7 @@ mean(c(1, 2, 3))   # ortalama
 sum(c(1, 2, 3))    # toplam
 ```
 
-*1. hafta*
+*1. oturum*
 
 ## Kendi fonksiyonunu yazma
 
@@ -227,7 +244,7 @@ toplama_fonksiyonu <- function(a, b) {
 toplama_fonksiyonu(3, 5)
 ```
 
-*2. hafta*
+*2. oturum*
 
 ------------------------------------------------------------------------
 
@@ -238,7 +255,7 @@ install.packages("gapminder")  # bir kez, kurulum aşamasında
 library(gapminder)              # her R oturumunda, kullanmadan önce
 ```
 
-*1. hafta*
+*1. oturum*
 
 ------------------------------------------------------------------------
 
@@ -250,7 +267,7 @@ help(mean)        # aynı şey, uzun biçim
 example(mean)     # fonksiyonun örnek kullanımını çalıştır
 ```
 
-*1. hafta*
+*1. oturum*
 
 ------------------------------------------------------------------------
 
@@ -265,15 +282,15 @@ read_excel("dosya.xlsx")         # Excel okuma
 write.csv(df, "dosya.csv", row.names = FALSE)  # CSV'e kaydetme
 ```
 
-*2. hafta*
+*2. oturum*
 
 ------------------------------------------------------------------------
 
 # Görselleştirme (ggplot2)
 
 ::: callout-note
-`ggplot2` resmî olarak **4. haftada** ayrıntılı işlenecek. Aşağıdaki
-temel iskelet, o haftaya kadar karşılaştığınız örnekleri hatırlamanız
+`ggplot2` resmî olarak **4. oturumda** ayrıntılı işlenecek. Aşağıdaki
+temel iskelet, o oturuma kadar karşılaştığınız örnekleri hatırlamanız
 içindir.
 :::
 
@@ -286,7 +303,7 @@ ggplot(veri, aes(x = degisken1, y = degisken2)) +
   theme_minimal()
 ```
 
-*1. hafta (önizleme), 4. hafta (ayrıntılı)*
+*1. oturum (önizleme), 4. oturum (ayrıntılı)*
 
 ------------------------------------------------------------------------
 
@@ -297,4 +314,4 @@ ggplot(veri, aes(x = degisken1, y = degisken2)) +
 | `iris` | Çiçek türlerine ait ölçümler; R'ın içinde hazır gelir | Hiçbir şey — doğrudan kullanılır |
 | `gapminder` | Ülke/yıl bazlı yaşam beklentisi, nüfus, GSYH (1952–2007) | `library(gapminder)` |
 
-*1. hafta*
+*1. oturum*

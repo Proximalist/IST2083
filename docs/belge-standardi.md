@@ -203,3 +203,33 @@ veriyor ve render'ı düşürüyordu.
 CI'ın ürettiği PDF'ler **geçici artefakttır**, öğrenciye gitmez.
 Öğrenciye giden belgeler sizin makinenizde render edilip commit edilir
 (bkz. §4).
+
+## 8. Öğrenciye giden metinde yazar notu bırakmayın
+
+Belgeler herkese açık bir depoda ve öğrenci PDF'i doğrudan okuyor.
+Aşağıdakiler render edilen metinde **asla** görünmemelidir:
+
+- kendinize bıraktığınız yapılacak notları ("şu dosyayı indirip
+  `images/...` olarak kaydedin", "aşağıdaki satırı yorumdan çıkarın")
+- `TODO`, `FIXME`, `XXX` gibi işaretler
+- "yakında eklenecek", "denetim tamamlandığında yazılacak" türü
+  eksiklik beyanları
+
+Bunlar için `_calisma/` klasörü var; orası izlenmez ve öğrenciye
+gitmez. Görsel kaynak künyesi ise metinde kalır ama yalnızca
+**künye** olarak: eser adı, sanatçı/kurum, yıl, telif durumu.
+
+## 9. Grafik içeren PDF belgeleri
+
+R grafiklerinde Türkçe karakter kullanan PDF belgelerine knitr aygıtı
+olarak `cairo_pdf` verin:
+
+```yaml
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+```
+
+R'ın varsayılan `pdf()` aygıtı tek baytlık kodlamaya düşer ve grafik
+başlıklarındaki `ş`, `ı`, `ğ` harflerini sessizce düşürür
+(`mbcsToSbcs` uyarısı). Sunumlarda (PNG çıktı) gerek yoktur.
