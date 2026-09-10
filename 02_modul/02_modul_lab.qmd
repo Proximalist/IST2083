@@ -93,6 +93,43 @@ mean(notlar, na.rm = ____)
 sum(is.na(notlar))        # kaç eksik değer var?
 ```
 
+## Görev A4 — Faktör kurmak
+
+Bir ankette eğitim düzeyi soruldu. Yanıtları önce sıradan bir karakter
+vektörü olarak, sonra **sıralı faktör** olarak kurun ve ikisini
+karşılaştırın.
+
+```{r}
+#| eval: false
+yanitlar <- c("Lisans", "Lise", "Doktora", "Lise", "Yüksek Lisans")
+
+# 1) Karakter olarak
+sort(yanitlar)          # hangi sıraya göre dizdi?
+
+# 2) Sıralı faktör olarak
+egitim <- factor(
+  yanitlar,
+  levels  = c("Lise", "Lisans", "____", "Doktora"),
+  ordered = TRUE
+)
+
+sort(egitim)            # şimdi hangi sıraya göre dizdi?
+table(egitim)
+egitim[1] > egitim[2]
+```
+
+## Görev A5 — Faktör tuzağı
+
+Aşağıdaki kodun neden yanlış sonuç verdiğini açıklayın ve düzeltin.
+
+```{r}
+#| eval: false
+puanlar <- factor(c("10", "25", "40"))
+
+as.numeric(puanlar)              # ne döndü? neden?
+as.numeric(as.____(puanlar))     # doğrusu
+```
+
 ------------------------------------------------------------------------
 
 # Bölüm B — Temel Fonksiyonlar
@@ -329,6 +366,28 @@ saatinde getirin.
     (`as.numeric()`) ve `class()` ile doğrulayın. Bu dönüşümün her zaman
     güvenli olmadığı bir örnek düşünebilir misiniz?
 
+::: callout-important
+## Haftanın Görevi
+
+Beş ülkenin adını (**karakter**), 2024 demokrasi skorlarını 0–100 arası
+(**sayısal**), AB üyesi olup olmadıklarını (**mantıksal**) ve rejim
+türünü (**faktör**: Demokrasi / Melez / Otokrasi) içeren bir
+`data.frame` oluşturun.
+
+Ardından mantıksal indeksleme kullanarak:
+
+a)  Yalnızca **demokrasi skoru 70'in üzerinde olan AB üyesi** ülkeleri
+    getirin.
+b)  Rejim türü "Demokrasi" olmayan ülkelerin **yalnızca adlarını**
+    listeleyin.
+c)  `table()` ile rejim türlerinin frekansını çıkarın ve hiç gözlenmemiş
+    bir kategori varsa çıktıda nasıl göründüğüne dikkat edin.
+
+Skorları uydurabilirsiniz; amaç veri değil, sözdizimi. Ama isterseniz
+V-Dem ya da Freedom House skorlarına bakıp gerçek değerler
+kullanabilirsiniz — o zaman kaynağı da not edin.
+:::
+
 ------------------------------------------------------------------------
 
 # Çözümler
@@ -351,6 +410,21 @@ notlar <- c(72, 85, NA, 91, 68)
 mean(notlar)                 # NA — tek bir eksik değer sonucu NA yapar
 mean(notlar, na.rm = TRUE)
 sum(is.na(notlar))
+
+# --- A4
+yanitlar <- c("Lisans", "Lise", "Doktora", "Lise", "Yüksek Lisans")
+sort(yanitlar)                       # alfabetik: kavramsal sıra değil
+egitim <- factor(yanitlar,
+                 levels  = c("Lise", "Lisans", "Yüksek Lisans", "Doktora"),
+                 ordered = TRUE)
+sort(egitim)                         # tanımladığınız hiyerarşiye göre
+table(egitim)
+egitim[1] > egitim[2]                # "Lisans" > "Lise" -> TRUE
+
+# --- A5  (faktör sayıya çevrilirken SEVİYE NUMARASI döner)
+puanlar <- factor(c("10", "25", "40"))
+as.numeric(puanlar)                  # 1 2 3  — yanlış
+as.numeric(as.character(puanlar))    # 10 25 40 — doğru
 
 # --- B1
 vektor <- c(4, 7, 2, 9, 5, 11, 3)

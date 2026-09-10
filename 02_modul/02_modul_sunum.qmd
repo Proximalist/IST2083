@@ -25,21 +25,18 @@ df-print: kable
 
 ## 🎯 Öğrenme Hedefleri
 
-Bu haftanın sonunda:
+Bu oturumun sonunda:
 
--   Temel veri türlerini (numeric, character, logical) tanımlayabileceksiniz
--   Matematiksel ve mantıksal işlemleri uygulayabileceksiniz
--   Yerleşik fonksiyonları (`sum()`, `mean()`, `length()`) kullanabileceksiniz
+-   Temel veri türlerini (numeric, character, logical, **factor**) tanımlayabileceksiniz
+-   R'ın **tür zorlaması** davranışını fark edip önleyebileceksiniz
+-   `NA`'in ne anlama geldiğini ve `na.rm`'in metodolojik bedelini bileceksiniz
 -   Vektör, liste, matris ve data frame ile çalışabileceksiniz
 -   **Mantıksal indeksleme** ile veri filtreleyebileceksiniz
--   Bir CSV dosyasını R'a aktarıp inceleyebileceksiniz
+-   Bir veri setini R'a aktarıp yapısını inceleyebileceksiniz
 
 ------------------------------------------------------------------------
 
 ## 1) Değişkenler ve Atama
-
--   R'da veriler değişkenlerde saklanır
--   Atama operatörü: `<-`
 
 ```{r}
 x <- 10          # sayısal
@@ -47,139 +44,214 @@ y <- "Merhaba"   # karakter dizesi
 z <- TRUE        # mantıksal
 ```
 
-------------------------------------------------------------------------
+. . .
 
-## 2) R'da Veri Türleri
-
--   **Sayısal (numeric)**: ondalıklı veya tam sayılar
--   **Karakter (character)**: metinler
--   **Mantıksal (logical)**: `TRUE` / `FALSE`
-
-```{r}
-a     <- 5.7
-b     <- 10
-metin <- "R programlama dili"
-durum <- TRUE
-
-c(class(a), class(metin), class(durum))
-```
+**Uyarı:** `c`, `data`, `mean` gibi **fonksiyon adlarını** değişken adı
+yapmayın. R engellemez, ama kodunuzu okunamaz hâle getirir.
 
 ------------------------------------------------------------------------
 
-## 2b) Uyarı: fonksiyon adlarını değişken adı yapmayın
+## 2) Tür Zorlaması — Sessiz Dönüşüm
 
-R sizi engellemez, ama okuyucu kaybolur:
+Bir vektörün tüm elemanları **aynı türde** olmak zorundadır. Farklı
+türler koyarsanız R hata vermez, **sessizce dönüştürür**.
 
 ```{r}
-#| eval: false
-c <- "metin"      # c() vektör fonksiyonunun adı
-data <- 5         # data() fonksiyonunun adı
-mean <- 3         # mean() fonksiyonunun adı
+sandalyeler <- c(120, 85, "Bilinmiyor", 45)
+class(sandalyeler)
 ```
 
 . . .
 
-**Kural:** değişken adları fonksiyon adlarıyla çakışmasın.
+```
+logical  →  integer  →  double  →  character
+(en katı)                          (en esnek)
+```
 
 ------------------------------------------------------------------------
 
-## 3) Matematiksel İşlemler
+## 2b) Bunun Alan Pratiğindeki Bedeli
+
+Sayısal bir sütuna sızan **tek bir** `"yok"` / `"-"` / `"cevapsız"`
+hücresi, tüm sütunu karaktere çevirir.
+
+. . .
 
 ```{r}
-a <- 5; b <- 3
-c(toplam = a + b, cikarma = a - b, carpma = a * b,
-  bolme = a / b, us = a ^ b)
+mean(sandalyeler)
 ```
 
 . . .
 
-> 💡 **Soru:** `sum(c(TRUE, TRUE, FALSE))` kaç döner? Neden?
+R **hata vermedi** — uyarı basıp `NA` döndürdü. Uzun bir script'te bunu
+kaçırmak kolaydır.
+
+::: callout-important
+Veriyi içe aktardıktan sonra **ilk iş** `str()` ile sütun türlerini
+kontrol etmek.
+:::
 
 ------------------------------------------------------------------------
 
-## 4) Temel Fonksiyonlar (I)
-
-`print()`, `sum()`, `mean()`, `sd()`, `length()`
+## 3) Yararlı Taraf: `TRUE` = 1
 
 ```{r}
-vektor <- c(1, 2, 3, 4, 5)
-
-c(toplam = sum(vektor), ortalama = mean(vektor),
-  std_sapma = sd(vektor), n = length(vektor))
-```
-
-------------------------------------------------------------------------
-
-## 5) Temel Fonksiyonlar (II)
-
-Dizi üretimi ve yapı kurma: `seq()`, `rep()`, `c()`, `data.frame()`, `summary()`
-
-```{r}
-seq(1, 10, by = 2)
-rep(1, times = 5)
-summary(c(1, 2, 3, 4, 5))
-```
-
-------------------------------------------------------------------------
-
-## 6) Parametreler ve Eksik Değerler
-
-Tek bir `NA`, tüm sonucu `NA` yapar:
-
-```{r}
-sayilar <- c(10, 20, NA, 40, 50)
-mean(sayilar)
+sum(c(TRUE, TRUE, FALSE))
 ```
 
 . . .
 
 ```{r}
-mean(sayilar, na.rm = TRUE)
-sum(is.na(sayilar))          # kaç eksik değer var?
+skorlar <- c(33, 89, 64, 59, 42)
+sum(skorlar > 60)     # "kaç ülke 60'ın üzerinde?"
+mean(skorlar > 60)    # "oranı ne?"
 ```
+
+Tür zorlaması burada tuzak değil, **araçtır**.
+
+------------------------------------------------------------------------
+
+## 4) Eksik Veri: `NA`
+
+`NA` sıfır değil, boşluk değil — **"bilinmiyor"** demektir.
+
+```{r}
+5 + NA
+```
+
+. . .
+
+```{r}
+NA == NA
+```
+
+`TRUE` değil! Kimliğini bilmediğiniz iki kişinin aynı kişi olup
+olmadığını bilemezsiniz.
+
+------------------------------------------------------------------------
+
+## 4b) `na.rm = TRUE` Bir Varsayımdır
+
+```{r}
+gelir <- c(4200, NA, 7350, 5100, NA)
+mean(gelir)
+mean(gelir, na.rm = TRUE)
+sum(is.na(gelir))
+```
+
+. . .
+
+::: callout-warning
+Soru teknik değil metodolojik: **kim cevap vermedi?** Eksik yanıtlar
+sistematikse `na.rm = TRUE` ortalamayı düzeltmez, **yanlı** yapar.
+7. oturumda buraya döneceğiz.
+:::
+
+------------------------------------------------------------------------
+
+## 5) Dördüncü Tür: `factor`
+
+Sosyal bilimde değişkenlerin çoğu **kategoriktir**: rejim türü, eğitim
+düzeyi, Likert ölçeği, bölge, parti.
+
+```{r}
+rejim <- factor(c("Demokrasi", "Otokrasi", "Melez", "Demokrasi"))
+
+levels(rejim)
+table(rejim)
+```
+
+------------------------------------------------------------------------
+
+## 5b) Sıralı Faktör
+
+```{r}
+egitim <- factor(
+  c("Lisans", "Lise", "Doktora", "Yüksek Lisans"),
+  levels  = c("Lise", "Lisans", "Yüksek Lisans", "Doktora"),
+  ordered = TRUE
+)
+
+egitim[1] > egitim[2]
+```
+
+. . .
+
+R, karakter vektöründe yapamayacağı karşılaştırmayı burada yapıyor —
+çünkü **hiyerarşiyi siz tanımladınız**.
+
+------------------------------------------------------------------------
+
+## 5c) Faktörün Klasik Tuzağı
+
+```{r}
+puanlar <- factor(c("10", "25", "40"))
+as.numeric(puanlar)
+```
+
+. . .
+
+Seviye numaraları geldi, değerler değil.
+
+```{r}
+as.numeric(as.character(puanlar))
+```
+
+**Daima önce `as.character()`.**
+
+------------------------------------------------------------------------
+
+## 6) Temel Fonksiyonlar
+
+```{r}
+skorlar <- c(33.4, 89.2, 64.1, 58.7, 41.9)
+
+c(n = length(skorlar), toplam = sum(skorlar),
+  ortalama = mean(skorlar), std_sapma = sd(skorlar))
+```
+
+. . .
+
+Dizi üretimi: `seq(1, 10, by = 2)` · `rep(1, times = 5)` ·
+Yardım: `?mean` · `help(sum)`
 
 ------------------------------------------------------------------------
 
 ## 7) Fonksiyon Oluşturma
 
-1)  `function` anahtar kelimesi
-2)  Parametreler
-3)  Gövde
-4)  `return()` (opsiyonel)
-
 ```{r}
-topla <- function(a, b) {
-  sonuc <- a + b
+degisim_katsayisi <- function(x) {
+  sonuc <- sd(x) / mean(x)
   return(sonuc)
 }
-topla(5, 3)
-```
 
-**Yardım:** `?mean` · `help(sum)`
+degisim_katsayisi(skorlar)
+```
 
 ------------------------------------------------------------------------
 
-## 8) Veri Yapıları – Vektör
+## 8) Vektör
 
-Aynı türden değerler, tek boyut. **Konuma göre** erişim:
+Aynı türden değerler, tek boyut. **Konuma ya da isme** göre erişim:
 
 ```{r}
-vektor <- c(4, 7, 2, 9, 5)
+ulkeler <- c("Türkiye", "Almanya", "Tunus")
+skor    <- c(33.4, 89.2, 64.1)
+names(skor) <- ulkeler
 
-vektor[2]          # ikinci eleman
-vektor[4] <- 100   # dördüncü elemanı değiştir
-vektor
+skor["Tunus"]
+skor / 10          # vektörleştirme: hepsine birden uygulanır
 ```
 
 ------------------------------------------------------------------------
 
 ## 9) Mantıksal İndeksleme — Adım 1
 
-Gerçek soru "beşinci eleman nedir?" değil, **"5'ten büyük olanlar hangileri?"**
+Gerçek soru "üçüncü eleman nedir?" değil, **"skoru 60'ın üzerinde
+olanlar hangileri?"**
 
 ```{r}
-sayilar <- c(4, 7, 2, 9, 5)
-sayilar > 5
+skor > 60
 ```
 
 . . .
@@ -191,79 +263,81 @@ sayilar > 5
 
 ## 10) Mantıksal İndeksleme — Adım 2
 
-Maskeyi köşeli parantezin içine koyarız:
-
 ```{r}
-sayilar[sayilar > 5]
+skor[skor > 60]
 ```
 
 . . .
 
-R, `TRUE` olan konumları tutar, `FALSE` olanları atar.
-
 ```{r}
-sayilar[sayilar > 3 & sayilar < 9]   # VE
-sayilar[!(sayilar == 2)]             # DEĞİL
+skor[skor > 40 & skor < 80]   # VE
+skor[!(skor > 60)]            # DEĞİL
 ```
 
 ::: callout-tip
-`sayilar[sayilar = 5]` hata verir. Eşitlik sınaması **daima** `==`.
+`skor[skor = 60]` hata verir. Eşitlik sınaması **daima** `==`.
 :::
 
 ------------------------------------------------------------------------
 
-## 11) Veri Yapıları – Liste
+## 11) Liste — Bir Ülke Profili
 
 Farklı türleri bir arada tutar:
 
 ```{r}
-liste <- list(ad = "Ali", yas = 25, ogrenci_mi = TRUE, notlar = c(85, 90, 78))
+ulke_profili <- list(
+  ulke        = "Tunus",
+  yil         = 2011,
+  nato_uyesi  = FALSE,
+  gostergeler = c(enflasyon = 3.5, demokrasi_skoru = 0.65)
+)
 
-liste$ad
-liste$notlar[1]
+ulke_profili$gostergeler["enflasyon"]
 ```
 
 ------------------------------------------------------------------------
 
-## 12) Veri Yapıları – Matris
+## 12) Matris — Ticaret Akışı
 
-Aynı türden iki boyutlu yapı (satır × sütun):
+Satır ve sütun **aynı varlık kümesi**; hücre aradaki akış.
 
 ```{r}
-matris <- matrix(1:6, nrow = 2, ncol = 3)
-matris
+ticaret <- matrix(
+  c(0, 15, 22,  14, 0, 8,  20, 9, 0),
+  nrow = 3, byrow = TRUE,
+  dimnames = list(c("TR", "DE", "IT"), c("TR", "DE", "IT"))
+)
+ticaret
 ```
 
 . . .
 
 ```{r}
-matris[2, 3]   # ikinci satır, üçüncü sütun
-matris[, 3]    # üçüncü sütunun tamamı
+rowSums(ticaret)   # toplam ihracat
 ```
 
 ------------------------------------------------------------------------
 
-## 13) Veri Yapıları – Data Frame
+## 13) Data Frame — Ülke Paneli
 
-Sütunları farklı türde olabilen tablo:
+Her satır bir gözlem, her sütun bir değişken:
 
 ```{r}
-df <- data.frame(
-  adi        = c("Ali", "Ayşe", "Fatma"),
-  yas        = c(23, 30, 27),
-  ogrenci_mi = c(TRUE, FALSE, TRUE)
+panel <- data.frame(
+  ulke     = c("Türkiye", "Almanya", "Tunus", "Polonya"),
+  skor     = c(33.4, 89.2, 64.1, 58.7),
+  ab_uyesi = c(FALSE, TRUE, FALSE, TRUE),
+  rejim    = factor(c("Melez", "Demokrasi", "Melez", "Demokrasi"))
 )
-df
+str(panel)
 ```
 
 ------------------------------------------------------------------------
 
-## 14) Data Frame Satırlarını Filtrelemek
-
-Mantıksal indeksleme burada asıl işini görür:
+## 14) Satır Filtreleme
 
 ```{r}
-df[df$yas > 25, ]
+panel[panel$skor > 60, ]
 ```
 
 . . .
@@ -271,14 +345,14 @@ df[df$yas > 25, ]
 **Virgül kritiktir:** öncesi satır, sonrası sütun seçer.
 
 ```{r}
-df[df$ogrenci_mi == TRUE, "adi"]
+panel[panel$ab_uyesi == TRUE, "ulke"]
 ```
 
 ------------------------------------------------------------------------
 
 ## 15) Dördünü Birlikte Görmek
 
-![](images/veri-yapilari-tipolojisi.png){fig-align="center" width="78%"}
+![](images/veri-yapilari-tipolojisi.png){fig-align="center" width="76%"}
 
 ------------------------------------------------------------------------
 
@@ -289,50 +363,79 @@ df[df$ogrenci_mi == TRUE, "adi"]
 
 . . .
 
-Bu yüzden hem `df$sutun` (liste sözdizimi) hem `df[1, 2]` (tablo
+Bu yüzden hem `panel$skor` (liste sözdizimi) hem `panel[1, 2]` (tablo
 sözdizimi) çalışır.
 
 ------------------------------------------------------------------------
 
-## 16) Veri İçe Aktarma ve İnceleme
+## 16) Veri İçe Aktarma
 
 ```{r}
-titanic <- read.csv("https://raw.githubusercontent.com/datasciencedojo/datasets/refs/heads/master/titanic.csv")
-
-str(titanic)
+library(gapminder)
+str(gapminder)
 ```
 
 . . .
 
-`head()`, `tail()`, `summary()`, `nrow()`, `ncol()`, `names()`
+Bu tek çıktıda haftanın tamamı var: **faktör**, **tamsayı**,
+**ondalıklı sayı** — hepsi bir data frame'de.
 
 ------------------------------------------------------------------------
 
-## 17) 3. Oturuma Köprü
+## 16b) Hepsini Bir Arada Kullanmak
 
-`df[df$yas > 25, ]` doğru ama hantal — veri çerçevesinin adını iki kez
-yazıyoruz.
+```{r}
+uzun_omur <- gapminder[gapminder$year == 2007 &
+                       gapminder$lifeExp > 80, ]
 
-. . .
+uzun_omur[, c("country", "lifeExp")]
+```
 
-3. oturumda `dplyr` ile aynı işi şöyle yazacağız:
+Bir data frame, iki koşul, `&`, virgül kuralı, sütun seçimi.
+
+------------------------------------------------------------------------
+
+## 17) `setwd()` Komutunu Unutun
 
 ```{r}
 #| eval: false
-filter(df, yas > 25)
+setwd("C:/Users/Ahmet/Masaüstü/odev")   # yalnızca Ahmet'te çalışır
 ```
 
 . . .
+
+```{r}
+#| eval: false
+library(here)
+read.csv(here("data", "example_data.csv"))   # her yerde çalışır
+```
+
+`here()` proje kökünü kendisi bulur. **Tekrarlanabilirliğin** en somut
+karşılığı: kodunuz başkasının makinesinde çalışmıyorsa, sonucunuz
+doğrulanamaz.
+
+------------------------------------------------------------------------
+
+## 18) 3. Oturuma Köprü
+
+`panel[panel$skor > 60, ]` doğru ama hantal — adı iki kez yazıyoruz.
+
+. . .
+
+```{r}
+#| eval: false
+filter(panel, skor > 60)
+```
 
 `dplyr`'ın yaptığı sihir değil: **bugün öğrendiğiniz mantığı okunabilir
 hâle getirmek.**
 
 ------------------------------------------------------------------------
 
-## 18) Bu Modülde Ne Yapacaksınız?
+## 19) Bu Modülde Ne Yapacaksınız?
 
 -   `02_modul_lab.qmd` — derste birlikte, boşlukları siz dolduracaksınız
--   `02_modul_alistirmalar.qmd` — 16 çoktan seçmeli soru
+-   `02_modul_alistirmalar.qmd` — 20 çoktan seçmeli soru
 -   `02_modul_cevap_anahtari.qmd` — gerekçeli cevaplar
 -   `R-Hizli-Referans.qmd` — bu haftanın sözdizimi oraya eklendi
 

@@ -1,6 +1,6 @@
 ---
 title: "Modül 02 — Cevap Anahtarı"
-subtitle: "Veri türleri, veri yapıları ve mantıksal indeksleme"
+subtitle: "Veri türleri, faktörler, veri yapıları ve mantıksal indeksleme"
 author: "Prof. Dr. Hakan Mehmetcik"
 date: "`r Sys.Date()`"
 lang: tr
@@ -14,7 +14,7 @@ execute:
 df-print: kable
 ---
 
-Bu belge `02_modul_alistirmalar.qmd` dosyasındaki 16 sorunun doğru
+Bu belge `02_modul_alistirmalar.qmd` dosyasındaki 20 sorunun doğru
 cevaplarını ve kısa gerekçelerini içerir. Gerekçeler yalnızca "doğru
 cevap bu" demekle kalmaz — **neden** doğru olduğunu da açıklar, çünkü
 sınavda sizden istenen de budur.
@@ -42,7 +42,8 @@ cevabıdır.
 zorlamasının gerçek veri üzerindeki karşılığıdır. (a) yanlıştır:
 `read.csv()` her sütunun türünü içeriğine bakarak belirler. (c)
 yanlıştır: `NA` sütunun türünü değiştirmez, `mean()` de `na.rm = TRUE`
-ile çalışır. (d) yanlıştır: sütun adı türü etkilemez.
+ile çalışır. Not: `mean()` karakter bir vektörde hata vermez — uyarı
+basıp `NA` döndürür; sessizliği tehlikeli yapan da budur. (d) yanlıştır: sütun adı türü etkilemez.
 
 **4. Doğru cevap: c)** `NA`. Vektörde bir tane bile bilinmeyen değer
 varsa ortalama da bilinemez; R bunu sessizce atmak yerine dürüstçe `NA`
@@ -134,8 +135,42 @@ sonucu vermez. (c) yanlıştır: virgülden sonra yazmak koşulu sütunlara
 uygular. (d) yanlıştır: `df > 25` tüm data frame'i sayıyla
 karşılaştırmaya çalışır.
 
+
+------------------------------------------------------------------------
+
+## Bölüm E — Faktörler ve Eksik Veri
+
+**17. Doğru cevap: b)** `1 2 3`. Bir faktörü `as.numeric()` ile
+çevirdiğinizde R size kategorinin **değerini değil, seviye numarasını**
+verir. Faktör içeride bir tamsayı vektörü olarak saklanır; gördüğünüz
+etiketler yalnızca o sayılara iliştirilmiş adlardır. Doğru dönüşüm iki
+adımlıdır: `as.numeric(as.character(puanlar))`. Bu, sayısal bir sütun
+yanlışlıkla faktör okunduğunda veriyi sessizce yok eden klasik hatadır.
+
+**18. Doğru cevap: b)** Sıralı faktör, kategoriler arasında sizin
+tanımladığınız hiyerarşiyi R'a öğretir; böylece `egitim[1] > egitim[2]`
+gibi karşılaştırmalar anlamlı sonuç verir. Karakter vektöründe böyle bir
+karşılaştırma ya hata verir ya da alfabetik sıraya göre yanıltıcı bir
+sonuç üretir. (a) yanlıştır: bellek avantajı modern R'da ihmal
+edilebilir düzeydedir ve konunun özü değildir. (c) ve (d) R'ın
+yapmadığı şeylerdir.
+
+**19. Doğru cevap: c)** `levels()` **kategorilerin kümesini** döndürür,
+gözlemleri değil — tekrarlar tek sefer görünür ve varsayılan olarak
+alfabetik sıralanır. Bu yüzden bir faktörün kaç farklı kategorisi
+olduğunu `length(levels(x))` ile öğrenirsiniz. (d) şıkkındaki sayılar
+faktörün içeride sakladığı seviye numaralarıdır; onlara
+`as.integer(rejim)` ile ulaşırsınız.
+
+**20. Doğru cevap: c)** `NA`. Sezgiye aykırı görünür ama tutarlıdır:
+`NA` bir değer değil, **"bu değer bilinmiyor"** demektir. Kimliğini
+bilmediğiniz iki kişinin aynı kişi olup olmadığını bilemezsiniz, o
+yüzden R "evet" ya da "hayır" demek yerine yine "bilinmiyor" der. Pratik
+sonucu şudur: eksik değeri `== NA` ile arayamazsınız, `is.na()`
+kullanmanız gerekir.
+
 ::: callout-note
-Bu son soru, 3. oturumda `dplyr::filter()` öğrenirken neden rahatlayacağınızı
+16. soru, 3. oturumda `dplyr::filter()` öğrenirken neden rahatlayacağınızı
 da açıklıyor: `filter(df, yas > 25)` yazımında virgül tuzağı yoktur.
 Ama altta çalışan mantık aynıdır.
 :::

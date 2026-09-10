@@ -67,48 +67,200 @@ R’da değişkenlerin farklı veri türleri olabilir. R’ın sık kullanılan 
   durum <- TRUE   # Logical
   ```
 
-## Değişkenlerle Matematiksel İşlemler
+## Matematiksel ve Mantıksal İşlemler — Kısa Hatırlatma
 
-Sayısal veri türüne sahip değişkenlerde matematiksel işlemler yapabilirsiniz. Örneğin:
+Aritmetik (`+ - * / ^ %% %/%`), karşılaştırma (`== != < > <= >=`) ve
+mantıksal (`& | !`) operatörlerin tamamını 1. oturumda gördünüz. Bu
+haftanın konusu operatörler değil, **operatörlerin üzerinde çalıştığı
+veri türleri ve yapıları**.
 
-```{r}
-a <- 5 
-b <- 3
-```
+Unuttuğunuz bir sözdizimi olursa depo kökündeki `R-Hizli-Referans.qmd`
+belgesine bakın; ders boyunca öğrendiğiniz her şey orada kümülatif
+olarak toplanıyor.
 
-**Toplama**
+## Tür Zorlaması: R'ın Sessiz Dönüşümü
 
-```{r}
-toplam <- a + b 
-print(toplam) # Çıktı: 8
-```
+Bir vektörün **tüm elemanları aynı türde olmak zorundadır**. Peki farklı
+türleri aynı `c()` içine koyarsanız R ne yapar? Hata vermez —
+**sessizce hepsini ortak bir türe çevirir.** Buna *tür zorlaması*
+(İng. *type coercion*) denir.
 
-**Çıkarma**
-
-```{r}
-cikarma <- a - b 
-print(cikarma) # Çıktı: 2
-```
-
-**Çarpma**
+Bunun neden önemli olduğunu soyut bir örnekle değil, sizin karşınıza
+çıkacağı biçimiyle görelim. Bir meclisteki parti sandalye sayılarını
+kaydediyorsunuz, ama bir parti için sayıyı bilmiyorsunuz:
 
 ```{r}
-a*b # Çıktı: 15
+sandalyeler <- c(120, 85, "Bilinmiyor", 45)
+class(sandalyeler)
 ```
 
-**Bölme**
+Vektörün tamamı karaktere döndü. Artık 120 sayısı değil, `"120"`
+metnidir. Şimdi ortalamasını almayı deneyin:
 
 ```{r}
-bolme <- a / b 
-print(bolme) # Çıktı: 1.666667
+mean(sandalyeler)
 ```
 
-**Üs Alma**
+Dikkat: R **hata vermedi**. Bir uyarı basıp `NA` döndürdü. Uyarıyı
+görmezseniz — ki uzun bir script'in ortasında kolayca kaçırırsınız —
+analizinize sessizce bir `NA` girmiş olur. Bazı fonksiyonlar ise
+doğrudan durur:
 
 ```{r}
-us <- a^b 
-print(us) # Çıktı: 125
+#| error: true
+sum(sandalyeler)
 ```
+
+Dönüşüm hiyerarşisi şöyledir — R daima **en esnek** türe doğru gider:
+
+```
+logical  →  integer  →  double  →  character
+(en katı)                          (en esnek)
+```
+
+```{r}
+class(c(TRUE, FALSE, 1))      # logical + numeric -> numeric
+class(c(1, 2, "üç"))          # numeric + character -> character
+sum(c(TRUE, TRUE, FALSE))     # TRUE = 1, FALSE = 0 -> 2
+```
+
+Son satır bir tuzak değil, bir **araç**: `sum(x > 5)` ifadesi "kaç eleman
+5'ten büyük?" sorusunun en kısa cevabıdır.
+
+::: callout-important
+## Alan pratiğinde bunun karşılığı
+
+Anket, seçim ve gösterge verilerinde sayısal bir sütunun içine
+`"yok"`, `"-"`, `"N/A"`, `"cevapsız"` gibi tek bir metin hücresinin
+sızması yeterlidir: R **tüm sütunu** karakter okur, ortalama alamazsınız
+ve hatanın kaynağını sütunun 4.000. satırında ararsınız.
+
+Bu yüzden bir veri setini içe aktardıktan sonra ilk yapacağınız şey
+`str()` çağırıp **her sütunun türünü kontrol etmektir.** Bu alışkanlığı
+bu hafta edinin.
+:::
+
+## Eksik Veri: `NA` Bir Değer Değil, Bir Bilgi Yokluğudur
+
+`NA` sıfır değildir, boşluk da değildir. **"Bu değer bilinmiyor"**
+demektir. R'ın `NA` ile ilgili tüm davranışı bu tek cümleden çıkar:
+
+```{r}
+5 + NA
+```
+
+Bilmediğiniz bir şeye 5 eklerseniz, sonucu yine bilemezsiniz. Aynı
+mantık şaşırtıcı görünen şu sonucu da açıklar:
+
+```{r}
+NA == NA
+```
+
+`TRUE` değil, `NA` döner. Kimliğini bilmediğiniz iki kişinin aynı kişi
+olup olmadığını bilemezsiniz. Bu yüzden eksik değeri `==` ile
+arayamazsınız; `is.na()` kullanırsınız:
+
+```{r}
+gelir <- c(4200, NA, 7350, 5100, NA)
+
+is.na(gelir)        # hangi elemanlar eksik?
+sum(is.na(gelir))   # kaç tane eksik?
+mean(gelir)         # tek bir NA sonucu NA yapar
+mean(gelir, na.rm = TRUE)
+```
+
+::: callout-warning
+## `na.rm = TRUE` masum bir teknik ayar değildir
+
+`na.rm = TRUE` yazdığınızda R'a "eksik gözlemleri **at**, kalanla
+hesapla" demiş olursunuz. Teknik olarak sorunsuz. Metodolojik olarak
+sorulması gereken soru şudur: **kim cevap vermedi?**
+
+Bir gelir anketinde "cevap yok" diyen 500 kişi rastgele dağılmış
+olabilir — ya da sistematik biçimde en yüksek ve en düşük gelir
+gruplarından geliyor olabilir. İkinci durumda `na.rm = TRUE`
+ortalamayı düzeltmez, **yanlı** hale getirir ve bunu sessizce yapar.
+
+Eksik verinin rastgele olup olmadığı, örneklem ve temsil sorunlarının
+bir parçasıdır; 7. oturumda örnekleme konusunda buraya döneceğiz.
+Şimdilik kuralı şöyle aklınızda tutun: `na.rm = TRUE` bir çözüm değil,
+**bir varsayımdır.**
+:::
+
+## Kategorik Veri: `factor`
+
+Şu ana kadar üç tür gördünüz: sayısal, karakter, mantıksal. Sosyal
+bilimde en sık kullanılan tür ise dördüncüsüdür: **`factor`**, yani
+kategorik değişken.
+
+Rejim türü (demokrasi / melez / otokrasi), eğitim düzeyi, Likert ölçeği
+(kesinlikle katılmıyorum … kesinlikle katılıyorum), bölge, parti — bunlar
+metin gibi görünür ama metin değildir. Aralarında **sonlu bir kategori
+kümesi** ve çoğu zaman bir **sıra** vardır.
+
+### Sırasız faktör
+
+```{r}
+rejim <- factor(c("Demokrasi", "Otokrasi", "Melez", "Demokrasi"))
+
+rejim
+levels(rejim)
+table(rejim)
+```
+
+`levels()` kategorilerin kümesini verir. `table()` ise frekans sayımı
+yapar — karakter vektöründe de çalışır, ama faktörde **hiç gözlenmemiş
+bir kategori bile** sonuçta sıfır olarak görünür. Bu, eksik kategoriyi
+fark etmenizi sağlar.
+
+### Sıralı faktör
+
+Eğitim düzeyi kategorileri arasında bir sıra vardır ve bu sırayı R'a
+siz söylersiniz:
+
+```{r}
+egitim <- factor(
+  c("Lisans", "Lise", "Doktora", "Yüksek Lisans"),
+  levels  = c("Lise", "Lisans", "Yüksek Lisans", "Doktora"),
+  ordered = TRUE
+)
+
+egitim
+egitim[1] > egitim[2]   # "Lisans" > "Lise"
+```
+
+Son satır önemlidir: R, karakter vektöründe yapamayacağı bir
+karşılaştırmayı burada yapabiliyor — çünkü **siz ona kategorilerin
+hiyerarşisini tanımladınız.** R'ın bildiği bir sıra değil, sizin
+tanımladığınız kavramsal sıra.
+
+::: callout-warning
+## Faktörlerin klasik tuzağı: `as.numeric()`
+
+Bir faktörü sayıya çevirmeye kalkarsanız R size **kategorinin
+değerini değil, seviye numarasını** verir:
+
+```{r}
+puanlar <- factor(c("10", "25", "40"))
+as.numeric(puanlar)          # 1 2 3  — YANLIŞ!
+as.numeric(as.character(puanlar))  # 10 25 40  — doğrusu
+```
+
+Sayısal bir sütun yanlışlıkla faktör olarak okunmuşsa, doğrudan
+`as.numeric()` çağırmak veriyi sessizce yok eder. Daima önce
+`as.character()`.
+:::
+
+::: callout-note
+## Neden şimdi öğreniyoruz?
+
+`factor` üç yerde tekrar karşınıza çıkacak ve her seferinde bu haftaki
+temele dayanacak: 4. oturumda `ggplot2` kategorileri hangi sırayla
+çizeceğine faktör seviyelerine bakarak karar verir; 5. oturumda frekans
+tabloları ve gruplu özetler faktör üzerinden kurulur; 10. oturumda
+regresyonda kategorik değişkenler **kukla değişkenlere** dönüştürülür ve
+faktörün ilk seviyesi **referans kategori** olur.
+:::
 
 # 2. R'da Temel Fonksiyonlar
 
@@ -243,36 +395,47 @@ R dilinde, veriler çeşitli veri yapıları kullanılarak organize edilir. Teme
 
 ## Vektörler
 
-R dilinde en temel veri yapılarından biri vektörlerdir. Vektörler, aynı veri türüne sahip bir dizi elemanı saklar. Vektör oluşturmak için c() fonksiyonu kullanılır.
+R dilinde en temel veri yapılarından biri vektörlerdir. Vektörler, **aynı
+veri türüne** sahip bir dizi elemanı saklar. Vektör oluşturmak için `c()`
+fonksiyonu kullanılır.
+
+Bir veri setindeki her sütun aslında bir vektördür. Aşağıda üç ülkenin
+2024 demokrasi skorunu tutuyoruz:
 
 ```{r}
-# Sayısal vektör oluşturma
-numeric_vector <- c(1, 2, 3, 4, 5)
+ulkeler  <- c("Türkiye", "Almanya", "Tunus")     # karakter vektör
+skorlar  <- c(33.4, 89.2, 64.1)                  # sayısal vektör
+ab_uyesi <- c(FALSE, TRUE, FALSE)                # mantıksal vektör
 
-# Karakter vektör oluşturma
-character_vector <- c("a", "b", "c", "d")
-
-# Mantıksal vektör oluşturma
-logical_vector <- c(TRUE, FALSE, TRUE)
-
-# Vektör elemanlarına erişim
-print(numeric_vector[1])  # 1
-print(character_vector[3])  # "c"
-
-# Vektör elemanlarını güncelleme
-numeric_vector[2] <- 10
-
-# Vektör toplama
-sum_vector <- numeric_vector + c(1, 1, 1, 1, 1)
-
-# Vektör elemanlarının toplamı
-total_sum <- sum(numeric_vector)
-
-# Güncellenmiş vektörleri yazdırma
-print(numeric_vector)
-print(sum_vector)
-print(total_sum)
+# Vektöre isim verme: elemanlar artık konumla değil, adla da anılabilir
+names(skorlar) <- ulkeler
+skorlar
 ```
+
+```{r}
+# Elemana erişim: konumla ya da isimle
+skorlar[2]
+skorlar["Tunus"]
+
+# Elemanı güncelleme
+skorlar["Tunus"] <- 65.0
+
+# Vektör üzerinde işlem: tüm elemanlara aynı anda uygulanır
+skorlar / 10
+
+# Özet
+mean(skorlar)
+length(skorlar)
+```
+
+::: callout-note
+## Vektörleştirme
+
+`skorlar / 10` yazdığınızda R her elemanı tek tek dolaşmanızı beklemez;
+işlemi **tüm vektöre birden** uygular. Buna *vektörleştirme* denir ve
+R'ın diğer dillerden en belirgin farkıdır. Başka dillerde döngü
+yazacağınız yerlerin çoğunda R'da tek satır yeterlidir.
+:::
 
 ## Mantıksal İndeksleme
 
@@ -312,101 +475,131 @@ sayilar[!(sayilar == 2)]             # 2'ye eşit OLMAYANLAR
 
 ## Listeler
 
-Listeler, farklı türdeki verileri bir arada saklayabilen veri yapılarıdır. Bir liste içinde sayılar, karakterler, mantıksal değerler ve hatta başka vektörler bulunabilir.
+Listeler, **farklı türdeki** verileri bir arada saklayabilen veri
+yapılarıdır. Bir listenin içinde sayı, metin, mantıksal değer ve hatta
+başka bir vektör bulunabilir.
+
+Listenin tipik kullanımı, tek bir varlığa ait **farklı türden bilgileri**
+bir arada tutmaktır — bir ülke profili gibi:
 
 ```{r}
-# Liste oluşturma
-my_list <- list(number = 5, greeting = "Hello", flag = TRUE, numbers = c(1, 2, 3))
+ulke_profili <- list(
+  ulke        = "Tunus",
+  yil         = 2011,
+  nato_uyesi  = FALSE,
+  gostergeler = c(enflasyon = 3.5, demokrasi_skoru = 0.65)
+)
 
-# Liste elemanlarına erişim
-print(my_list$number)  # 5
-print(my_list$greeting)  # "Hello"
-print(my_list$flag)  # TRUE
-print(my_list$numbers)  # c(1, 2, 3)
-
-# Liste elemanlarını güncelleme
-my_list$number <- 10
-my_list$greeting <- "Hi"
-
-# Listeye yeni eleman ekleme
-my_list$new_element <- "New Element"
-
-# Liste elemanlarını silme
-my_list$new_element <- NULL
-
-# Güncellenmiş listeyi yazdırma
-print(my_list)
+ulke_profili$ulke
+ulke_profili$gostergeler
+ulke_profili$gostergeler["enflasyon"]   # listenin içindeki vektörün elemanı
 ```
+
+```{r}
+# Eleman güncelleme, ekleme, silme
+ulke_profili$yil <- 2012
+ulke_profili$bolge <- "Kuzey Afrika"
+ulke_profili$nato_uyesi <- NULL
+
+str(ulke_profili)
+```
+
+`str()` bir listenin iç yapısını görmenin en hızlı yoludur: kaç eleman
+var, her biri hangi türde, iç içe geçmiş bir yapı mı.
 
 ## Matrisler
 
-Matrisler, satırlar ve sütunlar şeklinde organize edilmiş sayısal veri yapılarıdır. Tüm elemanlar aynı türde olmalıdır.
+Matris, satır ve sütunlar hâlinde düzenlenmiş **iki boyutlu ve homojen**
+bir yapıdır — tüm elemanları aynı türde olmalıdır.
+
+Sosyal bilimde matrisin en doğal karşılığı, satırları ve sütunları
+**aynı varlık kümesi** olan tablolardır: ülkeler arası ticaret akışları,
+ittifak ağları, göç akımları. Hücre, satırdaki varlıktan sütundaki
+varlığa giden miktarı gösterir.
 
 ```{r}
-# 2x3 boyutunda bir matris oluşturma
-my_matrix <- matrix(1:6, nrow = 2, ncol = 3)
+# Üç ülke arasındaki ihracat akışı (milyar $)
+ticaret <- matrix(
+  c( 0, 15, 22,
+    14,  0,  8,
+    20,  9,  0),
+  nrow = 3, byrow = TRUE,
+  dimnames = list(
+    c("Türkiye", "Almanya", "İtalya"),   # satırlar: ihracatçı
+    c("Türkiye", "Almanya", "İtalya")    # sütunlar: ithalatçı
+  )
+)
 
-# Matris elemanlarına erişim
-print(my_matrix[1, 2])  # 3
-print(my_matrix[2, ])  # c(4, 5, 6)
-print(my_matrix[, 3])  # c(5, 6)
-
-# Matris elemanlarını güncelleme
-my_matrix[1, 2] <- 10
-
-# Matris toplama
-matrix1 <- matrix(1:4, nrow = 2)
-matrix2 <- matrix(5:8, nrow = 2)
-sum_matrix <- matrix1 + matrix2
-
-# Matris çarpma
-product_matrix <- matrix1 %*% matrix2
-
-# Güncellenmiş matrisleri yazdırma
-print(my_matrix)
-print(sum_matrix)
-print(product_matrix)
+ticaret
 ```
+
+```{r}
+# Erişim: [satır, sütun]
+ticaret["Türkiye", "Almanya"]   # Türkiye'den Almanya'ya ihracat
+ticaret["Türkiye", ]            # Türkiye'nin tüm ihracatı (satır)
+ticaret[, "Türkiye"]            # Türkiye'ye tüm ithalat (sütun)
+
+# Satır ve sütun toplamları
+rowSums(ticaret)   # her ülkenin toplam ihracatı
+colSums(ticaret)   # her ülkenin toplam ithalatı
+```
+
+::: callout-note
+## `byrow = TRUE` neden yazdık?
+
+`matrix()` sayıları varsayılan olarak **sütun sütun** doldurur. Yukarıdaki
+kodu okunabilir kılmak için sayıları satır satır yazdık, bu yüzden R'a
+"onları yazdığım sırayla, satır satır yerleştir" dedik. `byrow = TRUE`
+yazmayı unutursanız matris devrik hâlde kurulur ve tüm yorumunuz ters
+döner — hata mesajı almazsınız, yalnızca yanlış sonuç alırsınız.
+:::
 
 ## Data Frameler
 
-Data frameler, R dilinde kullanılan ve farklı veri türlerine sahip sütunları içerebilen iki boyutlu veri yapılarıdır. Data frameler, genellikle tablo şeklinde verileri saklamak için kullanılır ve her sütun bir vektör olarak temsil edilir. Data frameler, data.frame() fonksiyonu kullanılarak oluşturulur.
+Data frame, sütunları **farklı türde** olabilen iki boyutlu bir yapıdır
+ve sosyal bilimde çalışacağınız verinin neredeyse tamamı bu biçimdedir:
+her satır bir gözlem (ülke, kişi, yıl, olay), her sütun bir değişken.
 
 ```{r}
-# Data frame oluşturma
-my_data_frame <- data.frame(
-  numbers = c(1, 2, 3, 4, 5),
-  letters = c("a", "b", "c", "d", "e"),
-  logicals = c(TRUE, FALSE, TRUE, FALSE, TRUE)
+panel <- data.frame(
+  ulke      = c("Türkiye", "Almanya", "Tunus", "Polonya", "Fas"),
+  skor      = c(33.4, 89.2, 64.1, 58.7, 41.9),
+  ab_uyesi  = c(FALSE, TRUE, FALSE, TRUE, FALSE),
+  rejim     = factor(c("Melez", "Demokrasi", "Melez", "Demokrasi", "Otokrasi"))
 )
 
-# Data frame elemanlarına erişim
-print(my_data_frame[1, 2])  # "a"
-print(my_data_frame[2, ])  # tek satırlık bir data frame (vektör değil!)
-print(my_data_frame[, 3])  # c(TRUE, FALSE, TRUE, FALSE, TRUE)
-print(my_data_frame$numbers)  # c(1, 2, 3, 4, 5)
+panel
+str(panel)
+```
 
-# Data frame elemanlarını güncelleme
-my_data_frame[1, 2] <- "z"
-my_data_frame$numbers[2] <- 10
+`str()` çıktısına dikkat edin: `ulke` karakter, `skor` sayısal,
+`ab_uyesi` mantıksal, `rejim` ise faktör — ve faktörün seviyeleri de
+görünüyor. Dört farklı tür, tek tabloda.
+
+```{r}
+# Erişim: [satır, sütun]
+panel[1, 2]              # birinci satır, ikinci sütun
+panel[2, ]               # tek satırlık bir data frame (vektör değil!)
+panel$skor               # bir sütunun tamamı, vektör olarak
+panel$skor[3]            # o sütunun üçüncü elemanı
+
+# Güncelleme
+panel$skor[3] <- 65.0
 
 # Mantıksal indekslemeyi satır filtrelemek için kullanma
 # Virgülden ÖNCESİ satırları, SONRASI sütunları seçer:
-my_data_frame[my_data_frame$numbers > 2, ]
+panel[panel$skor > 60, ]
 
-# Yeni bir sütun ekleme
-my_data_frame$new_column <- c(10, 20, 30, 40, 50)
+# Yeni sütun ekleme
+panel$nufus_mn <- c(85.3, 83.2, 12.0, 36.8, 37.1)
 
-# Satır ekleme
-new_row <- data.frame(numbers = 6, letters = "f", logicals = FALSE, new_column = 60)
-my_data_frame <- rbind(my_data_frame, new_row)
+# Yeni satır ekleme: sütun adları birebir aynı olmalıdır
+yeni <- data.frame(ulke = "Yunanistan", skor = 76.4, ab_uyesi = TRUE,
+                   rejim = "Demokrasi", nufus_mn = 10.4)
+panel <- rbind(panel, yeni)
 
-# Sütun ekleme
-new_column <- c(100, 200, 300, 400, 500, 600)
-my_data_frame <- cbind(my_data_frame, new_column)
-
-# Güncellenmiş data frame'i yazdırma
-print(my_data_frame)
+panel
+nrow(panel); ncol(panel); names(panel)
 ```
 
 ## Dördünü Birlikte Görmek
@@ -420,72 +613,144 @@ Bu dört yapıyı ezberlemenize gerek yok. Elinizdeki veriye **iki soru** sorars
 ::: callout-note
 ## 3. oturuma köprü
 
-`my_data_frame[my_data_frame$numbers > 2, ]` yazımı doğru ama hantaldır: veri çerçevesinin adını iki kez tekrarlamak zorunda kalırsınız. 3. haftada `dplyr` paketini öğrendiğinizde aynı işi `filter(my_data_frame, numbers > 2)` biçiminde yazacaksınız. `dplyr`'ın yaptığı sihir bu değildir — **taban R'da zaten var olan bu mantığı** okunabilir hale getirmesidir. Bu yüzden önce burayı öğreniyoruz.
+`panel[panel$skor > 60, ]` yazımı doğru ama hantaldır: veri çerçevesinin adını iki kez tekrarlamak zorunda kalırsınız. 3. oturumda `dplyr` paketini öğrendiğinizde aynı işi `filter(panel, skor > 60)` biçiminde yazacaksınız. `dplyr`'ın yaptığı sihir bu değildir — **taban R'da zaten var olan bu mantığı** okunabilir hale getirmesidir. Bu yüzden önce burayı öğreniyoruz.
 :::
 
 # 4. Veri İçe Aktarma ve Kaydetme
 
-Veri içe aktarma ve temel manipülasyon, veri analizi sürecinin önemli adımlarıdır. R dilinde veri içe aktarma ve temel manipülasyon işlemleri için çeşitli fonksiyonlar ve paketler kullanılır.
+Şimdiye kadar veriyi elle yazdık. Gerçek çalışmada veri bir dosyadan,
+bir paketten ya da bir adresten gelir.
 
-## Veri İçe Aktarma
+## Paket İçinde Gelen Veri
 
-R dilinde veri içe aktarmak için read.csv(), read.table(), read_excel() gibi fonksiyonlar kullanılır.
+En kolay yol: bazı paketler veri setini içinde taşır. 1. oturumda
+tanıştığınız `gapminder` bunlardan biri — 142 ülkenin 1952–2007 arası
+yaşam beklentisi, nüfusu ve kişi başı geliri.
 
 ```{r}
-# CSV dosyasını içe aktarma (doğrudan bir internet adresinden)
-titanic <- read.csv("https://raw.githubusercontent.com/datasciencedojo/datasets/refs/heads/master/titanic.csv")
+library(gapminder)
+
+str(gapminder)
+```
+
+`str()` çıktısı bu haftanın konularını tek ekranda topluyor: `country`
+ve `continent` **faktör**, `year` ve `pop` **tamsayı**, `lifeExp` ve
+`gdpPercap` **ondalıklı sayı**. Dört tür, bir data frame.
+
+```{r}
+# Faktör sütunun kategorileri
+levels(gapminder$continent)
+table(gapminder$continent)
 ```
 
 ```{r}
-# readxl paketini yükleme
-# install.packages("readxl")
-library(readxl)
+# Mantıksal indeksleme: 2007'de yaşam beklentisi 80'in üzerindeki ülkeler
+uzun_omur <- gapminder[gapminder$year == 2007 & gapminder$lifeExp > 80, ]
+uzun_omur[, c("country", "lifeExp")]
+```
+
+Bu tek satır, bu haftanın tamamını kullanıyor: bir data frame, iki
+mantıksal koşul, `&` operatörü, virgülle satır/sütun ayrımı ve sütun
+seçimi.
+
+## Dosyadan Veri: CSV ve Excel
+
+```{r}
 library(here)
+library(readxl)
 
-# Excel dosyasını içe aktarma (depo içindeki data/ klasöründen)
+# Depo içindeki data/ klasöründen bir Excel dosyası
 ornek <- read_excel(here("data", "sample_excel.xlsx"))
+head(ornek)
 ```
+
+CSV için `read.csv()` aynı biçimde çalışır:
+
+```{r}
+#| eval: false
+veri <- read.csv(here("data", "example_data.csv"))
+```
+
+::: callout-important
+## `setwd()` komutunu unutun
+
+R öğrenirken karşınıza mutlaka şuna benzer bir satır çıkacak:
+
+```{r}
+#| eval: false
+setwd("C:/Users/Ahmet/Masaüstü/odev")
+```
+
+Bu satır **yalnızca Ahmet'in bilgisayarında** çalışır. Ödevinizi
+gönderdiğinizde, bir yıl sonra kendi yeni bilgisayarınızda açtığınızda,
+ya da Codespaces'te çalıştırdığınızda kodunuz çöker. Üstelik hata
+mesajı "dosya bulunamadı" der; asıl sorunun çalışma dizini olduğunu
+anlamanız zaman alır.
+
+`here()` bu sorunu kökten çözer: proje kökünü (`.Rproj` dosyasının
+bulunduğu klasörü) **kendisi bulur** ve yolu oradan kurar.
+
+```{r}
+#| eval: false
+here("data", "example_data.csv")
+```
+
+Aynı satır sizin bilgisayarınızda, arkadaşınızın bilgisayarında ve
+Codespaces'te aynı dosyayı işaret eder. Bu, 1. oturumda konuştuğumuz
+**tekrarlanabilirlik** ilkesinin en somut karşılığıdır: kodunuz
+başkasının makinesinde çalışmıyorsa, sonuçlarınız da doğrulanamaz.
+:::
+
+::: callout-note
+## Doğrudan internetten okumak
+
+`read.csv()` bir internet adresini de kabul eder:
+
+```{r}
+#| eval: false
+veri <- read.csv("https://.../dosya.csv")
+```
+
+Kullanışlıdır ama kırılgandır: internet yoksa, adres değişirse veya
+kaynak siteyi kapatırsa analiziniz çalışmaz. Ciddi bir çalışmada veriyi
+**bir kez indirip** projenizin `data/` klasörüne koyun; hem tekrar
+üretilebilir olur hem de veri setinin o günkü hâli kayda geçer.
+:::
 
 ## Veri Kaydetme
 
-R dilinde veri kaydetmek için çeşitli fonksiyonlar kullanabilirsiniz. En yaygın kullanılan dosya formatları arasında CSV, Excel ve RDS dosyaları bulunur.
-
-**CSV Dosyasına Veri Kaydetme** Veri çerçevesini CSV dosyasına kaydetmek için write.csv() fonksiyonunu kullanabilirsiniz:
-
 ```{r}
-# Veri çerçevesini CSV dosyasına kaydetme
-# write.csv(data, "path/to/your/file.csv", row.names = FALSE)
+#| eval: false
+write.csv(panel, here("data", "panel.csv"), row.names = FALSE)
+
+library(writexl)
+write_xlsx(panel, here("data", "panel.xlsx"))
 ```
 
-**Excel Dosyasına Veri Kaydetme** Excel dosyasına veri kaydetmek için writexl paketini kullanabilirsiniz:
-
-```{r}
-# writexl paketini yükleme
-# install.packages("writexl")
-# library(writexl)
-
-# Veri çerçevesini Excel dosyasına kaydetme
-# write_xlsx(data, "path/to/your/file.xlsx")
-```
+`row.names = FALSE` demezseniz R, satır numaralarını isimsiz bir ilk
+sütun olarak dosyaya yazar; o dosyayı tekrar okuduğunuzda gereksiz bir
+`X` sütunu görürsünüz.
 
 ## Veri Yapısını İnceleme
 
-Veri inceleme, veri analizi sürecinin önemli bir parçasıdır. R dilinde veri incelemek için çeşitli fonksiyonlar ve paketler kullanabilirsiniz. Bu işlemler arasında veri yapısını kontrol etme, özet istatistikler oluşturma ve veri görselleştirme gibi işlemler bulunur. Veri yapısını incelemek için str(), summary(), head(), ve tail() fonksiyonlarını kullanabilirsiniz.
+Bir veri setini içe aktardıktan sonra **ilk yapacağınız şey** onu
+tanımaktır:
 
 ```{r}
-# Veri yapısını kontrol etme: kaç satır, kaç sütun, her sütun hangi türde?
-str(titanic)
-
-# Sayısal sütunlar için özet istatistikler
-summary(titanic)
-
-# İlk birkaç satırı görüntüleme
-head(titanic)
-
-# Son birkaç satırı görüntüleme
-tail(titanic)
+str(gapminder)      # kaç satır, kaç sütun, hangi sütun hangi türde
+summary(gapminder)  # sayısal sütunlar için özet, faktörler için frekans
+head(gapminder)     # ilk satırlar
+nrow(gapminder); ncol(gapminder)
+names(gapminder)
 ```
 
+Bu beş komut, "veriyi tanımak" dediğimiz şeyin ilk adımıdır. Özellikle
+`str()` çıktısına bakarken şunu sorun: **sayısal olmasını beklediğim
+bir sütun karakter olarak mı okunmuş?** Bu haftanın tür zorlaması
+bölümünde gördüğünüz sorun, gerçek veri setlerinde tam olarak burada
+yakalanır.
+
 ::: callout-note
-📚 Ek Kaynak olarak RStudio Cheat Sheet: Base R'a bakmayı unutma!
+📚 Ek kaynak: Posit **Base R Cheat Sheet**. Bu haftanın sözdizimi
+`R-Hizli-Referans.qmd` belgesine de eklendi.
 :::

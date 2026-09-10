@@ -183,6 +183,53 @@ df <- rbind(df, list(4, "d", 40)) # yeni satır ekle
 
 *2. oturum*
 
+## Faktör (kategorik değişken)
+
+Sonlu bir kategori kümesi; sosyal bilimde en sık kullanılan tür.
+
+```r
+rejim <- factor(c("Demokrasi", "Otokrasi", "Melez", "Demokrasi"))
+
+levels(rejim)      # kategorilerin kümesi (tekrarsız)
+table(rejim)       # frekans sayımı
+nlevels(rejim)     # kaç kategori var
+
+# Sıralı faktör: hiyerarşiyi siz tanımlarsınız
+egitim <- factor(c("Lisans", "Lise", "Doktora"),
+                 levels  = c("Lise", "Lisans", "Yüksek Lisans", "Doktora"),
+                 ordered = TRUE)
+egitim[1] > egitim[2]              # TRUE
+
+# TUZAK: faktörü sayıya çevirirken
+as.numeric(faktor)                 # seviye NUMARASI — genellikle yanlış
+as.numeric(as.character(faktor))   # gerçek değer — doğrusu
+```
+
+*2. oturum*
+
+------------------------------------------------------------------------
+
+## Tür zorlaması ve eksik veri
+
+```r
+class(c(1, 2, "üç"))     # "character" — tek metin tüm vektörü çevirir
+class(c(1, 2, TRUE))     # "numeric"   — TRUE, 1 olarak okunur
+sum(c(TRUE, TRUE, FALSE))# 2           — koşulu kaç eleman sağlıyor
+sum(x > 60)              # aynı mantık: kaç eleman 60'tan büyük
+
+# Hiyerarşi: logical -> integer -> double -> character
+
+5 + NA                   # NA — bilinmeyene ekleme yine bilinmez
+NA == NA                 # NA — TRUE değil!
+is.na(x)                 # eksik değerleri BÖYLE ararsınız
+sum(is.na(x))            # kaç eksik var
+mean(x, na.rm = TRUE)    # eksikleri dışlayarak hesapla
+```
+
+*2. oturum*
+
+------------------------------------------------------------------------
+
 ## Mantıksal indeksleme
 
 Köşeli parantezin içine konum numarası yerine bir **koşul** yazarsanız,

@@ -1,6 +1,6 @@
 ---
 title: "Modül 02 — Alıştırmalar"
-subtitle: "Veri türleri, veri yapıları ve mantıksal indeksleme"
+subtitle: "Veri türleri, faktörler, veri yapıları ve mantıksal indeksleme"
 author: "Prof. Dr. Hakan Mehmetcik"
 date: "`r Sys.Date()`"
 lang: tr
@@ -58,7 +58,8 @@ d) `"mixed"`
 
 **3.** Bir veri setini içe aktardınız. `yas` sütununun sayısal olmasını
 bekliyorsunuz, ama `class(veri$yas)` size `"character"` döndürüyor ve
-`mean(veri$yas)` hata veriyor. Bunun en olası nedeni hangisidir?
+`mean(veri$yas)` uyarı basıp `NA` döndürüyor. Bunun en olası nedeni
+hangisidir?
 
 a) `read.csv()` tüm sütunları karakter olarak okur\
 b) Sütunda en az bir hücrede sayı olmayan bir değer var (örneğin `"yok"`
@@ -188,3 +189,44 @@ a) `df[df$yas > 25]`\
 b) `df[df$yas > 25, ]`\
 c) `df[, df$yas > 25]`\
 d) `df$yas[df > 25]`
+
+------------------------------------------------------------------------
+
+## Bölüm E — Faktörler ve Eksik Veri
+
+**17.** Aşağıdaki kodun çıktısı nedir?
+
+```{r}
+#| eval: false
+puanlar <- factor(c("10", "25", "40"))
+as.numeric(puanlar)
+```
+
+a) `10 25 40`\
+b) `1 2 3`\
+c) `NA NA NA`\
+d) Kod hata verir
+
+**18.** Bir eğitim düzeyi değişkenini `factor(..., ordered = TRUE)` olarak
+tanımlamanın, aynı veriyi karakter vektörü olarak tutmaya göre sağladığı
+temel avantaj nedir?
+
+a) Daha az bellek kullanır\
+b) Kategoriler arasında büyüklük karşılaştırması yapılabilir\
+c) Yazım hatalarını otomatik düzeltir\
+d) Eksik değerleri otomatik olarak siler
+
+**19.** `rejim <- factor(c("Demokrasi", "Otokrasi", "Melez", "Demokrasi"))`
+tanımlandıktan sonra `levels(rejim)` neyi döndürür?
+
+a) `"Demokrasi" "Otokrasi" "Melez" "Demokrasi"` — vektörün kendisi\
+b) `4` — eleman sayısı\
+c) `"Demokrasi" "Melez" "Otokrasi"` — kategorilerin kümesi\
+d) `2 3 1 2` — seviye numaraları
+
+**20.** `NA == NA` ifadesinin çıktısı nedir?
+
+a) `TRUE`\
+b) `FALSE`\
+c) `NA`\
+d) Kod hata verir
