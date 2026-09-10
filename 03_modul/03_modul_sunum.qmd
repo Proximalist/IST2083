@@ -1,0 +1,414 @@
+---
+title: "Modül 03: Veri Görselleştirme — ggplot2"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    toc: true
+    toc-depth: 2
+    incremental: true
+    code-overflow: scroll
+    code-line-numbers: false
+    transition: fade
+    math: mathjax
+editor: visual
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    fig.width: 8
+    fig.height: 4.2
+    dpi: 110
+---
+
+```{r}
+#| include: false
+library(ggplot2)
+library(dplyr)
+library(gapminder)
+library(here)
+set.seed(2083)
+gapminder_2007 <- gapminder |> filter(year == 2007)
+```
+
+## 🎯 Öğrenme Hedefleri
+
+Bu oturumun sonunda:
+
+-   Bir grafiğin özet istatistiklerin göremediği şeyi neden gösterdiğini açıklayabileceksiniz
+-   Bir `ggplot2` kodunu **katman katman** okuyabileceksiniz
+-   **Eşleme** (`aes()` içi) ile **sabit ayarı** (`aes()` dışı) ayırt edeceksiniz
+-   Değişken türüne göre doğru grafiği seçeceksiniz
+-   Log ölçek, faset ve üçüncü değişkenin etkisini yorumlayacaksınız
+-   Bir grafiği başkası için hazırlayıp kaydedeceksiniz
+
+------------------------------------------------------------------------
+
+## 1) Anscombe: aynı özet, dört veri
+
+```{r}
+#| echo: false
+anscombe_uzun <- data.frame(
+  grup = rep(paste("Set", 1:4), each = 11),
+  x = c(anscombe$x1, anscombe$x2, anscombe$x3, anscombe$x4),
+  y = c(anscombe$y1, anscombe$y2, anscombe$y3, anscombe$y4)
+)
+anscombe_uzun |>
+  group_by(grup) |>
+  summarise(ort_x = mean(x), ort_y = round(mean(y), 2),
+            ss_y = round(sd(y), 2), korelasyon = round(cor(x, y), 2))
+```
+
+-   Tabloya bakan biri: "dördü aynı ilişki"
+
+------------------------------------------------------------------------
+
+## 1) Anscombe: şimdi çizelim
+
+```{r}
+#| echo: false
+#| fig-height: 4.6
+ggplot(anscombe_uzun, aes(x = x, y = y)) +
+  geom_point(size = 2.5) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "grey50") +
+  facet_wrap(~ grup)
+```
+
+::: fragment
+**Önce çiz, sonra özetle, sonra test et.**
+:::
+
+------------------------------------------------------------------------
+
+## 2) Grafiklerin dilbilgisi
+
+![](images/grafik-katmanlari.png){fig-align="center" width="70%"}
+
+------------------------------------------------------------------------
+
+## 2) Asgari şablon
+
+``` r
+ggplot(data = <VERİ>, mapping = aes(<EŞLEMELER>)) +
+  <GEOM_FONKSİYONU>()
+```
+
+-   **Veri:** her satır neyi temsil ediyor?
+-   **Eşleme:** hangi sütun → hangi görsel özellik?
+-   **Geom:** nokta, çubuk, çizgi, kutu?
+-   `+` **satırın sonunda** durur
+
+------------------------------------------------------------------------
+
+## 2) Adım adım
+
+```{r}
+#| fig-height: 3.6
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+```
+
+------------------------------------------------------------------------
+
+## 3) Eşleme mi, sabit ayar mı?
+
+```{r}
+#| layout-ncol: 2
+#| fig-width: 5
+#| fig-height: 3.6
+ggplot(gapminder_2007, aes(gdpPercap, lifeExp, color = continent)) +
+  geom_point()
+
+ggplot(gapminder_2007, aes(gdpPercap, lifeExp)) +
+  geom_point(color = "steelblue")
+```
+
+::: fragment
+**Veriye bağlı → `aes()` içine. Herkese aynı → `aes()` dışına.**
+:::
+
+------------------------------------------------------------------------
+
+## 3) Yaygın hata: sabit değer `aes()` içinde
+
+```{r}
+#| fig-height: 3.4
+ggplot(gapminder_2007, aes(gdpPercap, lifeExp, color = "blue")) +
+  geom_point()
+```
+
+-   Noktalar **mavi değil**, lejantta "blue" yazıyor
+-   `"blue"` burada tek kategorili bir **değişken**
+
+------------------------------------------------------------------------
+
+## 4) Histogram: bir satır = bir ülke
+
+```{r}
+#| fig-height: 3.6
+ggplot(gapminder_2007, aes(x = lifeExp)) +
+  geom_histogram(binwidth = 5, fill = "grey70", color = "white") +
+  labs(x = "Yaşam beklentisi (yıl)", y = "Ülke sayısı")
+```
+
+-   İki tepe: dünya **iki grup** gibi davranıyor
+-   `binwidth` bir **karardır**: çok dar → gürültü, çok geniş → yapı kaybolur
+
+------------------------------------------------------------------------
+
+## 4) Kutu grafiğini okumak
+
+```{r}
+#| echo: false
+#| fig-height: 1.8
+ggplot(gapminder_2007, aes(x = lifeExp)) +
+  geom_boxplot() +
+  labs(x = "Yaşam beklentisi (yıl)", y = NULL) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+```
+
+-   Kalın çizgi: **ortanca** · Kutu: **ortadaki yarı**
+-   Bıyık: 1,5 kutu boyunu aşmayan **en uç gözlem**
+-   Noktalar: **bakılması gereken** gözlemler (hata değil)
+-   Sınırı: iki tepeli yapıyı **göstermez**
+
+------------------------------------------------------------------------
+
+## 4) `geom_bar()` mı, `geom_col()` mı?
+
+| | Veri | Arka planda | `y` |
+|---|---|---|---|
+| `geom_bar()` | Ham (her satır bir gözlem) | `stat = "count"` — sayar | **Verilmez** |
+| `geom_col()` | Özetlenmiş (hazır sayı/oran) | `stat = "identity"` | **Verilir** |
+
+``` r
+ggplot(gapminder_2007, aes(x = continent)) + geom_bar()
+gapminder_2007 |> count(continent) |>
+  ggplot(aes(x = continent, y = n)) + geom_col()
+```
+
+------------------------------------------------------------------------
+
+## 5) Gamson Yasası
+
+Koalisyon partileri bakanlıkları **sandalye payları oranında** paylaşır
+
+```{r}
+#| echo: false
+#| fig-height: 4.2
+gamson <- read.csv(here("data", "gamson.csv"))
+ggplot(gamson, aes(x = seat_share, y = portfolio_share)) +
+  geom_point(alpha = 0.25) +
+  geom_abline(intercept = 0, slope = 1, color = "firebrick", linewidth = 1) +
+  coord_equal() +
+  labs(x = "Sandalye payı", y = "Bakanlık payı")
+```
+
+------------------------------------------------------------------------
+
+## 5) Gamson grafiğinden üç ders
+
+-   **Aşırı çizim:** 826 nokta üst üste biniyor → `alpha` veya `geom_jitter()`
+-   **Referans çizgisi** (`geom_abline`) grafiği bir iddiaya karşı okutur
+-   **Sapma:** küçük partiler payından **fazla**, büyük partiler **az** alıyor → pazarlık gücü
+
+------------------------------------------------------------------------
+
+## 6) Gruplar: yan yana kutu grafikleri
+
+```{r}
+#| fig-height: 3.8
+ggplot(gapminder_2007,
+       aes(x = reorder(continent, lifeExp, FUN = median), y = lifeExp)) +
+  geom_boxplot(outlier.shape = NA, color = "grey40") +
+  geom_jitter(width = 0.15, height = 0, alpha = 0.5) +
+  labs(x = NULL, y = "Yaşam beklentisi (yıl)")
+```
+
+-   Okyanusya'nın kutusu yalnızca **2 ülke** — noktalar bunu gösteriyor
+
+------------------------------------------------------------------------
+
+## 7) Konum ayarları: `stack`, `dodge`, `fill`
+
+```{r}
+#| echo: false
+#| fig-height: 4.4
+vf <- read.csv(here("data", "VF_England.csv"))
+vf_brexit <- vf |>
+  filter(!is.na(brexit_vote)) |>
+  mutate(brexit = factor(brexit_vote, levels = c("1. Remain", "2. Leave"),
+                         labels = c("Kal", "Ayrıl")),
+         parti = factor(pid, levels = c("Conservative", "UKIP Brexit", "Other"),
+                        labels = c("Muhafazakâr", "UKIP / Brexit", "Diğer")))
+p <- ggplot(vf_brexit, aes(y = parti, fill = brexit)) + labs(y = NULL, fill = NULL)
+```
+
+```{r}
+#| echo: false
+#| layout-ncol: 3
+#| fig-width: 3.6
+#| fig-height: 2.6
+p + geom_bar(position = "stack") + labs(title = "stack", x = "Sayı") +
+  theme(legend.position = "bottom")
+p + geom_bar(position = "dodge") + labs(title = "dodge", x = "Sayı") +
+  theme(legend.position = "bottom")
+p + geom_bar(position = "fill") + labs(title = "fill", x = "Oran") +
+  theme(legend.position = "bottom")
+```
+
+-   "Hangi grup kalabalık?" → `stack` · "Grup **içinde** oy nasıl dağılıyor?" → `fill`
+
+------------------------------------------------------------------------
+
+## 7) Alfabe tuzağı
+
+-   R, "Agree"nin "Strongly agree"den önce gelmediğini **bilemez**
+-   Sıralı kategorilerde sırayı siz verirsiniz:
+
+``` r
+factor(vfproblem,
+       levels = c("Strongly disagree", "Disagree", ..., "Strongly agree"),
+       labels = c("Kesinlikle katılmıyorum", ..., "Kesinlikle katılıyorum"))
+```
+
+-   Doğal sırası **olmayan** kategoriler (kıta, parti) → değere göre sırala: `reorder()`
+
+------------------------------------------------------------------------
+
+## 8) Zaman: `group` estetiği
+
+```{r}
+#| layout-ncol: 2
+#| fig-width: 5
+#| fig-height: 3.4
+ggplot(gapminder, aes(year, lifeExp)) +
+  geom_line()
+
+ggplot(gapminder, aes(year, lifeExp, group = country)) +
+  geom_line(alpha = 0.2)
+```
+
+-   `group` hangi noktaların **aynı çizgiye** ait olduğunu söyler
+
+------------------------------------------------------------------------
+
+## 8) Bir ülkeyi öne çıkarmak
+
+```{r}
+#| fig-height: 3.6
+turkiye <- gapminder |> filter(country == "Turkey")
+
+ggplot(gapminder, aes(year, lifeExp, group = country)) +
+  geom_line(color = "grey80") +
+  geom_line(data = turkiye, color = "firebrick", linewidth = 1.2)
+```
+
+------------------------------------------------------------------------
+
+## 9) Log ölçeği
+
+```{r}
+#| fig-height: 4
+ggplot(gapminder_2007, aes(gdpPercap, lifeExp)) +
+  geom_point(aes(size = pop, color = continent), alpha = 0.6) +
+  scale_x_log10() +
+  scale_size_area(max_size = 12, guide = "none")
+```
+
+-   Eşit **oranlar**, eşit aralık · Eğri → **doğru**
+
+------------------------------------------------------------------------
+
+## 9) Genel ve yerel eşleme
+
+::: columns
+::: {.column width="50%"}
+``` r
+ggplot(g, aes(x, y, color = continent)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+→ **Her kıta** için bir doğru
+:::
+
+::: {.column width="50%"}
+``` r
+ggplot(g, aes(x, y)) +
+  geom_point(aes(color = continent)) +
+  geom_smooth(method = "lm")
+```
+
+→ **Tek** bir doğru
+:::
+:::
+
+-   `ggplot()` içindeki eşleme **bütün katmanlara** miras kalır
+
+------------------------------------------------------------------------
+
+## 10) Simpson paradoksu: harcama ve SAT
+
+```{r}
+#| echo: false
+#| layout-ncol: 2
+#| fig-width: 5
+#| fig-height: 3.6
+library(mosaicData)
+SAT <- SAT |>
+  mutate(katilim = case_when(frac <= 15 ~ "Düşük", frac <= 55 ~ "Orta",
+                             TRUE ~ "Yüksek"))
+ggplot(SAT, aes(expend, sat)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "firebrick") +
+  labs(x = "Harcama (bin $)", y = "Ortalama SAT", title = "Bütün eyaletler")
+ggplot(SAT, aes(expend, sat, color = katilim)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+  labs(x = "Harcama (bin $)", y = "Ortalama SAT", color = "SAT'a giriş",
+       title = "Katılım oranına göre")
+```
+
+-   Bütünde **negatif**, her grubun içinde **pozitif**
+-   Üçüncü değişken (katılım oranı) ikisini birden etkiliyor → 10. oturum
+
+------------------------------------------------------------------------
+
+## 11) Grafiği başkası için hazırlamak
+
+-   **`title`**: konu değil **bulgu** yaz
+-   **Eksen adı**: değişken adı değil, anlam + **birim**
+-   **`caption`**: kaynak ve kararlar (çıkarılan gözlemler, log ölçek)
+-   **Renk**: kırmızı–yeşil yok → `scale_color_viridis_d()`
+-   **Çubuk grafiği sıfırdan başlar** — nokta ve çizgi grafiği başlamak zorunda değil
+-   **Kaydet:** `ggsave("grafik.png", plot = p, width = 16, height = 10, units = "cm")`
+
+------------------------------------------------------------------------
+
+## 12) Hangi soru, hangi grafik?
+
+| Soru | Grafik |
+|---|---|
+| Değerler nasıl dağılıyor? | `geom_histogram()` |
+| Kategoriler ne sıklıkta? | `geom_bar()` / `geom_col()` |
+| İki değişken birlikte nasıl değişiyor? | `geom_point()` |
+| Gruplar nasıl farklılaşıyor? | `geom_boxplot()` |
+| Grup içi dağılım? | `geom_bar(position = "fill")` |
+| Zaman içinde? | `geom_line()` |
+| Üçüncü değişken? | `color` veya `facet_wrap()` |
+
+------------------------------------------------------------------------
+
+## 📚 Okuma ve 5. oturum
+
+-   **R4DS** Bölüm 1, 9, 10, 11 · **socviz** Bölüm 1, 3–5
+-   5. oturum: bugün **gördüğümüz** dağılımları **sayılarla** ifade edeceğiz
+-   Ortanca, çeyrekler, standart sapma — kutu grafiğinin arkasındaki sayılar
