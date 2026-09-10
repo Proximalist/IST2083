@@ -27,6 +27,16 @@ seçeneği de vardır; kılavuzda anlatılmıştır.
 
 ---
 
+## Kurulum gerektirmeyen yol: Codespaces
+
+Bilgisayarınıza R ve RStudio kurmak istemiyorsanız, bu depoyu
+tarayıcıda çalıştırabilirsiniz: yukarıdaki yeşil **Code** düğmesi →
+**Codespaces** → **Create codespace on main**. R, Quarto ve dersin tüm
+paketleri hazır gelir. Ayrıntı: `.devcontainer/README.md`.
+
+Kendi bilgisayarınıza kurmayı tercih ederseniz
+`R_RStudio_Kurulum_Rehberi.qmd` belgesini izleyin.
+
 ## Ders programı
 
 | Oturum | Tarih | Konu | Modül |

@@ -1,0 +1,35 @@
+# IST2083 — Quarto proje tanımı
+#
+# Bu dosyanın tek işi, "quarto render" komutunun HANGİ belgeleri
+# render edeceğini sınırlamaktır. Belge biçimi (pdf/revealjs) ve
+# YAML alanları burada DEĞİL, her belgenin kendi başlığında tanımlıdır;
+# gerekçesi docs/belge-standardi.md içindedir.
+#
+# ÖNEMLİ: Aşağıdaki listede yalnızca DENETİMDEN GEÇMİŞ modüller var.
+# Henüz elden geçirilmemiş modüller (03–14) kasten dışarıda: içlerinde
+# eksik paket, bozuk veri yolu ve çalışmayan kod öbekleri olduğunu
+# biliyoruz ve bunların CI'ı kırmasını istemiyoruz.
+#
+# Bir modülün denetimi bittiğinde satırını buraya ekleyin.
+
+project:
+  title: "IST2083 — Temel İstatistik ve R ile Veri Analizi"
+  render:
+    - izlence/*.qmd
+    - 01_modul/*.qmd
+    - 02_modul/*.qmd
+    - R-Hizli-Referans.qmd
+    - GitHub_Kullanim_Kilavuzu.qmd
+    - R_RStudio_Kurulum_Rehberi.qmd
+    # - 03_modul/*.qmd     # denetim bekliyor
+    # - 04_modul/*.qmd     # denetim bekliyor
+    # - 05_modul/*.qmd     # denetim bekliyor
+    # - 06_modul/*.qmd     # denetim bekliyor
+    # - 07_modul/*.qmd     # denetim bekliyor
+    # - 08_modul/*.qmd     # denetim bekliyor
+    # - 09_modul/*.qmd     # denetim bekliyor
+    # - 10_modul/*.qmd     # denetim bekliyor
+    # - 11_modul/*.qmd     # denetim bekliyor
+    # - 12_modul/*.qmd     # denetim bekliyor
+    # - 13_modul/*.qmd     # denetim bekliyor
+    # - 14_modul/*.qmd     # denetim bekliyor

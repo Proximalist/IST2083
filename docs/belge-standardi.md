@@ -178,3 +178,16 @@ python3 scripts/veri-yapilari-tipolojisi.py
 
 Böylece görsel yeniden üretilebilir kalır; PNG'yi elden düzeltmek
 yerine betik düzenlenir.
+
+## 6. Yeni bir modül denetimden geçtiğinde
+
+Modül elden geçirildikten sonra iki dosyada birer satır güncellenir:
+
+1. **`_quarto.yml`** — o modülün satırındaki `#` kaldırılır, böylece
+   `quarto render` ve CI onu da render etmeye başlar.
+2. **`scripts/paketler.R`** — modülün kullandığı paketler `ek`
+   vektöründen `temel` vektörüne taşınır; CI iş akışındaki paket
+   listesine de eklenir.
+
+Bu iki adım atlanırsa modül CI tarafından hiç sınanmaz ve Linux'ta
+kırık olduğu fark edilmez.
