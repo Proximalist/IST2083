@@ -2,7 +2,7 @@
 title: "Modül 01 — Cevap Anahtarı"
 subtitle: "İstatistiğin Anlamı; R, RStudio ve GitHub'a Giriş"
 author: "Prof. Dr. Hakan Mehmetcik"
-date: "`r Sys.Date()`"
+date: today
 lang: tr
 format: pdf
 editor: visual

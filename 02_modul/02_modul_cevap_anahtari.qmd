@@ -2,7 +2,7 @@
 title: "Modül 02 — Cevap Anahtarı"
 subtitle: "Veri türleri, faktörler, veri yapıları ve mantıksal indeksleme"
 author: "Prof. Dr. Hakan Mehmetcik"
-date: "`r Sys.Date()`"
+date: today
 lang: tr
 format: pdf
 editor: visual

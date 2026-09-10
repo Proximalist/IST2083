@@ -254,8 +254,8 @@ yazılır — bu, R'a ihtiyaç duymadan Quarto'nun kendisi tarafından
 `alistirmalar`) `` `r Sys.Date()` `` kullanmaya devam edilir, çünkü
 knitr zaten çalışıyor olacaktır.
 
-**Bilinen etkilenmiş belgeler:** `01_modul/01_modul_cevap_anahtari.qmd`
-ve `02_modul/02_modul_cevap_anahtari.qmd` bu hatayı taşıyor (PDF'lerinde
-"Invalid Date" yazıyor); 03. modül denetimi sırasında fark edildi,
-düzeltilmedi çünkü kapsam dışıydı. Bu iki dosyanın `date` alanı ve
-render edilmiş PDF'leri ayrı bir düzenlemede güncellenmeli.
+**Düzeltme geçmişi:** `01_modul/01_modul_cevap_anahtari.qmd` ve
+`02_modul/02_modul_cevap_anahtari.qmd` bu hatayı taşıyordu (PDF'lerinde
+"Invalid Date" yazıyordu); 03. modül denetimi sırasında fark edildi,
+04. modül denetimiyle birlikte düzeltildi — her iki dosyanın `date`
+alanı `date: today` olarak güncellendi ve PDF'leri yeniden render edildi.
