@@ -62,6 +62,7 @@ jobs:
             any::patchwork
             any::readxl
             any::writexl
+            any::gtsummary
 
       - name: Render
         env:

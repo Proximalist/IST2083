@@ -259,3 +259,25 @@ knitr zaten çalışıyor olacaktır.
 "Invalid Date" yazıyordu); 03. modül denetimi sırasında fark edildi,
 04. modül denetimiyle birlikte düzeltildi — her iki dosyanın `date`
 alanı `date: today` olarak güncellendi ve PDF'leri yeniden render edildi.
+
+## 11. Düz metinde matematik sembolü kullanmayın — `$...$` içine alın
+
+`$...$` **dışındaki** düz metinde tek başına bir Unicode matematik
+sembolü (`≈`, `≤`, `≥` gibi) yazıldığında, xelatex'in ana metin
+fontu (Latin Modern Roman) bu karakteri içermeyebilir; render **hata
+vermez**, sembol PDF'te sessizce **boş bırakılır** ("çarpıklık ≈ 0"
+yazıp "çarpıklık   0" olarak basılır). Ok işaretleri (`→`) bu sorunu
+yaşamaz — yalnızca matematik sembolleri etkilenir.
+
+Kural: metinde bir matematik sembolü geçiyorsa, LaTeX matematik
+komutuyla ve `$...$` içinde yazılır: `≈` yerine `$\approx$`, `≤`
+yerine `$\le$`. Emin değilseniz Türkçe kelimeyle yazmak ("yaklaşık")
+her zaman güvenlidir.
+
+**Bilinen etkilenmiş belgeler:** `06_modul/06_modul_ders_olasilik.qmd`
+(`≈` üç örnekte düz metin/denklem karışımı içinde) ve
+`08_modul/08_modul_ders.qmd` (`≈`, `≤`, `μ`, `σ` `$...$` içinde ama
+unicode-math yüklenmeden kullanılmış) bu deseni taşıyor; 04. modül
+denetimi sırasında fark edildi, düzeltilmedi çünkü ikisi de kapsam
+dışı (henüz denetlenmemiş modüller). Bu iki dosya kendi denetim
+sırası geldiğinde gözden geçirilmeli.

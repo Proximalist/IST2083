@@ -16,7 +16,8 @@ temel <- c(
   "mosaicData",           # 03. modülde Simpson paradoksu örneği (SAT verisi)
   "ggrepel",              # 03. modülde Gamson grafiğinde parti etiketleme
   "patchwork",            # 03. modülde Minard grafiğinde iki paneli birleştirme
-  "readxl", "writexl"     # Excel okuma/yazma
+  "readxl", "writexl",    # Excel okuma/yazma
+  "gtsummary"             # 04. modülde yayına hazır "Tablo 1" özeti
 )
 
 # --- Henüz denetlenmemiş modüllerin (04-14) ek ihtiyaçları -------------

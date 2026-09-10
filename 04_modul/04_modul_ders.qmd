@@ -55,6 +55,15 @@ Bu modülde iki veri seti kullanacağız: `gapminder` (3. modülden tanıdık
 kalmadığı) — `data/titanic.csv` içinde, projeye yerel olarak dahil
 edilmiştir.
 
+Titanic verisi bilgisayar bilimi çevrelerinde çoğunlukla bir "kim
+kurtulacak?" tahmin yarışması olarak bilinir; ama bir siyaset bilimci
+için asıl değeri başka yerdedir. Bu, **felaket anında toplumsal
+tabakalaşmanın ve toplumsal cinsiyet rollerinin** kaydedildiği tarihsel
+bir veri setidir: filikalara erişim kimin parasına, kiminle
+seyahat ettiğine ve cinsiyetine bağlıydı. Aşağıdaki tablolar ve
+grafikler, "1912'de sosyal statü hayatta kalma şansını nasıl
+belirledi?" sorusuna istatistiksel bir cevap arayacak.
+
 ```{r}
 #| label: veri-yukleme
 titanic <- read.csv(here("data", "titanic.csv"))
@@ -278,6 +287,21 @@ açıklığı (kutunun kendisi) ve uç değerleri (noktalar) tek bir görselde
 birleştirir — yayılım ölçülerinin hepsini aynı anda "görmenin" en
 hızlı yoludur.
 
+::: callout-note
+## Siyaset bilimci için bir yayılım ölçüsü daha: Gini katsayısı
+
+Standart sapma bir değişkenin *ortalamadan* ne kadar saptığını ölçer;
+ama siyaset biliminde çoğu zaman sorulan soru budur *değildir* — asıl
+soru genellikle bir kaynağın (gelir, servet, toprak) popülasyon
+içinde **ne kadar adaletsiz dağıldığıdır**. Bunun için geliştirilmiş,
+0 (tam eşitlik) ile 1 (tam eşitsizlik) arasında değişen özel bir ölçü
+vardır: **Gini katsayısı**. Demokrasiye geçiş ve iç çatışma
+yazınında, bir ülkenin gelir standardı sapmasından çok Gini katsayısı
+açıklayıcı değişken olarak kullanılır (`ineq` paketiyle
+hesaplanabilir — bu modülün kapsamı dışında, ama adını bilmekte fayda
+var).
+:::
+
 # Dağılımın Şekli: Çarpıklık ve Basıklık
 
 Ortalama, medyan ve standart sapma bir dağılımı özetler ama şeklini
@@ -300,7 +324,7 @@ uzattığını ölçer:
 -   **Sola çarpık (negatif):** uzun kuyruk solda. Örnek: bir sınavda
     çoğu öğrenci yüksek not alırken birkaç öğrencinin çok düşük not
     alması. Bu durumda **ortalama < medyan**.
--   **Simetrik (çarpıklık ≈ 0):** ortalama ve medyan birbirine yakın.
+-   **Simetrik (çarpıklık $\approx$ 0):** ortalama ve medyan birbirine yakın.
 
 Çarpıklığın yönünü, ortalama ile medyanı karşılaştırarak hesap
 yapmadan da kestirebilirsiniz — GSYİH örneğinde yaptığımız gibi.
@@ -367,6 +391,89 @@ araştırma tasarımı gerektirir — bu, dönem sonuna doğru regresyon
 modülünde tekrar karşımıza çıkacak bir tema.
 :::
 
+Yukarıdaki gelir–yaşam beklentisi örneğinde gerçek bir mekanizma
+(karıştırıcı değişken) vardı — sağlık altyapısı ikisini de etkiliyor.
+Ama bazen iki değişken arasında **hiçbir** mekanizma olmadan, salt
+tesadüfen yüksek bir korelasyon çıkabilir. Harvard'dan istatistikçi
+Tyler Vigen'in *Spurious Correlations* (Sahte Korelasyonlar)
+projesinden ünlü bir örnek: 1999–2009 arasında, **Nicolas Cage'in o yıl
+oynadığı film sayısı ile o yıl yüzme havuzuna düşerek boğulan kişi
+sayısı arasındaki korelasyon $r \approx 0{,}666$'dır** — güçlü bir ilişki,
+ama aralarında ne bir mekanizma ne de ortak bir karıştırıcı değişken
+vardır; yalnızca 11 yıllık kısa bir seride rastlanan bir tesadüftür. Bu
+ayrım önemlidir: düşük bir p-değeri veya yüksek bir korelasyon,
+ilişkinin *anlamlı* olduğunu garanti etmez — özellikle az sayıda
+gözlemle çalışırken.
+
+# Eksik Veri: Kendisi de Bir Bulgudur
+
+Modül 02'de `NA` (bilinmeyen değer) kavramını görmüştük. Tanımlayıcı
+istatistik hesaplarken `na.rm = TRUE` yazıp eksik gözlemleri sessizce
+dışarıda bırakmak cazip gelir — ama bu bir araştırma kararıdır, teknik
+bir ayrıntı değildir.
+
+```{r}
+#| label: eksik-yas-oran
+mean(is.na(titanic$age))
+```
+
+Yolcuların yaklaşık %20'sinin yaşı bilinmiyor. Sorulması gereken soru
+şudur: **bu eksiklik rastgele mi, yoksa bir örüntü mü izliyor?**
+
+```{r}
+#| label: eksik-yas-sinifa-gore
+titanic |>
+  group_by(pclass) |>
+  summarise(eksik_yas_orani = round(mean(is.na(age)), 3))
+```
+
+Rastgele değil: 3. sınıfta yaşı bilinmeyen yolcu oranı (%29), 1.
+sınıftakinden (%12) belirgin şekilde yüksek. Muhtemel açıklama, 3.
+sınıf yolcuların büyük kısmının kayıt tutulması daha zayıf olan göçmen
+yolcular olmasıdır. Bunun sonucu somuttur: `mean(age, na.rm = TRUE)`
+hesapladığınızda, örneklemden **orantısız biçimde daha fazla yoksul ve
+genç göçmen** düşmüş olur — bulacağınız "ortalama yaş" tüm gemiyi değil,
+kaydı daha iyi tutulan, görece daha varlıklı bir alt kümeyi temsil
+eder. Sosyal bilimlerde eksik veri nadiren tamamen rastgeledir (bkz.
+anket araştırmalarında hane geliri veya oy tercihi soruları); eksiklik
+oranının kendisi, raporlanması gereken bir tanımlayıcı istatistiktir.
+
+# Araştırmacının Alet Çantası: `gtsummary` ile "Tablo 1"
+
+Şimdiye kadar özet istatistikleri `dplyr` çıktısı olarak, konsol
+formatında gördük. Ama hemen hemen her ampirik makale, tez veya
+raporun ilk sayfasında bir **"Tablo 1: Betimsel İstatistikler"**
+bulunur — örneklemi grup grup (burada: hayatta kalma durumuna göre)
+özetleyen, yayına hazır bir tablo. Bunu Word'de elle kurmak saatler
+alır; `gtsummary` paketi tek bir çağrıda üretir.
+
+```{r}
+#| label: tbl-1-gtsummary
+library(gtsummary)
+
+titanic |>
+  mutate(durum = factor(survived, labels = c("Kaybedildi", "Hayatta kaldı"))) |>
+  select(pclass, sex, age, fare, durum) |>
+  tbl_summary(
+    by = durum,
+    statistic = list(all_continuous() ~ "{mean} ({sd})",
+                      all_categorical() ~ "{n} ({p}%)"),
+    missing_text = "Eksik veri",
+    label = list(pclass ~ "Yolcu sınıfı", sex ~ "Cinsiyet",
+                 age ~ "Yaş", fare ~ "Bilet ücreti")
+  ) |>
+  add_p() |>
+  modify_header(label = "**Değişken**", p.value = "**p-değeri**") |>
+  modify_spanning_header(all_stat_cols() ~ "**Hayatta kalma durumu**")
+```
+
+`add_p()`, her satır için grup farkının istatistiksel olarak anlamlı
+olup olmadığını otomatik test eder (kategorik değişkende ki-kare,
+sayısal değişkende Wilcoxon) — bu testlerin **kendisini** 9. oturumda
+göreceğiz; şimdilik yalnızca çıktının ne anlama geldiğini bilmeniz
+yeterli. Bu tek kod bloğu, R'ın Excel veya SPSS'e göre neden bu kadar
+zaman kazandırdığının somut bir örneğidir.
+
 # Özet
 
 -   **Merkezi eğilim:** ortalama (`mean()`), medyan (`median()`), mod
@@ -379,6 +486,10 @@ modülünde tekrar karşımıza çıkacak bir tema.
     gücünü özetler; **nedensellik iddia etmez**.
 -   Kategorik değişkenler için: `count()`, çapraz tablolar,
     `geom_bar(position = "fill")` ile oranların görselleştirilmesi.
+-   **Eksik veri** kendi başına bir bulgudur — eksiklik oranı ve
+    örüntüsü rapor edilmeden `na.rm = TRUE` ile geçilmemelidir.
+-   `gtsummary::tbl_summary()`, akademik yayınların standart "Tablo
+    1"ini tek çağrıda üretir.
 
 Bir sonraki modülde bu araçları rastgele değişkenler ve olasılık
 dağılımlarıyla birleştirerek, örneklemden popülasyona nasıl çıkarım
