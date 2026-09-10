@@ -1,0 +1,20 @@
+# IST2083 — CI profili
+#
+# Yalnızca GitHub Actions'ta etkindir (QUARTO_PROFILE=ci). Yerel
+# render'ları etkilemez.
+#
+# Neden var: CI runner'ında TinyTeX çok taze bir sürümle geliyor ve
+# seçtiği CTAN aynası günlerce geride kalabiliyor. Quarto eksik bir
+# LaTeX paketini (bizim durumumuzda Türkçe heceleme) kurmaya kalkınca
+# tlmgr "remote database seems to be older than the local installation"
+# diyerek hata veriyor ve tüm render çöküyor.
+#
+# Çözüm: CI'da otomatik LaTeX paket kurulumunu kapatıyoruz. Heceleme
+# paketini kurmayı iş akışı zaten deniyor; başarısız olursa PDF yine
+# üretilir, yalnızca Türkçe heceleme olmadan. CI'ın işi belgelerin
+# render EDİLEBİLDİĞİNİ doğrulamak; ürettiği PDF'ler geçici artefakt,
+# öğrenciye giden belge değil.
+
+format:
+  pdf:
+    latex-auto-install: false

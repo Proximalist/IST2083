@@ -191,3 +191,15 @@ Modül elden geçirildikten sonra iki dosyada birer satır güncellenir:
 
 Bu iki adım atlanırsa modül CI tarafından hiç sınanmaz ve Linux'ta
 kırık olduğu fark edilmez.
+
+## 7. CI profili
+
+`_quarto-ci.yml`, yalnızca GitHub Actions'ta (`QUARTO_PROFILE=ci`)
+devreye giren ayarları taşır. Yerel render'ı etkilemez. Şu an tek
+içeriği, CI'da otomatik LaTeX paket kurulumunu kapatmaktır — runner'daki
+TinyTeX kurulumu CTAN aynalarından yeni olabildiği için `tlmgr` hata
+veriyor ve render'ı düşürüyordu.
+
+CI'ın ürettiği PDF'ler **geçici artefakttır**, öğrenciye gitmez.
+Öğrenciye giden belgeler sizin makinenizde render edilip commit edilir
+(bkz. §4).

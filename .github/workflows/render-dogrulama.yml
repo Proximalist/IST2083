@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Depoyu al
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Quarto kur
         uses: quarto-dev/quarto-actions/setup@v2
@@ -53,12 +53,18 @@ jobs:
             any::readxl
             any::writexl
 
+      - name: Türkçe heceleme paketi (kurulamazsa render yine sürer)
+        continue-on-error: true
+        run: tlmgr install hyphen-turkish babel-turkish
+
       - name: Render
+        env:
+          QUARTO_PROFILE: ci
         run: quarto render
 
       - name: Üretilen belgeleri artefakt olarak sakla
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: render-ciktilari
           path: |
