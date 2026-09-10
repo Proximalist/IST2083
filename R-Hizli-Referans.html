@@ -95,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#liste" id="toc-liste" class="nav-link" data-scroll-target="#liste">Liste</a></li>
   <li><a href="#matris" id="toc-matris" class="nav-link" data-scroll-target="#matris">Matris</a></li>
   <li><a href="#veri-çerçevesi-data-frame" id="toc-veri-çerçevesi-data-frame" class="nav-link" data-scroll-target="#veri-çerçevesi-data-frame">Veri Çerçevesi (Data Frame)</a></li>
+  <li><a href="#mantıksal-indeksleme" id="toc-mantıksal-indeksleme" class="nav-link" data-scroll-target="#mantıksal-indeksleme">Mantıksal indeksleme</a></li>
   </ul></li>
   <li><a href="#veri-inceleme" id="toc-veri-inceleme" class="nav-link" data-scroll-target="#veri-inceleme">Veri İnceleme</a></li>
   <li><a href="#fonksiyonlar" id="toc-fonksiyonlar" class="nav-link" data-scroll-target="#fonksiyonlar">Fonksiyonlar</a>
@@ -146,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="bu-belge-nedir" class="level2">
 <h2 class="anchored" data-anchor-id="bu-belge-nedir">Bu Belge Nedir?</h2>
-<p>Bu, <strong>her hafta büyüyen</strong> bir başvuru belgesidir. Yeni bir ders notunda yeni bir R fonksiyonu veya sözdizimi geçtiğinde, buraya kısa bir girişle eklenir. Amaç: 9. haftada bir sözdiziminin nasıl yazıldığını unuttuğunuzda, o haftanın ders notunu baştan açmak yerine buraya bakıp tek satırda hatırlamanız.</p>
+<p>Bu, <strong>her hafta büyüyen</strong> bir başvuru belgesidir. Yeni bir ders notunda yeni bir R fonksiyonu veya sözdizimi geçtiğinde, buraya kısa bir girişle eklenir. Amaç: 9. oturumda bir sözdiziminin nasıl yazıldığını unuttuğunuzda, o oturumun ders notunu baştan açmak yerine buraya bakıp tek satırda hatırlamanız.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -157,10 +158,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Bu belgedeki kod örnekleri çalıştırılmaz</strong> (render sırasında işletilmez) — bunlar birbirinden bağımsız, kısa hatırlatma parçalarıdır, tam bir script değildir. Çalışan, açıklamalı örnekler için ilgili haftanın ders notuna bakınız; her girişte hangi haftada işlendiği belirtilmiştir.</p>
+<p><strong>Bu belgedeki kod örnekleri çalıştırılmaz</strong> (render sırasında işletilmez) — bunlar birbirinden bağımsız, kısa hatırlatma parçalarıdır, tam bir script değildir. Çalışan, açıklamalı örnekler için ilgili oturumun ders notuna bakınız; her girişte hangi oturumda işlendiği belirtilmiştir.</p>
 </div>
 </div>
-<p>Her giriş şu düzendedir: <strong>ne işe yarar</strong>, kısa örnek, hangi haftada tanıtıldı.</p>
+<p>Her giriş şu düzendedir: <strong>ne işe yarar</strong>, kısa örnek, hangi oturumda tanıtıldı.</p>
 <hr>
 </section>
 <section id="operatörler" class="level1">
@@ -174,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">^</span> <span class="dv">3</span>    <span class="co"># üs alma</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">%%</span> <span class="dv">3</span>   <span class="co"># modülüs (kalan)</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">%/%</span> <span class="dv">3</span>  <span class="co"># tam bölme</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta</em></p>
+<p><em>1. oturum</em></p>
 </section>
 <section id="karşılaştırma" class="level2">
 <h2 class="anchored" data-anchor-id="karşılaştırma">Karşılaştırma</h2>
@@ -182,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">!=</span> <span class="dv">3</span>   <span class="co"># eşit değil mi?</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">&gt;</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">&lt;</span> <span class="dv">3</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">&gt;=</span> <span class="dv">3</span>; <span class="dv">5</span> <span class="sc">&lt;=</span> <span class="dv">3</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta</em></p>
+<p><em>1. oturum</em></p>
 </section>
 <section id="mantıksal" class="level2">
 <h2 class="anchored" data-anchor-id="mantıksal">Mantıksal</h2>
@@ -191,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span> <span class="sc">|</span> <span class="cn">FALSE</span>    <span class="co"># VEYA (vektörel)</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span> <span class="sc">||</span> <span class="cn">FALSE</span>   <span class="co"># VEYA (yalnızca ilk eleman)</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span><span class="cn">TRUE</span>           <span class="co"># DEĞİL</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta</em></p>
+<p><em>1. oturum</em></p>
 </section>
 <section id="diğer" class="level2">
 <h2 class="anchored" data-anchor-id="diğer">Diğer</h2>
@@ -199,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">2</span>) <span class="co"># dizi oluşturma, adım belirterek</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">times =</span> <span class="dv">3</span>) <span class="co"># tekrar</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)  <span class="co"># üyelik sorgusu — sağdaki vektörde var mı?</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta</em></p>
+<p><em>1. oturum</em></p>
 <hr>
 </section>
 </section>
@@ -207,10 +208,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Değişkenler ve Atama</h1>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span>   <span class="co"># standart atama (tercih edilen)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">20</span>    <span class="co"># de çalışır, ama R camiasında &lt;- yaygın</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta</em></p>
+<p><em>1. oturum</em></p>
 <p>R’da temel veri türleri: sayısal (<code>numeric</code>), karakter (<code>character</code>), mantıksal (<code>logical</code>). Bir değişkenin türünü öğrenmek için:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>2. hafta</em></p>
+<p><em>2. oturum</em></p>
 <hr>
 </section>
 <section id="veri-yapıları" class="level1">
@@ -225,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>v[<span class="dv">2</span>]          <span class="co"># 2. elemana eriş</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>v[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">10</span>    <span class="co"># 2. elemanı güncelle</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(v)        <span class="co"># elemanların toplamı</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>2. hafta</em></p>
+<p><em>2. oturum</em></p>
 </section>
 <section id="liste" class="level2">
 <h2 class="anchored" data-anchor-id="liste">Liste</h2>
@@ -236,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>sayi <span class="ot">&lt;-</span> <span class="dv">10</span>    <span class="co"># güncelle</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>yeni <span class="ot">&lt;-</span> <span class="st">"ek"</span>  <span class="co"># yeni eleman ekle</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>yeni <span class="ot">&lt;-</span> <span class="cn">NULL</span>  <span class="co"># elemanı sil</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>2. hafta</em></p>
+<p><em>2. oturum</em></p>
 </section>
 <section id="matris" class="level2">
 <h2 class="anchored" data-anchor-id="matris">Matris</h2>
@@ -248,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>mat[, <span class="dv">3</span>]    <span class="co"># 3. sütunun tamamı</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>mat1 <span class="sc">%*%</span> mat2   <span class="co"># matris çarpımı (eleman eleman değil!)</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>2. hafta</em></p>
+<p><em>2. oturum</em></p>
 </section>
 <section id="veri-çerçevesi-data-frame" class="level2">
 <h2 class="anchored" data-anchor-id="veri-çerçevesi-data-frame">Veri Çerçevesi (Data Frame)</h2>
@@ -264,76 +265,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>yeni <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)          <span class="co"># yeni sütun ekle</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df, <span class="fu">list</span>(<span class="dv">4</span>, <span class="st">"d"</span>, <span class="dv">40</span>)) <span class="co"># yeni satır ekle</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>2. hafta</em></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Not
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Eksik ve yakında eklenecek: mantıksal indeksleme.</strong> <code>df[df$sayi &gt; 1, ]</code> gibi bir koşula göre satır seçme sözdizimi henüz bu belgede yok — 2. hafta denetimi tamamlandığında buraya eklenecektir. Practical alternatif olarak 3. haftadan itibaren <code>dplyr::filter()</code> kullanacağız.</p>
-</div>
-</div>
+<p><em>2. oturum</em></p>
+</section>
+<section id="mantıksal-indeksleme" class="level2">
+<h2 class="anchored" data-anchor-id="mantıksal-indeksleme">Mantıksal indeksleme</h2>
+<p>Köşeli parantezin içine konum numarası yerine bir <strong>koşul</strong> yazarsanız, R önce koşulu her eleman için sınayıp bir <code>TRUE</code>/<code>FALSE</code> <strong>maskesi</strong> üretir, sonra <code>TRUE</code> olan konumları tutar.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">9</span>, <span class="dv">5</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>v <span class="sc">&gt;</span> <span class="dv">5</span>                  <span class="co"># maske: FALSE TRUE FALSE TRUE FALSE</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>v[v <span class="sc">&gt;</span> <span class="dv">5</span>]               <span class="co"># 7 9</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>v[v <span class="sc">&gt;</span> <span class="dv">3</span> <span class="sc">&amp;</span> v <span class="sc">&lt;</span> <span class="dv">9</span>]       <span class="co"># 4 7 5      (VE)</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>v[v <span class="sc">&gt;</span> <span class="dv">8</span> <span class="sc">|</span> v <span class="sc">&lt;</span> <span class="dv">3</span>]       <span class="co"># 2 9        (VEYA)</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>v[<span class="sc">!</span>(v <span class="sc">==</span> <span class="dv">2</span>)]           <span class="co"># 4 7 9 5    (DEĞİL)</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>sayi <span class="sc">&gt;</span> <span class="dv">1</span>, ]      <span class="co"># koşulu sağlayan SATIRLAR</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>sayi <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="st">"harf"</span>] <span class="co"># koşulu sağlayan satırların bir sütunu</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Virgül kritiktir: öncesi satırları, sonrası sütunları seçer. Eşitlik sınaması daima <code>==</code> iledir; <code>=</code> atama içindir.</p>
+<p><em>2. oturum</em></p>
 <hr>
 </section>
 </section>
 <section id="veri-inceleme" class="level1">
 <h1>Veri İnceleme</h1>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)      <span class="co"># ilk birkaç satır</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(df)      <span class="co"># son birkaç satır</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)       <span class="co"># yapı özeti (sütun türleri)</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)   <span class="co"># her sütun için özet istatistik</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df)     <span class="co"># nesnenin türü</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>2. hafta</em></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)      <span class="co"># ilk birkaç satır</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(df)      <span class="co"># son birkaç satır</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)       <span class="co"># yapı özeti (sütun türleri)</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)   <span class="co"># her sütun için özet istatistik</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df)     <span class="co"># nesnenin türü</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>2. oturum</em></p>
 <hr>
 </section>
 <section id="fonksiyonlar" class="level1">
 <h1>Fonksiyonlar</h1>
 <section id="hazır-fonksiyon-kullanma" class="level2">
 <h2 class="anchored" data-anchor-id="hazır-fonksiyon-kullanma">Hazır fonksiyon kullanma</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))   <span class="co"># ortalama</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))    <span class="co"># toplam</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta</em></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))   <span class="co"># ortalama</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))    <span class="co"># toplam</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>1. oturum</em></p>
 </section>
 <section id="kendi-fonksiyonunu-yazma" class="level2">
 <h2 class="anchored" data-anchor-id="kendi-fonksiyonunu-yazma">Kendi fonksiyonunu yazma</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>toplama_fonksiyonu <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(a <span class="sc">+</span> b)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">toplama_fonksiyonu</span>(<span class="dv">3</span>, <span class="dv">5</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>2. hafta</em></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>toplama_fonksiyonu <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(a <span class="sc">+</span> b)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">toplama_fonksiyonu</span>(<span class="dv">3</span>, <span class="dv">5</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>2. oturum</em></p>
 <hr>
 </section>
 </section>
 <section id="paketler" class="level1">
 <h1>Paketler</h1>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gapminder"</span>)  <span class="co"># bir kez, kurulum aşamasında</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)              <span class="co"># her R oturumunda, kullanmadan önce</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta</em></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gapminder"</span>)  <span class="co"># bir kez, kurulum aşamasında</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)              <span class="co"># her R oturumunda, kullanmadan önce</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>1. oturum</em></p>
 <hr>
 </section>
 <section id="yardım-alma" class="level1">
 <h1>Yardım Alma</h1>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>?mean            <span class="co"># fonksiyonun yardım sayfasını aç</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(mean)        <span class="co"># aynı şey, uzun biçim</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(mean)     <span class="co"># fonksiyonun örnek kullanımını çalıştır</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta</em></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>?mean            <span class="co"># fonksiyonun yardım sayfasını aç</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(mean)        <span class="co"># aynı şey, uzun biçim</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(mean)     <span class="co"># fonksiyonun örnek kullanımını çalıştır</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>1. oturum</em></p>
 <hr>
 </section>
 <section id="veri-içe-aktarma-kaydetme" class="level1">
 <h1>Veri İçe Aktarma / Kaydetme</h1>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">"dosya.csv"</span>)            <span class="co"># CSV okuma</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">"dosya.xlsx"</span>)         <span class="co"># Excel okuma</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df, <span class="st">"dosya.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)  <span class="co"># CSV'e kaydetme</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>2. hafta</em></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">"dosya.csv"</span>)            <span class="co"># CSV okuma</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">"dosya.xlsx"</span>)         <span class="co"># Excel okuma</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df, <span class="st">"dosya.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)  <span class="co"># CSV'e kaydetme</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>2. oturum</em></p>
 <hr>
 </section>
 <section id="görselleştirme-ggplot2" class="level1">
@@ -348,16 +352,16 @@ Not
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><code>ggplot2</code> resmî olarak <strong>4. haftada</strong> ayrıntılı işlenecek. Aşağıdaki temel iskelet, o haftaya kadar karşılaştığınız örnekleri hatırlamanız içindir.</p>
+<p><code>ggplot2</code> resmî olarak <strong>4. oturumda</strong> ayrıntılı işlenecek. Aşağıdaki temel iskelet, o oturuma kadar karşılaştığınız örnekleri hatırlamanız içindir.</p>
 </div>
 </div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(veri, <span class="fu">aes</span>(<span class="at">x =</span> degisken1, <span class="at">y =</span> degisken2)) <span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>              <span class="co"># veya geom_point(), geom_line(), ...</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Başlık"</span>, <span class="at">x =</span> <span class="st">"X Ekseni"</span>, <span class="at">y =</span> <span class="st">"Y Ekseni"</span>) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>1. hafta (önizleme), 4. hafta (ayrıntılı)</em></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(veri, <span class="fu">aes</span>(<span class="at">x =</span> degisken1, <span class="at">y =</span> degisken2)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>              <span class="co"># veya geom_point(), geom_line(), ...</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Başlık"</span>, <span class="at">x =</span> <span class="st">"X Ekseni"</span>, <span class="at">y =</span> <span class="st">"Y Ekseni"</span>) <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>1. oturum (önizleme), 4. oturum (ayrıntılı)</em></p>
 <hr>
 </section>
 <section id="ders-boyunca-kullanılan-veri-setleri" class="level1">
@@ -388,7 +392,7 @@ Not
 </tr>
 </tbody>
 </table>
-<p><em>1. hafta</em></p>
+<p><em>1. oturum</em></p>
 </section>
 
 </main>
