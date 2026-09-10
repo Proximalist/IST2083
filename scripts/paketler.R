@@ -14,6 +14,8 @@ temel <- c(
   "scales",               # 03. modülde eksen biçimlendirme (label_dollar)
   "gapminder",            # 01. ve 03. modülde kullanılan sürekli veri seti
   "mosaicData",           # 03. modülde Simpson paradoksu örneği (SAT verisi)
+  "ggrepel",              # 03. modülde Gamson grafiğinde parti etiketleme
+  "patchwork",            # 03. modülde Minard grafiğinde iki paneli birleştirme
   "readxl", "writexl"     # Excel okuma/yazma
 )
 
@@ -22,10 +24,10 @@ temel <- c(
 # şimdilik isteğe bağlı. Modül denetimden geçtikçe ilgili satırlar
 # yukarıdaki "temel" vektörüne taşınır.
 ek <- c(
-  "tidyverse", "tidyr", "lubridate", "patchwork",
+  "tidyverse", "tidyr", "lubridate",
   "kableExtra", "janitor", "haven", "fst",
   "nycflights13", "NHANES", "mdsr", "macleish", "fec16",
-  "ggmosaic", "wesanderson",
+  "ggmosaic", "ggthemes", "wesanderson",
   "AER", "coefplot", "pscl", "nnet", "mlogit"
 )
 

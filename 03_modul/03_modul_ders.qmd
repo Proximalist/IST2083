@@ -91,6 +91,51 @@ Set 1 gerçekten doğrusal ve gürültülü bir ilişkidir. Set 2 doğrusal değ
 Bir özet istatistik, veriyi **tek bir sayıya** sıkıştırır ve bu sıkıştırma sırasında bilgi kaybolur. Grafik, hangi bilginin kaybolduğunu gösterir. Bu yüzden iyi bir analizde sıra şudur: **önce çiz, sonra özetle, sonra test et.** 5. oturumdaki tanımlayıcı istatistiklerin ve 10. oturumdaki korelasyonun her birine bu dört setin gölgesi düşer.
 :::
 
+## Bir de Anlatı Olarak Grafik: Minard'ın 1812 Haritası
+
+Anscombe dörtlüsü grafiğin **istatistiksel** gücünü gösterir: aynı sayılar, farklı gerçekler saklayabilir. Grafiğin bir de **anlatısal** gücü vardır ve bunun en çok anılan örneği mühendis Charles Joseph Minard'ın 1869'da çizdiği, Napolyon'un 1812 Rusya seferini anlatan haritasıdır. İstatistikçi Edward Tufte bu haritayı "bugüne kadar çizilmiş en iyi istatistiksel grafik" olarak tanımlar.
+
+Minard'ın orijinal haritasını taşıyan bant, tek bir çizgide **altı değişkeni** birleştirir: ordunun coğrafi konumu (boylam-enlem), asker sayısı (bandın kalınlığı), yön (gidiş/dönüş, renk), zaman (şehir ve tarih etiketleri) ve — ayrı bir panelde — sıcaklık. Haritayı bizzat yeniden üretmeyeceğiz (1869 tarihli bir sanat eserinin taranmış görüntüsünü basmak yerine, altındaki veriyi kullanıp **kendi** grafiğimizi çizeceğiz); ama bu verinin dijitalleştirilmiş hâli (Wilkinson, *The Grammar of Graphics*'in ekleri için, doksanlarda) herkese açıktır ve bu tür bir grafiği ggplot2'de üretmenin kendisi literatürde "Minard'ın Meydan Okuması" (Friendly, 2002) diye anılan klasik bir alıştırmadır:
+
+```{r}
+#| fig-height: 5.4
+library(patchwork)
+
+troops <- read.csv(here("data", "Minard.troops.csv"))
+cities <- read.csv(here("data", "Minard.cities.csv"))
+sicaklik <- read.csv(here("data", "Minard.temp.csv"))
+
+ust <- ggplot(troops, aes(x = long, y = lat)) +
+  geom_path(aes(linewidth = survivors, color = direction, group = group),
+            lineend = "round", linejoin = "round") +
+  geom_text(data = cities, aes(label = city), size = 2.6, fontface = "italic") +
+  scale_linewidth(range = c(0.5, 10), guide = "none") +
+  scale_color_manual(values = c(A = "#DFC17E", R = "#252523"),
+                     labels = c("Gidiş", "Dönüş")) +
+  coord_cartesian(xlim = c(24, 38)) +
+  labs(x = NULL, y = "Enlem", color = NULL) +
+  theme_minimal() +
+  theme(legend.position = c(0.9, 0.15))
+
+alt <- ggplot(sicaklik, aes(x = long, y = temp)) +
+  geom_line(color = "grey40") +
+  geom_point(size = 1.5) +
+  geom_text(aes(label = paste0(date, ": ", temp, "°")), size = 2.4, vjust = -0.8) +
+  coord_cartesian(xlim = c(24, 38)) +
+  labs(x = "Boylam", y = "Sıcaklık (°C)") +
+  theme_minimal()
+
+ust / alt + plot_layout(heights = c(3, 1))
+```
+
+Bandın genişliği, 340.000 kişiyle yola çıkan ordunun Moskova'ya varana kadar nasıl inceldiğini, dönüş yolunda ise neredeyse tümüyle yok olduğunu gösteriyor: haritanın en sağındaki kalın altın rengi bant ile en solundaki ince siyah çizgi arasındaki fark, aynı ordunun başı ve sonu. Alttaki panel bu erimenin **neden** hızlandığını açıklıyor: dönüş yolunda sıcaklık Kasım ortasından itibaren eksi 20-30 dereceye düşüyor. Minard, Napolyon'un adını haritaya hiç yazmadan, yalnızca askerlerin kaderini çizerek bir savaşın anlatısını veriye dönüştürmüş.
+
+::: callout-note
+## Kaynak
+
+Veri, Minard'ın haritasının Howard Wilkinson tarafından dijitalleştirilmiş hâlidir ve R'da `HistData` paketiyle (`Minard.troops`, `Minard.cities`, `Minard.temp`) dağıtılır; burada üç küçük CSV olarak `data/` klasörüne eklendi. Bkz. Friendly, M. (2002). Visions and re-visions of Charles Joseph Minard. *Journal of Educational and Behavioral Statistics*, 27(1), 31–51.
+:::
+
 ------------------------------------------------------------------------
 
 # 2. Grafiklerin Dilbilgisi
@@ -630,6 +675,30 @@ Grafikte iki estetik daha kullandık. `size = pop` noktaların büyüklüğünü
 Log ölçekli bir eksende eşit aralıklı işaretler eşit **farkları** göstermez. 1.000 ile 10.000 arasındaki mesafe, 10.000 ile 100.000 arasındakiyle aynıdır, ama ikincisi ilkinin on katı kadar dolardır. Log ölçekli bir grafiği başkası için hazırlıyorsanız, bunu eksen adında mutlaka belirtin.
 :::
 
+::: callout-tip
+## Araştırmacının alet çantası: `ggrepel` ile gözlemi kimliklendirmek
+
+Bu grafiğe bakan bir araştırmacının ilk sorusu genelde şudur: "peki eğrinin epey altında/üstünde kalan şu birkaç ülke hangisi?" `geom_text()` bu soruyu yanıtlar ama etiketleri noktaların **tam üstüne** yazar; birbirine yakın birkaç ülke varsa etiketler üst üste biner. `ggrepel` paketinin `geom_text_repel()` fonksiyonu aynı işi yapar, ama etiketleri örtüşmeyecek şekilde iter ve gerekirse noktayla arasına ince bir çizgi çizer:
+
+```{r}
+#| fig-height: 4
+library(ggrepel)
+
+secili_ulkeler <- c("Botswana", "South Africa", "Swaziland", "Vietnam", "Nicaragua")
+
+ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(alpha = 0.4) +
+  geom_text_repel(data = filter(gapminder_2007, country %in% secili_ulkeler),
+                  aes(label = country), size = 3.2, color = "firebrick") +
+  geom_point(data = filter(gapminder_2007, country %in% secili_ulkeler),
+             color = "firebrick") +
+  scale_x_log10() +
+  labs(x = "Kişi başı gelir (log ölçek)", y = "Yaşam beklentisi (yıl)")
+```
+
+Botswana ve Güney Afrika, gelirlerine göre **beklenenin çok altında** bir yaşam beklentisine sahip; ikisi de 2007'de HIV/AIDS salgınından en çok etkilenen ülkeler arasındaydı. Vietnam ise tam tersi yönde bir aykırı değer: geliri düşük olmasına rağmen yaşam beklentisi beklenenin oldukça üstünde. Bir dağılım grafiğinde aykırı noktaları **kimliklendirmek**, genel eğilimi açıklayan teoriyi test etmenin ilk adımıdır — 10. bölümdeki Simpson paradoksu örneğinde de benzer bir "neden bu noktalar farklı" sorusuyla karşılaşacağız.
+:::
+
 ## 9.2 Genel ve yerel eşleme
 
 Log ölçekli grafiğe her kıta için bir eğilim çizgisi ekleyelim. `geom_smooth(method = "lm")`, noktalar arasından en iyi uyan doğruyu çizer:
@@ -753,7 +822,7 @@ ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp, color = continent)) +
 
 ## 11.2 Temalar
 
-**Tema**, verinin kendisiyle ilgisi olmayan her şeyi yönetir: arka plan, ızgara çizgileri, yazı tipleri, lejantın konumu. Hazır temalar tek satırda görünümü değiştirir: `theme_minimal()`, `theme_bw()`, `theme_classic()`. Tek tek ayarlar `theme()` ile yapılır, örneğin `theme(legend.position = "bottom")`.
+**Tema**, verinin kendisiyle ilgisi olmayan her şeyi yönetir: arka plan, ızgara çizgileri, yazı tipleri, lejantın konumu. Hazır temalar tek satırda görünümü değiştirir: `theme_minimal()`, `theme_bw()`, `theme_classic()`. Tek tek ayarlar `theme()` ile yapılır, örneğin `theme(legend.position = "bottom")`. Bir yayın veya politika raporu için hazırlıyorsanız, `ggthemes` paketindeki `theme_economist()` gibi hazır gazetecilik temaları da bir seçenektir — kavramsal olarak yeni bir şey öğretmez, yalnızca aynı `theme_*()` mantığını farklı bir pakette kullanır.
 
 Sıraya dikkat edin: hazır bir tema, kendinden **önce** yazılmış `theme()` ayarlarını sıfırlar. Bu yüzden önce hazır temayı, sonra `theme()` ile yaptığınız değişiklikleri yazarsınız:
 
@@ -821,8 +890,11 @@ ggsave("rosling.png", plot = rosling,
 | Gruplar içinde dağılım nasıl farklılaşıyor? | 2 kategorik | Yığılmış / yan yana / oransal çubuk | `geom_bar(position = "stack"/"dodge"/"fill")` |
 | Zaman içinde nasıl değişti? | zaman + 1 sayısal | Çizgi | `geom_line()` (+ `group` veya `color`) |
 | İlişki üçüncü bir değişkene göre değişiyor mu? | + 1 kategorik | Renk veya faset | `aes(color = ...)`, `facet_wrap(~ ...)` |
+| *Ufuk turu —* aktörler/ülkeler arası ilişkiler nasıl? | ağ veya akış verisi | Ağ diyagramı, Sankey/chord | `ggraph`, `ggalluvial` *(bu modülde işlenmedi)* |
 
 Bu tablo bir ezber listesi değil, bir soru listesidir. Grafik seçerken sırasıyla şunları sorun: (1) Hangi soruyu cevaplamak istiyorum? (2) Bu soruda kaç değişken var ve türleri ne? (3) En önemli karşılaştırma **konuma** (eksenlere) verildi mi?
+
+Son satır bu dersin **dışında**: ticaret hacimleri, ittifak ağları veya göç akışları gibi "kim kiminle" sorularını gösteren ağ ve akış diyagramları, kendi başına bir dilbilgisi (`ggraph`'ın kendi `geom_edge_*()` ailesi) gerektirir. Uluslararası ilişkiler araştırmasında sık karşılaşacağınız için adını buraya not düşüyoruz; nasıl çizileceği bu dersin kapsamının ötesinde.
 
 ::: callout-note
 ## Taban R'da hızlı bakış: `plot()` ve `hist()`
@@ -850,6 +922,7 @@ Anscombe dörtlüsünü aklınızda tutun: 5. oturumda göreceğiniz her özet i
 -   Anscombe, F. J. (1973). Graphs in statistical analysis. *The American Statistician*, 27(1), 17–21.
 -   Carroll, R., & Cox, G. W. (2007). The logic of Gamson's law: Pre-election coalitions and portfolio allocations. *American Journal of Political Science*, 51(2), 300–313.
 -   Cleveland, W. S., & McGill, R. (1984). Graphical perception: Theory, experimentation, and application to the development of graphical methods. *Journal of the American Statistical Association*, 79(387), 531–554.
+-   Friendly, M. (2002). Visions and re-visions of Charles Joseph Minard. *Journal of Educational and Behavioral Statistics*, 27(1), 31–51.
 -   Gamson, W. A. (1961). A theory of coalition formation. *American Sociological Review*, 26(3), 373–382.
 -   Guber, D. L. (1999). Getting what you pay for: The debate over equity in public school expenditures. *Journal of Statistics Education*, 7(2).
 -   Imai, K. (2017). *Quantitative Social Science: An Introduction*. Princeton University Press.

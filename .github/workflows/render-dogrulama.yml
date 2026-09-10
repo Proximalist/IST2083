@@ -58,6 +58,8 @@ jobs:
             any::gapminder
             any::mosaicData
             any::scales
+            any::ggrepel
+            any::patchwork
             any::readxl
             any::writexl
 
