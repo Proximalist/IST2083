@@ -1,0 +1,153 @@
+---
+title: "Modül 04 — Cevap Anahtarı"
+subtitle: "Tanımlayıcı istatistik"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+Bu belge `04_modul_alistirmalar.qmd` dosyasındaki 20 sorunun doğru
+cevaplarını ve gerekçelerini içerir. Gerekçeler yalnızca "doğru cevap
+bu" demekle kalmaz — **neden** doğru olduğunu da açıklar, çünkü sınavda
+sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Kategorik Değişkenler
+
+**1. Doğru cevap: b)** `count()`, her kategoriden kaç gözlem olduğunu
+sayar; `n` sütunu bu **frekanstır**. Oran (yüzde) elde etmek için ayrıca
+`mutate(oran = n / sum(n))` gerekir — bu, `count()`'un varsayılan
+çıktısında yoktur.
+
+**2. Doğru cevap: b)** `sum(n)`, gruplanmamış tüm satırların toplamını
+alır; her satır kendi `pclass` grubu içindeki paya değil, **genel
+toplama** bölünür. Bu yüzden her `pclass` grubunun kendi içindeki
+`survived` oranları toplandığında 1.0 çıkar — istenen "her sınıf
+içinde hayatta kalma oranı" değil, "genel toplamın payı" hesaplanmış
+olur. Doğrusu, `count()`'tan sonra `group_by(pclass)` eklemektir (bkz.
+ders notu, çapraz tablo örneği).
+
+**3. Doğru cevap: b)** `"stack"` (varsayılan), gruplardaki mutlak
+sayıları üst üste yığar — çubuğun toplam yüksekliği grup büyüklüğünü
+yansıtır. `"fill"` her çubuğu %100'e tamamlar; böylece farklı büyüklükte
+gruplar (1. sınıfın 216, 3. sınıfın 709 yolcusu) **adil biçimde**
+karşılaştırılabilir, çünkü eksen artık mutlak sayı değil orandır.
+
+**4. Doğru cevap: b)** Oran ve mutlak sayı farklı sorulara cevap verir:
+"Hangi grupta hayatta kalma **şansı** daha yüksekti?" sorusuna oran
+cevap verir; "Hayatta kalan **kaç kişi** vardı?" sorusuna mutlak sayı
+cevap verir. Grup büyüklükleri eşit olmadığında (216'ya karşı 709) bu
+iki soru farklı cevaplar üretebilir ve bu bir çelişki değildir.
+
+## Bölüm B — Merkezi Eğilim
+
+**5. Doğru cevap: b)** Ortalama, tüm değerlerin toplamından
+hesaplandığı için birkaç **yüksek** değerden orantısız şekilde etkilenir
+ve yukarı çekilir; medyan bu değerlerden etkilenmez. Ortalama >
+medyan ⟹ dağılımın sağında uzun bir kuyruk var demektir — **sağa
+çarpıklık**.
+
+**6. Doğru cevap: c)** Gelir dağılımları neredeyse her zaman sağa
+çarpıktır: az sayıda çok yüksek gelirli hane, ortalamayı gerçek
+"tipik" haneden çok daha yukarı çeker. Medyan, sıralamanın tam
+ortasındaki haneyi gösterdiği için bu birkaç aşırı değerden etkilenmez
+ve "tipik hane"yi daha güvenilir temsil eder. Bu iki sayı arasındaki
+fark bir hata değil, dağılımın şekli hakkında bilgi verir.
+
+**7. Doğru cevap: b)** R'da `mode()` **istatistiksel modu hesaplamaz**
+— bir nesnenin depolama türünü (`"numeric"`, `"character"`, `"list"`
+vb.) döndürür. İstatistiksel mod için hazır bir fonksiyon yoktur; ders
+notundaki gibi `table()` + `max()` ile kendi fonksiyonunuzu yazmanız
+gerekir. Bu, R'ın en sık karıştırılan tuzaklarından biridir.
+
+**8. Doğru cevap: c)** Ayakkabı numarası kategorik/ayrık bir
+değişkendir ve işletme için asıl anlamlı olan soru "hangi numara **en
+çok** satılıyor?" sorusudur — bu doğrudan moddur. Diğer üç seçenek
+(GSYİH, sınav notları, sıcaklık) sürekli sayısal değişkenlerdir; bu
+tür değişkenlerde her değer genelde bir kez görülür ve mod anlamını
+yitirir; ortalama veya medyan çok daha bilgilendiricidir.
+
+**9. Doğru cevap: b)** `group_by(continent)`, sonraki `summarise()`
+işlemini **her kıta için ayrı ayrı** çalıştırır; sonuç, kıta başına bir
+satır olan bir özet tablosudur. `group_by()` ve `summarise()` birlikte
+kullanılmak üzere tasarlanmıştır — bu, 3. oturumda (dplyr) görülen
+temel bir kalıptır.
+
+## Bölüm C — Yayılım
+
+**10. Doğru cevap: c)** Aralık yalnızca en büyük ve en küçük değere
+bakar; aradaki 1000 gözlemin nasıl dağıldığı hakkında hiçbir bilgi
+vermez. Tek bir hatalı girilmiş veya gerçekten aşırı bir değer, aralığı
+tamamen çarpıtabilir.
+
+**11. Doğru cevap: b)** IQR yalnızca ortadaki %50'lik dilime (Q1–Q3)
+bakar; en uçtaki değerler bu hesaba hiç girmez. Bu yüzden birkaç aşırı
+değer olsa bile IQR nispeten kararlı kalır — aralığın aksine.
+
+**12. Doğru cevap: b)** Varyans, sapmaların **karesi** alınarak
+hesaplandığı için birimi de karesi alınmış olur (örneğin "yıl²" gibi
+anlamsız bir birim). Standart sapma bu karekökü aldığı için orijinal
+değişkenin birimine geri döner ("yıl") ve doğrudan yorumlanabilir.
+
+**13. Doğru cevap: b)** Ortalamanın eşit olması, dağılımların özdeş
+olduğu anlamına gelmez. Düşük standart sapma, gözlemlerin ortalama
+etrafında sıkı kümelendiğini (tutarlılık); yüksek standart sapma,
+gözlemlerin ortalamadan uzağa yayıldığını (farklılaşma, eşitsizlik)
+gösterir. Bu, merkezi eğilimin *tek başına* yeterli olmadığının klasik
+örneğidir.
+
+## Bölüm D — Çarpıklık ve Basıklık
+
+**14. Doğru cevap: b)** Ortalama < medyan ⟹ birkaç **düşük** değer
+ortalamayı aşağı çekiyor demektir; bu, dağılımın solunda uzun bir
+kuyruk olduğu anlamına gelir — **sola çarpıklık**. (5. sorudaki
+mantığın simetriğidir.)
+
+**15. Doğru cevap: b)** Leptokurtik dağılımlar, normal dağılıma göre
+tepede daha sivri, kuyruklarda ise daha **kalındır** — yani aşırı
+uçtaki değerlerin görülme olasılığı normal dağılımın öngördüğünden
+daha yüksektir.
+
+**16. Doğru cevap: b)** Leptokurtik bir getiri dağılımı, "kuyruk
+riskinin" (aşırı kazanç/kayıp olaylarının) normal dağılım varsayımıyla
+modellenen bir sistemin öngördüğünden daha sık gerçekleşebileceği
+anlamına gelir. Bu, finansal risk yönetiminde normal dağılım
+varsayımının neden tek başına yeterli görülmediğinin temel
+nedenlerinden biridir.
+
+## Bölüm E — İlişki (Korelasyon)
+
+**17. Doğru cevap: b)** Korelasyonun işareti (negatif) yönü, mutlak
+değeri (0.85, 1'e yakın) ise gücü gösterir: x arttıkça y'nin azalma
+**eğiliminde** olduğu güçlü bir doğrusal ilişki var demektir. (a)
+yanlıştır çünkü korelasyon tek başına asla nedensellik ispatlamaz.
+
+**18. Doğru cevap: b)** `use = "complete.obs"`, yalnızca her iki
+değişkende de eksik olmayan (`NA` içermeyen) satırları kullanarak
+hesaplama yapar. `na.rm = TRUE` tek değişkenli fonksiyonlarda
+(`mean()`, `sd()` gibi) işe yarar ama `cor()` iki değişken arasındaki
+**eşleşmiş** gözlemlere ihtiyaç duyduğu için farklı bir argüman
+(`use=`) kullanır.
+
+**19. Doğru cevap: c)** Bu, ders notunda vurgulanan
+**karıştırıcı değişken** durumunun klasik bir örneğidir: sıcak
+hava/yaz mevsimi hem dondurma satışını hem de yüzme/boğulma vakalarını
+artırır. İki değişken birbirinden bağımsız olarak üçüncü bir ortak
+nedenden etkileniyor; aralarındaki korelasyon gerçek ama doğrudan
+nedensel değildir.
+
+**20. Doğru cevap: b)** `cor()` yalnızca **doğrusal** ilişkiyi ölçer.
+Sıfıra yakın bir değer, güçlü bir doğrusal ilişki olmadığını gösterir
+— ama örneğin U şeklinde (parabolik) güçlü bir doğrusal olmayan ilişki
+hâlâ mevcut olabilir ve `cor()` bunu tamamen kaçırır. Bu yüzden sayısal
+bir korelasyon değerine güvenmeden önce her zaman bir saçılım
+grafiğine bakmak gerekir.

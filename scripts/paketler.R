@@ -6,7 +6,7 @@
 #
 # Kullanım:  Rscript scripts/paketler.R
 
-# --- Denetimden geçmiş modüllerin (01, 02, 03) ve izlencenin ihtiyaçları ---
+# --- Denetimden geçmiş modüllerin (01, 02, 03, 04) ve izlencenin ihtiyaçları ---
 temel <- c(
   "knitr", "rmarkdown",   # render altyapısı
   "here",                 # proje köküne göre dosya yolu

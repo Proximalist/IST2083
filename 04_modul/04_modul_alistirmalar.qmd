@@ -14,65 +14,222 @@ execute:
 df-print: kable
 ---
 
-**Konu 1: Merkezi Eğilim Ölçüleri**
+## Bu Alıştırmalar Hakkında
 
-1.  **Aşağıdaki veri seti için ortalama, medyan ve modu hesaplayın.**
+Bu alıştırmalar **notlandırılmaz ve teslim edilmez.** Amacı, sınavdan
+önce kendi durumunuzu ölçebilmenizdir. Sınav soruları da bu biçimde
+(çoktan seçmeli, tek doğru cevap) kurgulanır.
 
-```         
-2, 4, 6, 8, 10, 12, 14, 16, 18, 20
+Her soru 4 şıklıdır ve yalnızca **bir tanesi** doğrudur. Sınavda
+bilgisayar olmayacak; önce kâğıt üzerinde düşünün, R'da doğrulamayı
+sonraya bırakın.
+
+Cevaplarınızı not edin, sonra `04_modul_cevap_anahtari.qmd` dosyasıyla
+karşılaştırın.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Kategorik Değişkenler
+
+**1.** `titanic |> count(embarked)` çalıştırıldığında elde edilen
+tablonun `n` sütunu neyi gösterir?
+
+a\) Her limandan binen yolcuların yaşta ortalamasını\
+b) Her liman kategorisinden kaç yolcu bindiğini (frekans)\
+c) Her limanın toplam yolcu sayısına oranını (yüzde)\
+d) Limanların alfabetik sırasını
+
+**2.** Aşağıdaki kod bir hata vermeden çalışıyor ama `oran` sütunu
+her satırda **1.0** çıkıyor. Sorun nedir?
+
+```{r}
+#| eval: false
+titanic |>
+  count(pclass, survived) |>
+  mutate(oran = n / sum(n))
 ```
 
-2.  **Bir sınıftaki öğrencilerin yaşları şu şekildedir, bunu R'da bir vektör olarak girin**
+a\) `count()` fonksiyonu `mutate()` ile birlikte kullanılamaz\
+b) `sum(n)` tüm tablonun toplamını alıyor; `group_by(pclass)` eksik,
+her satır kendi grubundaki toplam yerine genel toplama bölünmeli\
+c) `survived` bir faktör olmadığı için hesap yanlış çıkıyor\
+d) `mutate()` yalnızca sayısal sütun eklerken kullanılır, oran
+hesaplarken kullanılamaz
 
-```         
-18, 19, 19, 20, 20, 20, 21, 21, 22, 23
-```
+**3.** `geom_bar(position = "fill")` ile `geom_bar(position = "stack")`
+(varsayılan) arasındaki temel fark nedir?
 
--   Bu veri seti için en uygun merkezi eğilim ölçüsü hangisidir? Neden?
--   R'da bu vektör iiçn Ortalama, medyan ve modu hesaplayın ve yorumlayın.
+a\) `"fill"` çubukları yatay, `"stack"` dikey çizer\
+b) `"stack"` mutlak sayıları üst üste yığar; `"fill"` her çubuğu
+%100'e tamamlayarak yalnızca oranı gösterir\
+c) `"fill"` yalnızca iki kategoriyle çalışır\
+d) İkisi arasında görsel bir fark yoktur, yalnızca renk paleti değişir
 
-3.  **Aşağıdaki durumların her biri için en uygun merkezi eğilim ölçüsünü belirleyin ve nedenini açıklayın:**
+**4.** Titanic'te 1. sınıfta 216, 3. sınıfta 709 yolcu var. 1. sınıfın
+hayatta kalma oranı 3. sınıftan daha yüksek olduğu hâlde, mutlak
+sayıda hayatta kalan 3. sınıf yolcusu 1. sınıftan **fazla** olabilir.
+Bu, hangi ilkeyi gösterir?
 
--   Bir ülkedeki insanların gelir dağılımı
--   Bir mağazada satılan ayakkabı numaraları
--   Bir sınıftaki öğrencilerin en sevdikleri renkler
+a\) Verideki bir hatayı gösterir, böyle bir şey mümkün değildir\
+b) Oran ve mutlak sayı farklı sorulara cevap verir; grup büyüklükleri
+farklıyken ikisi birbirinden bağımsız okunmalıdır\
+c) `count()` fonksiyonunun yanlış kullanıldığını gösterir\
+d) 3. sınıf yolcularının aslında daha güvende olduğunu gösterir
 
-**Konu 2: Değişkenlik Ölçüleri**
+## Bölüm B — Merkezi Eğilim
 
-1.  **Aşağıdaki veri setiniR 'da bir vektör olarak girin ve bu veri için R'da aralık, standart sapma ve çeyrekler arası aralığı hesaplayın:**
+**5.** Bir değişkenin ortalaması medyanından belirgin şekilde
+**yüksekse**, bu genellikle neyin işaretidir?
 
-```         
-10, 12, 14, 16, 18, 20, 22, 24, 26, 28
-```
+a\) Değişken sola çarpıktır\
+b) Değişken sağa çarpıktır (birkaç yüksek değer ortalamayı çekiyor)\
+c) Değişkenin standart sapması sıfırdır\
+d) Veride bir hesaplama hatası vardır
 
-2.  **İki farklı sınıftaki öğrencilerin sınav notlarının standart sapmaları şu şekildedir:**
+**6.** Bir ülkenin "ortalama hane geliri" 45.000 TL, "medyan hane
+geliri" ise 28.000 TL olarak açıklanıyor. Bir siyaset bilimci olarak
+bu iki sayı arasındaki farkı nasıl yorumlarsınız?
 
--   Sınıf A: Standart sapma = 5
--   Sınıf B: Standart sapma = 10
+a\) İki sayı da aynı şeyi ölçtüğü için fark önemsizdir\
+b) Hesaplama hatası olmalıdır, ikisi eşit çıkmalıydı\
+c) Gelir dağılımı sağa çarpıktır; az sayıda yüksek gelirli hane
+ortalamayı yukarı çekiyor — medyan "tipik haneyi" daha iyi temsil eder\
+d) Medyan yalnızca kategorik verilerde kullanılabildiği için burada
+geçersizdir
 
-Hangi sınıftaki öğrencilerin notlarının daha dağınık olduğunu açıklayın.
+**7.** R'da `mode(x)` fonksiyonunu çalıştırdığınızda ne elde edersiniz?
 
-3.  **Aşağıdaki değişkenler için hangi değişkenlik ölçüsünün daha uygun olduğunu belirleyin ve nedenini açıklayın:**
+a\) `x` değişkeninin istatistiksel modunu (en sık tekrar eden değeri)\
+b) `x`'in veri türünü (`"numeric"`, `"character"` vb.) — istatistiksel
+mod için kendi fonksiyonunuzu yazmanız gerekir\
+c) `x`'in ortalamasını\
+d) Bir hata mesajı, çünkü R'da böyle bir fonksiyon yoktur
 
--   Bir şehirdeki ev fiyatları
--   Bir maraton koşusunda koşucuların bitirme süreleri
--   Bir fabrikada üretilen ampullerin ömürleri
+**8.** Aşağıdaki değişkenlerden hangisi için **mod**, ortalama ve
+medyandan daha anlamlı bir merkezi eğilim ölçüsüdür?
 
-**Konu 3: Korelasyon**
+a\) Ülkelerin kişi başı GSYİH'si\
+b) Öğrencilerin sınav notları\
+c) Bir mağazada en çok satılan ayakkabı numarası\
+d) Bir şehrin günlük sıcaklık ortalaması
 
-1.  **Aşağıdaki iki değişken arasındaki korelasyon katsayısını yorumlayın:**
+**9.** `gm2007 |> group_by(continent) |> summarise(m = mean(lifeExp))`
+kodu ne üretir?
 
--   Sıcaklık ile dondurma satışları arasındaki korelasyon katsayısı = 0.8
--   Sigara içme ile akciğer kanseri arasındaki korelasyon katsayısı = 0.9
+a\) Tüm dünyanın tek bir ortalama yaşam beklentisini\
+b) Her kıta için ayrı ayrı hesaplanmış ortalama yaşam beklentisini\
+c) Her ülke için ayrı ayrı hesaplanmış ortalama yaşam beklentisini\
+d) Bir hata, çünkü `summarise()` `group_by()` ile birlikte
+kullanılamaz
 
-2.  **Korelasyonun nedensellik anlamına gelmediğini açıklayın ve örnekler verin.**
+## Bölüm C — Yayılım
 
-3.  **Anscombe's Quartet veri setini kullanarak korelasyon katsayısının tek başına bir ilişkinin tam resmini veremeyeceğini açıklayın.**
+**10.** Aralık (range) ölçüsünün en büyük zayıflığı nedir?
 
-**Konu 4: Eksik Veriler**
+a\) Hesaplaması karmaşıktır\
+b) Yalnızca kategorik verilerde kullanılabilir\
+c) Tek bir aşırı (uç) değerden kolayca etkilenir, dağılımın geri
+kalanı hakkında bilgi vermez\
+d) Negatif değerler için tanımsızdır
 
-1.  **Eksik verilerin neden sorun olduğunu ve veri analizini nasıl etkileyebileceğini açıklayın.**
+**11.** IQR (çeyrekler açıklığı), aralığa (range) göre neden genellikle
+tercih edilir?
 
-2.  **Eksik verilerle başa çıkmak için kullanılan farklı yöntemleri açıklayın.**
+a\) Hesaplaması aralıktan daha hızlıdır\
+b) Ortadaki %50'lik dilime odaklandığı için uç değerlerden aralık
+kadar etkilenmez\
+c) IQR her zaman aralıktan büyük çıkar\
+d) IQR yalnızca simetrik dağılımlarda tanımlıdır
 
-3.  **Eksik verilerle başa çıkmak için hangi yöntemin kullanılacağına nasıl karar verileceğini açıklayın.**
+**12.** Standart sapmanın varyansa göre yorumlanması neden daha
+kolaydır?
+
+a\) Standart sapma her zaman pozitiftir, varyans negatif olabilir\
+b) Standart sapma, orijinal değişkenle aynı birimdedir; varyans
+karesi alınmış birimdedir\
+c) Varyans yalnızca örneklemlerde, standart sapma yalnızca
+popülasyonlarda hesaplanır\
+d) İkisi arasında yorum farkı yoktur, sadece isim farklıdır
+
+**13.** İki ülkenin ortalama yaşam beklentisi aynı (75 yıl) ama biri
+düşük standart sapmaya, diğeri yüksek standart sapmaya sahip. Bu ne
+anlama gelir?
+
+a\) İki ülke arasında hiçbir fark yoktur, ortalamalar eşit olduğu için
+dağılımlar da özdeştir\
+b) Düşük standart sapmalı ülkede yaşam beklentisi bölgeler/gruplar
+arasında daha tutarlı; yüksek standart sapmalı ülkede daha
+farklılaşmış durumdadır\
+c) Yüksek standart sapmalı ülkenin ortalaması yanlış hesaplanmıştır\
+d) Standart sapma yalnızca gelir verisinde anlamlıdır, yaşam
+beklentisinde kullanılamaz
+
+## Bölüm D — Çarpıklık ve Basıklık
+
+**14.** Bir dağılımda ortalama, medyandan **düşükse**, bu dağılım
+hakkında ne söyleyebiliriz?
+
+a\) Dağılım sağa çarpıktır\
+b) Dağılım sola çarpıktır — uzun kuyruk solda, düşük değerlerin
+çektiği birkaç aşırı gözlem var\
+c) Dağılım kesinlikle simetriktir\
+d) Bu durum matematiksel olarak imkânsızdır
+
+**15.** "Leptokurtik" bir dağılımı diğerlerinden ayıran temel özellik
+nedir?
+
+a\) Ortalamasının sıfır olması\
+b) Sivri bir tepe ve kalın kuyruklara sahip olması — aşırı değer
+görülme olasılığının normal dağılıma göre daha yüksek olması\
+c\) Yalnızca pozitif değerler içermesi\
+d\) Kategorik bir değişken olması
+
+**16.** Bir finansal getiri serisinin leptokurtik olduğu söyleniyor.
+Bu, bir analist için pratikte ne anlama gelir?
+
+a\) Getiriler her zaman pozitiftir\
+b) Aşırı kayıp/kazanç olayları, normal dağılım varsayımının önerdiğinden
+daha sık gerçekleşebilir — risk daha dikkatli değerlendirilmelidir\
+c) Ortalama ve medyan birbirine tam olarak eşittir\
+d) Standart sapma hesaplanamaz
+
+## Bölüm E — İlişki (Korelasyon)
+
+**17.** `cor(x, y)` fonksiyonu **-0.85** değerini döndürüyor. Bu ne
+anlama gelir?
+
+a\) x, y'ye neden olmaktadır\
+b) x ile y arasında güçlü, negatif yönlü bir doğrusal ilişki vardır
+(biri artarken diğeri azalma eğilimindedir)\
+c) x ile y arasında hiçbir ilişki yoktur\
+d) Hesaplamada bir hata vardır, korelasyon negatif olamaz
+
+**18.** `age` sütununda eksik değerler (`NA`) varken
+`cor(titanic$age, titanic$fare)` çalıştırıldığında sonuç `NA` çıkıyor.
+Bunu düzeltmek için hangi argüman eklenmelidir?
+
+a\) `na.rm = TRUE`\
+b) `use = "complete.obs"`\
+c) `drop.na = TRUE`\
+d) `missing = "ignore"`
+
+**19.** Ülkelerin dondurma satışları ile boğulma vakaları arasında
+pozitif bir korelasyon bulunmuştur. En olası açıklama nedir?
+
+a\) Dondurma yemek boğulmaya neden olur\
+b) Boğulma vakaları dondurma satışını artırır\
+c) Her iki değişken de üçüncü bir değişkenden (sıcak hava/yaz
+mevsimi) etkileniyor olabilir — bu bir karıştırıcı değişken örneğidir\
+d) Korelasyon katsayısı yanlış hesaplanmış olmalıdır
+
+**20.** İki değişken arasındaki `cor()` değeri **0.02** (sıfıra çok
+yakın) çıkıyor. Aşağıdakilerden hangisi **kesinlikle doğru** bir
+sonuçtur?
+
+a\) İki değişken arasında hiçbir ilişki yoktur, doğrusal veya
+doğrusal olmayan\
+b) İki değişken arasında güçlü bir *doğrusal* ilişki yoktur; ama
+doğrusal olmayan bir ilişki (örneğin U şeklinde) hâlâ var olabilir ve
+`cor()` bunu yakalamaz\
+c) Değişkenlerden biri kategoriktir\
+d) Hesaplama mutlaka yanlıştır

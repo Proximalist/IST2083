@@ -1,0 +1,296 @@
+---
+title: "Modül 04 — Rehberli Laboratuvar"
+subtitle: "Tanımlayıcı istatistik"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+    fig.width: 5.5
+    fig.height: 3.2
+    fig.align: "center"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar
+başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–D): her görevde ne yapmanız gerektiği yazılıdır
+    ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____`
+    gördüğünüz yerleri siz dolduracaksınız. Bu kodlar render sırasında
+    çalıştırılmaz — sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli.
+
+::: callout-tip
+## Nasıl çalışılır
+
+Her görevden sonra **bir cümleyle** sonucu yorumlayın (kod öbeğinin
+altına, düz metin olarak). Sınavda sizden istenecek olan kod yazmak
+değil, bu cümleyi kurabilmektir.
+:::
+
+Başlamadan önce paketleri yükleyin ve verileri hazırlayın:
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(gapminder)
+library(here)
+
+titanic <- read.csv(here("data", "titanic.csv"))
+gm2007 <- gapminder |> filter(year == 2007)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm A — Kategorik Değişkenler
+
+## Görev A1 — Frekans tablosu
+
+`titanic` veri setinde `embarked` sütunu, yolcunun hangi limandan
+bindiğini gösterir (C = Cherbourg, Q = Queenstown, S = Southampton).
+Bu sütunun frekans ve oran tablosunu üretin.
+
+```{r}
+#| eval: false
+titanic |>
+  count(____) |>
+  mutate(oran = round(n / sum(____), 3))
+```
+
+## Görev A2 — Çapraz tablo
+
+Cinsiyet ile hayatta kalma arasındaki çapraz tabloyu, her cinsiyet
+grubu içindeki oranla birlikte üretin.
+
+```{r}
+#| eval: false
+titanic |>
+  count(____, survived) |>
+  group_by(____) |>
+  mutate(oran = round(n / sum(n), 3)) |>
+  ungroup()
+```
+
+## Görev A3 — Görselleştirme
+
+A2'deki tabloyu `geom_bar(position = "fill")` ile bir çubuk grafiğe
+dönüştürün.
+
+```{r}
+#| eval: false
+titanic |>
+  mutate(durum = factor(survived, labels = c("Kaybedildi", "Hayatta kaldı"))) |>
+  ggplot(aes(x = ____, fill = ____)) +
+  geom_bar(position = "____") +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+# Bölüm B — Merkezi Eğilim
+
+## Görev B1 — Ortalama, medyan, mod
+
+`titanic$fare` (bilet ücreti) için ortalama ve medyanı hesaplayın.
+Hangisi daha yüksek? Neden?
+
+```{r}
+#| eval: false
+titanic |> summarise(ortalama = mean(____, na.rm = TRUE),
+                      medyan = ____(fare, na.rm = TRUE))
+```
+
+## Görev B2 — Kendi mod fonksiyonunuz
+
+Ders notundaki `mod_bul()` fonksiyonunu kullanarak `titanic$sex`
+sütununun modunu bulun.
+
+```{r}
+#| eval: false
+mod_bul <- function(x) {
+  tablo <- table(x)
+  names(tablo)[tablo == max(tablo)]
+}
+
+mod_bul(____)
+```
+
+## Görev B3 — Kıtaya göre ortalama yaşam beklentisi
+
+`gm2007` verisinde her kıtanın ortalama yaşam beklentisini hesaplayın
+(`group_by()` + `summarise()`). Hangi kıta en yüksek?
+
+```{r}
+#| eval: false
+gm2007 |>
+  group_by(____) |>
+  summarise(ortalama_yasam = mean(____)) |>
+  arrange(desc(____))
+```
+
+------------------------------------------------------------------------
+
+# Bölüm C — Yayılım
+
+## Görev C1 — Dört ölçü bir arada
+
+`gm2007$gdpPercap` için aralık, IQR, varyans ve standart sapmayı tek
+bir `summarise()` çağrısında hesaplayın.
+
+```{r}
+#| eval: false
+gm2007 |>
+  summarise(
+    aralik = diff(range(____)),
+    iqr = IQR(____),
+    varyans = ____(gdpPercap),
+    sd = sd(____)
+  )
+```
+
+## Görev C2 — Yaş dağılımı: kutu grafiği
+
+`titanic$age` için, yolcu sınıfına göre ayrılmış bir kutu grafiği
+çizin (`geom_boxplot()`). Hangi sınıfın yaş yayılımı en geniş?
+
+```{r}
+#| eval: false
+titanic |>
+  mutate(sinif = factor(pclass)) |>
+  ggplot(aes(x = ____, y = age)) +
+  geom_____() +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+# Bölüm D — İlişki
+
+## Görev D1 — Korelasyon
+
+`gm2007` içinde nüfus (`pop`) ile yaşam beklentisi (`lifeExp`)
+arasındaki korelasyonu hesaplayın. Güçlü mü, zayıf mı?
+
+```{r}
+#| eval: false
+cor(gm2007$____, gm2007$____)
+```
+
+## Görev D2 — Yorum
+
+Bir önceki görevde bulduğunuz korelasyon **düşükse**, bunun "nüfus ile
+yaşam beklentisi arasında hiçbir ilişki yok" anlamına gelip gelmediğini
+bir cümleyle tartışın. (İpucu: korelasyon yalnızca *doğrusal* ilişkiyi
+yakalar.)
+
+------------------------------------------------------------------------
+
+# Çözümler
+
+## A1 — Çözüm
+
+```{r}
+titanic |>
+  count(embarked) |>
+  mutate(oran = round(n / sum(n), 3))
+```
+
+## A2 — Çözüm
+
+```{r}
+titanic |>
+  count(sex, survived) |>
+  group_by(sex) |>
+  mutate(oran = round(n / sum(n), 3)) |>
+  ungroup()
+```
+
+## A3 — Çözüm
+
+```{r}
+titanic |>
+  mutate(durum = factor(survived, labels = c("Kaybedildi", "Hayatta kaldı"))) |>
+  ggplot(aes(x = sex, fill = durum)) +
+  geom_bar(position = "fill") +
+  theme_minimal()
+```
+
+## B1 — Çözüm
+
+```{r}
+titanic |> summarise(ortalama = mean(fare, na.rm = TRUE),
+                      medyan = median(fare, na.rm = TRUE))
+```
+
+Ortalama medyandan yüksek: bilet ücreti dağılımı sağa çarpık — az
+sayıda çok pahalı bilet (1. sınıf süitleri) ortalamayı yukarı çekiyor.
+
+## B2 — Çözüm
+
+```{r}
+mod_bul <- function(x) {
+  tablo <- table(x)
+  names(tablo)[tablo == max(tablo)]
+}
+
+mod_bul(titanic$sex)
+```
+
+## B3 — Çözüm
+
+```{r}
+gm2007 |>
+  group_by(continent) |>
+  summarise(ortalama_yasam = mean(lifeExp)) |>
+  arrange(desc(ortalama_yasam))
+```
+
+## C1 — Çözüm
+
+```{r}
+gm2007 |>
+  summarise(
+    aralik = diff(range(gdpPercap)),
+    iqr = IQR(gdpPercap),
+    varyans = var(gdpPercap),
+    sd = sd(gdpPercap)
+  )
+```
+
+## C2 — Çözüm
+
+```{r}
+titanic |>
+  mutate(sinif = factor(pclass)) |>
+  ggplot(aes(x = sinif, y = age)) +
+  geom_boxplot() +
+  theme_minimal()
+```
+
+## D1 — Çözüm
+
+```{r}
+cor(gm2007$pop, gm2007$lifeExp)
+```
+
+## D2 — Çözüm (tartışma)
+
+Korelasyon düşük çıkar (nüfus büyüklüğü ile yaşam beklentisi arasında
+güçlü bir doğrusal ilişki yoktur). Ama bu, aralarında **hiçbir** ilişki
+olmadığı anlamına gelmez — yalnızca *doğrusal* bir ilişki bulunmadığı
+anlamına gelir; doğrusal olmayan bir örüntü (ör. U şeklinde bir ilişki)
+`cor()` tarafından yakalanmaz. Bu, bir sonraki modüllerde saçılım
+grafiklerine neden hâlâ bakmamız gerektiğinin de nedenidir.

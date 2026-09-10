@@ -1,5 +1,5 @@
 ---
-title: "Modül 04: Tanımlayıcı İstatistiklere Giriş"
+title: "Modül 04: Tanımlayıcı İstatistik"
 author: "Prof. Dr. Hakan Mehmetcik"
 date: "`r Sys.Date()`"
 lang: tr
@@ -21,210 +21,197 @@ execute:
   message: false
   cache: false
 df-print: kable
+knitr:
+  opts_chunk:
+    fig.width: 8
+    fig.height: 4.2
+    dpi: 110
 ---
 
-# Giriş: İstatistik Kavramları
-
-## İstatistiğin Amacı ve Temel Kavramlar
-
--   **İstatistiğin Amacı**: Verilerden sorularımızı yanıtlamamıza yardımcı olmak.
--   Verileri analiz ederek onları anlamaya çalışırız, ancak öncelikle özetlememiz ve anlamamız gereklidir.
--   Verileri özetlemenin bir yolu **tanımlayıcı/betimsel istatistikler** kullanmaktır.
-
-------------------------------------------------------------------------
-
-# Tanımlayıcı vs. Yorumlayıcı İstatistik
-
-## İki Önemli Kavram
-
-::: callout-note
-⚠️ **Tanımlayıcı/Betimsel İstatistik** ve **Yorumlayıcı/Çıkarımsal İstatistik**
-:::
-
-### Tanımlayıcı/Betimsel İstatistik
-
--   Bir veri setinin genel özelliklerini özetlemeye yönelik yöntemlerdir.
--   **Ölçümler**: Ortalama, medyan, mod, varyans gibi ölçümleri içerir ve verilerin dağılımı hakkında bilgi verir.
--   **Kullanım**: Kesin kararlar vermek mümkün değildir; bunlar sadece veri setindeki genel durumu anlamamıza yardımcı olur.
-
-### Yorumlayıcı/Çıkarımsal İstatistik
-
--   Verileri analiz etmekle, yani örnek verilerden tüm popülasyon hakkında çıkarımlar yapmayı amaçlar.
--   **Kullanım**: Popülasyon hakkında güvenilir sonuçlar çıkarmak için korelasyonlar, olasılık, regresyon gibi yöntemler kullanılır.
-
-------------------------------------------------------------------------
-
-# Kategorik Değişkenler için Tanımlayıcı İstatistikler
-
-## Temel Ölçümler
-
-1.  **Frekans (Frequency)**: Kategorik değişkenlerin her bir seviyesinin kaç kez tekrarlandığını gösterir.
-    -   *Örnek*: "Evet" ve "hayır" cevaplarının sayısı.
-2.  **Yüzde (Percentage)**: Her bir kategorinin toplam içindeki oranını gösterir. $$
-    p = \\frac{\\text{kategori içindeki birey sayısı}}{\\text{örneklem büyüklüğü}}
-    $$
-3.  **Mod (Mode)**: En sık rastlanan kategori veya değerdir. Kategorik veriler için en yaygın seviyeyi belirtir.
-4.  **Çapraz Tablo (Contingency Table)**: İki veya daha fazla kategorik değişken arasındaki ilişkiyi gösterir.
-
-------------------------------------------------------------------------
-
-# Örnek 1: Kitap Okuma Oranları
-
-## Frekans ve Mod (Kitap Okuma)
-
-| Kategori                                                | Frekans |
-|:--------------------------------------------------------|:--------|
-| Basılı Kitap Okumayan (no_books)                        | 395     |
-| Sadece Basılı Kitap Okuyan (print_only)                 | 577     |
-| Sadece Dijital Kitap Okuyan (digital_only)              | 91      |
-| Hem Basılı Hem Dijital Kitap Okuyan (print_and_digital) | 425     |
-
--   **Toplam Okuyucu Sayısı**: 1488
--   **Mod**: "Sadece Basılı Kitap Okuyan" (577).
-
-## Yüzde Yorumu
-
--   Sadece Basılı Kitap Okuyanların Oranı: **0.3878** (yaklaşık **%38.78**).
--   Bu, okuyucuların çoğunluğunun basılı kitapları tercih ettiğini göstermektedir.
--   Yalnızca dijital kitap okuma oranı oldukça düşüktür (%6.12).
-
-------------------------------------------------------------------------
-
-# Örnek 1: Çapraz Tablo
-
-## Etnik Gruplar ve Bilim Haberlerine İlgi
-
-```{r, echo=FALSE}
-# Farklı etnik grupların bilim haberlerine olan ilgisini göstermek için kategoriler ve sayıları
-white <- c("active"=487, "casual"=916, "uninterested"=1431, "no_answer"=28)
-black <- c("active"=59, "casual"=98, "uninterested"=227, "no_answer"=8)
-hispanic <- c("active"=89, "casual"=152, "uninterested"=183, "no_answer"=23)
-my_table <- as.data.frame(rbind(white, black, hispanic))
-my_table$rowsum <- rowSums(my_table)
-my_table["colsum",] <- colSums(my_table)
-print(my_table)
+```{r}
+#| include: false
+library(ggplot2)
+library(dplyr)
+library(gapminder)
+library(scales)
+library(here)
+titanic <- read.csv(here("data", "titanic.csv"))
+gm2007 <- gapminder |> filter(year == 2007)
 ```
 
-**Yorumlar:**
+## 🎯 Öğrenme Hedefleri
 
--   Her üç grup arasında **"ilgisiz"** olanların sayısı en yüksektir.
--   Beyaz grubun, diğer gruplara göre bilim haberlerine **daha fazla ilgi gösterdiği** gözlemlenmektedir.
+Bu oturumun sonunda:
 
-------------------------------------------------------------------------
+-   Kategorik bir değişkeni frekans/oran tablosuyla özetleyebileceksiniz
+-   Ortalama, medyan ve mod arasında **ne zaman** hangisini seçeceğinizi bileceksiniz
+-   Varyans, standart sapma ve IQR'ı yorumlayabileceksiniz
+-   Çarpıklık ve basıklık kavramlarını bir grafikten okuyabileceksiniz
+-   Korelasyonu hesaplayıp **nedensellikle karıştırmayacaksınız**
 
-# Sayısal Değişkenler için Tanımlayıcı İstatistikler
+## Neden Özetlemeye İhtiyacımız Var?
 
-## Ölçüm Grupları
+::: incremental
+-   Titanic'te **1309 yolcu** var.
+-   "Kim hayatta kaldı?" sorusuna 1309 satırı okuyarak cevap veremezsiniz.
+-   Tanımlayıcı istatistik: az sayıda özet sayı/tablo ile dağılımı anlatılır kılar.
+:::
 
-1.  **Merkezi Eğilim Ölçüleri**: Veri setinin tipik/merkezi değerini temsil eder.
-    -   Ortalama, Medyan, Mod.
-2.  **Merkezi Dağılım Ölçüleri**: Verilerin yayılımını veya dağılımını gösterir.
-    -   Aralık, Standart Sapma, Varyans, Çeyrekler Aralığı (IQR).
-3.  **Dağılımda Sapma**:
-    -   Eğrilik (Skewness) ve Basıklık (Kurtosis).
-4.  **Korelasyon**: İki değişken arasındaki ilişkinin yönü ve gücü.
+## İki Aile
 
-------------------------------------------------------------------------
+::: incremental
+1.  **Kategorik değişkenler** → frekans, oran, çapraz tablo
+2.  **Sayısal değişkenler** → merkezi eğilim + yayılım + şekil
+3.  **İki değişken birlikte** → korelasyon (ama nedensellik değil!)
+:::
 
-# Merkezi Eğilim Ölçüleri
+# Kategorik Değişkenler
 
-## 1. Ortalama (Mean)
+## Frekans ve Oran
 
--   **Tanım**: Tüm değerlerin toplamının gözlem sayısına bölünmesi.
--   **Gösterim**: $$\\text{Ortalama} = \\frac{\\sum_{i=1}^{n} x_i}{n}$$
--   **Dikkat**: Aşırı değerler (outlier) varsa yanıltıcı olabilir.
+```{r}
+titanic |> count(pclass) |> mutate(oran = round(n / sum(n), 3))
+```
 
-## 2. Medyan (Median)
+## Çapraz Tablo: Sınıf × Hayatta Kalma
 
--   **Tanım**: Sıralandıktan sonra ortadaki değer.
--   **Uygun Durum**: Aşırı değerlerin etkisini azaltır, asimetrik dağılımlarda tercih edilir.
+```{r}
+titanic |>
+  count(pclass, survived) |>
+  group_by(pclass) |>
+  mutate(oran = round(n / sum(n), 3)) |>
+  ungroup()
+```
 
-## 3. Mod (Mode)
+## Görselleştirilmiş Oran
 
--   **Tanım**: En sık rastlanan sayısal değer.
--   **Kullanım**: Kategorik verilerle daha yaygındır.
+```{r}
+#| fig-align: center
+titanic |>
+  mutate(sinif = factor(pclass, labels = c("1.", "2.", "3.")),
+         durum = factor(survived, labels = c("Kaybedildi", "Hayatta kaldı"))) |>
+  ggplot(aes(sinif, fill = durum)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = label_percent()) +
+  scale_fill_manual(values = c("Kaybedildi" = "#8C8C8C", "Hayatta kaldı" = "#4C3A80")) +
+  labs(x = "Sınıf", y = NULL, fill = NULL) +
+  theme_minimal(base_size = 16)
+```
 
-------------------------------------------------------------------------
+# Merkezi Eğilim
 
-# Merkezi Dağılım Ölçüleri
+## Üç Aday
 
-## 1. Aralık (Range)
+::: incremental
+-   **Ortalama** ($\bar{x}$): toplam / n. Uç değerlerden **etkilenir**.
+-   **Medyan**: ortadaki değer. Uç değerlerden **etkilenmez**.
+-   **Mod**: en sık görülen değer. Kategorik veride kullanılır.
+:::
 
--   **Tanım**: En büyük ve en küçük değer arasındaki fark.
--   **Gösterim**: $$\\text{Aralık} = \\max(x) - \\min(x)$$
--   **Dikkat**: Aşırı değerlerden etkilenir.
+## Ortalama vs. Medyan: Yaşam Beklentisi (2007)
 
-## 2. Standart Sapma (Standard Deviation)
+```{r}
+gm2007 |> summarise(ortalama = mean(lifeExp), medyan = median(lifeExp))
+```
 
--   **Tanım**: Verilerin ortalamadan ne kadar yayıldığını, yani ne kadar değişken olduğunu gösterir.
--   **Gösterim**: $$\\text{Standart Sapma} = \\sqrt{\\frac{\\sum_{i=1}^{n} (x_i - \\bar{x})^2}{n-1}} $$
+. . .
 
-## 3. Varyans (Variance)
+Birbirine yakın → dağılım nispeten simetrik.
 
--   **Tanım**: Verilerin ortalamadan ne kadar saptığını gösteren ölçü (Standart sapmanın karesidir).
+## Ortalama vs. Medyan: GSYİH (2007)
 
-------------------------------------------------------------------------
+```{r}
+gm2007 |> summarise(ortalama = mean(gdpPercap), medyan = median(gdpPercap))
+```
 
-# Dağılımda Sapma
+. . .
 
-## 1. Eğrilik (Skewness)
+**Büyük fark!** Birkaç zengin ülke ortalamayı çekiyor — medyan "tipik ülkeyi" daha iyi temsil ediyor.
 
--   **Tanım**: Veri dağılımının simetrik olup olmadığını gösterir.
--   **Pozitif Eğrilik (Sağa Kayma)**: Uzun kuyruk sağda. Medyan, Ortalama'dan daha merkezi bir tanımlayıcı istatistiktir.
--   **Negatif Eğrilik (Sola Kayma)**: Uzun kuyruk solda.
+## Kural
 
-## 2. Basıklık (Kurtosis)
+::: incremental
+-   Simetrik, uç değeri az → **ortalama**
+-   Çarpık veya uç değerli (gelir, servet, fiyat) → **medyan**
+-   Kategorik/ayrık → **mod**
+:::
 
--   **Tanım**: Veri dağılımının ne kadar "keskin" veya "düz" olduğunu ölçer.
--   **Yüksek Kurtosis**: Keskin zirveler (veriler merkezi etrafında kümelenmiştir).
--   **Düşük Kurtosis**: Daha düz bir dağılım.
+# Yayılım (Değişkenlik)
 
-------------------------------------------------------------------------
+## Dört Ölçü
 
-# Değişkenler Arası İlişki: Korelasyon
+::: incremental
+-   **Aralık**: max − min. Tek uç değerden etkilenir.
+-   **IQR**: Q3 − Q1. Ortadaki %50'lik dilim.
+-   **Varyans**: sapmaların karelerinin ortalaması.
+-   **Standart sapma**: varyansın karekökü — orijinal birimde.
+:::
 
-## Korelasyon Kavramı
+## Kıtalara Göre Yayılım
 
--   **Tanım**: İki sayısal değişkenin **doğrusal olarak** ne derece ilişkili olduğunu ifade eden ölçüttür.
--   **Katsayı (r)**: Genellikle -1 ile +1 arasında değişir.
-    -   **Pozitif Korelasyon (r \> 0)**: Bir değişken arttıkça diğeri de artar (Örn: Eğitim seviyesi ↑, Gelir ↑).\n      * **Negatif Korelasyon (r \< 0)**: Bir değişken arttıkça diğeri azalır (Örn: Hız ↑, Gidilebilecek Mesafe ↓).\n      * **Korelasyon Yok (r ≈ 0)**: Anlamlı bir doğrusal ilişki yoktur.
+```{r}
+#| fig-align: center
+ggplot(gm2007, aes(reorder(continent, lifeExp, median), lifeExp)) +
+  geom_boxplot(fill = "#EAF1F5", color = "#2E6E8E") +
+  geom_jitter(width = 0.08, alpha = 0.35, color = "#4C3A80") +
+  labs(x = NULL, y = "Yaşam beklentisi") +
+  theme_minimal(base_size = 16)
+```
 
-------------------------------------------------------------------------
+# Dağılımın Şekli
 
-# Korelasyon ≠ Nedensellik
+## Çarpıklık ve Basıklık
 
-## Önemli Ayrım
+```{r}
+#| out-width: "85%"
+#| fig-align: center
+knitr::include_graphics(here("04_modul", "images", "carpiklik-basiklik.png"))
+```
 
--   **Korelasyon**, iki değişken arasındaki ilişkinin yönünü ve gücünü ifade eder.
--   **Önemli Nokta**: Korelasyon, **nedensellik** anlamına gelmez. Yani, aralarında ilişki olması, birinin diğerine neden olduğu anlamına gelmez.
--   **Örnek 1**: Dondurma satışları ile boğulma vakaları pozitif korelasyon gösterir, ancak her ikisi de **sıcak hava** gibi üçüncü bir faktörden etkilenir.
--   **Örnek 2**: Ayakkabı numarası ile okuma becerileri pozitif korelasyon gösterebilir, ancak her ikisi de **yaş** gibi üçüncü bir faktörden etkilenir.
+## Hatırlatma
 
-------------------------------------------------------------------------
+::: incremental
+-   Sağa çarpık → ortalama **\>** medyan (gelir gibi)
+-   Sola çarpık → ortalama **\<** medyan
+-   Leptokurtik → sivri tepe, kalın kuyruk (aşırı değer riski yüksek)
+:::
 
-# Anscombe's Quartet
+# İki Değişken Birlikte
 
-## Korelasyonun Sınırları
+## Korelasyon
 
--   **Anscombe's Quartet** örneği, korelasyon katsayısının tek başına bir ilişkinin tam resmini veremeyeceğini gösterir.
--   Dört veri kümesinin de korelasyon katsayıları **neredeyse aynıdır**, ancak grafikleri çok farklı ilişkiler gösterir.
+```{r}
+cor(log(gm2007$gdpPercap), gm2007$lifeExp)
+```
 
-| Veri Kümesi | İlişki Tipi | Not |
-|:---|:---|:---|
-| X1 ve Y1 | Doğrusal ilişki | Görünüşe göre normal bir dağılım. |
-| X2 ve Y2 | Parabolik ilişki | Doğrusal bir ilişki yoktur. |
-| X3 ve Y3 | Doğrusal, aykırı değer ile | Bir aykırı değer ilişkiyi etkilemektedir. |
-| X4 ve Y4 | Neredeyse sabit X, aykırı değer ile | Tek bir aykırı değer yüksek korelasyonu göstermektedir. |
+```{r}
+#| fig-align: center
+ggplot(gm2007, aes(gdpPercap, lifeExp, color = continent)) +
+  geom_point(alpha = 0.7, size = 2.4) +
+  scale_x_log10(labels = label_dollar()) +
+  labs(x = "Kişi başı GSYİH (log)", y = "Yaşam beklentisi", color = NULL) +
+  theme_minimal(base_size = 16)
+```
 
-**Sonuç**: Sadece korelasyon katsayısına bakmak yerine, verileri **görselleştirmek** çok önemlidir.
+## ⚠️ Korelasyon ≠ Nedensellik
 
-------------------------------------------------------------------------
+::: incremental
+-   Gelir ile yaşam beklentisi birlikte hareket ediyor.
+-   Ama **karıştırıcı değişkenler** var: sağlık altyapısı, eğitim, beslenme...
+-   Korelasyon "birlikte hareket ediyorlar" der; "biri diğerine sebep oluyor" **demez**.
+:::
 
-# Sonuç
+## Özet
 
-## Temel Betimsel İstatistikler
+::: incremental
+-   Kategorik → frekans, oran, çapraz tablo
+-   Merkezi eğilim → ortalama / medyan / mod, hangisi ne zaman
+-   Yayılım → aralık / IQR / varyans / standart sapma
+-   Şekil → çarpıklık, basıklık
+-   İlişki → korelasyon, **nedensellik iddia etmeden**
+:::
 
--   **Merkezi Eğilim Ölçüleri**: Ortalama, Medyan, Mod. Veri setinin tipik bir değerini temsil eder.
--   **Merkezi Dağılım Ölçüleri**: Aralık, Standart Sapma, IQR. Verilerin yayılımını gösterir.
--   **Korelasyonlar**: İki sayısal değişken arasındaki ilişkinin yönü ve boyutunu inceler.
--   **Eksik Veriler**: Veri analizinde yaygın bir sorundur ve dikkatli ele alınmalıdır.
+## Sırada Ne Var?
+
+Bir sonraki modülde: **rastgele değişkenler ve olasılık dağılımları** —
+örneklemden popülasyona çıkarımın ilk adımı.
