@@ -6,13 +6,15 @@
 #
 # Kullanım:  Rscript scripts/paketler.R
 
-# --- Denetimden geçmiş modüllerin (01, 02, 03, 04) ve izlencenin ihtiyaçları ---
+# --- Denetimden geçmiş modüllerin (01, 02, 03, 04, 05) ve izlencenin ihtiyaçları ---
 temel <- c(
   "knitr", "rmarkdown",   # render altyapısı
   "here",                 # proje köküne göre dosya yolu
   "ggplot2", "dplyr",     # görselleştirme ve veri işleme
+  "tidyr",                # 05. modülde pivot_longer()/pivot_wider()
+  "readr",                # 05. modülde read_csv() ile veri okuma
   "scales",               # 03. modülde eksen biçimlendirme (label_dollar)
-  "gapminder",            # 01. ve 03. modülde kullanılan sürekli veri seti
+  "gapminder",            # 01., 03. ve 05. modülde kullanılan sürekli veri seti
   "mosaicData",           # 03. modülde Simpson paradoksu örneği (SAT verisi)
   "ggrepel",              # 03. modülde Gamson grafiğinde parti etiketleme
   "patchwork",            # 03. modülde Minard grafiğinde iki paneli birleştirme
@@ -20,12 +22,12 @@ temel <- c(
   "gtsummary"             # 04. modülde yayına hazır "Tablo 1" özeti
 )
 
-# --- Henüz denetlenmemiş modüllerin (04-14) ek ihtiyaçları -------------
+# --- Henüz denetlenmemiş modüllerin (06-14) ek ihtiyaçları -------------
 # Bu modüller _quarto.yml render listesinde kapalı; paketleri de
 # şimdilik isteğe bağlı. Modül denetimden geçtikçe ilgili satırlar
 # yukarıdaki "temel" vektörüne taşınır.
 ek <- c(
-  "tidyverse", "tidyr", "lubridate",
+  "tidyverse", "lubridate",
   "kableExtra", "janitor", "haven", "fst",
   "nycflights13", "NHANES", "mdsr", "macleish", "fec16",
   "ggmosaic", "ggthemes", "wesanderson",

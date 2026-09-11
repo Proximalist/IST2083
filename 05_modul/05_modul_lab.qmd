@@ -1,0 +1,299 @@
+---
+title: "Modül 05 — Rehberli Laboratuvar"
+subtitle: "Veri işleme: dplyr ve tidyr"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+    fig.width: 5.5
+    fig.height: 3.2
+    fig.align: "center"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar
+başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–D): her görevde ne yapmanız gerektiği yazılıdır
+    ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____`
+    gördüğünüz yerleri siz dolduracaksınız. Bu kodlar render sırasında
+    çalıştırılmaz — sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli.
+
+::: callout-tip
+## Nasıl çalışılır
+
+Her görevden sonra **bir cümleyle** sonucu yorumlayın (kod öbeğinin
+altına, düz metin olarak). Sınavda sizden istenecek olan kod yazmak
+değil, bu cümleyi kurabilmektir.
+:::
+
+Başlamadan önce paketleri yükleyin ve verileri hazırlayın:
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(gapminder)
+library(readr)
+library(here)
+
+orgutler <- read_csv(here("data", "orgutler.csv"))
+uyelikler <- read_csv(here("data", "orgut_uyelikleri.csv"))
+genis <- read_csv(here("data", "gapminder_genis_yasam_beklentisi.csv"))
+```
+
+------------------------------------------------------------------------
+
+# Bölüm A — `select()`, `filter()`, `arrange()`
+
+## Görev A1 — Nüfusu kalabalık, GSYİH'si düşük
+
+2007 yılında, nüfusu 20 milyonun üzerinde olan Afrika ülkelerini kişi
+başı GSYİH'ye göre **azalan** sırada listeleyin.
+
+```{r}
+#| eval: false
+gapminder |>
+  filter(year == ____, continent == "Africa", pop > ____) |>
+  arrange(____(gdpPercap)) |>
+  select(country, gdpPercap)
+```
+
+## Görev A2 — Tek ülke, tek yıl
+
+`gapminder` içinden yalnızca 2007 yılında Türkiye'ye ait satırı seçin
+ve yalnızca `country`, `pop`, `gdpPercap` sütunlarını tutun.
+
+```{r}
+#| eval: false
+gapminder |>
+  filter(country == "____", year == ____) |>
+  select(country, ____, ____)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm B — `mutate()`, `group_by()` + `summarize()`
+
+## Görev B1 — Nüfusu milyon cinsinden ifade edin
+
+`pop` sütunu tek tek kişi sayısını veriyor; okunması güç. Türkiye için
+2007 nüfusunu milyon cinsinden gösteren yeni bir sütun türetin.
+
+```{r}
+#| eval: false
+gapminder |>
+  filter(year == 2007, country == "Turkey") |>
+  ____(nufus_milyon = pop / 1e6) |>
+  select(country, pop, nufus_milyon)
+```
+
+## Görev B2 — Kıtaya göre ortalama GSYİH
+
+2007 için her kıtanın ortalama kişi başı GSYİH'sini hesaplayın ve en
+yüksekten en düşüğe sıralayın. Hangi kıta en yüksek?
+
+```{r}
+#| eval: false
+gapminder |>
+  filter(year == 2007) |>
+  group_by(____) |>
+  summarise(ort_gdp = round(mean(____))) |>
+  arrange(desc(____))
+```
+
+------------------------------------------------------------------------
+
+# Bölüm C — `pivot_longer()`, `pivot_wider()`
+
+`genis`, ülke başına bir satır ve her yıl için ayrı bir sütun içeren
+(geniş formatlı) bir yaşam beklentisi tablosudur.
+
+## Görev C1 — Bir ülkeyi düzenli hâle getirin
+
+Yalnızca Türkiye'ye ait satırı alın ve yılları tek bir `yil`
+sütununda, yaşam beklentisi değerlerini de tek bir `yasam` sütununda
+toplayacak şekilde uzun forma çevirin.
+
+```{r}
+#| eval: false
+genis |>
+  filter(country == "____") |>
+  pivot_longer(
+    cols = `1952`:`2007`,
+    names_to = "____",
+    values_to = "____"
+  )
+```
+
+## Görev C2 — Bir rapor tablosu üretin
+
+`gapminder`'dan 1952, 1982 ve 2007 yıllarını alıp, her kıtanın o
+yıllardaki ortalama kişi başı GSYİH'sini hesaplayın; sonucu yılların
+sütun olduğu geniş bir tabloya dönüştürün.
+
+```{r}
+#| eval: false
+gapminder |>
+  filter(year %in% c(1952, 1982, 2007)) |>
+  group_by(continent, year) |>
+  summarise(ort = round(mean(gdpPercap)), .groups = "drop") |>
+  pivot_____(names_from = ____, values_from = ort)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm D — Birleştirmeler (Joins)
+
+## Görev D1 — Bir örgütün kaç üyesi `gapminder`'da var?
+
+`uyelikler` tablosundan yalnızca NATO satırlarını alın, ardından
+`gm2007`'de (2007 yılına filtrelenmiş gapminder) bu ülkelerden kaç
+tanesinin bulunduğunu `semi_join()` ile bulun.
+
+```{r}
+#| eval: false
+gm2007 <- gapminder |> filter(year == 2007)
+nato_uyeleri <- uyelikler |> filter(orgut_kodu == "____")
+
+gm2007 |>
+  ____join(nato_uyeleri, by = c("country" = "ulke")) |>
+  nrow()
+```
+
+## Görev D2 — Kapsam boşluğunu bulun
+
+`gapminder`'daki Asya ülkelerinden hangileri incelediğimiz dört örgütün
+(AB, NATO, ASEAN, MERCOSUR) hiçbirine üye değil? Kaç tane olduğunu da
+belirtin.
+
+```{r}
+#| eval: false
+gm2007 |>
+  filter(continent == "____") |>
+  ____join(uyelikler, by = c("country" = "ulke")) |>
+  select(country)
+```
+
+## Görev D3 — Yorum
+
+Görev D2'deki listeye bakınca, listelenen ülkelerin çoğunun **Orta
+Doğu** ülkeleri olduğunu fark edeceksiniz. Bunun "bu ülkeler hiçbir
+bölgesel örgüte üye değil" anlamına gelip gelmediğini bir cümleyle
+tartışın. (İpucu: elinizdeki üyelik tablosu yalnızca **dört** örgütü
+içeriyor.)
+
+------------------------------------------------------------------------
+
+# Çözümler
+
+## A1 — Çözüm
+
+```{r}
+gapminder |>
+  filter(year == 2007, continent == "Africa", pop > 20e6) |>
+  arrange(desc(gdpPercap)) |>
+  select(country, gdpPercap)
+```
+
+## A2 — Çözüm
+
+```{r}
+gapminder |>
+  filter(country == "Turkey", year == 2007) |>
+  select(country, pop, gdpPercap)
+```
+
+## B1 — Çözüm
+
+```{r}
+gapminder |>
+  filter(year == 2007, country == "Turkey") |>
+  mutate(nufus_milyon = pop / 1e6) |>
+  select(country, pop, nufus_milyon)
+```
+
+## B2 — Çözüm
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarise(ort_gdp = round(mean(gdpPercap))) |>
+  arrange(desc(ort_gdp))
+```
+
+Okyanusya en yüksek ortalama kişi başı GSYİH'ye sahip — ama yalnızca 2
+ülkeden oluştuğu için (Avustralya, Yeni Zelanda) bu ortalama az sayıda
+gözleme dayanıyor; Avrupa'nın 30 ülkelik ortalaması istatistiksel
+olarak daha güvenilir bir karşılaştırma sunar.
+
+## C1 — Çözüm
+
+```{r}
+genis |>
+  filter(country == "Turkey") |>
+  pivot_longer(
+    cols = `1952`:`2007`,
+    names_to = "yil",
+    values_to = "yasam"
+  )
+```
+
+## C2 — Çözüm
+
+```{r}
+gapminder |>
+  filter(year %in% c(1952, 1982, 2007)) |>
+  group_by(continent, year) |>
+  summarise(ort = round(mean(gdpPercap)), .groups = "drop") |>
+  pivot_wider(names_from = year, values_from = ort)
+```
+
+## D1 — Çözüm
+
+```{r}
+gm2007 <- gapminder |> filter(year == 2007)
+nato_uyeleri <- uyelikler |> filter(orgut_kodu == "NATO")
+
+gm2007 |>
+  semi_join(nato_uyeleri, by = c("country" = "ulke")) |>
+  nrow()
+```
+
+## D2 — Çözüm
+
+```{r}
+gm2007 |>
+  filter(continent == "Asia") |>
+  anti_join(uyelikler, by = c("country" = "ulke")) |>
+  select(country) |>
+  nrow()
+```
+
+25 ülke — Asya'daki 33 ülkeden 25'i (Kamboçya, Endonezya, Malezya,
+Myanmar, Filipinler, Singapur, Tayland, Vietnam **dışındaki**
+hepsi) bu dört örgütün hiçbirine üye değil.
+
+## D3 — Çözüm (tartışma)
+
+Hayır. Sonuç yalnızca elimizdeki **dört örgütün** üyelik listesine
+göre bir boşluk gösteriyor; Orta Doğu ülkelerinin çoğu Arap Ligi,
+Körfez İşbirliği Konseyi (KİK) veya İslam İşbirliği Teşkilatı gibi
+başka bölgesel örgütlere üyedir — ama bu tablo o örgütleri hiç
+içermiyor. `anti_join()` yalnızca **sizin veri setinizdeki** boşluğu
+gösterir; dünyadaki gerçek boşluğu değil. Ders notundaki AB örneğinde
+gördüğümüz uyarının aynısı burada da geçerli.

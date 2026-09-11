@@ -20,10 +20,10 @@ project:
     - 02_modul/*.qmd
     - 03_modul/*.qmd
     - 04_modul/*.qmd
+    - 05_modul/*.qmd
     - R-Hizli-Referans.qmd
     - GitHub_Kullanim_Kilavuzu.qmd
     - R_RStudio_Kurulum_Rehberi.qmd
-    # - 05_modul/*.qmd     # denetim bekliyor
     # - 06_modul/*.qmd     # denetim bekliyor
     # - 07_modul/*.qmd     # denetim bekliyor
     # - 08_modul/*.qmd     # denetim bekliyor

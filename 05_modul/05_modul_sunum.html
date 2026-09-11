@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="tr"><head>
+<script src="05_modul_sunum_files/libs/clipboard/clipboard.min.js"></script>
+<script src="05_modul_sunum_files/libs/quarto-html/tabby.min.js"></script>
+<script src="05_modul_sunum_files/libs/quarto-html/popper.min.js"></script>
+<script src="05_modul_sunum_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="05_modul_sunum_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="05_modul_sunum_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="05_modul_sunum_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.40">
+
+  <meta name="author" content="Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik">
+  <meta name="dcterms.date" content="2026-09-11">
+  <title>Modül 05: Veri İşleme — dplyr ve tidyr</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="05_modul_sunum_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="05_modul_sunum_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="05_modul_sunum_files/libs/revealjs/dist/theme/quarto-423d414d36ce366a9d05f36d06304417.css">
+  <link href="05_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="05_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="05_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="05_modul_sunum_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Modül 05: Veri İşleme — dplyr ve tidyr</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik 
+</div>
+</div>
+</div>
+
+  <p class="date">2026-09-11</p>
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Içindekiler</h2>
+<ul>
+<li class="fragment"><a href="#/öğrenme-hedefleri" id="/toc-öğrenme-hedefleri">🎯 Öğrenme Hedefleri</a></li>
+<li class="fragment"><a href="#/neden-bir-dilbilgisine-ihtiyacımız-var" id="/toc-neden-bir-dilbilgisine-ihtiyacımız-var">Neden Bir Dilbilgisine İhtiyacımız Var?</a></li>
+<li class="fragment"><a href="#/veri-gapminder" id="/toc-veri-gapminder">Veri: <code>gapminder</code></a>
+<ul>
+<li class="fragment"><a href="#/panel-veri" id="/toc-panel-veri">Panel Veri</a></li>
+</ul></li>
+<li class="fragment"><a href="#/dplyr-fiilleri" id="/toc-dplyr-fiilleri"><code>dplyr</code> Fiilleri</a>
+<ul>
+<li class="fragment"><a href="#/select-ve-filter" id="/toc-select-ve-filter"><code>select()</code> ve <code>filter()</code></a></li>
+<li class="fragment"><a href="#/mutate" id="/toc-mutate"><code>mutate()</code></a></li>
+<li class="fragment"><a href="#/group_by-summarize" id="/toc-group_by-summarize"><code>group_by()</code> + <code>summarize()</code></a></li>
+<li class="fragment"><a href="#/zincirleme-beş-fiil-bir-soru" id="/toc-zincirleme-beş-fiil-bir-soru">Zincirleme: Beş Fiil, Bir Soru</a></li>
+</ul></li>
+<li class="fragment"><a href="#/düzenli-tidy-veri" id="/toc-düzenli-tidy-veri">Düzenli (Tidy) Veri</a>
+<ul>
+<li class="fragment"><a href="#/üç-kural" id="/toc-üç-kural">Üç Kural</a></li>
+<li class="fragment"><a href="#/sorun-yıllar-sütunlarda" id="/toc-sorun-yıllar-sütunlarda">Sorun: Yıllar Sütunlarda</a></li>
+<li class="fragment"><a href="#/pivot_longer-genişten-uzuna" id="/toc-pivot_longer-genişten-uzuna"><code>pivot_longer()</code>: Genişten Uzuna</a></li>
+<li class="fragment"><a href="#/pivot_wider-uzundan-genişe-rapor-için" id="/toc-pivot_wider-uzundan-genişe-rapor-için"><code>pivot_wider()</code>: Uzundan Genişe (Rapor İçin)</a></li>
+<li class="fragment"><a href="#/kural" id="/toc-kural">Kural</a></li>
+</ul></li>
+<li class="fragment"><a href="#/ilişkisel-veri-joinler" id="/toc-ilişkisel-veri-joinler">İlişkisel Veri: Join’ler</a>
+<ul>
+<li class="fragment"><a href="#/neden-ikinci-bir-tabloya-ihtiyacımız-var" id="/toc-neden-ikinci-bir-tabloya-ihtiyacımız-var">Neden İkinci Bir Tabloya İhtiyacımız Var?</a></li>
+<li class="fragment"><a href="#/join-türleri" id="/toc-join-türleri">Join Türleri</a></li>
+<li class="fragment"><a href="#/inner_join-sadece-eşleşenler" id="/toc-inner_join-sadece-eşleşenler"><code>inner_join()</code>: Sadece Eşleşenler</a></li>
+<li class="fragment"><a href="#/anti_join-kapsamdaki-boşluklar" id="/toc-anti_join-kapsamdaki-boşluklar"><code>anti_join()</code>: Kapsamdaki Boşluklar</a></li>
+<li class="fragment"><a href="#/hepsi-bir-arada" id="/toc-hepsi-bir-arada">Hepsi Bir Arada</a></li>
+<li class="fragment"><a href="#/özet" id="/toc-özet">Özet</a></li>
+<li class="fragment"><a href="#/sırada-ne-var" id="/toc-sırada-ne-var">Sırada Ne Var?</a></li>
+</ul></li>
+</ul>
+</nav>
+</section>
+<section id="öğrenme-hedefleri" class="slide level2">
+<h2>🎯 Öğrenme Hedefleri</h2>
+<p>Bu oturumun sonunda:</p>
+<ul>
+<li class="fragment"><code>dplyr</code>’ın beş temel fiilini (<code>select</code>, <code>filter</code>, <code>mutate</code>, <code>arrange</code>, <code>summarize</code>) kullanabileceksiniz</li>
+<li class="fragment">Fiilleri <code>|&gt;</code> ile zincirleyerek çok adımlı sorular kurabileceksiniz</li>
+<li class="fragment">Düzenli (tidy) verinin üç kuralını tanıyacaksınız</li>
+<li class="fragment"><code>pivot_longer()</code>/<code>pivot_wider()</code> ile format dönüştürebileceksiniz</li>
+<li class="fragment"><code>inner_join()</code>, <code>left_join()</code>, <code>semi_join()</code>, <code>anti_join()</code> ile birden çok tabloyu birleştirebileceksiniz</li>
+</ul>
+</section>
+<section id="neden-bir-dilbilgisine-ihtiyacımız-var" class="slide level2">
+<h2>Neden Bir Dilbilgisine İhtiyacımız Var?</h2>
+<div>
+<ul>
+<li class="fragment">Bir analistin zamanının çoğu <strong>veri hazırlamaya</strong> gider.</li>
+<li class="fragment"><code>dplyr</code>: az sayıda <strong>fiil</strong>, <code>|&gt;</code> ile zincirlenir.</li>
+<li class="fragment"><code>ggplot2</code>’yi zaten biliyorsunuz — mantık aynı: küçük parçalar, büyük ifade gücü.</li>
+</ul>
+</div>
+</section>
+<section>
+<section id="veri-gapminder" class="title-slide slide level1 center">
+<h1>Veri: <code>gapminder</code></h1>
+
+</section>
+<section id="panel-veri" class="slide level2">
+<h2>Panel Veri</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gapminder)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,704
+Columns: 6
+$ country   &lt;fct&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", …
+$ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+$ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+$ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+$ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12…
+$ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, …</code></pre>
+</div>
+</div>
+<div>
+<ul>
+<li class="fragment">142 ülke × 12 yıl (1952–2007)</li>
+<li class="fragment">Hem <strong>yatay kesit</strong> (ülkeler arası) hem <strong>boylamsal</strong> (zaman içi) karşılaştırma</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="dplyr-fiilleri" class="title-slide slide level1 center">
+<h1><code>dplyr</code> Fiilleri</h1>
+
+</section>
+<section id="select-ve-filter" class="slide level2">
+<h2><code>select()</code> ve <code>filter()</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Europe"</span>, year <span class="sc">==</span> <span class="dv">1997</span>, lifeExp <span class="sc">&gt;</span> <span class="dv">75</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, lifeExp) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp)) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: right;">lifeExp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sweden</td>
+<td style="text-align: right;">79.39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Switzerland</td>
+<td style="text-align: right;">79.37</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Iceland</td>
+<td style="text-align: right;">78.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Italy</td>
+<td style="text-align: right;">78.82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spain</td>
+<td style="text-align: right;">78.77</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="mutate" class="slide level2">
+<h2><code>mutate()</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>, country <span class="sc">==</span> <span class="st">"Turkey"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">toplam_gsyih_milyar =</span> gdpPercap <span class="sc">*</span> pop <span class="sc">/</span> <span class="fl">1e9</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, gdpPercap, pop, toplam_gsyih_milyar)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: right;">gdpPercap</th>
+<th style="text-align: right;">pop</th>
+<th style="text-align: right;">toplam_gsyih_milyar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Turkey</td>
+<td style="text-align: right;">8458.276</td>
+<td style="text-align: right;">71158647</td>
+<td style="text-align: right;">601.8795</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="group_by-summarize" class="slide level2">
+<h2><code>group_by()</code> + <code>summarize()</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(continent) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ort_yasam =</span> <span class="fu">round</span>(<span class="fu">mean</span>(lifeExp), <span class="dv">1</span>), <span class="at">n_ulke =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(ort_yasam))</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">continent</th>
+<th style="text-align: right;">ort_yasam</th>
+<th style="text-align: right;">n_ulke</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Oceania</td>
+<td style="text-align: right;">80.7</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Europe</td>
+<td style="text-align: right;">77.6</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Americas</td>
+<td style="text-align: right;">73.6</td>
+<td style="text-align: right;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Asia</td>
+<td style="text-align: right;">70.7</td>
+<td style="text-align: right;">33</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">54.8</td>
+<td style="text-align: right;">52</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="zincirleme-beş-fiil-bir-soru" class="slide level2">
+<h2>Zincirleme: Beş Fiil, Bir Soru</h2>
+<div>
+<p><strong>Soru:</strong> 2007’de, nüfusu 10 milyonun üstünde olan Asya ülkeleri arasında yaşam beklentisi en yüksek 5 ülke?</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>, continent <span class="sc">==</span> <span class="st">"Asia"</span>, pop <span class="sc">&gt;</span> <span class="fl">10e6</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(lifeExp)) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, lifeExp) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: right;">lifeExp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Japan</td>
+<td style="text-align: right;">82.603</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Korea, Rep.</td>
+<td style="text-align: right;">78.623</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Taiwan</td>
+<td style="text-align: right;">78.400</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vietnam</td>
+<td style="text-align: right;">74.249</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Malaysia</td>
+<td style="text-align: right;">74.241</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="düzenli-tidy-veri" class="title-slide slide level1 center">
+<h1>Düzenli (Tidy) Veri</h1>
+
+</section>
+<section id="üç-kural" class="slide level2">
+<h2>Üç Kural</h2>
+<div>
+<ol type="1">
+<li class="fragment">Her <strong>değişken</strong> → kendi sütunu</li>
+<li class="fragment">Her <strong>gözlem</strong> → kendi satırı</li>
+<li class="fragment">Her <strong>değer</strong> → kendi hücresi</li>
+</ol>
+</div>
+<div class="fragment">
+<p><code>gapminder</code> zaten düzenli. Ama ham veri <strong>çoğu zaman değildir.</strong></p>
+</div>
+</section>
+<section id="sorun-yıllar-sütunlarda" class="slide level2">
+<h2>Sorun: Yıllar Sütunlarda</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a>genis <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">4</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: left;">continent</th>
+<th style="text-align: right;">1952</th>
+<th style="text-align: right;">1957</th>
+<th style="text-align: right;">1962</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Algeria</td>
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">43.077</td>
+<td style="text-align: right;">45.685</td>
+<td style="text-align: right;">48.303</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Angola</td>
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">30.015</td>
+<td style="text-align: right;">31.999</td>
+<td style="text-align: right;">34.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Benin</td>
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">38.223</td>
+<td style="text-align: right;">40.358</td>
+<td style="text-align: right;">42.618</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Botswana</td>
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">47.622</td>
+<td style="text-align: right;">49.618</td>
+<td style="text-align: right;">51.520</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Gapminder Vakfı’nın ham dosyaları tam olarak böyle gelir — <code>filter(year == 1997)</code> burada <strong>çalışmaz</strong>.</p>
+</section>
+<section id="pivot_longer-genişten-uzuna" class="slide level2">
+<h2><code>pivot_longer()</code>: Genişten Uzuna</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>uzun <span class="ot">&lt;-</span> genis <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="st">`</span><span class="at">1952</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">2007</span><span class="st">`</span>, <span class="at">names_to =</span> <span class="st">"yil"</span>, <span class="at">values_to =</span> <span class="st">"yasam"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yil =</span> <span class="fu">as.integer</span>(yil))</span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>uzun <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">4</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: left;">continent</th>
+<th style="text-align: right;">yil</th>
+<th style="text-align: right;">yasam</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Algeria</td>
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">1952</td>
+<td style="text-align: right;">43.077</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Algeria</td>
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">1957</td>
+<td style="text-align: right;">45.685</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Algeria</td>
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">1962</td>
+<td style="text-align: right;">48.303</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Algeria</td>
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">1967</td>
+<td style="text-align: right;">51.407</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p><code>142</code> satır → 1704 satır.</p>
+</section>
+<section id="pivot_wider-uzundan-genişe-rapor-için" class="slide level2">
+<h2><code>pivot_wider()</code>: Uzundan Genişe (Rapor İçin)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1987</span>, <span class="dv">1997</span>, <span class="dv">2007</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(continent, year) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">ort =</span> <span class="fu">round</span>(<span class="fu">mean</span>(lifeExp), <span class="dv">1</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> ort)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">continent</th>
+<th style="text-align: right;">1987</th>
+<th style="text-align: right;">1997</th>
+<th style="text-align: right;">2007</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Africa</td>
+<td style="text-align: right;">53.3</td>
+<td style="text-align: right;">53.6</td>
+<td style="text-align: right;">54.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Americas</td>
+<td style="text-align: right;">68.1</td>
+<td style="text-align: right;">71.2</td>
+<td style="text-align: right;">73.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Asia</td>
+<td style="text-align: right;">64.9</td>
+<td style="text-align: right;">68.0</td>
+<td style="text-align: right;">70.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Europe</td>
+<td style="text-align: right;">73.6</td>
+<td style="text-align: right;">75.5</td>
+<td style="text-align: right;">77.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Oceania</td>
+<td style="text-align: right;">75.3</td>
+<td style="text-align: right;">78.2</td>
+<td style="text-align: right;">80.7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="kural" class="slide level2">
+<h2>Kural</h2>
+<div>
+<ul>
+<li class="fragment"><strong>Analiz için</strong> → uzun format</li>
+<li class="fragment"><strong>Sunum/rapor için</strong> → geniş format</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="ilişkisel-veri-joinler" class="title-slide slide level1 center">
+<h1>İlişkisel Veri: Join’ler</h1>
+
+</section>
+<section id="neden-ikinci-bir-tabloya-ihtiyacımız-var" class="slide level2">
+<h2>Neden İkinci Bir Tabloya İhtiyacımız Var?</h2>
+<div>
+<ul>
+<li class="fragment"><code>gapminder</code> bir ülkenin hangi örgüte üye olduğunu <strong>söylemez</strong>.</li>
+<li class="fragment">Cevap için ikinci bir tablo gerekir: <code>orgut_uyelikleri.csv</code></li>
+</ul>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>orgutler</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">orgut_kodu</th>
+<th style="text-align: left;">orgut_adi</th>
+<th style="text-align: right;">kurulus_yili</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">AB</td>
+<td style="text-align: left;">Avrupa Birliği</td>
+<td style="text-align: right;">1993</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NATO</td>
+<td style="text-align: left;">Kuzey Atlantik Antlaşması Örgütü</td>
+<td style="text-align: right;">1949</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ASEAN</td>
+<td style="text-align: left;">Güneydoğu Asya Uluslar Birliği</td>
+<td style="text-align: right;">1967</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MERCOSUR</td>
+<td style="text-align: left;">Güney Ortak Pazarı</td>
+<td style="text-align: right;">1991</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="join-türleri" class="slide level2">
+<h2>Join Türleri</h2>
+
+<img data-src="images/joins.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+<section id="inner_join-sadece-eşleşenler" class="slide level2">
+<h2><code>inner_join()</code>: Sadece Eşleşenler</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>gm2007 <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(uyelikler, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"country"</span> <span class="ot">=</span> <span class="st">"ulke"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(orgutler, <span class="at">by =</span> <span class="st">"orgut_kodu"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, orgut_adi, gdpPercap) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: left;">orgut_adi</th>
+<th style="text-align: right;">gdpPercap</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Albania</td>
+<td style="text-align: left;">Kuzey Atlantik Antlaşması Örgütü</td>
+<td style="text-align: right;">5937.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Argentina</td>
+<td style="text-align: left;">Güney Ortak Pazarı</td>
+<td style="text-align: right;">12779.38</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Austria</td>
+<td style="text-align: left;">Avrupa Birliği</td>
+<td style="text-align: right;">36126.49</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Belgium</td>
+<td style="text-align: left;">Avrupa Birliği</td>
+<td style="text-align: right;">33692.61</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Belgium</td>
+<td style="text-align: left;">Kuzey Atlantik Antlaşması Örgütü</td>
+<td style="text-align: right;">33692.61</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="anti_join-kapsamdaki-boşluklar" class="slide level2">
+<h2><code>anti_join()</code>: Kapsamdaki Boşluklar</h2>
+<p><strong>Soru:</strong> Avrupa’da hiçbir örgüte üye olmayan ülkeler?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a>gm2007 <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">==</span> <span class="st">"Europe"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(uyelikler, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"country"</span> <span class="ot">=</span> <span class="st">"ulke"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Bosnia and Herzegovina</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Serbia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Switzerland</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div>
+<p>İsviçre (tarafsızlık), Bosna-Hersek, Sırbistan — <strong>veri kapsamınızın sınırı, dünyanın sınırı değildir.</strong></p>
+</div>
+</section>
+<section id="hepsi-bir-arada" class="slide level2">
+<h2>Hepsi Bir Arada</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>gm2007 <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(uyelikler, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"country"</span> <span class="ot">=</span> <span class="st">"ulke"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(orgutler, <span class="at">by =</span> <span class="st">"orgut_kodu"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(orgut_adi) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">ort_gdp =</span> <span class="fu">round</span>(<span class="fu">mean</span>(gdpPercap)),</span>
+<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(ort_gdp))</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">orgut_adi</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">ort_gdp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Avrupa Birliği</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">26405</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kuzey Atlantik Antlaşması Örgütü</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">25902</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Güneydoğu Asya Uluslar Birliği</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9860</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Güney Ortak Pazarı</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">9157</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>⚠️ Fark var — ama bu tablo <strong>neden</strong> olduğunu söylemez.</p>
+</section>
+<section id="özet" class="slide level2">
+<h2>Özet</h2>
+<div>
+<ul>
+<li class="fragment"><code>select</code>, <code>filter</code>, <code>mutate</code>, <code>arrange</code>, <code>group_by</code>+<code>summarize</code></li>
+<li class="fragment"><code>|&gt;</code> ile zincirleme</li>
+<li class="fragment">Tidy verinin üç kuralı; <code>pivot_longer()</code> / <code>pivot_wider()</code></li>
+<li class="fragment"><code>inner_join()</code>, <code>left_join()</code>, <code>semi_join()</code>, <code>anti_join()</code></li>
+</ul>
+</div>
+</section>
+<section id="sırada-ne-var" class="slide level2">
+<h2>Sırada Ne Var?</h2>
+<p>Bu oturumla birlikte işlenen <strong>Quarto ile raporlama</strong> (<code>06_modul_ders_quarto.qmd</code>), ardından <strong>olasılık ve dağılımlar</strong>.</p>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="05_modul_sunum_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="05_modul_sunum_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Kopyalandı");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Kopyalandı");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

@@ -1,0 +1,253 @@
+---
+title: "Modül 05: Veri İşleme — dplyr ve tidyr"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    toc: true
+    toc-depth: 2
+    incremental: true
+    code-overflow: scroll
+    code-line-numbers: false
+    transition: fade
+    math: mathjax
+editor: visual
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    fig.width: 8
+    fig.height: 4.2
+    dpi: 110
+---
+
+```{r}
+#| include: false
+library(dplyr)
+library(tidyr)
+library(gapminder)
+library(readr)
+library(here)
+
+gm2007 <- gapminder |> filter(year == 2007)
+orgutler <- read_csv(here("data", "orgutler.csv"))
+uyelikler <- read_csv(here("data", "orgut_uyelikleri.csv"))
+genis <- read_csv(here("data", "gapminder_genis_yasam_beklentisi.csv"))
+```
+
+## 🎯 Öğrenme Hedefleri
+
+Bu oturumun sonunda:
+
+-   `dplyr`'ın beş temel fiilini (`select`, `filter`, `mutate`,
+    `arrange`, `summarize`) kullanabileceksiniz
+-   Fiilleri `|>` ile zincirleyerek çok adımlı sorular
+    kurabileceksiniz
+-   Düzenli (tidy) verinin üç kuralını tanıyacaksınız
+-   `pivot_longer()`/`pivot_wider()` ile format dönüştürebileceksiniz
+-   `inner_join()`, `left_join()`, `semi_join()`, `anti_join()` ile
+    birden çok tabloyu birleştirebileceksiniz
+
+## Neden Bir Dilbilgisine İhtiyacımız Var?
+
+::: incremental
+-   Bir analistin zamanının çoğu **veri hazırlamaya** gider.
+-   `dplyr`: az sayıda **fiil**, `|>` ile zincirlenir.
+-   `ggplot2`'yi zaten biliyorsunuz — mantık aynı: küçük parçalar,
+    büyük ifade gücü.
+:::
+
+# Veri: `gapminder`
+
+## Panel Veri
+
+```{r}
+glimpse(gapminder)
+```
+
+::: incremental
+-   142 ülke × 12 yıl (1952–2007)
+-   Hem **yatay kesit** (ülkeler arası) hem **boylamsal** (zaman içi)
+    karşılaştırma
+:::
+
+# `dplyr` Fiilleri
+
+## `select()` ve `filter()`
+
+```{r}
+gapminder |>
+  filter(continent == "Europe", year == 1997, lifeExp > 75) |>
+  select(country, lifeExp) |>
+  arrange(desc(lifeExp)) |>
+  head(5)
+```
+
+## `mutate()`
+
+```{r}
+gapminder |>
+  filter(year == 2007, country == "Turkey") |>
+  mutate(toplam_gsyih_milyar = gdpPercap * pop / 1e9) |>
+  select(country, gdpPercap, pop, toplam_gsyih_milyar)
+```
+
+## `group_by()` + `summarize()`
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarise(ort_yasam = round(mean(lifeExp), 1), n_ulke = n()) |>
+  arrange(desc(ort_yasam))
+```
+
+## Zincirleme: Beş Fiil, Bir Soru
+
+::: incremental
+**Soru:** 2007'de, nüfusu 10 milyonun üstünde olan Asya ülkeleri
+arasında yaşam beklentisi en yüksek 5 ülke?
+:::
+
+```{r}
+gapminder |>
+  filter(year == 2007, continent == "Asia", pop > 10e6) |>
+  arrange(desc(lifeExp)) |>
+  select(country, lifeExp) |>
+  head(5)
+```
+
+# Düzenli (Tidy) Veri
+
+## Üç Kural
+
+::: incremental
+1.  Her **değişken** → kendi sütunu
+2.  Her **gözlem** → kendi satırı
+3.  Her **değer** → kendi hücresi
+:::
+
+. . .
+
+`gapminder` zaten düzenli. Ama ham veri **çoğu zaman değildir.**
+
+## Sorun: Yıllar Sütunlarda
+
+```{r}
+genis |> select(1:5) |> head(4)
+```
+
+Gapminder Vakfı'nın ham dosyaları tam olarak böyle gelir —
+`filter(year == 1997)` burada **çalışmaz**.
+
+## `pivot_longer()`: Genişten Uzuna
+
+```{r}
+uzun <- genis |>
+  pivot_longer(`1952`:`2007`, names_to = "yil", values_to = "yasam") |>
+  mutate(yil = as.integer(yil))
+
+uzun |> head(4)
+```
+
+`142` satır → `r nrow(uzun)` satır.
+
+## `pivot_wider()`: Uzundan Genişe (Rapor İçin)
+
+```{r}
+gapminder |>
+  filter(year %in% c(1987, 1997, 2007)) |>
+  group_by(continent, year) |>
+  summarise(ort = round(mean(lifeExp), 1), .groups = "drop") |>
+  pivot_wider(names_from = year, values_from = ort)
+```
+
+## Kural
+
+::: incremental
+-   **Analiz için** → uzun format
+-   **Sunum/rapor için** → geniş format
+:::
+
+# İlişkisel Veri: Join'ler
+
+## Neden İkinci Bir Tabloya İhtiyacımız Var?
+
+::: incremental
+-   `gapminder` bir ülkenin hangi örgüte üye olduğunu **söylemez**.
+-   Cevap için ikinci bir tablo gerekir: `orgut_uyelikleri.csv`
+:::
+
+```{r}
+orgutler
+```
+
+## Join Türleri
+
+```{r}
+#| echo: false
+#| out-width: "70%"
+#| fig-align: center
+knitr::include_graphics(here("05_modul", "images", "joins.png"))
+```
+
+## `inner_join()`: Sadece Eşleşenler
+
+```{r}
+gm2007 |>
+  inner_join(uyelikler, by = c("country" = "ulke")) |>
+  left_join(orgutler, by = "orgut_kodu") |>
+  select(country, orgut_adi, gdpPercap) |>
+  head(5)
+```
+
+## `anti_join()`: Kapsamdaki Boşluklar
+
+**Soru:** Avrupa'da hiçbir örgüte üye olmayan ülkeler?
+
+```{r}
+gm2007 |>
+  filter(continent == "Europe") |>
+  anti_join(uyelikler, by = c("country" = "ulke")) |>
+  select(country)
+```
+
+::: incremental
+İsviçre (tarafsızlık), Bosna-Hersek, Sırbistan — **veri kapsamınızın
+sınırı, dünyanın sınırı değildir.**
+:::
+
+## Hepsi Bir Arada
+
+```{r}
+gm2007 |>
+  inner_join(uyelikler, by = c("country" = "ulke")) |>
+  left_join(orgutler, by = "orgut_kodu") |>
+  group_by(orgut_adi) |>
+  summarise(n = n(), ort_gdp = round(mean(gdpPercap)),
+            .groups = "drop") |>
+  arrange(desc(ort_gdp))
+```
+
+⚠️ Fark var — ama bu tablo **neden** olduğunu söylemez.
+
+## Özet
+
+::: incremental
+-   `select`, `filter`, `mutate`, `arrange`, `group_by`+`summarize`
+-   `|>` ile zincirleme
+-   Tidy verinin üç kuralı; `pivot_longer()` / `pivot_wider()`
+-   `inner_join()`, `left_join()`, `semi_join()`, `anti_join()`
+:::
+
+## Sırada Ne Var?
+
+Bu oturumla birlikte işlenen **Quarto ile raporlama**
+(`06_modul_ders_quarto.qmd`), ardından **olasılık ve dağılımlar**.
