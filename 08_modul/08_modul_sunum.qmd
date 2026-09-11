@@ -175,7 +175,7 @@ dbinom(x = 5, size = 10, prob = 0.5)
 **Solda kalan kümülatif alan**, $P(X \le x)$:
 
 ```{r}
-pnorm(1.96)                       # ~0.975
+pnorm(1.96)                       # solundaki kümülatif alan
 pbinom(3, size = 10, prob = 0.5)  # en fazla 3 başarı
 ```
 

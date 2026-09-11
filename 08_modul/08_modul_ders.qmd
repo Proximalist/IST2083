@@ -13,6 +13,12 @@ execute:
 df-print: kable
 ---
 
+```{r}
+#| label: setup
+#| include: false
+library(ggplot2)
+```
+
 ### **Rastgele Değişkenler ve Olasılık Dağılımları**
 
 Sayısal değişkenlerden bahsettiğimizde, aslında rastgele bir olayın sayısal bir özetini ifade eden bir **rastgele değişkenden** söz ederiz.
@@ -99,11 +105,21 @@ $$
 
     -   **Binom Dağılımı:** Örneğin, bir ürünü üreten makinenin belirli bir üretim partisindeki kusurlu ürün sayısını modellemek.
 
-    ![](images/binom.png)
+```{r}
+#| label: fig-binom
+#| fig-cap: "Binom dağılımı (n=10, p=0.5)"
+n_deneme <- 10
+p_basari <- 0.5
+olasiliklar_binom <- dbinom(0:n_deneme, size = n_deneme, prob = p_basari)
 
-Grafik, 10 denemeli $(n=10)$ ve başarı olasılığı 0.5 $(p=0.5)$ olan bir binom dağılımını gösterir.
+ggplot(data.frame(k = 0:n_deneme, p = olasiliklar_binom), aes(k, p)) +
+  geom_col(fill = "#2E6E8E") +
+  scale_x_continuous(breaks = 0:n_deneme) +
+  labs(x = "Başarı sayısı (k)", y = "P(X = k)") +
+  theme_minimal()
+```
 
-Çubuklar, belirli bir başarı sayısının olasılığını temsil eder.
+Çubuklar, 10 bağımsız denemede ($n=10$, $p=0.5$) belirli bir başarı sayısının olasılığını temsil eder.
 
 #### **Binom Dağılımının Ana Özellikleri:**
 
@@ -119,11 +135,35 @@ Grafik, 10 denemeli $(n=10)$ ve başarı olasılığı 0.5 $(p=0.5)$ olan bir bi
 
 -   **Poisson Dağılımı:** Belirli bir zamanda bir mağazaya gelen müşteri sayısını modellemek.
 
-![](images/poison.png)
+```{r}
+#| label: fig-poisson
+#| fig-cap: "Poisson dağılımı ($\mu=3$)"
+mu_poisson <- 3
+k_poisson <- 0:14
+olasiliklar_poisson <- dpois(k_poisson, lambda = mu_poisson)
 
-Grafik, ortalaması $(\mu=3)$ olan bir Poisson dağılımını temsil eder.
+ggplot(data.frame(k = k_poisson, p = olasiliklar_poisson), aes(k, p)) +
+  geom_col(fill = "#2E8B6E") +
+  scale_x_continuous(breaks = k_poisson) +
+  labs(x = "Olay sayısı (k)", y = "P(X = k)") +
+  theme_minimal()
+```
 
 Çubuklar, belirli bir olay sayısının (örneğin, bir saatte mağazaya gelen müşteri sayısı) gerçekleşme olasılığını gösterir.
+
+::: callout-note
+## Siyaset biliminde Poisson: Nadir Olaylar (Rare Events)
+
+Poisson dağılımı siyaset bilimi ve uluslararası ilişkilerde en çok
+**nadir olay** modellemesinde kullanılır: bir yılda patlak veren iç
+savaş sayısı, bir ayda gerçekleşen terör saldırısı sayısı veya bir
+yasama döneminde veto edilen yasa sayısı gibi. Bu değişkenler
+**sayılabilir** (0, 1, 2, ...), tam sayıdır ve belirli bir zaman
+aralığında **nadiren** gerçekleşir — tam olarak Poisson'un aradığı
+koşullar. Bu tür olayları açıklayan regresyon modellerine **Poisson
+regresyonu** (ve aşırı yayılım varsa türevi olan **Negatif Binom
+regresyonu**) denir.
+:::
 
 #### **Poisson Dağılımının Ana Özellikleri:**
 
@@ -143,11 +183,32 @@ Grafik, ortalaması $(\mu=3)$ olan bir Poisson dağılımını temsil eder.
 
 -   **Normal Dağılım:** Örneğin, bir popülasyondaki bireylerin boy uzunluklarını modellemek.
 
-![](images/normal.png)
-
-Grafik, ortalama $(\mu=0)$ ve standart sapması $(\sigma=1)$ olan standart normal dağılımın yoğunluk fonksiyonunu (PDF) gösterir.
+```{r}
+#| label: fig-normal
+#| fig-cap: "Standart normal dağılım ($\mu=0$, $\sigma=1$)"
+ggplot(data.frame(x = c(-4, 4)), aes(x)) +
+  stat_function(fun = dnorm, color = "#2E4E8E", linewidth = 1) +
+  labs(x = "Değer", y = "Yoğunluk") +
+  theme_minimal()
+```
 
 Çizgi, sürekli verilerin simetrik bir şekilde dağıldığı çan şeklini temsil eder.
+
+::: callout-warning
+## Sosyal bilimlerde değişkenler nadiren normal dağılır
+
+Boy, kilo gibi biyolojik ölçümler genellikle normal dağılır. Ancak
+sosyal bilimlerdeki insan davranışları ve kurumlar — gelir dağılımı,
+ülke nüfusları, savaş ölümleri — çoğunlukla **sağa çarpık**tır ve
+normal dağılmaz.
+
+Modül 07'de gördüğümüz **Merkezi Limit Teoremi'nin (CLT)** bizim için
+bu kadar önemli olmasının sebebi tam olarak budur: değişkenin kendisi
+normal dağılmasa bile, o değişkenin **örneklem ortalaması** (örneklem
+büyüdükçe) normal dağılıma yakınsar. Hipotez testi ve güven aralığı
+hesaplarının çoğu, tekil gözlemin değil, bu örneklem ortalamasının
+normalliğine dayanır.
+:::
 
 #### **Normal Dağılımın Ana Özellikleri:**
 
@@ -161,9 +222,14 @@ Grafik, ortalama $(\mu=0)$ ve standart sapması $(\sigma=1)$ olan standart norma
 
 -   **Üstel Dağılım:** Belirli bir cihazın arızalanma süresini modellemek.
 
-![](images/ustsel.png)
-
-Grafik, ölçek parametresi $(\lambda^{-1} = 1)$ olan üstel dağılımın yoğunluk fonksiyonunu (PDF) gösterir.
+```{r}
+#| label: fig-ustel
+#| fig-cap: "Üstel dağılım ($1/\lambda=1$)"
+ggplot(data.frame(x = c(0, 4)), aes(x)) +
+  stat_function(fun = dexp, args = list(rate = 1), color = "#C97A2B", linewidth = 1) +
+  labs(x = "Süre", y = "Yoğunluk") +
+  theme_minimal()
+```
 
 Çizgi, olaylar arasındaki süreyi modellemek için kullanılan bu dağılımın negatif eğimli olduğunu gösterir.
 
@@ -264,22 +330,32 @@ Bu fonksiyon, dağılımın **yüksekliğini** (olasılık yoğunluğunu) verir.
 
 ```{r}
 dnorm(0)
-# Sonuç: 0.3989 (Çan eğrisinin en yüksek noktası)
 ```
+
+Çıktı, çan eğrisinin en yüksek noktasındaki değeri verir — tek başına bir olasılık değildir, eğrinin şeklini oluşturan bir yoğunluk değeridir.
 
 Örnek (Binom Dağılımı) — bir madeni parayı 10 kere attığımda, tam olarak 5 kere tura gelme olasılığı nedir?
 
 ```{r}
 dbinom(x = 5, size = 10, prob = 0.5)
-# Sonuç: 0.246 (Tam olarak 5 tura gelme ihtimali %24.6)
 ```
 
-![](images/yogunlukfonk.png)
+```{r}
+#| label: fig-yogunluk
+#| fig-cap: "Standart normal dağılımda $P(-1 \le X \le 1)$"
+ggplot(data.frame(x = c(-4, 4)), aes(x)) +
+  stat_function(fun = dnorm, geom = "line", color = "#1F4EBF", linewidth = 1) +
+  stat_function(fun = dnorm, xlim = c(-1, 1), geom = "area",
+                 fill = "#B9D6EA", alpha = 0.8) +
+  geom_vline(xintercept = c(-1, 1), linetype = "dashed", color = "firebrick") +
+  labs(x = "X Değerleri", y = "Yoğunluk") +
+  theme_minimal()
+```
 
-Grafikte, standart normal dağılım $(\mu=0,\sigma=1)$ gösterilmektedir. Kırmızı kesik çizgiler $x=-1$'i temsil ederken, mavi gölgeli alan $P(-1\le X\le1)$ kümülatif olasılığını ifade etmektedir. Bu alan, iki değer arasındaki olasılığın `p` fonksiyonlarının farkı alınarak da hesaplanabileceğini gösterir:
+Kırmızı kesik çizgiler $x=-1$ ve $x=1$'i temsil ederken, mavi gölgeli alan $P(-1\le X\le1)$ kümülatif olasılığını ifade etmektedir. Bu alan, iki değer arasındaki olasılığın `p` fonksiyonlarının farkı alınarak da hesaplanabileceğini gösterir:
 
 ```{r}
-pnorm(1, mean = 0, sd = 1) - pnorm(-1, mean = 0, sd = 1)  # -1 ile 1 arasındaki olasılık
+pnorm(1, mean = 0, sd = 1) - pnorm(-1, mean = 0, sd = 1)
 ```
 
 ------------------------------------------------------------------------
@@ -292,19 +368,36 @@ Bu fonksiyon, **eğrinin sol tarafında kalan alanı** verir: $P(X \le x)$. Bir 
 
 ```{r}
 pnorm(1.96)
-# Sonuç: ~0.975
 ```
 
 Örnek (Binom Dağılımı) — 10 denemede en fazla 3 başarı elde etme olasılığı nedir?
 
 ```{r}
 pbinom(3, size = 10, prob = 0.5)
-# Sonuç: en fazla 3 başarı olasılığı
 ```
 
-![](images/kumulatif.png)
+```{r}
+#| label: fig-kumulatif
+#| fig-cap: "Kümülatif olasılık: $P(X \le 1)$"
+ggplot(data.frame(x = c(-4, 4)), aes(x)) +
+  stat_function(fun = dnorm, geom = "line", color = "#1F4EBF", linewidth = 1) +
+  stat_function(fun = dnorm, xlim = c(-4, 1), geom = "area",
+                 fill = "#B9D6EA", alpha = 0.8) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "firebrick") +
+  labs(x = "X Değerleri", y = "Yoğunluk") +
+  theme_minimal()
+```
 
-Grafikte, standart normal dağılım $(\mu=0,\sigma=1)$ gösterilmektedir. Kırmızı kesik çizgi $x=1$'i temsil ederken, mavi gölgeli alan $P(X\le1)$ kümülatif olasılığını göstermektedir.
+Kırmızı kesik çizgi $x=1$'i temsil ederken, mavi gölgeli alan $P(X\le1)$ kümülatif olasılığını göstermektedir.
+
+::: callout-note
+## İleriye bakış: p-değeri
+
+Bir sonraki modülde göreceğimiz ünlü **p-değeri (p-value)**, aslında
+tam olarak bu `p` fonksiyonunun (örneğin `pt` veya `pnorm`) hesapladığı
+sol veya sağ kuyruk alanıdır — "bulduğum bu sonucun şans eseri olma
+olasılığı nedir?" sorusunun cevabı.
+:::
 
 ------------------------------------------------------------------------
 
@@ -316,19 +409,40 @@ Bu fonksiyon, `p` fonksiyonunun **tam tersidir** (Ters Kümülatif Dağılım Fo
 
 ```{r}
 qnorm(0.90, mean = 60, sd = 10)
-# Sonuç: ~72.8 (72.8'den yüksek alırsan ilk %10'dasın)
 ```
 
 Örnek (Binom Dağılımı) — 10 denemede %95'lik dilimde kaç başarı olabileceğini bulmak:
 
 ```{r}
 qbinom(0.95, size = 10, prob = 0.5)
-# Sonuç: %95 yüzdelik başarı sayısı
 ```
 
-![](images/kumulatif2.png)
+```{r}
+#| label: fig-yuzdelik
+#| fig-cap: "Standart normal dağılım: %95 yüzdelik değer"
+esik_95 <- qnorm(0.95)
+ggplot(data.frame(x = c(-4, 4)), aes(x)) +
+  stat_function(fun = dnorm, geom = "line", color = "#1F4EBF", linewidth = 1) +
+  stat_function(fun = dnorm, xlim = c(-4, esik_95), geom = "area",
+                 fill = "#B9D6EA", alpha = 0.8) +
+  geom_vline(xintercept = esik_95, linetype = "dashed", color = "firebrick") +
+  labs(x = "X Değerleri", y = "Yoğunluk") +
+  theme_minimal()
+```
 
-Grafikte, standart normal dağılım $(\mu=0,\sigma=1)$ ve %95 yüzdelik değeri gösterilmektedir. Kırmızı kesik çizgi x değerinin %95'lik dilime denk geldiği noktayı işaret eder $(x\approx1.645)$. Mavi gölgeli alan, bu değerin altında kalan toplam olasılığı temsil eder $(P(X\le1.645)=0.95)$.
+Kırmızı kesik çizgi x değerinin %95'lik dilime denk geldiği noktayı işaret eder $(x\approx1.645)$. Mavi gölgeli alan, bu değerin altında kalan toplam olasılığı temsil eder $(P(X\le1.645)=0.95)$.
+
+::: callout-note
+## İleriye bakış: güven aralığı
+
+Makalelerde sıkça gördüğünüz **%95 Güven Aralığı** hesaplamalarında,
+aralığın sınırlarını belirleyen sihirli sayı (1.96) doğrudan bu `q`
+fonksiyonuyla bulunur:
+
+```{r}
+qnorm(0.975)
+```
+:::
 
 ------------------------------------------------------------------------
 
