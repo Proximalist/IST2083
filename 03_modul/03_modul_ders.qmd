@@ -34,24 +34,24 @@ set.seed(2083)  # geom_jitter() her render'da aynı sonucu versin
 
 Bu oturumun sonunda:
 
--   Bir grafiğin neden özet istatistiklerin göremediği şeyleri gösterdiğini bir örnekle açıklarsınız.
--   Bir `ggplot2` kodunu **katman katman** okuyabilir; veri, eşleme ve geom katmanlarını ayırt edersiniz.
--   Bir görsel özelliğin **veriye eşlenmesi** (`aes()` içinde) ile **sabit olarak ayarlanması** (`aes()` dışında) arasındaki farkı bilir, bu farktan doğan hataları tanırsınız.
--   Değişkenlerin türüne göre uygun grafiği seçersiniz: tek sayısal, tek kategorik, iki sayısal, sayısal × kategorik, kategorik × kategorik ve zaman.
--   Log ölçeğin ne zaman gerektiğini, fasetin ne zaman renkten iyi olduğunu ve üçüncü bir değişkenin bir ilişkiyi nasıl tersine çevirebileceğini gösterirsiniz.
--   Bir grafiği başkası için hazırlarsınız: başlık, eksen adı, kaynak künyesi, renk körlüğüne uygun palet ve dosyaya kaydetme.
+- Bir grafiğin neden özet istatistiklerin göremediği şeyleri gösterdiğini bir örnekle açıklarsınız.
+- Bir `ggplot2` kodunu **katman katman** okuyabilir; veri, eşleme ve geom katmanlarını ayırt edersiniz.
+- Bir görsel özelliğin **veriye eşlenmesi** (`aes()` içinde) ile **sabit olarak ayarlanması** (`aes()` dışında) arasındaki farkı bilir, bu farktan doğan hataları tanırsınız.
+- Değişkenlerin türüne göre uygun grafiği seçersiniz: tek sayısal, tek kategorik, iki sayısal, sayısal × kategorik, kategorik × kategorik ve zaman.
+- Log ölçeğin ne zaman gerektiğini, fasetin ne zaman renkten iyi olduğunu ve üçüncü bir değişkenin bir ilişkiyi nasıl tersine çevirebileceğini gösterirsiniz.
+- Bir grafiği başkası için hazırlarsınız: başlık, eksen adı, kaynak künyesi, renk körlüğüne uygun palet ve dosyaya kaydetme.
 
 ::: callout-note
 ## Bu belge neyi bildiğinizi varsayıyor?
 
-3. oturumda `dplyr` ile gördüğünüz `filter()`, `mutate()`, `count()`, `group_by()` + `summarise()` fiillerini ve `|>` borusunu (pipe) bildiğinizi varsayıyoruz. Bu belgedeki veri hazırlama adımlarının hepsi bu fiillerle yazılmıştır; yeni bir veri işleme fonksiyonu öğretilmez.
+3.  oturumda `dplyr` ile gördüğünüz `filter()`, `mutate()`, `count()`, `group_by()` + `summarise()` fiillerini ve `|>` borusunu (pipe) bildiğinizi varsayıyoruz. Bu belgedeki veri hazırlama adımlarının hepsi bu fiillerle yazılmıştır; yeni bir veri işleme fonksiyonu öğretilmez.
 :::
 
 ------------------------------------------------------------------------
 
 # 1. Neden Veriye Bakmalıyız?
 
-1. oturumda aynı iki sayıyı (%38 ve %41) iki farklı eksenle çizmiş ve birinin "baş başa bir yarış", ötekinin "ezici bir fark" gibi göründüğünü görmüştük. O örnek, grafiğin **yanıltabileceğini** gösteriyordu. Bu bölüm tersini gösteriyor: grafiğe bakmamak da yanıltır.
+1.  oturumda aynı iki sayıyı (%38 ve %41) iki farklı eksenle çizmiş ve birinin "baş başa bir yarış", ötekinin "ezici bir fark" gibi göründüğünü görmüştük. O örnek, grafiğin **yanıltabileceğini** gösteriyordu. Bu bölüm tersini gösteriyor: grafiğe bakmamak da yanıltır.
 
 İstatistikçi Francis Anscombe 1973'te dört küçük veri seti yayımladı. Her birinde 11 gözlem ve iki değişken ($x$, $y$) vardır. R bu veriyi `anscombe` adıyla hazır getirir. Önce dört seti uzun biçimde tek bir tabloya toplayalım, sonra her grubun özet istatistiklerine bakalım:
 
@@ -151,9 +151,9 @@ ggplot(data = <VERİ>, mapping = aes(<EŞLEMELER>)) +
   <GEOM_FONKSİYONU>()
 ```
 
--   **Veri:** Bir veri çerçevesi. Her satır bir gözlemdir. Grafiği çizmeden önce sormanız gereken ilk soru şudur: **bir satır neyi temsil ediyor?** Bir ülkeyi mi, bir ülke-yılı mı, bir seçmeni mi?
--   **Eşleme** (*aesthetic mapping*): Veri çerçevesindeki hangi sütunun grafikteki hangi görsel özelliğe (yatay konum, dikey konum, renk, boyut, şekil) gideceğini söyler. `aes()` fonksiyonunun içine yazılır.
--   **Geom** (*geometric object*): Verinin hangi şekille çizileceğini söyler: nokta (`geom_point`), çubuk (`geom_col`, `geom_bar`), çizgi (`geom_line`), kutu (`geom_boxplot`).
+- **Veri:** Bir veri çerçevesi. Her satır bir gözlemdir. Grafiği çizmeden önce sormanız gereken ilk soru şudur: **bir satır neyi temsil ediyor?** Bir ülkeyi mi, bir ülke-yılı mı, bir seçmeni mi?
+- **Eşleme** (*aesthetic mapping*): Veri çerçevesindeki hangi sütunun grafikteki hangi görsel özelliğe (yatay konum, dikey konum, renk, boyut, şekil) gideceğini söyler. `aes()` fonksiyonunun içine yazılır.
+- **Geom** (*geometric object*): Verinin hangi şekille çizileceğini söyler: nokta (`geom_point`), çubuk (`geom_col`, `geom_bar`), çizgi (`geom_line`), kutu (`geom_boxplot`).
 
 Katmanlar `+` işaretiyle eklenir. **`+` her zaman satırın sonunda durur**, bir sonraki satırın başında değil. R, satır sonunda `+` görürse ifadenin devam ettiğini anlar; görmezse ifadeyi orada bitirir.
 
@@ -199,8 +199,8 @@ Bu bölüm oturumun en önemli bölümüdür; ggplot2'de yapılan hataların bü
 
 Bir görsel özelliği (örneğin rengi) iki farklı biçimde verebilirsiniz:
 
--   **Eşleme** — rengin **veriye göre değişmesini** istiyorsanız, sütun adını `aes()` **içine** yazarsınız. ggplot2 her kategoriye bir renk atar ve bir **lejant** (açıklama kutusu) ekler.
--   **Sabit ayar** — tüm noktaların **aynı renkte** olmasını istiyorsanız, renk adını `aes()` **dışına**, geom fonksiyonunun argümanı olarak yazarsınız. Lejant oluşmaz, çünkü açıklanacak bir fark yoktur.
+- **Eşleme** — rengin **veriye göre değişmesini** istiyorsanız, sütun adını `aes()` **içine** yazarsınız. ggplot2 her kategoriye bir renk atar ve bir **lejant** (açıklama kutusu) ekler.
+- **Sabit ayar** — tüm noktaların **aynı renkte** olmasını istiyorsanız, renk adını `aes()` **dışına**, geom fonksiyonunun argümanı olarak yazarsınız. Lejant oluşmaz, çünkü açıklanacak bir fark yoktur.
 
 ```{r}
 #| layout-ncol: 2
@@ -253,7 +253,7 @@ Soldaki grafikte noktaların saydamlığı sizin istediğiniz 0,5 **değildir**:
 ## 3.2 Hangi özellik hangi tür değişkene?
 
 | Görsel özellik | `aes()` adı | Sayısal değişkenle | Kategorik değişkenle |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Yatay / dikey konum | `x`, `y` | Evet | Evet |
 | Renk (nokta, çizgi) | `color` | Evet — renk geçişi | Evet — ayrı renkler |
 | Dolgu rengi (çubuk, kutu, alan) | `fill` | Evet — renk geçişi | Evet — ayrı renkler |
@@ -328,10 +328,10 @@ ggplot(gapminder_2007, aes(x = lifeExp)) +
         axis.ticks.y = element_blank())
 ```
 
--   **Kutunun içindeki kalın çizgi:** Ortanca (medyan). Ülkelerin yarısı bu değerin altında, yarısı üstündedir.
--   **Kutunun kendisi:** Gözlemlerin **ortadaki yarısı**. Kutu ne kadar genişse, tipik ülkeler birbirinden o kadar farklıdır.
--   **Bıyıklar:** Kutunun iki ucundan, kutu uzunluğunun 1,5 katını aşmayan **en uç gözleme** kadar uzanır. Bıyık, bir en küçük ya da en büyük değer göstergesi değildir.
--   **Tek tek noktalar:** Bıyıkların ötesinde kalan gözlemler. Bunlar "aykırı değer adayı" olarak işaretlenir; hata oldukları anlamına gelmez, **bakılması gereken** gözlemler olduklarını söyler.
+- **Kutunun içindeki kalın çizgi:** Ortanca (medyan). Ülkelerin yarısı bu değerin altında, yarısı üstündedir.
+- **Kutunun kendisi:** Gözlemlerin **ortadaki yarısı**. Kutu ne kadar genişse, tipik ülkeler birbirinden o kadar farklıdır.
+- **Bıyıklar:** Kutunun iki ucundan, kutu uzunluğunun 1,5 katını aşmayan **en uç gözleme** kadar uzanır. Bıyık, bir en küçük ya da en büyük değer göstergesi değildir.
+- **Tek tek noktalar:** Bıyıkların ötesinde kalan gözlemler. Bunlar "aykırı değer adayı" olarak işaretlenir; hata oldukları anlamına gelmez, **bakılması gereken** gözlemler olduklarını söyler.
 
 Kutu grafiğinin önemli bir sınırı vardır: 4.1'deki iki gruplu yapıyı **hiç göstermez**. Kutu grafiği her dağılımı tek tepeli bir dağılım gibi özetler. Tek bir değişkene bakarken histogram daha çok şey söyler; kutu grafiğinin asıl gücü, 6. bölümde göreceğimiz gibi, **grupları yan yana karşılaştırmaktır.**
 
@@ -410,8 +410,8 @@ ggplot(gamson, aes(x = seat_share, y = portfolio_share)) +
 
 İki çare var:
 
--   **Saydamlık** (`alpha`): Her nokta yarı saydam çizilir; noktaların üst üste bindiği yerler daha koyu görünür. Yoğunluk görünür hâle gelir.
--   **Titreştirme** (`geom_jitter()`): Her noktaya küçük rastgele bir kaydırma eklenir, böylece çakışan noktalar birbirinden ayrılır. Bu, verinin kendisini **değiştirir**; bu yüzden kaydırma miktarını (`width`, `height`) küçük tutarsınız ve bunu yaptığınızı okuyucuya söylersiniz.
+- **Saydamlık** (`alpha`): Her nokta yarı saydam çizilir; noktaların üst üste bindiği yerler daha koyu görünür. Yoğunluk görünür hâle gelir.
+- **Titreştirme** (`geom_jitter()`): Her noktaya küçük rastgele bir kaydırma eklenir, böylece çakışan noktalar birbirinden ayrılır. Bu, verinin kendisini **değiştirir**; bu yüzden kaydırma miktarını (`width`, `height`) küçük tutarsınız ve bunu yaptığınızı okuyucuya söylersiniz.
 
 ## 5.3 Referans çizgisi: grafiği bir iddiaya karşı okumak
 
@@ -458,8 +458,8 @@ Histogramdaki sol yığılmanın büyük kısmı **Afrika**'dan geliyor: Afrika'
 
 Bu grafikte iki iyileştirme yapabiliriz:
 
--   **Kıtaları ortancaya göre sıralamak.** Kıtaların alfabetik sırası bir şey ifade etmez. `reorder(continent, lifeExp, FUN = median)` ifadesi kıtaları ortanca yaşam beklentisine göre dizer.
--   **Noktaları da göstermek.** Kutu grafiği her grubun kaç gözlemden oluştuğunu gizler. Okyanusya'nın kutusu yalnızca **iki ülkeden** (Avustralya ve Yeni Zelanda) hesaplanmıştır, ama diğer kutular kadar "sağlam" görünür. Noktaları kutunun üstüne titreştirerek eklemek bunu görünür kılar.
+- **Kıtaları ortancaya göre sıralamak.** Kıtaların alfabetik sırası bir şey ifade etmez. `reorder(continent, lifeExp, FUN = median)` ifadesi kıtaları ortanca yaşam beklentisine göre dizer.
+- **Noktaları da göstermek.** Kutu grafiği her grubun kaç gözlemden oluştuğunu gizler. Okyanusya'nın kutusu yalnızca **iki ülkeden** (Avustralya ve Yeni Zelanda) hesaplanmıştır, ama diğer kutular kadar "sağlam" görünür. Noktaları kutunun üstüne titreştirerek eklemek bunu görünür kılar.
 
 ```{r}
 ggplot(gapminder_2007,
@@ -515,9 +515,9 @@ p + geom_bar(position = "fill")  + labs(title = "fill",  x = "Oran")
 
 Bu kodda iki yeni şey var. Birincisi, kategorik değişkeni `x`'e değil `y`'ye verdik; böylece çubuklar **yatay** çizildi. Kategori adları uzun olduğunda yatay çubuklar etiketlerin üst üste binmesini önler. İkincisi, grafiğin ortak kısmını bir kez `p` adlı bir nesneye kaydettik, sonra ona üç farklı geom ekledik. Bir ggplot grafiği sıradan bir R nesnesidir; saklanabilir ve üzerine katman eklenebilir.
 
--   **`stack` (yığma, varsayılan):** Parçalar uç uca eklenir. Çubuğun toplam uzunluğu grubun büyüklüğünü gösterir. "Diğer" grubu açık ara en kalabalık grup; ama gruplar içindeki Kal/Ayrıl dengesini okumak zor, çünkü ikinci parçanın başlangıç noktası sıfırda değil.
--   **`dodge` (yan yana):** Parçalar yan yana konur. Her parçanın tabanı sıfırda olduğu için sayılar doğrudan karşılaştırılabilir. Ama gruplar farklı büyüklükte olduğu için "Diğer"deki 388 Ayrılcı ile UKIP'teki 127 Ayrılcıyı karşılaştırmak, oranlar hakkında yanıltıcı bir izlenim verir.
--   **`fill` (oran):** Her çubuk %100'e tamamlanır. Grup büyüklüğü bilgisi kaybolur, ama **grup içi oranlar** doğrudan okunur: UKIP/Brexit yakınları neredeyse tamamen Ayrıl, Muhafazakârların kabaca üçte ikisi Ayrıl, "Diğer" partililerin ise yaklaşık üçte ikisi Kal.
+- **`stack` (yığma, varsayılan):** Parçalar uç uca eklenir. Çubuğun toplam uzunluğu grubun büyüklüğünü gösterir. "Diğer" grubu açık ara en kalabalık grup; ama gruplar içindeki Kal/Ayrıl dengesini okumak zor, çünkü ikinci parçanın başlangıç noktası sıfırda değil.
+- **`dodge` (yan yana):** Parçalar yan yana konur. Her parçanın tabanı sıfırda olduğu için sayılar doğrudan karşılaştırılabilir. Ama gruplar farklı büyüklükte olduğu için "Diğer"deki 388 Ayrılcı ile UKIP'teki 127 Ayrılcıyı karşılaştırmak, oranlar hakkında yanıltıcı bir izlenim verir.
+- **`fill` (oran):** Her çubuk %100'e tamamlanır. Grup büyüklüğü bilgisi kaybolur, ama **grup içi oranlar** doğrudan okunur: UKIP/Brexit yakınları neredeyse tamamen Ayrıl, Muhafazakârların kabaca üçte ikisi Ayrıl, "Diğer" partililerin ise yaklaşık üçte ikisi Kal.
 
 Hangisinin doğru olduğu **sorunuza** bağlıdır. "Hangi grup daha kalabalık?" sorusu için `stack`; "gruplar içinde oy dağılımı nasıl farklılaşıyor?" sorusu için `fill`. Bir grafiği seçmeden önce, grafiğin cevaplayacağı soruyu tek cümleyle yazabilmelisiniz.
 
@@ -642,7 +642,7 @@ gapminder |>
 
 ## 9.1 Log ölçeği
 
-2. bölümdeki gelir–yaşam beklentisi grafiğine dönelim. Noktaların çoğu grafiğin sol kenarına sıkışmıştı. Nedeni kişi başı gelirin dağılımıdır:
+2.  bölümdeki gelir–yaşam beklentisi grafiğine dönelim. Noktaların çoğu grafiğin sol kenarına sıkışmıştı. Nedeni kişi başı gelirin dağılımıdır:
 
 ```{r}
 #| fig-height: 2.8
@@ -733,8 +733,8 @@ Tek bir satırın yeri değişti ve grafiğin söylediği şey değişti: ilk gr
 
 İki boyutlu bir grafiğe üçüncü bir değişkeni eklemenin iki temel yolu vardır:
 
--   **Renk (veya şekil, boyut):** Tüm gruplar aynı panelde kalır. Gruplar arası **doğrudan karşılaştırma** kolaydır, ama grup sayısı arttıkça ve noktalar üst üste bindikçe grafik okunmaz hâle gelir.
--   **Faset** (*small multiples*, küçük çoklular): Grafik, üçüncü değişkenin her kategorisi için ayrı bir panele bölünür. Her panel kendi başına okunaklıdır; `facet_wrap()` panelleri aynı eksen ölçeğiyle çizdiği için paneller arası karşılaştırma da mümkündür.
+- **Renk (veya şekil, boyut):** Tüm gruplar aynı panelde kalır. Gruplar arası **doğrudan karşılaştırma** kolaydır, ama grup sayısı arttıkça ve noktalar üst üste bindikçe grafik okunmaz hâle gelir.
+- **Faset** (*small multiples*, küçük çoklular): Grafik, üçüncü değişkenin her kategorisi için ayrı bir panele bölünür. Her panel kendi başına okunaklıdır; `facet_wrap()` panelleri aynı eksen ölçeğiyle çizdiği için paneller arası karşılaştırma da mümkündür.
 
 ```{r}
 #| fig-height: 4.4
@@ -815,10 +815,10 @@ ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp, color = continent)) +
   theme_minimal()
 ```
 
--   **`title`** grafiğin ne gösterdiğini değil, ne **söylediğini** yazmalıdır. "Gelir ve yaşam beklentisi" bir konu adıdır; "Zengin ülkelerde insanlar daha uzun yaşıyor" bir bulgudur.
--   **`subtitle`** kapsamı verir: kim, nerede, ne zaman, kaç gözlem.
--   **Eksen adları** değişkenin R'daki adı (`gdpPercap`) değil, okuyucunun anlayacağı ad ve **birim** olmalıdır.
--   **`caption`** veri kaynağını ve grafiğe dair önemli kararları (çıkarılan gözlemler, log ölçek, nokta büyüklüğünün anlamı) belirtir.
+- **`title`** grafiğin ne gösterdiğini değil, ne **söylediğini** yazmalıdır. "Gelir ve yaşam beklentisi" bir konu adıdır; "Zengin ülkelerde insanlar daha uzun yaşıyor" bir bulgudur.
+- **`subtitle`** kapsamı verir: kim, nerede, ne zaman, kaç gözlem.
+- **Eksen adları** değişkenin R'daki adı (`gdpPercap`) değil, okuyucunun anlayacağı ad ve **birim** olmalıdır.
+- **`caption`** veri kaynağını ve grafiğe dair önemli kararları (çıkarılan gözlemler, log ölçek, nokta büyüklüğünün anlamı) belirtir.
 
 ## 11.2 Temalar
 
@@ -838,9 +838,9 @@ Sıraya dikkat edin: hazır bir tema, kendinden **önce** yazılmış `theme()` 
 
 Renk en göz alıcı ama en kolay yanlış kullanılan görsel özelliktir. Üç kural:
 
--   **Kategorik değişkene ayrışan renkler, sayısal ya da sıralı değişkene geçişli renkler.** Kıtalar için birbirinden belirgin biçimde farklı tonlar; gelir düzeyi veya bir tutum ölçeği için açıktan koyuya giden bir renk geçişi. 7.1'deki `RdBu` paleti, ortada nötr bir değer bulunan sıralı ölçekler içindir.
--   **Renk körlüğünü hesaba katın.** Erkeklerin yaklaşık %8'i, kadınların ise %1'den azı kırmızı ile yeşili ayırt etmekte güçlük çeker. Kırmızı–yeşil karşıtlığına dayanan bir grafik, okuyucularınızın bir kısmı için tek renktir. ggplot2 ile birlikte gelen **viridis** paletleri hem renk körlüğüne uygundur hem de siyah-beyaz basıldığında sıralarını korur: `scale_color_viridis_d()` (kategorik) ve `scale_color_viridis_c()` (sürekli).
--   **Rengi yalnızca bilgi taşıyorsa kullanın.** Tek bir değişkenin çubuklarını her biri başka renkte çizmek (1. oturumdaki parti grafiğinde yaptığımız gibi) yeni bilgi eklemez; lejantı gizlemek gerekir (`show.legend = FALSE`), yoksa okuyucu var olmayan bir anlam arar.
+- **Kategorik değişkene ayrışan renkler, sayısal ya da sıralı değişkene geçişli renkler.** Kıtalar için birbirinden belirgin biçimde farklı tonlar; gelir düzeyi veya bir tutum ölçeği için açıktan koyuya giden bir renk geçişi. 7.1'deki `RdBu` paleti, ortada nötr bir değer bulunan sıralı ölçekler içindir.
+- **Renk körlüğünü hesaba katın.** Erkeklerin yaklaşık %8'i, kadınların ise %1'den azı kırmızı ile yeşili ayırt etmekte güçlük çeker. Kırmızı–yeşil karşıtlığına dayanan bir grafik, okuyucularınızın bir kısmı için tek renktir. ggplot2 ile birlikte gelen **viridis** paletleri hem renk körlüğüne uygundur hem de siyah-beyaz basıldığında sıralarını korur: `scale_color_viridis_d()` (kategorik) ve `scale_color_viridis_c()` (sürekli).
+- **Rengi yalnızca bilgi taşıyorsa kullanın.** Tek bir değişkenin çubuklarını her biri başka renkte çizmek (1. oturumdaki parti grafiğinde yaptığımız gibi) yeni bilgi eklemez; lejantı gizlemek gerekir (`show.legend = FALSE`), yoksa okuyucu var olmayan bir anlam arar.
 
 ```{r}
 #| fig-height: 3.6
@@ -857,7 +857,7 @@ ggplot(gapminder_2007, aes(x = gdpPercap, y = lifeExp, color = continent)) +
 
 ## 11.4 Dürüst eksenler
 
-1. oturumdaki "algı ve gerçek" örneğinin kuralını artık adıyla koyabiliriz: **çubuk grafiğinin ekseni sıfırdan başlamalıdır.** Çubuk grafiği değeri çubuğun **uzunluğuyla** gösterir; eksen 35'ten başlarsa, 41'lik çubuk 38'lik çubuğun iki katı uzun görünür ve göz bu uzunluk oranını okur. ggplot2 bu nedenle `geom_col()` ve `geom_bar()` için ekseni sıfırdan başlatır.
+1.  oturumdaki "algı ve gerçek" örneğinin kuralını artık adıyla koyabiliriz: **çubuk grafiğinin ekseni sıfırdan başlamalıdır.** Çubuk grafiği değeri çubuğun **uzunluğuyla** gösterir; eksen 35'ten başlarsa, 41'lik çubuk 38'lik çubuğun iki katı uzun görünür ve göz bu uzunluk oranını okur. ggplot2 bu nedenle `geom_col()` ve `geom_bar()` için ekseni sıfırdan başlatır.
 
 Nokta ve çizgi grafikleri için bu kural **geçerli değildir**: bu grafikler değeri uzunlukla değil **konumla** gösterir. 8. bölümdeki yaşam beklentisi grafiklerinin ekseni 40'tan başlıyordu; sıfırdan başlasaydı tüm değişim grafiğin üst kenarında sıkışmış bir çizgiye dönüşürdü. Yanıltıcı olan, eksenin sıfırdan başlamaması değil, **uzunluğun anlam taşıdığı** bir grafikte başlamamasıdır.
 
@@ -882,14 +882,14 @@ ggsave("rosling.png", plot = rosling,
 # 12. Hangi Soru, Hangi Grafik?
 
 | Soru | Değişkenler | Grafik | `ggplot2` |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Değerler nasıl dağılıyor? | 1 sayısal | Histogram, yoğunluk | `geom_histogram()`, `geom_density()` |
 | Kategoriler ne sıklıkta görülüyor? | 1 kategorik | Çubuk | `geom_bar()` (ham veri), `geom_col()` (hazır sayı) |
 | İki değişken birlikte nasıl değişiyor? | 2 sayısal | Dağılım | `geom_point()`; çok gözlemde `alpha` veya `geom_jitter()` |
 | Gruplar bir sayısal değişkende nasıl farklılaşıyor? | 1 sayısal + 1 kategorik | Yan yana kutu grafiği | `geom_boxplot()` (+ `geom_jitter()`) |
 | Gruplar içinde dağılım nasıl farklılaşıyor? | 2 kategorik | Yığılmış / yan yana / oransal çubuk | `geom_bar(position = "stack"/"dodge"/"fill")` |
 | Zaman içinde nasıl değişti? | zaman + 1 sayısal | Çizgi | `geom_line()` (+ `group` veya `color`) |
-| İlişki üçüncü bir değişkene göre değişiyor mu? | + 1 kategorik | Renk veya faset | `aes(color = ...)`, `facet_wrap(~ ...)` |
+| İlişki üçüncü bir değişkene göre değişiyor mu? | \+ 1 kategorik | Renk veya faset | `aes(color = ...)`, `facet_wrap(~ ...)` |
 | *Ufuk turu —* aktörler/ülkeler arası ilişkiler nasıl? | ağ veya akış verisi | Ağ diyagramı, Sankey/chord | `ggraph`, `ggalluvial` *(bu modülde işlenmedi)* |
 
 Bu tablo bir ezber listesi değil, bir soru listesidir. Grafik seçerken sırasıyla şunları sorun: (1) Hangi soruyu cevaplamak istiyorum? (2) Bu soruda kaç değişken var ve türleri ne? (3) En önemli karşılaştırma **konuma** (eksenlere) verildi mi?
@@ -914,17 +914,17 @@ Anscombe dörtlüsünü aklınızda tutun: 5. oturumda göreceğiniz her özet i
 
 ## Okuma
 
--   **R4DS**, 2. baskı: Bölüm 1 (*Data visualization*), 9 (*Layers*), 10 (*Exploratory data analysis*), 11 (*Communication*) — <https://r4ds.hadley.nz/>
--   **Kieran Healy**, *Data Visualization: A Practical Introduction*: Bölüm 1 (hangi grafik neden yanıltır), 3–5 — <https://socviz.co/>
+- **R4DS**, 2. baskı: Bölüm 1 (*Data visualization*), 9 (*Layers*), 10 (*Exploratory data analysis*), 11 (*Communication*) — <https://r4ds.hadley.nz/>
+- **Kieran Healy**, *Data Visualization: A Practical Introduction*: Bölüm 1 (hangi grafik neden yanıltır), 3–5 — <https://socviz.co/>
 
 ## Kaynaklar
 
--   Anscombe, F. J. (1973). Graphs in statistical analysis. *The American Statistician*, 27(1), 17–21.
--   Carroll, R., & Cox, G. W. (2007). The logic of Gamson's law: Pre-election coalitions and portfolio allocations. *American Journal of Political Science*, 51(2), 300–313.
--   Cleveland, W. S., & McGill, R. (1984). Graphical perception: Theory, experimentation, and application to the development of graphical methods. *Journal of the American Statistical Association*, 79(387), 531–554.
--   Friendly, M. (2002). Visions and re-visions of Charles Joseph Minard. *Journal of Educational and Behavioral Statistics*, 27(1), 31–51.
--   Gamson, W. A. (1961). A theory of coalition formation. *American Sociological Review*, 26(3), 373–382.
--   Guber, D. L. (1999). Getting what you pay for: The debate over equity in public school expenditures. *Journal of Statistics Education*, 7(2).
--   Imai, K. (2017). *Quantitative Social Science: An Introduction*. Princeton University Press.
--   Wickham, H. (2010). A layered grammar of graphics. *Journal of Computational and Graphical Statistics*, 19(1), 3–28.
--   Wilkinson, L. (2005). *The Grammar of Graphics* (2. baskı). Springer.
+- Anscombe, F. J. (1973). Graphs in statistical analysis. *The American Statistician*, 27(1), 17–21.
+- Carroll, R., & Cox, G. W. (2007). The logic of Gamson's law: Pre-election coalitions and portfolio allocations. *American Journal of Political Science*, 51(2), 300–313.
+- Cleveland, W. S., & McGill, R. (1984). Graphical perception: Theory, experimentation, and application to the development of graphical methods. *Journal of the American Statistical Association*, 79(387), 531–554.
+- Friendly, M. (2002). Visions and re-visions of Charles Joseph Minard. *Journal of Educational and Behavioral Statistics*, 27(1), 31–51.
+- Gamson, W. A. (1961). A theory of coalition formation. *American Sociological Review*, 26(3), 373–382.
+- Guber, D. L. (1999). Getting what you pay for: The debate over equity in public school expenditures. *Journal of Statistics Education*, 7(2).
+- Imai, K. (2017). *Quantitative Social Science: An Introduction*. Princeton University Press.
+- Wickham, H. (2010). A layered grammar of graphics. *Journal of Computational and Graphical Statistics*, 19(1), 3–28.
+- Wilkinson, L. (2005). *The Grammar of Graphics* (2. baskı). Springer.
