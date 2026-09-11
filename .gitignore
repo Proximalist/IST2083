@@ -65,3 +65,4 @@ output.csv
 # edilmesi gerekmesidir; unutulursa icerikle PDF birbirini tutmaz.
 # (Yukaridaki figure-pdf / figure-latex kurallari gecerliligini korur:
 # o ara figurler nihai PDF'e zaten gomulur.)
+Rplots.pdf

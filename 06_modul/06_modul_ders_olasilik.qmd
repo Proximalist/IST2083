@@ -232,6 +232,22 @@ tanesinin Afrika'dan olma olasılığı:
 ("En az 3" = "2 veya daha az değil"; bu yüzden `pbinom(2, ...)`'i
 1'den çıkarıyoruz.)
 
+::: callout-tip
+## İleri düzey (sınav kapsamı dışı): Ya yerine koymadan seçim yapsaydık?
+
+Yukarıdaki binom modeli **bağımsız denemeleri** varsayar — bu yüzden
+sayfanın başında `sample(..., replace = TRUE)` kullanmıştık. Ama
+gerçek anket ve saha araştırmalarında bir ülke ya da katılımcı
+genellikle **yerine koymadan** seçilir (aynı kişiye anketi iki kez
+uygulamazsınız). Yerine koymadan seçimde her çekiliş bir öncekine
+**bağımlıdır** ve teknik olarak doğru dağılım binom değil,
+**hipergeometrik dağılım**dır (R'da `dhyper()`). Popülasyon örnekleme
+oranına göre büyükse (bizim durumumuzda olduğu gibi) iki dağılım
+birbirine çok yaklaşır ve binom yaklaşımı pratikte yeterlidir — bu
+yüzden bu ders `dhyper()`'i işlemeyecek, yalnızca varlığını bilmeniz
+yeterli.
+:::
+
 ## Normal Dağılım: Sürekli Değişkenler İçin
 
 **Normal dağılım**, ortalama etrafında simetrik, çan eğrisi şeklindeki

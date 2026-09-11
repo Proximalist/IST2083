@@ -91,6 +91,26 @@ seçer. `set.seed(2026)` bu rastgeleliği **sabitler**: aynı kodu siz de
 yeniden üretilebilirliğin R'daki karşılığı budur.
 :::
 
+::: callout-tip
+## İleri düzey (sınav kapsamı dışı): Teorik popülasyon nedir?
+
+Akla şu soru gelebilir: *"`gapminder` zaten dünyadaki neredeyse tüm
+ülkeleri içeriyor — elimizde popülasyonun tamamı varken neden hâlâ
+çıkarım yapıyoruz?"*
+
+Cevap, "popülasyon"u nasıl tanımladığımızla ilgili. Bugün var olan
+ülkeler kümesi — sınırları, tarihi, siyasi rejimleriyle — savaşlar,
+antlaşmalar ve tesadüflerin ürünü olan **tek bir tarihsel senaryodur.**
+Çıkarımsal istatistik, gözlemlediğimiz bu tek senaryoyu, mümkün olan
+sonsuz sayıda alternatif senaryonun (**teorik popülasyon** ya da
+**veri üreten mekanizma**, DGP) bir örneklemi gibi ele alır. Sorumuz
+artık yalnızca "bilmediğimiz ülkeleri tahmin edebilir miyiz" değil,
+"gözlemlediğimiz bir ilişki (ör. demokrasi ile barış arasındaki
+ilişki) *rastgele bir tesadüf mü*, yoksa *sistematik bir mekanizmanın*
+ürünü mü" sorusudur. Bu fikre **8.–9. oturumlarda**, hipotez testinin
+mantığını kurarken tekrar döneceğiz.
+:::
+
 # Çıkarımsal İstatistiğin Dört Sütunu
 
 Çıkarımsal istatistik dört ana alana ayrılır. Dönemin geri kalanı

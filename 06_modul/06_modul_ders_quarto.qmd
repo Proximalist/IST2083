@@ -148,6 +148,48 @@ knitr::kable(gapminder |> filter(year == 2007, continent == "Europe") |> head(5)
 
 👋 `knitr::kable` özelliğinin diğer tablo özelleştirme yollarını görmek için `?knitr::kable` dokümantasyonunu okuyun.
 
+::: callout-tip
+## İleri düzey (bu modülde kullanmayacağız): Makale kalitesinde tablolar
+
+`kable()` hızlı ve basit bir tablo üretir, ama akademik bir makalenin
+ihtiyaç duyduğu biçimi (yıldızlı p-değerleri, parantez içinde standart
+hatalar, APA/Chicago düzeni) tek başına karşılamaz. Regresyon
+modüllerine (**10.–11. oturumlar**) geldiğimizde şu iki paketi
+kullanacağız:
+
+| Paket | Sosyal bilimlerdeki temel kullanımı |
+|---|---|
+| `gtsummary` | Makale kalitesinde özet istatistik tabloları ("Tablo 1") |
+| `modelsummary` | Birden çok regresyon modelini yan yana, standart hatalarıyla raporlamak |
+
+Şimdilik yalnızca isimlerini bilmeniz yeterli; regresyon konusuna
+geldiğimizde canlı örnekle göreceğiz.
+:::
+
+#### Çapraz Başvurular (Cross-References)
+
+Akademik bir metinde "yukarıdaki tabloda" ya da "aşağıdaki grafikte"
+denmez — "**Tablo 2'de görüldüğü gibi**" ya da "**Şekil 3'te**" denir.
+Quarto bunu **otomatik numaralandırma** ile yapar, siz elle numara
+takip etmezsiniz.
+
+Bunun için kod öbeği etiketinin (`label`) `fig-` veya `tbl-` ile
+başlaması gerekir. `06_modul_ders_olasilik.qmd` dosyasında tam olarak
+bunu yapmıştık:
+
+``` {.markdown}
+#| label: fig-buyuk-sayilar
+#| fig-cap: "Deneysel olasılık, örneklem büyüdükçe teorik değere yakınsar"
+```
+
+Metin içinde bu şekle referans vermek için `@fig-buyuk-sayilar`
+yazmanız yeterli — Quarto bunu render sırasında otomatik olarak
+"**Şekil 3**" gibi bir numaraya çevirir ve tıklanabilir bir bağlantı
+oluşturur. Belgenin sırası değişse, bir şekil silinse veya araya yeni
+bir şekil eklense bile numaralar **kendiliğinden** güncellenir — elle
+numaralandırmanın en büyük riski (numaraların kaymasını unutmak)
+tamamen ortadan kalkar.
+
 #### Önbellekleme
 
 Normalde, bir belgenin her bir çalıştırması tamamen temiz bir sayfadan başlar. Bu yeniden üretilebilirlik için harikadır, ancak uzun süren işlemler için zaman alıcı olabilir. Bu durumda `cache: true` çözüm olabilir.
@@ -163,6 +205,19 @@ Görsel düzenleyici ile bir atıf eklemek için **Ekle \> Atıf** yolunu izleyi
 -   Kişisel veya grup Zotero kütüphaneleri.
 
 -   Crossref, DataCite veya PubMed üzerinden yapılan aramalar.
+
+::: callout-tip
+## Zotero entegrasyonu
+
+Görsel Düzenleyici'deyken `@` tuşuna bastığınızda, bilgisayarınızdaki
+yerel Zotero kütüphaneniz (veya paylaşılan grup kütüphaneleri)
+otomatik olarak açılır liste hâlinde gelir; aradığınız kaynağı seçip
+Enter'a basmanız yeterlidir. Ayrı bir `.bib` dosyasını elle
+güncellemenize gerek kalmaz — Quarto, seçtiğiniz her yeni referansı
+arka planda kendisi `bibliography.bib` dosyasına ekler. Tez veya
+makale yazan araştırma asistanlarının en çok kullandığı özelliklerden
+biridir.
+:::
 
 -   Belgenizin dizininde bulunan bir .bib dosyası (bibliyografya dosyası).
 
