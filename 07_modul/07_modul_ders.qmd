@@ -100,6 +100,23 @@ modülün geri kalanı, bu hatanın ne kadar büyük olabileceğini ve
 örneklem büyüklüğü arttıkça nasıl küçüldüğünü sistematik olarak
 anlamaya ayrılmıştır.
 
+::: callout-note
+## "Hata" iki farklı anlama gelir: örnekleme hatası ≠ ölçüm hatası
+
+Günlük dilde "hata" bir beceriksizlik ya da yanlışlık çağrıştırır.
+İstatistikte **örnekleme hatası (sampling error)** bunun tam tersidir:
+bir beceriksizlik değil, evrenin tamamına ulaşamadığımız için
+katlandığımız **matematiksel bir bedeldir** ve bir formülle
+(standart hata, bu modülün ilerleyen bölümünde) ölçülebilir.
+
+Bununla karıştırılmaması gereken ayrı bir kavram **ölçüm hatası
+(measurement error)**dır: bir anket sorusunun yanlış/yönlendirici
+sorulması, katılımcının yalan söylemesi veya bir ölçüm aletinin hatalı
+kalibre edilmesi gibi nedenlerden kaynaklanır. Örnekleme hatasının
+aksine, ölçüm hatası istatistiksel bir formülle otomatik olarak
+düzeltilemez — düzeltilmesi gereken yer araştırma tasarımıdır.
+:::
+
 ## Semboller
 
 | Açıklama | Popülasyon Parametresi | Örneklem İstatistiği |
@@ -155,6 +172,21 @@ temsil gücünün yerini tutmaz.** Rastgele seçilmiş küçük bir örneklem,
 yanlı seçilmiş devasa bir örneklemden çok daha güvenilirdir — nitekim
 aynı seçimde George Gallup'ın çok daha küçük ama rastgele örneklemi
 doğru sonucu tahmin etmişti.
+:::
+
+::: callout-tip
+## İleri düzey (sınav kapsamı dışı): Yanlı bir örneklem çöpe mi atılır?
+
+Akla şu soru gelebilir: *"Bir araştırmacı elindeki örneklemin
+popülasyonu yansıtmadığını (örneğin belirli bir kıtanın aşırı temsil
+edildiğini) fark ederse, örneklemi çöpe mi atar?"* Genellikle hayır.
+Modern kamuoyu araştırmalarının çözümü **ağırlıklandırma (survey
+weighting / post-stratification)**dır: bir alt grup popülasyonda %50
+iken örneklemde %30 temsil ediliyorsa, o alt gruptaki gözlemlerin
+katkısı ağırlıklandırılarak (çarpan katsayısıyla büyütülerek) örneklem
+popülasyona yeniden dengelenir. Bu, Modül 05'te gördüğünüz `mutate()`
+fonksiyonuyla sahada sıkça hesaplanan bir katsayıdır. Ağırlıklandırmanın
+istatistiksel gerekçesi bu dersin kapsamı dışındadır.
 :::
 
 # Örnekleme Yöntemleri
@@ -377,6 +409,38 @@ c(populasyon_ortalamasi = mu_gdp,
 Ortalamanın medyandan çok daha büyük olması, sağa çarpıklığın tipik bir
 işaretidir (bkz. Modül 04).
 
+## Ara Durak: Büyük Sayılar Kanunu
+
+Örnekleme dağılımını inşa etmeden önce, daha basit bir soruya bakalım:
+**tek bir** örneklemi büyüttükçe, onun ortalaması popülasyon
+ortalamasına nasıl yaklaşır? Bu, Modül 06'da `gapminder$continent`
+üzerinde Afrika kıtası oranıyla gördüğünüz **Büyük Sayılar Kanunu**
+simülasyonunun, sürekli bir değişken (kişi başı GSYİH) için
+tekrarıdır. 200 gözlemlik tek bir çekiliş yapıp, her adımda o ana
+kadarki **kümülatif ortalamayı** hesaplayalım:
+
+```{r}
+#| label: fig-buyuk-sayilar-gdp
+#| fig-cap: "Büyük Sayılar Kanunu: tek bir örneklemin kümülatif ortalaması, gözlem sayısı arttıkça popülasyon ortalamasına (kırmızı kesik çizgi) yaklaşır"
+set.seed(2026)
+buyuk_cekilis <- sample(populasyon_2007$gdpPercap, size = 200, replace = TRUE)
+kumulatif_ortalama <- cumsum(buyuk_cekilis) / seq_along(buyuk_cekilis)
+
+ggplot(data.frame(n = seq_along(kumulatif_ortalama), ortalama = kumulatif_ortalama),
+       aes(x = n, y = ortalama)) +
+  geom_line(color = "steelblue", linewidth = 0.8) +
+  geom_hline(yintercept = mu_gdp, color = "firebrick", linetype = "dashed") +
+  labs(x = "Örneklem Büyüklüğü (n)", y = "Kümülatif Örneklem Ortalaması") +
+  theme_minimal()
+```
+
+Çizgi başlangıçta belirgin biçimde dalgalanır (ilk birkaç gözlem
+tesadüfen çok zengin ya da çok yoksul bir ülke içerebilir), ama $n$
+büyüdükçe kırmızı çizgiye (popülasyon ortalaması) yaklaşıp etrafında
+dar bir bantta dalgalanmaya başlar. **Bu, "neden daha büyük örneklem
+çekmeliyiz?" sorusunun görsel kanıtıdır** — ve bir sonraki bölümde
+inşa edeceğimiz örnekleme dağılımının da temelini oluşturur.
+
 Şimdi bu popülasyondan **büyüklüğü 5 olan 1000 farklı örneklem** çekip
 her birinin ortalamasını hesaplayalım — bu 1000 ortalama, örnekleme
 dağılımını oluşturur:
@@ -438,6 +502,19 @@ büyüklüğüdür. Formülden görüleceği gibi, $n$ büyüdükçe standart ha
 **küçülür**: daha büyük örneklemler, popülasyon ortalamasına daha
 yakın tahminler üretir.
 
+::: callout-tip
+## İleri düzey (sınav kapsamı dışı): $\sigma$'yı gerçekte bilmiyoruz
+
+Yukarıdaki formülde popülasyonun **gerçek** standart sapmasını
+($\sigma$) kullandık — çünkü `gapminder` popülasyonun tamamına sahip
+olduğumuz özel bir durumdu. Gerçek araştırmada popülasyona erişimimiz
+olmadığı için $\sigma$'yı da bilmeyiz; onun yerine örneklemin standart
+sapmasını ($s$) kullanırız. Bu küçük ama önemli değişiklik, dağılımı
+normalden biraz farklılaştırır: normal yerine daha kalın kuyruklu olan
+**Student's t-dağılımı** kullanılır. Bu, **Modül 10**'da (t-testi)
+karşınıza çıkacak.
+:::
+
 ## Neden Önemlidir?
 
 - **Popülasyonun dağılımından bağımsızlık:** popülasyon çarpık, düzgün
@@ -465,6 +542,9 @@ dağılımı çarpık bir popülasyondan bile normale yaklaşırsa, teoremin
 orneklem_buyuklukleri <- c(2, 10, 50)
 num_tekrar <- 2000
 
+# Not: bu tür tekrarlı simülasyonlar modern R iş akışında genellikle
+# purrr::map_dfr() ile de yazılır; burada Modül 06'dan tanıdık olan
+# base R lapply()/replicate() ikilisi tercih edildi.
 set.seed(2026)
 sonuclar <- lapply(orneklem_buyuklukleri, function(n) {
   ortalamalar <- replicate(
