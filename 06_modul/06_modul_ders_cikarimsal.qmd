@@ -11,95 +11,183 @@ execute:
   message: false
   cache: false
 df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+    fig.width: 6
+    fig.height: 3.6
+    fig.align: "center"
 ---
 
-```{r setup, echo=FALSE, message=FALSE}
-# loaded packages
+```{r}
+#| label: setup
+#| include: false
+library(dplyr)
+library(gapminder)
 library(here)
-library(tidyverse)
-
-here <- here::here()
-dpath <- "data"
 ```
 
-# Çıkarımsal İstatistik
+# Tanımlayıcıdan Çıkarımsala
 
-Veriyi **tanımlayıcı istatistikler** (betimleyici istatistik olarak da bilinir) kullanarak özetledikten sonra, istatistiksel çıkarım yöntemleriyle sorulara yanıt verebiliriz. Tanımlayıcı istatistikler, veri setinin temel özelliklerini tanımlamak ve özetlemek için kullanılır. Ancak bu istatistik türü, veriye dair sadece yüzeysel bir genel bakış sunar ve elde edilen sonuçlar yalnızca mevcut veriyle sınırlıdır.
+Modül 04'te tek bir örneklemi özetlemeyi öğrendiniz: `gapminder`'daki
+142 ülkenin yaşam beklentisi ortalamasını, kişi başı GSYİH'nin
+medyanını, kıtalar arası korelasyonu hesapladınız. Bu **tanımlayıcı
+istatistik**tir — elinizdeki veriyi özetler, ondan öteye geçmez.
 
-İstatistiğin asıl güçlü ve geniş kapsamlı kısmı, **veriler hakkında çıkarımlar yapmamızı sağlayan Çıkarımsal istatistiktir**. Çıkarımsal istatistik, veriyi analiz ederek daha geniş bir kitleye dair genellemeler yapmamızı sağlar ve bu sayede gözlemlediğimiz örneklemden yola çıkarak evrensel ya da daha büyük popülasyonlar hakkında tahminlerde bulunabiliriz. Bu, yalnızca örneklemin ötesine geçerek daha geniş bir perspektif elde etmemizi mümkün kılar ve araştırma sonuçlarını anlamlandırmada önemli bir rol oynar.
+Ama araştırmacı olarak asıl sorduğunuz soru nadiren "bu 142 ülkede ne
+oldu?" sorusudur. Genelde şunu sorarsınız: *gelecek yıl* ne olur?
+*Elimde olmayan* ülkeler için de geçerli mi? Bu örneklemden yola
+çıkarak *daha geniş bir evren* hakkında ne söyleyebilirim? Bu sorulara
+cevap veren araç **çıkarımsal istatistik**tir.
 
 ![](images/descvsinfer.png){fig-align="center"}
 
-Çıkarımsal istatistik, daha küçük bir gruptan (örneklem) elde edilen verilerle daha büyük bir grup (popülasyon) hakkında çıkarımlarda bulunmayı içerir. Bu yöntem son derece yararlıdır, çünkü çoğu zaman bir popülasyondaki tüm bireylerden veri toplamak pratik değildir ya da imkansızdır.
+Çıkarımsal istatistik, daha küçük bir gruptan (**örneklem**) elde
+edilen verilerle daha büyük bir grup (**popülasyon**) hakkında
+çıkarımlarda bulunmayı içerir. Bunun gerekli olmasının nedeni basit:
+popülasyondaki her birimden veri toplamak çoğu zaman ya imkânsız ya da
+gereksiz maliyetlidir.
 
-Çıkarımsal istatistik geleneksel olarak dört ana alana ayrılır: örnekleme, tahmin, hipotez testi ve regresyon/modelleme.
+# Popülasyon ve Örneklem: Bir Düşünce Deneyi
 
-![](images/yorumlayici.png){fig-align="center"}
+`gapminder`, dünyadaki neredeyse tüm ülkeleri kapsadığı için popülasyon
+ile örneklem arasındaki farkı hissetmek zor olabilir. Bunu somutlaştırmak
+için 2007 kesitinden **rastgele 20 ülkelik bir örneklem** çekelim ve
+sanki elimizde yalnızca bu 20 ülke varmış gibi düşünelim:
 
-## **Örnekleme (Sampling):**
+```{r}
+#| label: ornek-cek
+set.seed(2026)
+ornek_20 <- gapminder |>
+  filter(year == 2007) |>
+  slice_sample(n = 20)
 
-Örnekleme, popülasyonun tamamı yerine, onu temsil edecek küçük bir grup seçmeyi kapsar. Bu süreç, popülasyon hakkında güvenilir çıkarımlar yapabilmek için oldukça kritiktir. Örneğin, bir şehirdeki tüm bireylerin gelir düzeyini incelemek yerine, iyi bir şekilde seçilmiş bir örneklemden elde edilen verilerle popülasyonun genel gelir düzeyi hakkında sonuçlar çıkarabiliriz. Örneklem uygun şekilde seçildiğinde, örneklemden elde edilen sonuçlar genelde popülasyonun tamamını doğru bir şekilde yansıtır.
+ornek_20 |> select(country, continent, lifeExp) |> arrange(desc(lifeExp))
+```
+
+```{r}
+#| label: ornek-vs-populasyon
+populasyon_2007 <- gapminder |> filter(year == 2007)
+
+data.frame(
+  grup = c("Örneklem (n = 20)", "Popülasyon (N = 142)"),
+  ort_yasam_beklentisi = c(mean(ornek_20$lifeExp), mean(populasyon_2007$lifeExp))
+)
+```
+
+İki ortalama birbirine yakın ama **aynı değil**. Bu fark, tesadüfen
+hangi 20 ülkeyi çektiğimizden kaynaklanır — buna **örnekleme hatası**
+denir. Çıkarımsal istatistiğin temel sorusu tam olarak budur: elimdeki
+örneklem ortalaması, gerçek popülasyon ortalamasından *ne kadar*
+sapabilir, ve bu sapmayı hesaba katarak nasıl güvenilir bir sonuç
+çıkarabilirim?
+
+::: callout-note
+## Neden `set.seed()`?
+
+`slice_sample()` her çalıştırıldığında farklı bir rastgele örneklem
+seçer. `set.seed(2026)` bu rastgeleliği **sabitler**: aynı kodu siz de
+çalıştırdığınızda birebir aynı 20 ülkeyi elde edersiniz. Bilimsel
+yeniden üretilebilirliğin R'daki karşılığı budur.
+:::
+
+# Çıkarımsal İstatistiğin Dört Sütunu
+
+Çıkarımsal istatistik dört ana alana ayrılır. Dönemin geri kalanı
+(7.–11. oturumlar) bu dört sütunu sırayla, hep aynı `gapminder`
+zemininde işleyecek.
+
+![](images/cikarimsal-dort-sutun.png){fig-align="center"}
+
+## Örnekleme (Sampling)
+
+Popülasyonun tamamı yerine, onu temsil edecek küçük bir grup seçme
+sürecidir. Örneklem *rastgele* ve *yeterince büyük* olduğunda,
+popülasyonu makul bir yaklaşıklıkla yansıtır — yukarıdaki 20 ülkelik
+örneklemin ortalamasının popülasyon ortalamasına yakın çıkması tesadüf
+değildi. Bu konuyu **7. oturumda** (`07_modul/`), örneklem dağılımı ve
+Merkezi Limit Teoremi ile birlikte derinleştireceğiz.
 
 ![](images/ornekleme.png){fig-align="center"}
 
-## **Tahmin (Estimation):**
+## Tahmin (Estimation)
 
-Tahmin, örneklem verilerini kullanarak popülasyonun bilinmeyen bir parametresini öngörmeyi amaçlar. Tahmin iki türde yapılabilir:
+Örneklem verisini kullanarak popülasyonun bilinmeyen bir parametresini
+öngörmektir. İki türü vardır:
 
--   **Nokta tahmini (Point estimation):** Bir parametre için tek bir en iyi tahmin sunar (örneğin, belirli bir örneklem grubunun ortalama gelirini popülasyonun ortalama geliri olarak tahmin etmek gibi).
+-   **Nokta tahmini:** tek bir sayı (örneğin, yukarıdaki örneklemin
+    ortalaması, `r round(mean(ornek_20$lifeExp), 1)` yıl).
+-   **Aralık tahmini:** parametrenin belirli bir **güven aralığı**
+    içinde olduğunu belirtir ("popülasyon ortalaması %95 güvenle
+    X ile Y yılı arasındadır" gibi).
 
--   **Aralık tahmini (Interval estimation):** Parametrenin belirli bir güven aralığı içinde hangi değere sahip olduğunu belirtir (örneğin, popülasyonun ortalama gelir düzeyinin %95 güven düzeyiyle 40.000 TL ile 45.000 TL arasında olduğunu tahmin etmek).
+Güven aralıklarını **telafi oturumunda** (`09_modul/`) hesaplayacağız.
 
 ![](images/tahmin.png){fig-align="center"}
 
-## **Regresyon/Modelleme**:
+## Hipotez Testi (Hypothesis Testing)
 
-Regresyon ve modelleme, veri içindeki değişkenler arasındaki ilişkileri incelemek ve bir sonuç değişkenini (bağımlı değişken) tahmin etmek için kullanılan yöntemlerdir. Regresyon analizinin temel amacı, bir veya birden fazla bağımsız değişkenin bağımlı değişken üzerindeki etkisini ölçmektir. Bu yöntem, sadece bir ilişkiyi tanımlamakla kalmaz, aynı zamanda bu ilişkiyi sayısal olarak modelleyerek gelecekteki gözlemler için tahmin yapmamızı sağlar.
-
-Örneğin, sosyal bilimlerde bir araştırmacı, bireylerin eğitim düzeylerinin gelirleri üzerindeki etkisini incelemek isteyebilir. Bu durumda, bağımsız değişken eğitim seviyesi, bağımlı değişken ise gelir düzeyi olur. Doğrusal regresyon modeli, eğitim düzeyindeki değişikliklerin gelir üzerindeki etkisini sayısal olarak ifade eder.
-
-Regresyon ve modelleme çeşitli alt türlere sahiptir:
-
--   **Doğrusal Regresyon**: Bağımlı ve bağımsız değişken arasındaki ilişkiyi doğrusal bir model ile ifade eder.
-
--   **Lojistik Regresyon**: Bağımlı değişkenin iki olasılıklı (örneğin, evet/hayır gibi) olduğu durumlar için kullanılır.
-
--   **Çoklu Regresyon**: Birden fazla bağımsız değişkenin, bağımlı değişken üzerindeki etkisini ölçer.
-
-![](images/regresyon.png){fig-align="center"}
-
-Regresyon ve modelleme yöntemleri, sadece mevcut veriyi anlamak için değil, aynı zamanda gelecekteki durumlara dair tahminler yapmak için de kritik öneme sahiptir. Bu özellikleriyle, hipotez testinden ayrılarak araştırmada ileri düzeyde analiz ve öngörü sağlarlar.
-
-::: callout-note
-💡 **Not: Farklı Regresyon ve Modelleme Türleri**
-
-Regresyon analizinde kullanılan birçok farklı modelleme tekniği, veri yapısına ve analiz amaçlarına göre seçilir. Bu teknikler, farklı ilişkileri ve etkileri daha doğru anlamamıza olanak tanır. İşte bazı yaygın modelleme türleri:
-
--   **Polinom Regresyon**: Bağımlı ve bağımsız değişken arasındaki ilişki doğrusal değilse, daha karmaşık eğriler (örneğin, parabolik bir ilişki) kullanılarak modellenir. Örneğin, yaş ve gelir arasındaki ilişki doğrusal olmayabilir ve polinom regresyon daha iyi bir uyum sağlar.
-
--   **Zaman Serisi Analizi**: Veriler zaman içinde düzenli aralıklarla toplandığında, zaman serisi modelleri kullanılır. Sosyal bilimlerde, ekonomik göstergelerin yıllık değişimlerini incelemek gibi örneklerde bu model faydalıdır.
-
--   **Panel Veri Modelleri**: Birden fazla değişkenin zaman içindeki değişimlerini dikkate alarak analiz yapar ve genellikle birey veya ülke düzeyinde verilerin karşılaştırılmasında kullanılır.
-
--   **Karar Ağaçları ve Random Forest**: Bu modeller, karar ağaçları kullanarak veriyi sınıflandırır veya tahmin yapar. Random Forest modeli, birden fazla karar ağacının sonuçlarını birleştirerek daha sağlam ve tutarlı tahminler elde eder.
-
--   **Kümeleme Analizleri**: Verilerin doğal gruplarını belirlemeye yönelik modelleme tekniğidir. Örneğin, sosyal medya kullanıcılarının davranışlarına göre segmentler oluşturmak için kümeleme analizleri kullanılabilir.
-
--   **Makine Öğrenmesi Tabanlı Modeller**: Regresyon ve geleneksel modellemeler dışında, doğrusal olmayan ilişkileri daha iyi analiz edebilen yapay sinir ağları, destek vektör makineleri gibi daha karmaşık ve esnek yöntemlerdir.
-
-Bu farklı modeller, özellikle daha karmaşık veri yapılarında ve ileri düzey analizlerde kullanılır. Bu sayede, yalnızca doğrusal ilişkileri değil, çok boyutlu ve dinamik etkileri de kapsamlı bir şekilde analiz edebiliriz.
-:::
-
-## **Hipotez Testi (Hypothesis Testing):**
-
-Hipotez testi, örneklem verilerine dayanarak popülasyon hakkında kararlar vermek veya iddiaları test etmek için kullanılır. Örneğin, bir şirket, müşteri memnuniyetinin %90 olduğunu iddia edebilir. Bu iddiayı test etmek için rastgele bir müşteri örnekleminden veriler toplanır ve sonuçlar analiz edilir.
-
-Hipotez testi şu adımları içerir:
-
--   Karşıt iki hipotez (sav) oluşturma: Biri iddiayı temsil eder (örneğin, müşteri memnuniyeti %90'dır), diğeri ise alternatif bir durumu temsil eder (örneğin, müşteri memnuniyeti %90’dan azdır).
-
--   Örneklem verilerini analiz ederek, hangi savın mevcut verilere göre daha doğru olduğunu değerlendirme.
+Örneklem verisine dayanarak popülasyon hakkında bir iddiayı test etme
+sürecidir. Örneğin: "Avrupa ülkelerinin ortalama yaşam beklentisi,
+Asya ülkelerininkinden farklıdır" iddiasını, elimizdeki örneklemin bu
+farkı destekleyip desteklemediğine bakarak değerlendiririz. Bunu
+**8. ve 9. oturumlarda** (`10_modul/`) t-testi, ki-kare ve ANOVA ile
+işleyeceğiz.
 
 ![](images/hipoteztesti.png){fig-align="center"}
 
-Örnekleme, tahmin, regresyon/modelleme ve hipotez testi, Çıkarımsal istatistiğin temel araçlarıdır ve verilerden çıkarımlar yapmamızı sağlar. Bu araçlar, örneklemin doğal olarak içerdiği rastgele değişim faktörünü hesaba katarak popülasyon hakkında güvenilir ve anlamlı sonuçlar çıkarmamızı mümkün kılar.
+## Regresyon / Modelleme
+
+Değişkenler arasındaki ilişkiyi sayısal olarak ifade edip, bir sonuç
+değişkenini (bağımlı değişken) tahmin etmeye yarar. Bu derste **üç**
+regresyon türünü işleyeceğiz:
+
+![](images/regresyon.png){fig-align="center"}
+
+::: callout-important
+## Kapsam sınırı
+
+Regresyon ve modelleme literatürü çok geniştir (zaman serisi, panel
+veri modelleri, karar ağaçları, yapay sinir ağları gibi onlarca
+yöntem içerir). **Bu ders yalnızca yukarıdaki üç yöntemi** —doğrusal,
+çoklu ve lojistik regresyonu— kapsar; bunlar **10. ve 11. oturumlarda**
+(`11_modul/`, `12_modul/`, `13_modul/`) işlenecektir. Diğer yöntemler
+bu dersin kapsamı dışındadır.
+:::
+
+# Bu Yolculuğun İlk Durağı: Olasılık
+
+Yukarıdaki dört sütunun hepsi, ortak bir temel üzerine kuruludur:
+**olasılık**. Bir örneklem ortalamasının popülasyon ortalamasından ne
+kadar sapabileceğini konuşabilmemiz için önce "sapma" kavramını
+sayısallaştırmamız, yani **rastgele değişkenler** ve **olasılık
+dağılımları**yla çalışmayı öğrenmemiz gerekiyor. Bir sonraki belgede
+(`06_modul_ders_olasilik.qmd`) tam olarak buna bakacağız.
+
+# Özet
+
+::: callout-note
+**Bu belgede öğrendikleriniz**
+
+-   Tanımlayıcı istatistik (veriyi özetler) ile çıkarımsal istatistik
+    (veriden popülasyona genelleme yapar) arasındaki fark
+-   **Popülasyon** ve **örneklem** kavramları; `slice_sample()` ile
+    rastgele örneklem çekmek
+-   **Örnekleme hatası**: örneklem istatistiğinin popülasyon
+    parametresinden sapması
+-   `set.seed()` ile rastgeleliği sabitleyip yeniden üretilebilirlik
+    sağlamak
+-   Çıkarımsal istatistiğin dört sütunu: örnekleme, tahmin, hipotez
+    testi, regresyon/modelleme — ve her birinin dönem içindeki yeri
+-   Bu dersin regresyon kapsamının doğrusal, çoklu ve lojistik
+    regresyonla sınırlı olduğu
+:::
+
+# Sırada Ne Var?
+
+Dört sütunun ortak temeli olan **olasılığa** geçiyoruz
+(`06_modul_ders_olasilik.qmd`): rastgele değişkenler, olasılık
+dağılımları ve bunları R'da nasıl hesaplayacağımız. Ardından
+**3. oturumda** bu modülle birlikte işlenen Quarto ile raporlama
+konusuna (`06_modul_ders_quarto.qmd`), **7. oturumda** ise örnekleme
+dağılımı ve Merkezi Limit Teoremi'ne geçeceğiz.

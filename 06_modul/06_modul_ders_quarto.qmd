@@ -136,11 +136,14 @@ Quarto'da grafiklerle ilgili en büyük zorluk, görsellerin doğru boyut ve şe
 Görsellere benzer şekilde, Quarto belgelerinde iki tür tablo kullanabilirsiniz. Belgede doğrudan oluşturduğunuz Markdown tabloları veya bir kod parçacığının sonucu olarak oluşturulan tablolar olabilir.
 
 ```{r}
-mtcars[1:5, ]
+#| message: false
+library(dplyr)
+library(gapminder)
+gapminder |> filter(year == 2007, continent == "Europe") |> head(5)
 ```
 
 ```{r}
-knitr::kable(mtcars[1:5, ])
+knitr::kable(gapminder |> filter(year == 2007, continent == "Europe") |> head(5))
 ```
 
 👋 `knitr::kable` özelliğinin diğer tablo özelleştirme yollarını görmek için `?knitr::kable` dokümantasyonunu okuyun.

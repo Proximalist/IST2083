@@ -1,0 +1,249 @@
+---
+title: "Modül 06 — Rehberli Laboratuvar"
+subtitle: "Çıkarımsal İstatistiğe Giriş ve Olasılık"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+    fig.width: 5.5
+    fig.height: 3.2
+    fig.align: "center"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar
+başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–D): her görevde ne yapmanız gerektiği yazılıdır
+    ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____`
+    gördüğünüz yerleri siz dolduracaksınız. Bu kodlar render sırasında
+    çalıştırılmaz — sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli.
+
+::: callout-tip
+## Nasıl çalışılır
+
+Her görevden sonra **bir cümleyle** sonucu yorumlayın (kod öbeğinin
+altına, düz metin olarak). Sınavda sizden istenecek olan kod yazmak
+değil, bu cümleyi kurabilmektir.
+:::
+
+Başlamadan önce paketleri yükleyin:
+
+```{r}
+library(dplyr)
+library(gapminder)
+library(here)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm A — Popülasyon ve Örneklem
+
+## Görev A1 — 1962 kesitinden bir örneklem
+
+`gapminder`'ın 1962 yılı kesitinden, `set.seed(42)` ile sabitlenmiş
+rastgele **15 ülkelik** bir örneklem çekin.
+
+```{r}
+#| eval: false
+set.seed(____)
+gapminder |>
+  filter(year == ____) |>
+  slice_sample(n = ____)
+```
+
+## Görev A2 — Örnekleme hatasını ölçün
+
+Görev A1'deki örneklemin ortalama yaşam beklentisini, aynı yılın
+**tüm popülasyonunun** ortalamasıyla karşılaştırın. Aradaki fark kaç
+yıl?
+
+```{r}
+#| eval: false
+orneklem_A1 <- ____  # A1'deki kodu buraya taşıyın
+populasyon_1962 <- gapminder |> filter(year == ____)
+
+mean(orneklem_A1$lifeExp) - mean(____$lifeExp)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm B — Klasik ve Deneysel Olasılık
+
+## Görev B1 — Klasik olasılık hesabı
+
+`gapminder`'dan rastgele bir gözlem seçilirse, **Amerika kıtasından**
+(`"Americas"`) olma olasılığı nedir?
+
+```{r}
+#| eval: false
+mean(gapminder$continent == "____")
+```
+
+## Görev B2 — Deneysel olasılıkla doğrulayın
+
+`set.seed(7)` ile 2000 gözlemlik bir rastgele örneklem çekip (yerine
+koyarak), içindeki Amerika kıtası oranını hesaplayın. B1'deki teorik
+değere ne kadar yakın çıktı?
+
+```{r}
+#| eval: false
+set.seed(____)
+ornek <- sample(gapminder$continent, size = ____, replace = ____)
+mean(ornek == "Americas")
+```
+
+------------------------------------------------------------------------
+
+# Bölüm C — Toplama ve Çarpma Kuralları
+
+## Görev C1 — VEYA sorusu
+
+Rastgele seçilen bir gözlemin **Avrupa veya Okyanusya** kıtasından
+olma olasılığını toplama kuralıyla hesaplayın.
+
+```{r}
+#| eval: false
+p_avrupa <- mean(gapminder$continent == "____")
+p_okyanusya <- mean(gapminder$continent == "____")
+p_avrupa ____ p_okyanusya
+```
+
+## Görev C2 — VE sorusu
+
+Yerine koyarak seçilen **iki bağımsız** gözlemin ikisinin de Asya
+kıtasından olma olasılığını çarpma kuralıyla hesaplayın.
+
+```{r}
+#| eval: false
+p_asya <- mean(gapminder$continent == "Asia")
+p_asya ____ ____
+```
+
+------------------------------------------------------------------------
+
+# Bölüm D — Binom ve Normal Dağılım
+
+## Görev D1 — Binom olasılığı
+
+Başarı olasılığı `p_asya` olan, 8 denemelik bağımsız bir örneklemde
+**tam olarak 3** başarı (Asya kıtası) görülme olasılığını hesaplayın.
+
+```{r}
+#| eval: false
+dbinom(____, size = ____, prob = p_asya)
+```
+
+## Görev D2 — Normal yaklaşımla kıyaslayın
+
+2007 kesitinin kişi başı GSYİH'sinin **logaritmasını**
+(`log(gdpPercap)`) alın, ortalama ve standart sapmasını hesaplayın,
+sonra bu değerin 9'un altında olma olasılığını `pnorm()` ile bulup
+gerçek (ampirik) oranla karşılaştırın.
+
+```{r}
+#| eval: false
+log_gdp_2007 <- gapminder |> filter(year == 2007) |> mutate(log_gdp = log(gdpPercap))
+
+ort_log <- mean(log_gdp_2007$____)
+ss_log <- sd(log_gdp_2007$____)
+
+c(
+  normal_yaklasim = pnorm(9, mean = ____, sd = ____),
+  gercek_oran = mean(log_gdp_2007$log_gdp < ____)
+)
+```
+
+------------------------------------------------------------------------
+
+# Çözümler
+
+## A1 — Çözüm
+
+```{r}
+set.seed(42)
+ornek_1962 <- gapminder |>
+  filter(year == 1962) |>
+  slice_sample(n = 15)
+ornek_1962 |> select(country, continent, lifeExp)
+```
+
+## A2 — Çözüm
+
+```{r}
+populasyon_1962 <- gapminder |> filter(year == 1962)
+mean(ornek_1962$lifeExp) - mean(populasyon_1962$lifeExp)
+```
+
+Bu fark, tesadüfen hangi 15 ülkenin çekildiğinden kaynaklanan
+**örnekleme hatası**dır; küçük örneklemlerde (n = 15) bu sapma birkaç
+yıla kadar çıkabilir — örneklem büyüdükçe küçülmesi beklenir.
+
+## B1 — Çözüm
+
+```{r}
+mean(gapminder$continent == "Americas")
+```
+
+## B2 — Çözüm
+
+```{r}
+set.seed(7)
+ornek <- sample(gapminder$continent, size = 2000, replace = TRUE)
+mean(ornek == "Americas")
+```
+
+Deneysel oran, teorik değere (B1) çok yakın çıkar — büyük örneklem
+büyüklüğü Büyük Sayılar Kanunu'nun beklediği gibi davranır.
+
+## C1 — Çözüm
+
+```{r}
+p_avrupa <- mean(gapminder$continent == "Europe")
+p_okyanusya <- mean(gapminder$continent == "Oceania")
+p_avrupa + p_okyanusya
+```
+
+## C2 — Çözüm
+
+```{r}
+p_asya <- mean(gapminder$continent == "Asia")
+p_asya * p_asya
+```
+
+## D1 — Çözüm
+
+```{r}
+dbinom(3, size = 8, prob = p_asya)
+```
+
+## D2 — Çözüm
+
+```{r}
+log_gdp_2007 <- gapminder |> filter(year == 2007) |> mutate(log_gdp = log(gdpPercap))
+ort_log <- mean(log_gdp_2007$log_gdp)
+ss_log <- sd(log_gdp_2007$log_gdp)
+
+c(
+  normal_yaklasim = pnorm(9, mean = ort_log, sd = ss_log),
+  gercek_oran = mean(log_gdp_2007$log_gdp < 9)
+)
+```
+
+Kişi başı GSYİH'nin logaritması, ham GSYİH'den çok daha simetrik bir
+dağılım izler — bu yüzden normal yaklaşım burada, modül metnindeki
+yaşam beklentisi örneğinden daha sıkı çalışır.

@@ -1,0 +1,123 @@
+---
+title: "Modül 06 — Cevap Anahtarı"
+subtitle: "Çıkarımsal İstatistiğe Giriş ve Olasılık"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+Bu belge `06_modul_alistirmalar.qmd` dosyasındaki 20 sorunun doğru
+cevaplarını ve gerekçelerini içerir. Gerekçeler yalnızca "doğru cevap
+bu" demekle kalmaz — **neden** doğru olduğunu da açıklar, çünkü sınavda
+sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Tanımlayıcıdan Çıkarımsala; Popülasyon ve Örneklem
+
+**1. Doğru cevap: b)** Tanımlayıcı istatistik yalnızca eldeki veriyi
+özetler (a, tanımlayıcının tanımıdır). Çıkarımsal istatistiğin ayırt
+edici özelliği, örneklemden yola çıkarak **daha geniş bir popülasyon**
+hakkında genelleme yapabilmesidir.
+
+**2. Doğru cevap: b)** `slice_sample(n = 20)`, veri setinden **rastgele
+20 satır** seçer; hiçbir sıralama veya filtreleme yapmaz. İlk 20 satırı
+almak için `head(20)` kullanılır, o da rastgele değildir.
+
+**3. Doğru cevap: c)** `set.seed()`, R'ın rastgele sayı üretecini
+belirli bir başlangıç noktasına sabitler. Bu sayede `slice_sample()`,
+`sample()` gibi rastgele işlemler her çalıştırmada **aynı** sonucu
+üretir — bilimsel yeniden üretilebilirlik için gereklidir.
+
+**4. Doğru cevap: b)** Örnekleme hatası, örneklemin popülasyonun tam
+bir kopyası olmamasından kaynaklanır: hangi birimlerin tesadüfen
+seçildiğine bağlı olarak örneklem istatistiği (örneğin ortalama),
+gerçek popülasyon parametresinden sapar.
+
+**5. Doğru cevap: b)** Örneklem büyüdükçe, örneklem tesadüfen "aşırı
+uçlardan" oluşan bir grup olma ihtimalini kaybeder ve popülasyonu daha
+iyi temsil etmeye başlar; bu yüzden örnekleme hatası **azalma**
+eğilimi gösterir (bu ilkenin resmî kanıtı 7. oturumda, Merkezi Limit
+Teoremi'yle gelecek).
+
+## Bölüm B — Çıkarımsal İstatistiğin Dört Sütunu
+
+**6. Doğru cevap: c)** Veri görselleştirme (`ggplot2`, Modül 03)
+tanımlayıcı analiz araç kutusuna aittir. Çıkarımsal istatistiğin dört
+sütunu örnekleme, tahmin, hipotez testi ve regresyon/modellemedir.
+
+**7. Doğru cevap: a)** Nokta tahmini tek bir sayı ("en iyi tahmin")
+verir; aralık tahmini ise parametrenin belirli bir güvenle hangi
+aralıkta olduğunu belirtir. İkisi birbirinin yerine geçmez, tamamlayıcı
+bilgi sunar.
+
+**8. Doğru cevap: b)** Bu ders yalnızca doğrusal, çoklu ve lojistik
+regresyonu kapsar (Modül 06'daki "Kapsam sınırı" notuna bakınız).
+Zaman serisi, panel veri modelleri ve makine öğrenmesi yöntemleri
+(Random Forest, SVM, yapay sinir ağları) bu dersin kapsamı dışındadır.
+
+**9. Doğru cevap: b)** Hipotez testi, örneklem verisine bakarak bir
+popülasyon iddiasının **makul olup olmadığına** karar verir; hiçbir
+zaman "kesin kanıt" sunmaz (d bu yüzden yanlıştır) — sonuç her zaman
+belirli bir olasılıkla (p-değeriyle) ifade edilir.
+
+**10. Doğru cevap: b)** Güven aralığı, bir aralık tahminidir; dolayısıyla
+**tahmin** sütununun aracıdır.
+
+## Bölüm C — Klasik ve Deneysel Olasılık; Toplama-Çarpma Kuralları
+
+**11. Doğru cevap: a)** Klasik olasılık formülü
+($P = \text{istenen sonuç} / \text{olası tüm sonuçlar}$), yalnızca
+örneklem uzayındaki her sonucun **eşit olasılıkta** olduğu durumlarda
+doğrudan geçerlidir (zar, kıta gibi kategoriler gibi).
+
+**12. Doğru cevap: a)** `replace = TRUE`, her çekilişten sonra seçilen
+birimi popülasyona geri koyar; böylece aynı birim birden fazla kez
+seçilebilir ve her çekiliş bir öncekinden **bağımsız** kalır.
+
+**13. Doğru cevap: a)** Büyük Sayılar Kanunu, bir deneyi çok kez
+tekrarladığınızda deneysel (gözlemlenen) olasılığın teorik olasılığa
+gitgide yaklaşacağını söyler — modüldeki "Afrika kıtası" simülasyonunda
+gördüğünüz eğri tam olarak budur.
+
+**14. Doğru cevap: b)** Birbirini dışlayan olaylar için toplama kuralı
+geçerlidir: bir gözlem aynı anda hem Avrupa hem Okyanusya kıtasından
+olamayacağı için bu iki olasılık doğrudan toplanabilir.
+
+**15. Doğru cevap: b)** Bağımsız iki olayın **birlikte** gerçekleşme
+olasılığı, olasılıklarının **çarpımıdır**. Toplama kuralı burada
+uygulanmaz çünkü olaylar birbirini dışlamaz, aynı anda gerçekleşebilir.
+
+## Bölüm D — Rastgele Değişkenler ve Dağılımlar
+
+**16. Doğru cevap: b)** "Kaç tanesi" sorusu her zaman sayılabilir,
+tam sayı bir sonuç üretir — bu **kesikli** bir rastgele değişkendir.
+Yaşam beklentisi, kişi başı GSYİH ve ortalama sıcaklık ise ondalıklı
+herhangi bir değeri alabilen **sürekli** değişkenlerdir.
+
+**17. Doğru cevap: a)** `dbinom()`, binom dağılımının **kütle
+fonksiyonu**dur: tam olarak `k` başarı olasılığını verir. Kümülatif
+("en fazla" veya "en az") sorular için `pbinom()` kullanılır.
+
+**18. Doğru cevap: c)** `pbinom(k, size, prob)`, $P(X \le k)$'yı, yani
+`k` dahil olmak üzere **o değere kadar olan tüm olasılıkların
+toplamını** verir. "En az `k`" sorusu için `1 - pbinom(k - 1, ...)`
+kullanılır.
+
+**19. Doğru cevap: b)** Normal dağılım tamamen simetriktir; gerçek
+veri çarpık (skewed) olduğunda histogram ile normal eğri arasında
+küçük bir uyumsuzluk beklenir. Modül metnindeki yaşam beklentisi
+örneğinde de tam olarak bu görülmüştü (sola çarpıklık).
+
+**20. Doğru cevap: a)** `rnorm(n, mean, sd)`, belirtilen ortalama ve
+standart sapmaya sahip normal dağılımdan **`n` adet rastgele değer**
+üretir — `mean` ve `sd`'nin kendisi çıktıda görünmez, yalnızca
+dağılımı tanımlar.

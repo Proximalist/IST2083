@@ -1,5 +1,5 @@
 ---
-title: "Modül 06: Olasılık"
+title: "Modül 06: Olasılık, Rastgele Değişkenler ve Dağılımlar"
 author: "Prof. Dr. Hakan Mehmetcik"
 date: "`r Sys.Date()`"
 lang: tr
@@ -11,168 +11,312 @@ execute:
   message: false
   cache: false
 df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+    fig.width: 6
+    fig.height: 3.6
+    fig.align: "center"
 ---
 
-```{r setup, echo=FALSE, message=FALSE}
-# loaded packages
+```{r}
+#| label: setup
+#| include: false
+library(dplyr)
+library(ggplot2)
+library(gapminder)
 library(here)
-library(tidyverse)
-
-here <- here::here()
-dpath <- "data"
 ```
 
-# Olasılık ve Rasgelelik
-
-## 1. Olasılık Nedir?
-
-**Olasılık**, bir olayın gerçekleşme ihtimalini ifade eden bir kavramdır. Günlük yaşamda olasılık hakkında düşündüğümüz birçok durum vardır: Örneğin, "Yarın yağmur yağma olasılığı nedir?" veya "Bu sınavı geçme şansım ne kadar yüksek?" gibi sorular aslında olasılık kavramının birer yansımasıdır.
-
-**Olasılık değerleri** 0 ile 1 arasında değişir:
-
--   Bir olayın gerçekleşme olasılığı **0** ise, bu olayın kesinlikle gerçekleşmeyeceği anlamına gelir.
-
--   Olasılık **1** ise, bu olayın kesinlikle gerçekleşeceği anlamına gelir.
-
--   Bir olayın olasılığı **0.5** olduğunda, bu olayın gerçekleşme ve gerçekleşmeme ihtimalleri eşittir.
-
-**Örneğin:** Bir madeni parayı attığınızda yazı gelme olasılığı 0.5'tir; yani %50'dir. Bu, yazı ya da tura gelme şansının eşit olduğu anlamına gelir.
-
-## 2. Olasılık Nasıl Hesaplanır?
-
-Olasılığı hesaplamak için kullanılan temel formül şudur:
-
-$$ \text{Olasılık (P)} = \frac{\text{İstenen sonuçların sayısı}}{\text{Olası tüm sonuçların sayısı}}$$
-
-Bu formül, olasılık kavramının en temel halidir ve birçok durumda geçerlidir.
-
-**Örnek 1: Bir Zar Atma**
-
-Bir zarın altı yüzü vardır ve her yüzün gelme olasılığı eşittir. Herhangi bir yüzün gelme olasılığı:
-
-$$ \text{Olasılık} = \frac{1}{6} \approx 0.166 \text{ veya \%16.6}$$
-
-**Örnek 2: Çift Sayı Gelme Olasılığı**
-
-Bir zar atıldığında çift sayı gelme olasılığı nedir? Çift sayılar {2, 4, 6} olmak üzere toplam üç tanedir, dolayısıyla:
-
-$$
-\text{Olasılık} = \frac{3}{6} = 0.5 \text{ veya \%50}
-$$
-
-**Örnek 3: Tek Sayı Gelme Olasılığı**
-
-Bir zar atıldığında tek sayı gelme olasılığı nedir? Tek sayılar {1, 3, 5} olmak üzere üç tanedir, dolayısıyla:
-
-$$
-\text{Olasılık} = \frac{3}{6} = 0.5 \text{ veya \%50}
-$$
-
-**Örnek 4: Zarın 5 veya 6 Gelme Olasılığı**
-
-Bir zar atıldığında 5 veya 6 gelme olasılığı nedir? Bu durumda iki olası sonuç vardır (5 ve 6), dolayısıyla:
-
-$$
-\text{Olasılık} = \frac{2}{6} = 0.333 \text{ veya yaklaşık \%33.3}
-$$
-
-**Örnek 5: Bir Deste Karttan As Çekme Olasılığı**
-
-Bir destede 52 kart vardır ve bu kartlardan dört tanesi as’tır (maça, karo, sinek, kupa). Bir as çekme olasılığı:
-
-$$
-\text{Olasılık} = \frac{4}{52} \approx 0.077 \text{ veya \%7.7}
-$$
-
-**Örnek 6: İskambil Deste Karttan Kırmızı Kart Çekme Olasılığı**
-
-Bir destede 26 kırmızı kart (kupa ve karo) vardır. Bir kırmızı kart çekme olasılığı:
-
-$$
-\text{Olasılık} = \frac{26}{52} = 0.5 \text{ veya \%50} 
-$$
-
-**Örnek 7: Bir Deste Karttan Kupa Çekme Olasılığı**
-
-Bir destede 13 kupa kartı vardır. Bir kupa çekme olasılığı:
-
-$$
-\text{Olasılık} = \frac{13}{52} = 0.25 \text{ veya \%25}
-$$
-
-**Örnek 8: Çift Sayı Olan Bir Kart Çekme Olasılığı**
-
-Bir destede her takımdan 9’a kadar çift numaralar (2, 4, 6, 8) olmak üzere dört çift kart bulunur. Dolayısıyla toplamda 16 çift numaralı kart vardır. Bir çift numaralı kart çekme olasılığı:
-
-$$
- \text{Olasılık} = \frac{16}{52} \approx 0.307 \text{ veya \%30.7}
-$$
-
-**Örnek 9: Bir Zarın 1’den Farklı Bir Sayı Gelmesi**
-
-Bir zar atıldığında 1’den farklı bir sayı gelme olasılığı, 2, 3, 4, 5 veya 6 yüzlerinden herhangi birinin gelme olasılığına eşittir (toplam 5 olasılık):
-
-$$
-\text{Olasılık} = \frac{5}{6} \approx 0.833 \text{ veya \%83.3}
-$$
-
-**Örnek 10: İki Zar Atıldığında Toplamın 7 Gelme Olasılığı**
-
-İki zar atıldığında toplamda 7 gelme olasılığını inceleyelim. Zarların 7 yapacak sonuç kombinasyonları şunlardır: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1). Toplamda 6 farklı kombinasyon vardır ve iki zarın 36 olası sonucu olduğundan:
-
-$$
-\text{Olasılık} = \frac{6}{36} = 0.166 \text{ veya \%16.6} 
-$$
-
-## 3. Olasılığın Temel Kavramları
-
-Olasılığı açıklarken temel birkaç kavramı anlamak önemlidir:
-
-1.  **Deney**: Sonuçlarının belirsiz olduğu herhangi bir işlem ya da durum. Örneğin, bir madeni para atmak ya da zar atmak birer deneydir.
-
-2.  **Örneklem Uzayı**: Tüm olası sonuçları içeren küme. Bir madeni paranın atılması durumunda örneklem uzayı "yazı" ve "tura"dır. Bir zar atıldığında ise örneklem uzayı {1, 2, 3, 4, 5, 6} şeklindedir.
-
-3.  **Olay**: Örneklem uzayının belirli bir alt kümesi olan durumdur. Örneğin, bir zar atıldığında "3 veya daha yüksek bir sayı gelmesi" bir olaydır.
-
-4.  **Bağımsız Olaylar**: Bir olayın sonucu diğer olayın sonucunu etkilemiyorsa bu olaylar bağımsızdır. Örneğin, iki zarın aynı anda atılması.
-
-5.  **Bağımlı Olay**: Bağımlı olaylar, bir olayın sonucunun, diğer bir olayın sonucunu etkilediği durumlardır. Yani, birinci olayın gerçekleşmesi, ikinci olayın gerçekleşme olasılığını değiştirir. Bir desteden kart çekme işlemi, bağımlı olaylara güzel bir örnektir. İlk kartı çektiğinizde, destedeki kart sayısı azalır, bu nedenle ikinci çektiğiniz kartın kırmızı veya siyah olma olasılığı da değişir. Eğer ilk kart kırmızı ise, destede kalan kırmızı kart sayısı azalmış olur, bu da ikinci kartın kırmızı gelme olasılığını etkiler. Dolayısıyla, bu olaylar birbirine bağımlıdır.
-
-6.  **Birleşik Olaylar**: Birden fazla olayın birlikte gerçekleşme olasılığını ifade eder. Örneğin, hem bir zarın 5 gelmesi hem de diğer zarın 3 gelmesi gibi.
-
-## 4. Olasılık Türleri
-
-1.  **Teorik Olasılık**: Matematiksel olarak hesaplanan olasılıktır. Örneğin, bir madeni parayı attığınızda yazı gelme olasılığı teorik olarak %50’dir.
-
-2.  **Deneysel Olasılık**: Bir olayın, deney sonucunda gerçekleşme sıklığına göre hesaplanan olasılıktır. Örneğin, madeni parayı 100 kez attıktan sonra 48 kez yazı geldiğini gördüğünüzde, deneysel olasılık 0.48 yani %48 olur. Teorik olasılığa yaklaşmak için deneyin sayısını artırmak gerekir.
-
-3.  **Öznel Olasılık**: Kesin bir matematiksel temeli olmadan, kişinin tahminine veya bilgi birikimine dayalı olasılıktır. Örneğin, bir seçimde bir adayın kazanma şansının yüksek olduğunu düşünmek öznel bir olasılıktır.
-
-## 5. Olasılıkta Temel Kurallar
-
-Olasılık hesaplamalarında kullanılan bazı temel kurallar şunlardır:
-
-1.  **Toplam Olasılık Kuralı**: Olasılıkların toplamı 1 olmalıdır. Örneğin, bir zar attığınızda herhangi bir yüzün gelme olasılığı 1/6 iken, tüm yüzlerin gelme olasılıklarının toplamı 1 olacaktır.
-
-2.  **Toplama Kuralı (Veya Kuralı)**
-
-    Toplama kuralı, iki veya daha fazla olaydan **en az birinin gerçekleşme olasılığını** hesaplamak için kullanılır. Bu kuralda, olayların olasılıkları toplanır.
-
-    **Örneğin:** Bir zar atıldığında, 3 veya 5 gelme olasılığını hesaplayalım. Zarın herhangi bir yüzü gelme olasılığı 1/6 olduğuna göre:
-
-    $$ Olasılık ( 3 veya 5 gelmesi)=16+16=26=13≈0.33 $$
-
-    Bu durumda, 3 veya 5 gelme olasılığı yaklaşık %33’tür.
-
-    Not: Eğer olaylar **bağımsız** ise, iki olayın aynı anda gerçekleşme olasılığı, olayların olasılıklarının **çarpımı** ile bulunur. Bu durum "Çarpma Kuralı" olarak bilinir.
-
-3.  **Çarpma Kuralı (Ve Kuralı)**
-
-    Çarpma kuralı, iki olayın **aynı anda gerçekleşme olasılığını** hesaplamak için kullanılır. İki olayın birlikte gerçekleşme olasılığı, olayların olasılıklarının çarpımıyla hesaplanır.
-
-    **Örneğin:** İki madeni para attığınızda, her iki paranın da yazı gelme olasılığı %50, yani 0.5’tir. İki paranın da yazı gelme olasılığı şöyle hesaplanır:
-
-    $$ Olasılık (iki yazı)=0.5×0.5=0.25 
-    $$
-
-    Bu durumda, iki paranın da yazı gelme olasılığı %25’tir.
+# Olasılık Nedir?
+
+**Olasılık**, bir olayın gerçekleşme ihtimalini 0 ile 1 arasında bir
+sayıyla ifade eder: 0 "kesinlikle gerçekleşmez", 1 "kesinlikle
+gerçekleşir", 0.5 ise "gerçekleşme ve gerçekleşmeme ihtimali eşit"
+demektir. Bir madeni parayı attığınızda yazı gelme olasılığı 0.5'tir —
+bu sezgi herkese tanıdıktır ve olasılığın "adil" bir örneklem uzayında
+ne anlama geldiğini gösterir.
+
+Bu derste bu sezgiyi zar ve para örneklerinde bırakmayıp, kursun
+başından beri kullandığımız `gapminder` verisine taşıyacağız. Amaç
+yalnızca formülleri elle hesaplamak değil, **R'ın olasılık ve dağılım
+fonksiyonlarını** kullanmayı öğrenmektir.
+
+# Klasik ve Deneysel Olasılık
+
+**Klasik (teorik) olasılık**, örneklem uzayındaki tüm sonuçların eşit
+olası olduğu varsayımıyla doğrudan hesaplanır:
+
+$$ P(\text{olay}) = \frac{\text{istenen sonuç sayısı}}{\text{olası tüm sonuç sayısı}} $$
+
+`gapminder`'da 1704 ülke-yıl gözlemi var. Rastgele birini seçersem,
+Afrika kıtasından olma olasılığı nedir?
+
+```{r}
+#| label: klasik-olasilik
+teorik_p <- mean(gapminder$continent == "Africa")
+teorik_p
+```
+
+`mean()` burada bir kısayol: `continent == "Africa"` her gözlem için
+`TRUE`/`FALSE` üretir, ortalaması ise "kaçta kaçının doğru olduğu",
+yani tam olarak klasik olasılık formülüdür.
+
+**Deneysel (ampirik) olasılık** ise bir deneyi çok sayıda tekrarlayıp,
+istenen sonucun görülme *sıklığına* bakar. Deneme sayısı arttıkça
+deneysel olasılık teorik değere yaklaşır — buna **Büyük Sayılar
+Kanunu** denir. Bunu R'da `sample()` ile simüle edelim:
+
+```{r}
+#| label: deneysel-olasilik
+set.seed(2026)
+buyuklukler <- c(10, 50, 100, 500, 1000, 5000, 10000)
+deneysel_p <- sapply(buyuklukler, function(n) {
+  ornek <- sample(gapminder$continent, size = n, replace = TRUE)
+  mean(ornek == "Africa")
+})
+data.frame(orneklem_buyuklugu = buyuklukler, deneysel_olasilik = round(deneysel_p, 3))
+```
+
+```{r}
+#| label: fig-buyuk-sayilar
+#| fig-cap: "Deneysel olasılık, örneklem büyüdükçe teorik değere yakınsar"
+ggplot(data.frame(n = buyuklukler, p = deneysel_p), aes(n, p)) +
+  geom_line(color = "#2E6E8E") +
+  geom_point(color = "#2E6E8E", size = 2) +
+  geom_hline(yintercept = teorik_p, linetype = "dashed", color = "firebrick") +
+  scale_x_log10() +
+  labs(x = "Örneklem büyüklüğü (log ölçek)", y = "Deneysel olasılık (Afrika)") +
+  theme_minimal()
+```
+
+Kesikli çizgi teorik değeri (`r round(teorik_p, 3)`) gösteriyor; mavi
+nokta dizisi örneklem büyüdükçe ona yaklaşıyor. `sample(..., replace =
+TRUE)`'daki `replace = TRUE` argümanına dikkat edin: her çekilişten
+sonra gözlemi "geri koyuyoruz", böylece her deneme birbirinden
+**bağımsız** kalıyor. Bağımsızlığın neden önemli olduğuna birazdan
+döneceğiz.
+
+# Temel Kavramlar
+
+1.  **Deney**: sonucu belirsiz herhangi bir işlem. `gapminder`'dan
+    rastgele bir ülke-yıl gözlemi seçmek bir deneydir.
+2.  **Örneklem uzayı**: tüm olası sonuçların kümesi. Kıta değişkeni
+    için örneklem uzayı `r paste(levels(gapminder$continent), collapse = ", ")`
+    şeklindeki 5 kategoridir.
+3.  **Olay**: örneklem uzayının bir alt kümesi. Örneğin, "seçilen
+    gözlemin yaşam beklentisinin 70'in üzerinde olması" bir olaydır.
+4.  **Bağımsız olaylar**: birinin sonucu diğerini etkilemez. Yukarıdaki
+    simülasyonda `replace = TRUE` kullanmamızın nedeni buydu.
+5.  **Bağımlı olaylar**: birinin sonucu diğerinin olasılığını
+    değiştirir. `gapminder`'dan **yerine koymadan** iki farklı ülke
+    seçersek, ilk seçim ikinci seçimin olasılık uzayını daraltır — tam
+    da bir desteden yerine koymadan iki kart çekmek gibi.
+
+3. maddedeki olayın olasılığını hesaplayalım:
+
+```{r}
+#| label: olay-ornegi
+mean(gapminder$lifeExp > 70)
+```
+
+::: callout-note
+## `replace = TRUE` vs `replace = FALSE`
+
+`sample(x, size, replace = TRUE)` aynı birimi birden çok kez
+seçebilir (bağımsız denemeler). `replace = FALSE` (varsayılan) her
+birimi en fazla bir kez seçer (bağımlı denemeler) — modül 05'te
+`slice_sample()` ile yaptığımız örneklemenin arkasındaki de budur.
+:::
+
+# Toplama ve Çarpma Kuralları
+
+**Toplama kuralı**, birbirini dışlayan (aynı anda gerçekleşemeyen)
+olaylardan **en az birinin** gerçekleşme olasılığını verir; olasılıklar
+toplanır. Bir gözlemin Afrika **veya** Asya kıtasından olma olasılığı:
+
+```{r}
+#| label: toplama-kurali
+p_afrika <- mean(gapminder$continent == "Africa")
+p_asya <- mean(gapminder$continent == "Asia")
+p_afrika + p_asya
+```
+
+Bir kıta bir gözlemde yalnızca tek bir değer alabildiği için (bir ülke
+aynı anda hem Afrikalı hem Asyalı olamaz) bu iki olay birbirini
+dışlar ve olasılıklar doğrudan toplanabilir.
+
+**Çarpma kuralı**, **bağımsız** iki olayın **birlikte** gerçekleşme
+olasılığını verir; olasılıklar çarpılır. Yerine koyarak seçtiğimiz iki
+gözlemin **ikisinin de** Avrupa kıtasından olma olasılığı:
+
+```{r}
+#| label: carpma-kurali
+p_avrupa <- mean(gapminder$continent == "Europe")
+p_avrupa^2
+```
+
+::: callout-warning
+## Bağımsız değilse çarpma kuralı doğrudan uygulanmaz
+
+Eğer iki seçim **bağımsız değilse** (yerine koymadan seçim gibi),
+ikinci olasılık ilkine bağlı olarak değişir ve hesaba **koşullu
+olasılık** girer. Koşullu olasılığın kendisi bu dersin kapsamı
+dışındadır; burada yalnızca bağımsız durumu işliyoruz.
+:::
+
+# Rastgele Değişkenler: Kesikli ve Sürekli
+
+Bir **rastgele değişken**, bir deneyin her olası sonucuna bir sayı
+atayan fonksiyondur. İki türü vardır:
+
+![](images/rasgeledegisken.png){fig-align="center"}
+
+-   **Kesikli rastgele değişken**: sayılabilir, genellikle tam sayı
+    değerler alır. Örnek: rastgele seçilen 10 ülkeden kaçının Afrika
+    kıtasından olduğu — 0, 1, 2, … 10 değerlerinden birini alır.
+-   **Sürekli rastgele değişken**: bir aralıktaki sonsuz sayıda değeri
+    alabilir. Örnek: yaşam beklentisinin kendisi (`lifeExp`) — 42.6,
+    42.61, 42.611… gibi ondalıklı herhangi bir değer olabilir.
+
+Bu ayrım önemlidir çünkü her tür için **farklı olasılık dağılımı
+aileleri** kullanılır.
+
+# Olasılık Dağılımları
+
+Bir **olasılık dağılımı**, bir rastgele değişkenin alabileceği her
+değere (veya değer aralığına) bir olasılık atar. R, en yaygın
+dağılımlar için dört fonksiyon ailesi sunar: `d` (yoğunluk/kütle),
+`p` (kümülatif olasılık), `q` (kantil) ve `r` (rastgele üretim) —
+örneğin normal dağılım için `dnorm`, `pnorm`, `qnorm`, `rnorm`.
+
+![](images/dagilim.png){fig-align="center"}
+
+## Binom Dağılımı: Kesikli Değişkenler İçin
+
+**Binom dağılımı**, sabit sayıda **bağımsız** denemede (her biri
+"başarı" ya da "başarısızlık"), belirli bir başarı sayısının olasılığını
+verir. 10 ülkelik bağımsız bir örneklemde kaç tanesinin Afrika
+kıtasından çıkacağını modelleyelim (başarı olasılığı, popülasyondaki
+gerçek Afrika oranı):
+
+```{r}
+#| label: binom-hesap
+n_deneme <- 10
+p_basari <- mean(gapminder$continent == "Africa")
+
+olasiliklar <- dbinom(0:n_deneme, size = n_deneme, prob = p_basari)
+data.frame(afrika_sayisi = 0:n_deneme, olasilik = round(olasiliklar, 4))
+```
+
+```{r}
+#| label: fig-binom
+#| fig-cap: "Binom dağılımı: 10 ülkelik bağımsız örneklemde Afrika sayısı"
+ggplot(data.frame(k = 0:n_deneme, p = olasiliklar), aes(k, p)) +
+  geom_col(fill = "#2E6E8E") +
+  scale_x_continuous(breaks = 0:n_deneme) +
+  labs(x = "Afrika kıtasından ülke sayısı (k)", y = "P(X = k)") +
+  theme_minimal()
+```
+
+`dbinom(k, size, prob)` tam olarak "$k$ başarı olasılığı" sorusuna
+cevap verir. `pbinom()` ise **kümülatif** olasılık verir — "en fazla
+$k$" sorusuna cevaptır. Örneğin, 10 ülkelik örneklemde **en az 3**
+tanesinin Afrika'dan olma olasılığı:
+
+```{r}
+#| label: pbinom-ornek
+1 - pbinom(2, size = n_deneme, prob = p_basari)
+```
+
+("En az 3" = "2 veya daha az değil"; bu yüzden `pbinom(2, ...)`'i
+1'den çıkarıyoruz.)
+
+## Normal Dağılım: Sürekli Değişkenler İçin
+
+**Normal dağılım**, ortalama etrafında simetrik, çan eğrisi şeklindeki
+sürekli dağılımdır. 2007 kesitindeki yaşam beklentisi değerlerinin bu
+şekle ne kadar uyduğuna bakalım:
+
+```{r}
+#| label: normal-parametreler
+yb_2007 <- gapminder |> filter(year == 2007) |> pull(lifeExp)
+ort <- mean(yb_2007)
+ss <- sd(yb_2007)
+c(ortalama = ort, standart_sapma = ss)
+```
+
+```{r}
+#| label: fig-normal
+#| fig-cap: "2007 yaşam beklentisi dağılımı ve normal yaklaşım"
+ggplot(data.frame(x = yb_2007), aes(x)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 20,
+                  fill = "#EAF1F5", color = "#2E6E8E") +
+  stat_function(fun = dnorm, args = list(mean = ort, sd = ss),
+                 color = "firebrick", linewidth = 1) +
+  labs(x = "Yaşam beklentisi (2007)", y = "Yoğunluk") +
+  theme_minimal()
+```
+
+::: callout-warning
+## Bu dağılım tam simetrik değil
+
+Modül 04'te gördüğünüz gibi, yaşam beklentisi **sola çarpık**tır —
+düşük yaşam beklentili birkaç ülke sol kuyruğu uzatır. Normal dağılım
+yalnızca bir **yaklaşımdır**; aşağıdaki karşılaştırma bu yaklaşımın ne
+kadar sıkı olduğunu gösterir.
+:::
+
+`pnorm()`, normal dağılıma göre kümülatif olasılık verir. Yaşam
+beklentisi 75'in altında olma olasılığını, normal yaklaşıma göre
+hesaplayıp gerçek (ampirik) oranla karşılaştıralım:
+
+```{r}
+#| label: pnorm-karsilastirma
+data.frame(
+  yontem = c("Normal yaklaşım (pnorm)", "Gerçek (ampirik) oran"),
+  olasilik = c(pnorm(75, mean = ort, sd = ss), mean(yb_2007 < 75))
+)
+```
+
+İki değer birbirine yakın ama özdeş değil — tam olarak yukarıdaki
+çarpıklık uyarısının öngördüğü küçük sapma.
+
+## Rastgele Üretim: `rbinom()` ve `rnorm()`
+
+`d`/`p`/`q` fonksiyonları olasılık *hesaplar*; `r` ile başlayanlar
+("random") ise o dağılımdan rastgele veri *üretir*. Bunlar özellikle
+simülasyon tabanlı analizlerde (ör. bootstrap, güç analizi) kullanılır:
+
+```{r}
+#| label: rastgele-uretim
+set.seed(2026)
+rbinom(5, size = n_deneme, prob = p_basari)  # 5 simüle örneklemde Afrika sayısı
+rnorm(5, mean = ort, sd = ss)                # normal dağılımdan 5 simüle yaşam beklentisi
+```
+
+# Özet
+
+::: callout-note
+**Bu belgede öğrendikleriniz**
+
+-   Klasik (teorik) olasılık ile deneysel (ampirik) olasılık; Büyük
+    Sayılar Kanunu
+-   Deney, örneklem uzayı, olay, bağımsız/bağımlı olay kavramları
+-   Toplama kuralı (birbirini dışlayan olaylar için) ve çarpma kuralı
+    (bağımsız olaylar için)
+-   Kesikli ve sürekli rastgele değişken ayrımı
+-   R'ın dağılım fonksiyon ailesi: `d`/`p`/`q`/`r` önekleri
+-   Binom dağılımı (`dbinom`, `pbinom`) ve normal dağılım (`dnorm`,
+    `pnorm`) ile olasılık hesaplama
+-   `rbinom()`/`rnorm()` ile bir dağılımdan rastgele veri üretme
+:::
+
+# Sırada Ne Var?
+
+Bu belgede ürettiğimiz normal yaklaşım aslında **7. oturumda**
+(`07_modul/`) işleyeceğimiz **örnekleme dağılımı** ve **Merkezi Limit
+Teoremi**'nin temelini oluşturuyor: tek tek ülkelerin yaşam beklentisi
+dağılımı çarpıkken, *örneklem ortalamalarının* dağılımı — örneklem
+yeterince büyükse — neredeyse her zaman normale yakınsar. Bir sonraki
+oturumda bunu simülasyonla göstereceğiz.

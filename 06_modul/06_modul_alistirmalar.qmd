@@ -1,0 +1,194 @@
+---
+title: "Modül 06 — Alıştırmalar"
+subtitle: "Çıkarımsal İstatistiğe Giriş ve Olasılık"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+## Bu Alıştırmalar Hakkında
+
+Bu alıştırmalar **notlandırılmaz ve teslim edilmez.** Amacı, sınavdan
+önce kendi durumunuzu ölçebilmenizdir. Sınav soruları da bu biçimde
+(çoktan seçmeli, tek doğru cevap) kurgulanır.
+
+Her soru 4 şıklıdır ve yalnızca **bir tanesi** doğrudur.
+
+Cevaplarınızı not edin, sonra `06_modul_cevap_anahtari.qmd` dosyasıyla
+karşılaştırın.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Tanımlayıcıdan Çıkarımsala; Popülasyon ve Örneklem
+
+**1.** Çıkarımsal istatistiği tanımlayıcı istatistikten ayıran temel
+özellik nedir?
+
+a\) Yalnızca eldeki veriyi özetler, ondan öteye geçmez\
+b) Örneklemden yola çıkarak daha geniş bir popülasyon hakkında
+genelleme yapar\
+c) Yalnızca grafik ve görselleştirme üretir\
+d) Yalnızca ortalama ve medyan hesaplar
+
+**2.** `gapminder |> slice_sample(n = 20)` kodu ne yapar?
+
+a\) Veri setini `n` sütununa göre sıralar\
+b) Veri setinden rastgele 20 satır seçer\
+c) Eksik gözlemleri siler\
+d) İlk 20 satırı alır
+
+**3.** `set.seed(2026)` satırının amacı nedir?
+
+a\) Kodun çalışma hızını artırmak\
+b) Rastgeleliği tamamen ortadan kaldırmak\
+c) Aynı rastgele işlemin her çalıştırmada aynı sonucu vermesini
+sağlamak\
+d) Veri setinin boyutunu küçültmek
+
+**4.** "Örnekleme hatası" ifadesi neyi anlatır?
+
+a\) Kodda yapılan bir yazım hatası\
+b) Örneklem istatistiğinin, tesadüfen hangi birimlerin seçildiğine
+bağlı olarak popülasyon parametresinden sapması\
+c) Veri setinde eksik (`NA`) gözlem bulunması\
+d) Yanlış R paketinin yüklenmesi
+
+**5.** Örneklem büyüklüğü arttıkça, örneklem ortalamasının popülasyon
+ortalamasından sapması genellikle nasıl bir eğilim gösterir?
+
+a\) Artma eğilimi gösterir\
+b) Azalma eğilimi gösterir\
+c) Değişmez, her zaman sabittir\
+d) Rastgele davranır, hiçbir eğilim yoktur
+
+## Bölüm B — Çıkarımsal İstatistiğin Dört Sütunu
+
+**6.** Aşağıdakilerden hangisi çıkarımsal istatistiğin **dört
+sütunundan biri değildir**?
+
+a\) Örnekleme\
+b) Tahmin\
+c) Veri görselleştirme\
+d) Hipotez testi
+
+**7.** Nokta tahmini ile aralık tahmini arasındaki fark nedir?
+
+a\) Nokta tahmini tek bir sayı verirken, aralık tahmini bir güven
+aralığı verir\
+b) İkisi birbirinin aynısıdır\
+c) Aralık tahmini yalnızca kategorik değişkenler için kullanılır\
+d) Nokta tahmini yalnızca hipotez testinde geçerlidir
+
+**8.** Bu derste "regresyon/modelleme" başlığı altında hangi üç yöntem
+işlenecektir?
+
+a\) Zaman serisi analizi, panel veri modelleri, kümeleme analizi\
+b) Doğrusal regresyon, çoklu regresyon, lojistik regresyon\
+c) Random Forest, destek vektör makineleri, yapay sinir ağları\
+d) Ki-kare testi, ANOVA, t-testi
+
+**9.** Hipotez testi temel olarak neyi yapar?
+
+a\) Veriyi yalnızca grafikle gösterir\
+b) Örneklem verisine dayanarak popülasyon hakkındaki bir iddiayı
+değerlendirir\
+c) Eksik verileri otomatik olarak tamamlar\
+d) Verinin normal dağılıp dağılmadığını kesin olarak kanıtlar
+
+**10.** "Güven aralığı" kavramı çıkarımsal istatistiğin hangi sütununun
+bir aracıdır?
+
+a\) Örnekleme\
+b) Tahmin\
+c) Hipotez testi\
+d) Regresyon
+
+## Bölüm C — Klasik ve Deneysel Olasılık; Toplama-Çarpma Kuralları
+
+**11.** Klasik (teorik) olasılık formülü hangi varsayıma dayanır?
+
+a\) Örneklem uzayındaki tüm sonuçların eşit olasılıkta olduğu\
+b) Deneyin sonsuz kez tekrarlanmış olduğu\
+c) Değişkenin mutlaka sürekli olduğu\
+d) Popülasyonun normal dağıldığı
+
+**12.** `sample(x, size = n, replace = TRUE)` kodunda `replace = TRUE`
+argümanı ne sağlar?
+
+a\) Denemelerin birbirinden bağımsız olmasını (aynı birim birden fazla
+kez seçilebilir)\
+b) Aynı birimin bir daha asla seçilememesini\
+c) Verinin küçükten büyüğe otomatik sıralanmasını\
+d) Örneklem büyüklüğünün `n`'den farklı olmasını
+
+**13.** Büyük Sayılar Kanunu neyi ifade eder?
+
+a\) Örneklem büyüklüğü arttıkça deneysel olasılık teorik olasılığa
+yakınsar\
+b) Büyük örneklemler istatistiksel olarak her zaman yanlıdır\
+c) Olasılık değeri örneklem büyüdükçe her zaman 1'e yaklaşır\
+d) Deneysel olasılık, örneklem büyüdükçe teorik değerden uzaklaşır
+
+**14.** İki olay birbirini dışlıyorsa (aynı anda gerçekleşemiyorsa),
+en az birinin gerçekleşme olasılığı nasıl hesaplanır?
+
+a\) Olasılıklar birbiriyle çarpılır\
+b) Olasılıklar toplanır\
+c) Olasılıkların farkı alınır\
+d) Olasılıkların ortalaması alınır
+
+**15.** İki olay **bağımsızsa**, ikisinin birlikte (aynı anda)
+gerçekleşme olasılığı nasıl hesaplanır?
+
+a\) Olasılıklar toplanır\
+b) Olasılıklar çarpılır\
+c) Yalnızca büyük olan olasılık dikkate alınır\
+d) Olasılıkların karekökü alınır
+
+## Bölüm D — Rastgele Değişkenler ve Dağılımlar
+
+**16.** Aşağıdakilerden hangisi **kesikli** bir rastgele değişkendir?
+
+a\) Bir ülkenin yaşam beklentisi\
+b) Rastgele seçilen 10 ülkeden kaçının Afrika kıtasından olduğu\
+c) Bir ülkenin kişi başı GSYİH'si\
+d) Bir ülkenin ortalama sıcaklığı
+
+**17.** `dbinom(k, size, prob)` fonksiyonu ne hesaplar?
+
+a\) Tam olarak `k` başarı görülme olasılığını\
+b) En fazla `k` başarı görülme olasılığını\
+c) En az `k` başarı görülme olasılığını\
+d) Ortalama başarı sayısını
+
+**18.** `pbinom(k, size, prob)` fonksiyonu ne hesaplar?
+
+a\) Tam olarak `k` başarı görülme olasılığını\
+b) `k`'dan büyük başarı görülme olasılığını\
+c) `k`'ya kadar (`k` dahil) kümülatif olasılığı\
+d) Dağılımdan rastgele bir başarı sayısı üretir
+
+**19.** Bir histogramın üzerine çizilen normal eğrinin, histogramla tam
+örtüşmediğini gözlemliyorsunuz. Bunun en olası nedeni nedir?
+
+a\) R'da bir hesaplama hatası olması\
+b) Verinin tam simetrik olmaması (çarpık dağılması)\
+c) Örneklem büyüklüğünün çok fazla olması\
+d) `dnorm()` fonksiyonunun yanlış kullanılmış olması
+
+**20.** `rnorm(5, mean = 67, sd = 12)` kodu çalıştırıldığında ne elde
+edilir?
+
+a\) Ortalaması 67, standart sapması 12 olan normal dağılımdan
+üretilmiş 5 rastgele değer\
+b) Yalnızca 67 ve 12 sayılarını içeren bir vektör\
+c) 5 farklı ortalama değeri\
+d) Normal dağılımın yoğunluk fonksiyonunun grafiği
