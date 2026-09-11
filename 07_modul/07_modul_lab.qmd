@@ -1,0 +1,278 @@
+---
+title: "Modül 07 — Rehberli Laboratuvar"
+subtitle: "Örnekleme ve Örneklem Dağılımı"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+    fig.width: 5.5
+    fig.height: 3.2
+    fig.align: "center"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar
+başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–D): her görevde ne yapmanız gerektiği yazılıdır
+    ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____`
+    gördüğünüz yerleri siz dolduracaksınız. Bu kodlar render sırasında
+    çalıştırılmaz — sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli.
+
+::: callout-tip
+## Nasıl çalışılır
+
+Her görevden sonra **bir cümleyle** sonucu yorumlayın (kod öbeğinin
+altına, düz metin olarak). Sınavda sizden istenecek olan kod yazmak
+değil, bu cümleyi kurabilmektir.
+:::
+
+Başlamadan önce paketleri yükleyin:
+
+```{r}
+library(dplyr)
+library(gapminder)
+library(here)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm A — Popülasyon Parametresi ve Örneklem İstatistiği
+
+## Görev A1 — 2007 popülasyon ortalaması
+
+`gapminder`'ın 2007 yılı kesitini popülasyon olarak alıp, yaşam
+beklentisinin ($\mu$) ortalamasını hesaplayın.
+
+```{r}
+#| eval: false
+populasyon_2007 <- gapminder |> filter(year == ____)
+mean(populasyon_2007$____)
+```
+
+## Görev A2 — Örnekleme hatasını ölçün
+
+`set.seed(2027)` ile sabitlenmiş, **15 ülkelik** bir örneklem çekin ve
+örneklem ortalamasının popülasyon ortalamasından ne kadar saptığını
+hesaplayın.
+
+```{r}
+#| eval: false
+set.seed(____)
+ornek_15 <- populasyon_2007 |> slice_sample(n = ____)
+xbar_15 <- mean(ornek_15$lifeExp)
+
+mean(populasyon_2007$lifeExp) - ____
+```
+
+------------------------------------------------------------------------
+
+# Bölüm B — Tabakalı Örnekleme Uygulaması
+
+## Görev B1 — Her kıtadan 3 ülke
+
+`group_by()` ve `slice_sample()` birlikte kullanıldığında, **her
+grup içinden ayrı ayrı** örneklem çekilir — bu, tabakalı örneklemenin
+R'daki karşılığıdır. `set.seed(7)` ile her kıtadan 3 ülke seçin.
+
+```{r}
+#| eval: false
+set.seed(____)
+tabakali_ornek <- populasyon_2007 |>
+  group_by(____) |>
+  slice_sample(n = ____) |>
+  ungroup()
+
+tabakali_ornek |> select(country, continent)
+```
+
+## Görev B2 — Kaç kıta temsil ediliyor?
+
+Örneklemde kaç **farklı** kıtanın bulunduğunu sayın.
+
+```{r}
+#| eval: false
+tabakali_ornek |> distinct(____) |> nrow()
+```
+
+------------------------------------------------------------------------
+
+# Bölüm C — Örnekleme Dağılımı İnşası
+
+## Görev C1 — n = 10 için 500 örneklem
+
+2007 kesitinin **kişi başı GSYİH**'sinden (`gdpPercap`), yerine
+koyarak, büyüklüğü 10 olan 500 örneklem çekip her birinin ortalamasını
+`xbar10` adlı bir vektörde toplayın.
+
+```{r}
+#| eval: false
+set.seed(2027)
+xbar10 <- replicate(
+  ____,
+  mean(sample(populasyon_2007$gdpPercap, size = ____, replace = ____))
+)
+```
+
+## Görev C2 — Örnekleme dağılımının ortalama ve standart sapması
+
+`xbar10`'un ortalamasını ve standart sapmasını hesaplayıp, popülasyon
+ortalamasıyla ve teorik standart hata ($\sigma / \sqrt{n}$) ile
+karşılaştırın.
+
+```{r}
+#| eval: false
+mean(xbar10)
+sd(xbar10)
+
+mu_gdp <- mean(populasyon_2007$gdpPercap)
+sigma_gdp <- sd(populasyon_2007$gdpPercap)
+
+mu_gdp
+sigma_gdp / sqrt(____)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm D — Merkezi Limit Teoremi'ni Gözlemleyin
+
+## Görev D1 — n = 40 için tekrarlayın
+
+Görev C1'i, örneklem büyüklüğünü **40**'a çıkararak tekrarlayın
+(`xbar40` adlı yeni bir vektöre kaydedin).
+
+```{r}
+#| eval: false
+set.seed(2027)
+xbar40 <- replicate(
+  500,
+  mean(sample(populasyon_2007$gdpPercap, size = ____, replace = TRUE))
+)
+```
+
+## Görev D2 — İki dağılımı karşılaştırın
+
+`xbar10` ve `xbar40`'ın histogramlarını yan yana çizip, hangisinin
+daha dar (daha az yayılmış) ve daha normal görünümlü olduğunu
+yorumlayın.
+
+```{r}
+#| eval: false
+hist(____, main = "Örnekleme Dağılımı (n = 10)")
+hist(____, main = "Örnekleme Dağılımı (n = 40)")
+```
+
+------------------------------------------------------------------------
+
+# Çözümler
+
+## A1 — Çözüm
+
+```{r}
+populasyon_2007 <- gapminder |> filter(year == 2007)
+mean(populasyon_2007$lifeExp)
+```
+
+## A2 — Çözüm
+
+```{r}
+set.seed(2027)
+ornek_15 <- populasyon_2007 |> slice_sample(n = 15)
+xbar_15 <- mean(ornek_15$lifeExp)
+
+mean(populasyon_2007$lifeExp) - xbar_15
+```
+
+Bu örneklemde fark negatif çıkar: tesadüfen seçilen 15 ülkenin yaşam
+beklentisi ortalaması, popülasyon ortalamasının biraz **üzerinde**.
+Farklı bir seed ile bu işaret ve büyüklük değişir — bu da tam olarak
+örnekleme hatasının doğasıdır.
+
+## B1 — Çözüm
+
+```{r}
+set.seed(7)
+tabakali_ornek <- populasyon_2007 |>
+  group_by(continent) |>
+  slice_sample(n = 3) |>
+  ungroup()
+
+tabakali_ornek |> select(country, continent)
+```
+
+## B2 — Çözüm
+
+```{r}
+tabakali_ornek |> distinct(continent) |> nrow()
+```
+
+Beş kıtanın da temsil edildiğini görürsünüz. **Dikkat:** Okyanusya'da
+`gapminder`'da yalnızca 2 ülke (Avustralya, Yeni Zelanda) bulunduğu
+için, `replace = FALSE` (varsayılan) ile o kıtadan en fazla 2 ülke
+seçilebilir — 3 istense bile. Bu, tabakalı örneklemenin pratik bir
+sınırıdır: bir tabaka, istenen örneklem büyüklüğünden küçükse, o
+tabakanın tamamı örnekleme girer.
+
+## C1 — Çözüm
+
+```{r}
+set.seed(2027)
+xbar10 <- replicate(
+  500,
+  mean(sample(populasyon_2007$gdpPercap, size = 10, replace = TRUE))
+)
+```
+
+## C2 — Çözüm
+
+```{r}
+mean(xbar10)
+sd(xbar10)
+
+mu_gdp <- mean(populasyon_2007$gdpPercap)
+sigma_gdp <- sd(populasyon_2007$gdpPercap)
+
+mu_gdp
+sigma_gdp / sqrt(10)
+```
+
+`xbar10`'un ortalaması popülasyon ortalamasına ($\mu$) yakındır ve
+standart sapması teorik standart hataya ($\sigma / \sqrt{10}$)
+yakındır — Merkezi Limit Teoremi'nin öngördüğü tam olarak budur.
+
+## D1 — Çözüm
+
+```{r}
+set.seed(2027)
+xbar40 <- replicate(
+  500,
+  mean(sample(populasyon_2007$gdpPercap, size = 40, replace = TRUE))
+)
+```
+
+## D2 — Çözüm
+
+```{r}
+hist(xbar10, main = "Örnekleme Dağılımı (n = 10)")
+hist(xbar40, main = "Örnekleme Dağılımı (n = 40)")
+```
+
+`xbar40`'ın histogramı belirgin biçimde daha **dar** (standart hata
+küçüldüğü için) ve daha **simetrik/normal** görünümlüdür. `xbar10`
+hâlâ hafifçe sağa çarpık bir iz taşır — çünkü popülasyonun (`gdpPercap`)
+kendisi sağa çarpıktır ve n = 10, CLT'nin tam devreye girmesi için
+n = 40'tan daha küçüktür.

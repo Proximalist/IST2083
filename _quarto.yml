@@ -25,7 +25,7 @@ project:
     - GitHub_Kullanim_Kilavuzu.qmd
     - R_RStudio_Kurulum_Rehberi.qmd
     - 06_modul/*.qmd
-    # - 07_modul/*.qmd     # denetim bekliyor
+    - 07_modul/*.qmd
     # - 08_modul/*.qmd     # denetim bekliyor
     # - 09_modul/*.qmd     # denetim bekliyor
     # - 10_modul/*.qmd     # denetim bekliyor

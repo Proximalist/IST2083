@@ -1,0 +1,303 @@
+---
+title: "Modül 07: Örnekleme ve Örneklem Dağılımı"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    toc: true
+    toc-depth: 2
+    incremental: true
+    code-overflow: scroll
+    code-line-numbers: false
+    transition: fade
+    math: mathjax
+editor: visual
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    fig.width: 8
+    fig.height: 4.2
+    dpi: 110
+---
+
+```{r}
+#| include: false
+library(dplyr)
+library(ggplot2)
+library(gapminder)
+library(here)
+```
+
+## 🎯 Öğrenme Hedefleri
+
+Bu oturumun sonunda:
+
+-   Popülasyon parametresi ile örneklem istatistiği arasındaki farkı
+    açıklayabileceksiniz
+-   Rastgele ve rastgele olmayan örnekleme yöntemlerini
+    ayırt edebileceksiniz
+-   R'da `sample()` ve `set.seed()` kullanabileceksiniz
+-   "Örnekleme dağılımı" kavramını tanımlayabileceksiniz
+-   Merkezi Limit Teoremi'ni açıklayıp standart hatayı
+    hesaplayabileceksiniz
+
+# Neden Örnekleme?
+
+## Dört Sütundan İlki
+
+Modül 06'da çıkarımsal istatistiğin dört sütununu görmüştük:
+
+::: incremental
+-   **Örnekleme** ← bugün buradayız
+-   Tahmin (Modül 09)
+-   Hipotez testi (Modül 10-11)
+-   Regresyon/modelleme (Modül 11-13)
+:::
+
+## Popülasyon vs. Örneklem
+
+```{r}
+populasyon_2007 <- gapminder |> filter(year == 2007)
+mu_lifeExp <- mean(populasyon_2007$lifeExp)
+
+set.seed(2026)
+ornek_20 <- populasyon_2007 |> slice_sample(n = 20)
+xbar_lifeExp <- mean(ornek_20$lifeExp)
+
+c(populasyon_ortalamasi = mu_lifeExp, orneklem_ortalamasi = xbar_lifeExp)
+```
+
+::: incremental
+-   İki değer **yakın ama farklı** → **örnekleme hatası**
+-   Bu farkın davranışını anlamak, bu oturumun konusu
+:::
+
+## Semboller
+
+| Açıklama | Popülasyon | Örneklem |
+|---|---|---|
+| Ortalama | $\mu$ | $\bar{x}$ |
+| Standart Sapma | $\sigma$ | $s$ |
+| Oran | $p$ | $\hat{p}$ |
+
+# ⚠️ Tarihten Bir Ders: *Literary Digest* (1936)
+
+## Dev Örneklem, Küçük Temsil Gücü
+
+::: incremental
+-   10 milyon kişilik posta listesi, 2,4 milyon yanıt
+-   Tahmin: Landon %57 — Roosevelt %43
+-   Gerçek: Roosevelt %61-62 — Landon %38
+-   **Neden yanıldı?** Örneklem çerçevesi (otomobil/telefon/kulüp
+    kayıtları) zenginleri aşırı temsil ediyordu + düşük yanıt oranı
+:::
+
+## Dersin Özü
+
+> **Örneklem büyüklüğü, temsil gücünün yerini tutmaz.**
+
+Aynı seçimde Gallup'ın çok daha küçük ama **rastgele** örneklemi doğru
+sonucu tahmin etti.
+
+# Örnekleme Yöntemleri
+
+## İki Ana Grup
+
+![](images/ornekleme-yontemleri-tipolojisi.png){fig-align="center" width="70%"}
+
+## Rastgele Örnekleme Yöntemleri
+
+::: incremental
+-   **Basit rastgele** — her birey eşit şansa sahip
+-   **Tabakalı** — gruplara (kıtalara) ayır, her gruptan seç
+-   **Sistematik** — belirli aralıkla seç
+-   **Küme** — grupları rastgele seç, seçilenin tamamını al
+:::
+
+## Rastgele Olmayan Yöntemler
+
+::: incremental
+-   **Kolayda** — en erişilebilir bireyler
+-   **Amaçlı** — belirli kriterlere göre seçim
+-   **Kartopu** — katılımcılar diğerlerini önerir
+-   Hepsinde yanlılık riski **daha yüksektir**
+:::
+
+## Tabakalı Örnekleme, R'da
+
+```{r}
+set.seed(7)
+tabakali_ornek <- populasyon_2007 |>
+  group_by(continent) |>
+  slice_sample(n = 3) |>
+  ungroup()
+
+tabakali_ornek |> count(continent)
+```
+
+::: incremental
+-   Okyanusya'da yalnızca 2 ülke var → tamamı alınır
+-   `group_by() + slice_sample()` = tabakalı örneklemenin R karşılığı
+:::
+
+# R'da Örnekleme Mekaniği
+
+## `sample()` ve `set.seed()`
+
+```{r}
+set.seed(42)
+sample(populasyon_2007$country, size = 5)
+```
+
+```{r}
+set.seed(42)
+sample(populasyon_2007$country, size = 5)
+```
+
+::: incremental
+-   Aynı seed → aynı sonuç → **yeniden üretilebilirlik**
+:::
+
+# Örnekleme Dağılımı
+
+## Tanım
+
+> Aynı popülasyondan tekrar tekrar çekilen örneklemlerin
+> istatistiklerinin (örneğin ortalamalarının) oluşturduğu dağılım.
+
+## Popülasyon: 2007 Kişi Başı GSYİH
+
+```{r}
+ggplot(populasyon_2007, aes(x = gdpPercap)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  labs(x = "Kişi başı GSYİH (dolar)", y = "Frekans") +
+  theme_minimal()
+```
+
+::: incremental
+-   Belirgin biçimde **sağa çarpık** — CLT'yi test etmek için ideal
+:::
+
+## 1000 Örneklem, n = 5
+
+```{r}
+set.seed(2026)
+xbar5 <- replicate(1000, mean(sample(populasyon_2007$gdpPercap, size = 5, replace = TRUE)))
+
+ggplot(data.frame(x = xbar5), aes(x = x)) +
+  geom_histogram(bins = 30, fill = "darkorange", color = "white") +
+  labs(x = "Örneklem Ortalaması (n = 5)", y = "Frekans") +
+  theme_minimal()
+```
+
+```{r}
+c(orneklem_dagilimi_ortalamasi = mean(xbar5),
+  populasyon_ortalamasi = mean(populasyon_2007$gdpPercap))
+```
+
+# Merkezi Limit Teoremi
+
+## Tanım
+
+> Bir popülasyondan çekilen örneklem ortalamalarının dağılımı,
+> örneklem büyüklüğü yeterince büyüdüğünde, **popülasyonun dağılımı ne
+> olursa olsun** yaklaşık normal dağılım gösterir.
+
+## Standart Hata
+
+$$\text{Standart Hata} = \frac{\sigma}{\sqrt{n}}$$
+
+::: incremental
+-   $n$ büyüdükçe standart hata **küçülür**
+-   $n$ 4 katına çıkarsa, standart hata **yarıya** iner
+    ($\sqrt{4}=2$)
+:::
+
+## Canlı Kanıt: n = 2, 10, 50
+
+```{r}
+#| fig-width: 9
+#| fig-height: 4
+orneklem_buyuklukleri <- c(2, 10, 50)
+set.seed(2026)
+sonuclar <- lapply(orneklem_buyuklukleri, function(n) {
+  data.frame(
+    ortalama = replicate(2000, mean(sample(populasyon_2007$gdpPercap, size = n, replace = TRUE))),
+    n = paste0("n = ", n)
+  )
+})
+sonuclar_df <- bind_rows(sonuclar)
+sonuclar_df$n <- factor(sonuclar_df$n, levels = paste0("n = ", orneklem_buyuklukleri))
+
+ggplot(sonuclar_df, aes(x = ortalama)) +
+  geom_histogram(bins = 40, fill = "seagreen", color = "white") +
+  facet_wrap(~n, scales = "free") +
+  labs(x = "Örneklem Ortalaması", y = "Frekans") +
+  theme_minimal()
+```
+
+## Gözlemler
+
+::: incremental
+-   **n = 2:** hâlâ çarpık — popülasyonun izini taşıyor
+-   **n = 10:** simetrikleşmeye başlıyor
+-   **n = 50:** neredeyse mükemmel normal — popülasyon hâlâ çarpık
+    olsa bile!
+:::
+
+## Sayısal Doğrulama (n = 50)
+
+```{r}
+n50 <- sonuclar_df |> filter(n == "n = 50")
+sigma_gdp <- sd(populasyon_2007$gdpPercap)
+
+c(ampirik_std = sd(n50$ortalama),
+  teorik_standart_hata = sigma_gdp / sqrt(50))
+```
+
+::: incremental
+-   Neredeyse birebir örtüşüyor — teori ile simülasyon uyumlu
+:::
+
+## İleri Düzey (Sınav Kapsamı Dışı)
+
+::: incremental
+-   Gerçek araştırmada popülasyona erişimimiz **olmaz**
+-   O zaman örnekleme dağılımını nasıl tahmin ederiz?
+-   **Bootstrap:** elimizdeki tek örneklemden, yerine koyarak tekrar
+    tekrar örneklem çekmek
+-   Ayrıntısı: **Modül 09**, tahmin ve güven aralıkları
+:::
+
+# Özet
+
+## Bugün Ne Öğrendik?
+
+::: incremental
+-   Popülasyon parametresi ($\mu$) vs. örneklem istatistiği ($\bar{x}$)
+-   Örneklem büyüklüğü, temsil gücünün yerini tutmaz
+    (*Literary Digest*)
+-   Rastgele ve rastgele olmayan örnekleme yöntemleri
+-   `sample()`, `set.seed()`, tabakalı örnekleme R'da
+-   Örnekleme dağılımı ve Merkezi Limit Teoremi
+-   Standart hata: $\sigma / \sqrt{n}$
+:::
+
+# Sırada Ne Var?
+
+## 8. Oturum ve Telafi Dersi
+
+::: incremental
+-   **8. oturum:** Hipotez testi I — bu oturumun örnekleme dağılımı ve
+    standart hata kavramları üzerine inşa edilecek
+-   **Telafi dersi (Modül 09):** Tahmin ve güven aralıkları —
+    örnekleme dağılımından bir aralık nasıl inşa edilir?
+:::

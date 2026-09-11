@@ -1,0 +1,124 @@
+---
+title: "Modül 07 — Cevap Anahtarı"
+subtitle: "Örnekleme ve Örneklem Dağılımı"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+Bu belge `07_modul_alistirmalar.qmd` dosyasındaki 20 sorunun doğru
+cevaplarını ve gerekçelerini içerir. Gerekçeler yalnızca "doğru cevap
+bu" demekle kalmaz — **neden** doğru olduğunu da açıklar, çünkü sınavda
+sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Popülasyon Parametresi ve Örneklem İstatistiği
+
+**1. Doğru cevap: b)** Popülasyon parametresi, **tüm** popülasyonu
+temsil eden bir değerdir. Diğer üç şık (anket örneklemi, sınıftan
+seçilen alt grup, `gapminder`'dan çekilen 20 ülke) birer **alt küme**
+üzerinden hesaplandığı için örneklem istatistiğidir.
+
+**2. Doğru cevap: b)** $\bar{x}$ örneklem ortalamasını gösterir;
+popülasyon ortalaması $\mu$ ile, popülasyon standart sapması $\sigma$
+ile gösterilir.
+
+**3. Doğru cevap: b)** Örnekleme hatası, hangi birimlerin tesadüfen
+seçildiğine bağlı olarak örneklem istatistiğinin popülasyon
+parametresinden sapmasıdır — bir yazım hatası veya eksik veri değildir.
+
+**4. Doğru cevap: b)** 142 ülkeden yalnızca 20'sinin ortalaması
+hesaplandığı için bu bir örneklem istatistiğidir; popülasyon
+parametresi olması için **tüm** 142 ülkenin kullanılması gerekirdi.
+
+## Bölüm B — Örnekleme Yöntemleri
+
+**5. Doğru cevap: b)** Sorun örneklem büyüklüğü değildi (10 milyon,
+tarihin en büyük örneklemlerinden biriydi). Sorun, örneklem
+çerçevesinin (otomobil/telefon/kulüp kayıtları) 1936'nın Büyük Buhran
+koşullarında yalnızca zenginleri temsil etmesi ve düşük yanıt oranının
+(%24) sistematik bir yanlılık yaratmasıydı.
+
+**6. Doğru cevap: b)** Popülasyonu alt gruplara (tabakalara) ayırıp her
+tabakadan örneklem çekmek, tanım gereği **tabakalı örneklemedir**.
+
+**7. Doğru cevap: b)** Kümelerin (burada kıtaların) rastgele seçilip,
+seçilen kümenin **tamamının** incelenmesi küme örneklemedir. Tabakalı
+örneklemeden farkı: tabakalıda *her* tabakadan örnek alınır, kümelide
+yalnızca *seçilen* kümelerin tamamı alınır.
+
+**8. Doğru cevap: c)** Kartopu örnekleme, katılımcıların birbirini
+önermesine dayanır ve seçilme şansı rastgele değildir. Basit rastgele,
+sistematik ve küme örnekleme — hepsi rastgele seçim içerir (küme
+örneklemede kümelerin *seçimi* rastgeledir).
+
+**9. Doğru cevap: b)** `group_by()` veriyi gruplara ayırır,
+`slice_sample(n = 3)` **her grup içinde ayrı ayrı** çalışır — bu,
+tabakalı örneklemenin R'daki doğrudan karşılığıdır.
+
+**10. Doğru cevap: b)** `slice_sample(n = 3, replace = FALSE)`, bir
+grupta 3'ten az birim varsa hata vermez; o gruptaki **mevcut tüm
+birimleri** döndürür. Bölüm B'nin lab alıştırmasında Okyanusya
+(2 ülke) tam olarak bu durumu gösterir.
+
+## Bölüm C — R'da Örnekleme Mekaniği
+
+**11. Doğru cevap: a)** `replace = FALSE` (varsayılan), her birimin en
+fazla bir kez seçilmesini sağlar; `replace = TRUE` aynı birimin birden
+fazla kez seçilmesine izin verir. İkisi de aynı `size` kadar birim
+döndürür (b bu yüzden yanlıştır).
+
+**12. Doğru cevap: b)** `set.seed()`, R'ın rastgele sayı üretecini
+sabit bir başlangıç noktasına kilitler; böylece rastgele işlemler her
+çalıştırmada aynı sonucu üretir — bilimsel yeniden üretilebilirlik
+içindir.
+
+**13. Doğru cevap: b)** Aynı seed, aynı rastgele sayı dizisini
+üretir; dolayısıyla `sample()` her iki seferde de birebir aynı 5
+ülkeyi döndürür.
+
+## Bölüm D — Örnekleme Dağılımı ve Merkezi Limit Teoremi
+
+**14. Doğru cevap: b)** Örnekleme dağılımı, tek bir örneklemin içindeki
+gözlemlerin değil, **birçok farklı örneklemin istatistiklerinin**
+(örneğin her birinin ortalamasının) oluşturduğu dağılımdır.
+
+**15. Doğru cevap: b)** Merkezi Limit Teoremi'nin can alıcı iddiası
+tam olarak budur: popülasyon dağılımı ne olursa olsun (normal, çarpık,
+iki-modlu vb.), örneklem büyüklüğü arttıkça örnekleme dağılımı normale
+yaklaşır.
+
+**16. Doğru cevap: b)** Standart hata formülü $\sigma / \sqrt{n}$'dir.
+$n$ 4 katına çıktığında, $\sqrt{n}$ 2 katına çıkar; dolayısıyla
+standart hata **yarıya iner**, dörde bölünmez (karekök ilişkisine
+dikkat edin).
+
+**17. Doğru cevap: b)** Merkezi Limit Teoremi bir **limit** teoremidir:
+$n$ sonsuza yaklaştıkça geçerlidir, ama küçük $n$ değerlerinde
+(örneğin n = 2) popülasyonun kendi şekli hâlâ örnekleme dağılımında
+görünür. Bu modüldeki `gdpPercap` örneğinde n = 2 için dağılımın hâlâ
+çarpık göründüğünü doğrudan gördünüz.
+
+**18. Doğru cevap: b)** CLT'yi "dikkat çekici" yapan, popülasyonun
+dağılım şekline **bakılmaksızın** çalışmasıdır — eğer yalnızca zaten
+normal olan popülasyonlar için geçerli olsaydı, teoremin pratik değeri
+çok daha az olurdu.
+
+**19. Doğru cevap: b)** Örnekleme dağılımının ortalaması **her zaman**
+(örneklem büyüklüğünden bağımsız olarak) popülasyon ortalamasına
+eşittir; değişen şey ortalama değil, dağılımın **yayılımıdır**
+(standart hata).
+
+**20. Doğru cevap: b)** Ders metnindeki "İleri düzey" notunda,
+popülasyona erişimimiz olmadığında örnekleme dağılımını tahmin etmenin
+bir yolu olarak **bootstrap** yöntemi isim düzeyinde tanıtıldı; ayrıntılı
+işlenişi Modül 09'a (tahmin ve güven aralıkları) bırakıldı.
