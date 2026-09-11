@@ -1,0 +1,133 @@
+---
+title: "Modül 08 — Cevap Anahtarı"
+subtitle: "Olasılık Dağılımları ve Dağılım Fonksiyonları"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+Bu belge `08_modul_alistirmalar.qmd` dosyasındaki 20 sorunun doğru
+cevaplarını ve gerekçelerini içerir. Gerekçeler yalnızca "doğru cevap
+bu" demekle kalmaz — **neden** doğru olduğunu da açıklar, çünkü sınavda
+sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Rastgele Değişkenler ve Olasılık Dağılımı Kavramları
+
+**1. Doğru cevap: b)** Öğrenci sayısı **sayılabilir** bir niceliktir
+(0, 1, 2, ...) — kesikli bir rastgele değişkendir. Diğer üç şık
+(yakıt miktarı, boy, süre) sonsuz hassasiyette ölçülebilen sürekli
+değişkenlerdir.
+
+**2. Doğru cevap: c)** Sıcaklık, iki değer arasında sonsuz sayıda ara
+değer alabilen sürekli bir değişkendir. Çocuk sayısı ve doğru cevap
+sayısı sayılabilir (kesikli), hatalı ampul sayısı da kesikli bir
+sayımdır.
+
+**3. Doğru cevap: b)** Kesikli değişkenlerde her bir sonucun kendi
+olasılığı bir liste/tablo hâlinde verilir; buna **olasılık kütle
+fonksiyonu (PMF)** denir. PDF, sürekli değişkenler için kullanılır.
+
+**4. Doğru cevap: b)** Sürekli dağılımlarda olasılık, eğrinin altında
+kalan **alan** olarak tanımlanır. Tek bir noktanın genişliği (dolayısıyla
+o noktanın kapsadığı alan) sıfır olduğu için $P(X=x)=0$'dır — bu PDF'in
+0'dan küçük olmasıyla ilgisizdir.
+
+**5. Doğru cevap: b)** Bir olasılık dağılımının geçerli olması için iki
+koşul gerekir: (i) değişkenin alabileceği tüm değerlerin listelenmesi,
+(ii) bu değerlere karşılık gelen olasılıkların toplamının 1 olması.
+Toplamın 1 çıkması, dağılımın **tam ve tutarlı** tanımlandığını
+gösterir; paranın hileli olup olmadığıyla ilgili bir bilgi vermez.
+
+## Bölüm B — Kesikli Dağılımlar: Binom ve Poisson
+
+**6. Doğru cevap: d)** Binom dağılımı **kesikli** sonuçlar için
+tanımlıdır; değişkenin sürekli olması binom dağılımının bir koşulu
+değil, tam tersi bir gerekliliktir. Sabit deneme sayısı, iki olası
+sonuç ve sabit başarı olasılığı ise binom dağılımının üç temel
+koşuludur.
+
+**7. Doğru cevap: a)** "Tam olarak k" ifadesi, yoğunluk/olasılık
+kütle fonksiyonunu çağırır — kesikli bir dağılımda bu, `d` önekiyle
+hesaplanır: `dbinom()`. `pbinom()` kümülatif ("en fazla k"),
+`qbinom()` ters dağılım, `rbinom()` rastgele üretimdir.
+
+**8. Doğru cevap: b)** Poisson dağılımı, belirli bir zaman veya mekân
+aralığında **nadir ve bağımsız** olarak gerçekleşen olay sayısını
+modeller (örn. saatte gelen müşteri sayısı). Diğer şıklar sırasıyla
+binom (a), normal (c) ve üstel (d) dağılımları tarif eder.
+
+**9. Doğru cevap: b)** Poisson dağılımının tek parametresi, birim
+zaman/mekân başına düşen **ortalama olay sayısını** ($\lambda$)
+gösterir. Dağılımın tamamı bu tek parametreyle belirlenir.
+
+**10. Doğru cevap: b)** "En fazla 2" ifadesi kümülatif bir olasılıktır
+($P(X \le 2)$); bu da `p` önekiyle, yani `ppois()` ile hesaplanır.
+`dpois()` yalnızca "tam olarak 2" olasılığını verirdi.
+
+## Bölüm C — Sürekli Dağılımlar: Normal ve Üstel
+
+**11. Doğru cevap: b)** Normal dağılımın ayırt edici özelliği,
+ortalama etrafında **simetrik ve çan biçimli** olmasıdır. Kesiklilik
+(a) ve sabit deneme sayısı (d) binom dağılımına, yalnızca pozitif
+değer alma (c) ise üstel dağılıma özgüdür (normal dağılım hem negatif
+hem pozitif değer alabilir).
+
+**12. Doğru cevap: b)** Standart normal dağılım, tanım gereği
+ortalaması $\mu=0$ ve standart sapması $\sigma=1$ olan normal
+dağılımdır. `dnorm()`, `pnorm()`, `qnorm()`, `rnorm()` fonksiyonlarının
+`mean` ve `sd` argümanlarının varsayılan değerleri de bu yüzden 0 ve
+1'dir.
+
+**13. Doğru cevap: b)** Üstel dağılım, ardışık iki olay arasında geçen
+**süreyi** modellemek için kullanılır (örn. iki müşteri arasındaki
+bekleme süresi). Olay **sayısı** (d) Poisson'a, hatalı ürün sayısı (a)
+binom'a, boy dağılımı (c) normal dağılıma aittir.
+
+**14. Doğru cevap: b)** Poisson ve üstel dağılımlar aynı sürecin iki
+farklı yüzüdür: Poisson belirli bir sürede **kaç** olay olduğunu,
+üstel ise bu olaylar **arasında ne kadar süre** geçtiğini modeller.
+İkisi de $\lambda$ parametresiyle birbirine bağlıdır.
+
+**15. Doğru cevap: b)** "5 dakikadan fazla" olasılığı, kümülatif
+dağılım fonksiyonunun **tümleyenidir**: $P(X>5) = 1 - P(X\le5)$. Bu
+nedenle `1 - pexp(5, rate = 1/3)` hesaplanır. `dexp()` yoğunluk
+verir, olasılık vermez; `qexp()` ise olasılıktan x değerine gider,
+tam tersi yönde çalışır.
+
+## Bölüm D — R'da d-p-q-r Fonksiyonları
+
+**16. Doğru cevap: b)** `d-p-q-r` önekleri sırasıyla **D**ensity
+(yoğunluk), **P**robability (kümülatif olasılık), **Q**uantile
+(yüzdelik/ters dağılım) ve **R**andom (rastgele üretim) terimlerinin
+baş harfleridir.
+
+**17. Doğru cevap: b)** `d` öneki her zaman **yoğunluk/olasılık
+kütle** değerini verir; sürekli dağılımlarda bu, eğrinin o noktadaki
+yüksekliğidir ($f(x)$), tek başına bir olasılık değildir. Kümülatif
+olasılık (a) `pnorm()`, yüzdelik değer (c) `qnorm()` ile hesaplanır.
+
+**18. Doğru cevap: a)** `pnorm(x)`, standart normal dağılımda $x$
+değerinin **solunda kalan kümülatif alanı**, yani $P(X\le x)$'i
+verir. Eğrinin yüksekliği (b) `dnorm()`'un, x sınır değeri (c)
+`qnorm()`'un işidir.
+
+**19. Doğru cevap: c)** Bir olasılığa (burada üst %10, yani alt %90)
+karşılık gelen **x sınır değerini** bulmak, `p` fonksiyonunun tam
+tersidir ve `q` (quantile) fonksiyon ailesiyle yapılır — bu soruda
+`qnorm(0.90, ...)` kullanılır.
+
+**20. Doğru cevap: b)** `r` öneki, belirtilen dağılımdan **rastgele
+gözlemler üretir**. `rbinom(10, size = 10, prob = 0.5)`, her biri
+10 denemelik, başarı olasılığı 0.5 olan binom dağılımından çekilmiş
+10 bağımsız rastgele değer üretir — bu değerler tek bir "yoğunluk"
+veya "olasılık" sayısı değil, birer simülasyon sonucudur.

@@ -1,0 +1,212 @@
+---
+title: "Modül 08 — Alıştırmalar"
+subtitle: "Olasılık Dağılımları ve Dağılım Fonksiyonları"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+---
+
+## Bu Alıştırmalar Hakkında
+
+Bu alıştırmalar **notlandırılmaz ve teslim edilmez.** Amacı, sınavdan
+önce kendi durumunuzu ölçebilmenizdir. Sınav soruları da bu biçimde
+(çoktan seçmeli, tek doğru cevap) kurgulanır.
+
+Her soru 4 şıklıdır ve yalnızca **bir tanesi** doğrudur.
+
+Cevaplarınızı not edin, sonra `08_modul_cevap_anahtari.qmd` dosyasıyla
+karşılaştırın.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Rastgele Değişkenler ve Olasılık Dağılımı Kavramları
+
+**1.** Aşağıdakilerden hangisi bir **kesikli** rastgele değişken
+örneğidir?
+
+a\) Bir aracın yaktığı yakıt miktarı (litre)\
+b) Bir sınıftaki öğrenci sayısı\
+c) Bir öğrencinin boyu (cm)\
+d) Bir maratonun tamamlanma süresi
+
+**2.** Aşağıdakilerden hangisi bir **sürekli** rastgele değişken
+örneğidir?
+
+a\) Bir ailedeki çocuk sayısı\
+b) Bir sınavda doğru cevaplanan soru sayısı\
+c) Bir odanın sıcaklığı\
+d) Bir kutudaki hatalı ampul sayısı
+
+**3.** Kesikli bir rastgele değişkenin olasılık dağılımı hangi
+fonksiyonla tanımlanır?
+
+a\) Olasılık Yoğunluk Fonksiyonu (PDF)\
+b) Olasılık Kütle Fonksiyonu (PMF)\
+c) Kümülatif Dağılım Fonksiyonu yalnızca sürekli değişkenlerde
+tanımlıdır\
+d) Ters Dağılım Fonksiyonu
+
+**4.** Sürekli bir rastgele değişken için, tek bir noktadaki olasılık
+$P(X = x)$ neden **0**'dır?
+
+a\) Çünkü sürekli değişkenler yalnızca negatif değer alır\
+b) Çünkü olasılık, bir aralığın altında kalan alan olarak tanımlanır
+ve tek bir noktanın genişliği (dolayısıyla alanı) sıfırdır\
+c) Çünkü PDF her zaman 0'dan küçüktür\
+d) Çünkü sürekli değişkenlerde ortalama her zaman 0'dır
+
+**5.** Bir madeni para iki kez atıldığında, yazı sayısını gösteren $X$
+rastgele değişkeni için $P(X=0)=0.25$, $P(X=1)=0.50$, $P(X=2)=0.25$
+olduğu veriliyor. Bu üç olasılığın toplamının **1** olması neyi
+garanti eder?
+
+a\) Paranın hileli olmadığını\
+b) $X$'in alabileceği tüm olası değerlerin listelendiğini ve
+dağılımın geçerli bir olasılık dağılımı olduğunu\
+c) Her atışın bağımsız olduğunu\
+d) Deneyin sonsuz kez tekrarlandığını
+
+## Bölüm B — Kesikli Dağılımlar: Binom ve Poisson
+
+**6.** Binom dağılımının uygulanabilmesi için aşağıdakilerden hangisi
+**gerekli değildir**?
+
+a\) Sabit sayıda deneme\
+b) Her denemenin yalnızca iki olası sonucu olması\
+c) Denemeler arasında sabit başarı olasılığı\
+d) Değişkenin sürekli olması
+
+**7.** Bir üretim hattında her ürünün hatalı çıkma olasılığı sabit ve
+birbirinden bağımsızdır. 15 ürünlük bir partide **tam olarak 3**
+ürünün hatalı çıkma olasılığını hesaplamak için hangi fonksiyon
+kullanılır?
+
+a\) `dbinom(3, size = 15, prob = p)`\
+b) `pbinom(3, size = 15, prob = p)`\
+c) `qbinom(3, size = 15, prob = p)`\
+d) `rbinom(3, size = 15, prob = p)`
+
+**8.** Poisson dağılımı tipik olarak hangi tür durumu modellemek için
+kullanılır?
+
+a\) Sabit sayıda denemede iki olası sonuçlu olayları\
+b) Belirli bir zaman veya mekân aralığında, nadir ve bağımsız olarak
+gerçekleşen olayların sayısını\
+c) Sürekli bir ölçümün ortalama etrafında simetrik dağılımını\
+d) İki olay arasında geçen süreyi
+
+**9.** Bir kütüphaneye saatte ortalama 5 kişi geldiği biliniyor
+($\lambda = 5$). Bu bilgiyi Poisson dağılımında kullanmak için
+gereken tek parametre budur. Bu durum Poisson dağılımının hangi
+özelliğini yansıtır?
+
+a\) İki olası sonuçlu olması\
+b) Sabit bir ortalama hıza ($\lambda$) sahip olması\
+c\) Sürekli olması\
+d) Simetrik olması
+
+**10.** Bir çağrı merkezinde saatte ortalama 4 çağrı geldiği
+biliniyor. Bir saatte **en fazla 2** çağrı gelme olasılığını
+hesaplamak için hangi R fonksiyonu kullanılır?
+
+a\) `dpois(2, lambda = 4)`\
+b) `ppois(2, lambda = 4)`\
+c) `qpois(2, lambda = 4)`\
+d) `rpois(2, lambda = 4)`
+
+## Bölüm C — Sürekli Dağılımlar: Normal ve Üstel
+
+**11.** Normal dağılımın en belirgin özelliği aşağıdakilerden
+hangisidir?
+
+a\) Kesikli sonuçlara sahip olması\
+b) Ortalama etrafında simetrik, çan şeklinde bir eğri oluşturması\
+c\) Yalnızca pozitif değerler alması\
+d) Sabit bir deneme sayısına dayanması
+
+**12.** Standart normal dağılımın ortalaması ve standart sapması
+sırasıyla nedir?
+
+a\) $\mu = 1$, $\sigma = 0$\
+b) $\mu = 0$, $\sigma = 1$\
+c\) $\mu = 100$, $\sigma = 15$\
+d) Standart normal dağılımın sabit bir ortalaması yoktur
+
+**13.** Üstel dağılım tipik olarak neyi modellemek için kullanılır?
+
+a\) Bir partideki hatalı ürün sayısını\
+b) Ardışık iki olay arasında geçen süreyi\
+c\) Bir sınıfın ortalama boy dağılımını\
+d) Belirli bir zaman aralığındaki olay sayısını
+
+**14.** Poisson ve üstel dağılımlar arasındaki ilişki için hangi ifade
+doğrudur?
+
+a\) İkisi de yalnızca kesikli değişkenler için tanımlıdır\
+b\) Poisson, belirli bir sürede kaç olay olduğunu; üstel ise bu
+olaylar **arasındaki süreyi** modeller\
+c\) Üstel dağılım yalnızca negatif değerler alır\
+d) İkisi arasında matematiksel bir bağlantı yoktur
+
+**15.** Bir ATM'de müşteriler arasında ortalama 3 dakika geçtiği
+biliniyor. Bir sonraki müşterinin **5 dakikadan fazla** sürede
+gelme olasılığını hesaplamak için hangi yaklaşım doğrudur?
+
+a\) `dexp()` ile doğrudan olasılık okunur\
+b) `1 - pexp(5, rate = 1/3)` hesaplanır\
+c\) `qexp(5, rate = 1/3)` hesaplanır\
+d) Bu, yalnızca Poisson dağılımıyla hesaplanabilir
+
+## Bölüm D — R'da d-p-q-r Fonksiyonları
+
+**16.** R'daki dağılım fonksiyonlarının başına gelen `d`, `p`, `q`,
+`r` önekleri sırasıyla neyi ifade eder?
+
+a\) Data, Plot, Query, Report\
+b) Density, Probability, Quantile, Random\
+c\) Discrete, Poisson, Quartile, Range\
+d) Değişken, Parametre, Katsayı, Rastgele
+
+**17.** `dnorm(0)` fonksiyonu ne hesaplar?
+
+a\) Standart normal dağılımda $X \le 0$ olma olasılığını\
+b\) Standart normal dağılım eğrisinin $x=0$ noktasındaki
+yüksekliğini (yoğunluğunu)\
+c\) %50'lik dilime karşılık gelen x değerini\
+d) Standart normal dağılımdan rastgele bir değer üretir
+
+**18.** `pnorm(1.96)` fonksiyonu yaklaşık olarak **0.975** sonucunu
+verir. Bu değer neyi ifade eder?
+
+a\) Standart normal dağılımda $x=1.96$'nın solunda kalan kümülatif
+olasılığı\
+b) Standart normal dağılım eğrisinin $x=1.96$ noktasındaki
+yüksekliğini\
+c\) %97.5'lik dilime karşılık gelen x değerini\
+d) 1.96 ortalamalı bir dağılımdan üretilen rastgele bir değeri
+
+**19.** Bir sınıfın en başarılı %10'una girmek için gereken sınırı
+(kesme notunu) bulmak istiyorsunuz. Hangi fonksiyon ailesi
+kullanılır?
+
+a\) `d` (density)\
+b) `p` (probability)\
+c\) `q` (quantile)\
+d) `r` (random)
+
+**20.** `rbinom(10, size = 10, prob = 0.5)` kodu çalıştırıldığında ne
+elde edilir?
+
+a\) 10 denemelik, başarı olasılığı 0.5 olan bir binom dağılımının
+yoğunluk değeri\
+b\) Aynı binom dağılımından üretilmiş 10 rastgele gözlem\
+c\) Binom dağılımının %50'lik dilimine karşılık gelen x değeri\
+d) 10 başarı elde etme olasılığının tam değeri

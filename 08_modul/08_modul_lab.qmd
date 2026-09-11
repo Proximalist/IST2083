@@ -1,0 +1,231 @@
+---
+title: "Modül 08 — Rehberli Laboratuvar"
+subtitle: "Olasılık Dağılımları ve Dağılım Fonksiyonları"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+    fig.width: 5.5
+    fig.height: 3.2
+    fig.align: "center"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar
+başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–D): her görevde ne yapmanız gerektiği yazılıdır
+    ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____`
+    gördüğünüz yerleri siz dolduracaksınız. Bu kodlar render sırasında
+    çalıştırılmaz — sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli.
+
+::: callout-tip
+## Nasıl çalışılır
+
+Her görevden sonra **bir cümleyle** sonucu yorumlayın (kod öbeğinin
+altına, düz metin olarak). Sınavda sizden istenecek olan kod yazmak
+değil, bu cümleyi kurabilmektir.
+:::
+
+Bu modülde kullanılan tüm fonksiyonlar (`dbinom`, `ppois`, `qnorm`,
+`rexp` vb.) R'ın temel `stats` paketindendir; ek bir paket
+yüklemenize gerek yoktur.
+
+------------------------------------------------------------------------
+
+# Bölüm A — Binom Dağılımı: Kalite Kontrol
+
+## Görev A1 — Tam olarak k hatalı ürün
+
+Bir üretim hattında her ürünün hatalı çıkma olasılığı **%3**'tür
+(`prob = 0.03`). 20 ürünlük bir partide **tam olarak 2** ürünün
+hatalı çıkma olasılığını hesaplayın.
+
+```{r}
+#| eval: false
+dbinom(x = ____, size = ____, prob = ____)
+```
+
+## Görev A2 — En fazla k hatalı ürün
+
+Aynı partide **en fazla 2** ürünün hatalı çıkma olasılığını
+hesaplayın ve Görev A1'deki sonuçla karşılaştırın.
+
+```{r}
+#| eval: false
+pbinom(q = ____, size = 20, prob = 0.03)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm B — Poisson Dağılımı: Çağrı Merkezi
+
+## Görev B1 — Tam olarak k çağrı
+
+Bir çağrı merkezine saatte ortalama **4 çağrı** geldiği biliniyor
+($\lambda = 4$). Bir saatte **tam olarak 6** çağrı gelme olasılığını
+hesaplayın.
+
+```{r}
+#| eval: false
+dpois(x = ____, lambda = ____)
+```
+
+## Görev B2 — Bir günü simüle edin
+
+`set.seed(2026)` ile sabitleyip, 8 saatlik bir mesainin her saati için
+gelen çağrı sayısını `rpois()` ile simüle edin ve sonucu bir histogramla
+gösterin.
+
+```{r}
+#| eval: false
+set.seed(____)
+gunluk_cagrilar <- rpois(n = ____, lambda = 4)
+gunluk_cagrilar
+hist(gunluk_cagrilar, main = "Saatlik Çağrı Sayısı Simülasyonu",
+     xlab = "Çağrı sayısı")
+```
+
+------------------------------------------------------------------------
+
+# Bölüm C — Normal Dağılım: Sınav Notları
+
+## Görev C1 — Belirli bir notun üzerinde kalma olasılığı
+
+Bir sınavın notları ortalama 70, standart sapma 12 ile normal
+dağılıyor olsun. Rastgele seçilen bir öğrencinin **85'in üzerinde**
+not alma olasılığını hesaplayın. (İpucu: $P(X>85) = 1-P(X\le85)$.)
+
+```{r}
+#| eval: false
+1 - pnorm(q = ____, mean = ____, sd = ____)
+```
+
+## Görev C2 — En başarılı %5'in sınırı
+
+Sınıfın en başarılı **%5**'ine girmek için gereken notu (kesme
+noktasını) bulun.
+
+```{r}
+#| eval: false
+qnorm(p = ____, mean = 70, sd = 12)
+```
+
+------------------------------------------------------------------------
+
+# Bölüm D — Üstel Dağılım: Bekleme Süreleri
+
+## Görev D1 — Belirli bir süreden uzun bekleme
+
+Bir ATM'de müşteriler arasında ortalama **3 dakika** geçiyor
+(`rate = 1/3`). Bir sonraki müşterinin **5 dakikadan fazla** sürede
+gelme olasılığını hesaplayın.
+
+```{r}
+#| eval: false
+1 - pexp(q = ____, rate = 1/____)
+```
+
+## Görev D2 — Simülasyon ve karşılaştırma
+
+`set.seed(2026)` ile 1000 müşteri arası bekleme süresi simüle edin,
+histogramını çizin ve simülasyonun ortalamasını teorik ortalama
+($1/\text{rate}$) ile karşılaştırın.
+
+```{r}
+#| eval: false
+set.seed(2026)
+bekleme_sureleri <- rexp(n = ____, rate = 1/3)
+mean(bekleme_sureleri)
+hist(bekleme_sureleri, main = "Bekleme Süresi Simülasyonu (dk)",
+     xlab = "Dakika")
+```
+
+------------------------------------------------------------------------
+
+# Çözümler
+
+## A1 — Çözüm
+
+```{r}
+dbinom(x = 2, size = 20, prob = 0.03)
+```
+
+## A2 — Çözüm
+
+```{r}
+pbinom(q = 2, size = 20, prob = 0.03)
+```
+
+"En fazla 2" olasılığı, "tam olarak 0, 1 ve 2" olasılıklarının
+toplamı olduğu için A1'deki tekil olasılıktan **daha büyüktür**.
+
+## B1 — Çözüm
+
+```{r}
+dpois(x = 6, lambda = 4)
+```
+
+## B2 — Çözüm
+
+```{r}
+set.seed(2026)
+gunluk_cagrilar <- rpois(n = 8, lambda = 4)
+gunluk_cagrilar
+hist(gunluk_cagrilar, main = "Saatlik Çağrı Sayısı Simülasyonu",
+     xlab = "Çağrı sayısı")
+```
+
+Sekiz saatlik simülasyonda saatlik çağrı sayısı ortalama 4 civarında
+dağılır, ancak Poisson dağılımının doğası gereği bazı saatlerde bu
+sayı belirgin biçimde daha düşük veya yüksek çıkabilir.
+
+## C1 — Çözüm
+
+```{r}
+1 - pnorm(q = 85, mean = 70, sd = 12)
+```
+
+## C2 — Çözüm
+
+```{r}
+qnorm(p = 0.95, mean = 70, sd = 12)
+```
+
+Bu notun **üzerinde** alanlar sınıfın en başarılı %5'ini oluşturur;
+bu yüzden `p = 0.95` (yani en düşük %95'i kapsayan sınır) kullanılır.
+
+## D1 — Çözüm
+
+```{r}
+1 - pexp(q = 5, rate = 1/3)
+```
+
+## D2 — Çözüm
+
+```{r}
+set.seed(2026)
+bekleme_sureleri <- rexp(n = 1000, rate = 1/3)
+mean(bekleme_sureleri)
+hist(bekleme_sureleri, main = "Bekleme Süresi Simülasyonu (dk)",
+     xlab = "Dakika")
+```
+
+Simülasyonun ortalaması teorik değere ($1/\text{rate} = 3$ dakika)
+yakın çıkar; histogram da üstel dağılıma özgü, sıfıra yakın
+değerlerde yoğunlaşıp sağa doğru uzayan (sağa çarpık) bir şekil
+gösterir.

@@ -26,7 +26,7 @@ project:
     - R_RStudio_Kurulum_Rehberi.qmd
     - 06_modul/*.qmd
     - 07_modul/*.qmd
-    # - 08_modul/*.qmd     # denetim bekliyor
+    - 08_modul/*.qmd
     # - 09_modul/*.qmd     # denetim bekliyor
     # - 10_modul/*.qmd     # denetim bekliyor
     # - 11_modul/*.qmd     # denetim bekliyor

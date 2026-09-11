@@ -63,19 +63,13 @@ Bir **olasılık dağılımı**, rastgele bir değişkenin alabileceği tüm ola
 
 #### **Kesikli Olasılık Dağılımı Örneği**
 
-Bir madeni paranın iki kez atılması durumunda, yazıların sayısını ifade eden rastgele değişkeni XXX olarak tanımlayalım. Olasılık dağılımı şu şekilde ifade edilebilir:
+Bir madeni paranın iki kez atılması durumunda, yazıların sayısını ifade eden rastgele değişkeni X olarak tanımlayalım. Olasılık dağılımı şu şekilde ifade edilebilir:
 
-+--------------------+---------------+
-| $$X$$(Yazı Sayısı) | $(P(X))$      |
-|                    |               |
-|                    | Olasılık      |
-+====================+===============+
-| 0 (Hiç yazı yok)   | $P(X=0)=0.25$ |
-+--------------------+---------------+
-| 1 (Bir yazı)       | $P(X=1)=0.50$ |
-+--------------------+---------------+
-| 2 (İki yazı)       | $P(X=2)=0.25$ |
-+--------------------+---------------+
+| $X$ (Yazı Sayısı) | $P(X)$ (Olasılık) |
+|:-------------------|:-------------------|
+| 0 (Hiç yazı yok)    | $P(X=0)=0.25$       |
+| 1 (Bir yazı)        | $P(X=1)=0.50$       |
+| 2 (İki yazı)        | $P(X=2)=0.25$       |
 
 -   **Açıklama:** X'in alabileceği değerler 0,1,2'dir ve bu değerlerin gerçekleşme olasılıklarının toplamı 1'e eşittir.
 
@@ -127,7 +121,7 @@ Grafik, 10 denemeli $(n=10)$ ve başarı olasılığı 0.5 $(p=0.5)$ olan bir bi
 
 ![](images/poison.png)
 
-Grafik, ortalaması $(μ=3)$ olan bir Poisson dağılımını temsil eder.
+Grafik, ortalaması $(\mu=3)$ olan bir Poisson dağılımını temsil eder.
 
 Çubuklar, belirli bir olay sayısının (örneğin, bir saatte mağazaya gelen müşteri sayısı) gerçekleşme olasılığını gösterir.
 
@@ -135,13 +129,13 @@ Grafik, ortalaması $(μ=3)$ olan bir Poisson dağılımını temsil eder.
 
 1.  **Nadir olayları modellemek:** Olaylar nadir ve bağımsız bir şekilde meydana gelir.
 
-2.  **Sabit bir ortalama hız** $(λ)$: Belirli bir zaman aralığında ortalama olay sayısı sabittir.
+2.  **Sabit bir ortalama hız** $(\lambda)$: Belirli bir zaman aralığında ortalama olay sayısı sabittir.
 
 3.  **Sabit zaman/mekân aralığı:** Olayların meydana geldiği aralık sabittir.
 
 4.  **Kesikli sonuçlar:** Sonuçlar (örneğin, olay sayısı) tam sayı olarak ifade edilir.
 
-**Örnek:** Bir otobüs durağında bir saatte otobüs gelme sayısını modellemek için Poisson dağılımını kullanabilirsiniz. Eğer ortalama olarak saatte 3 otobüs geliyorsa $(λ=3)$ , bu dağılım otobüs sayısının olasılıklarını hesaplamanıza olanak tanır.
+**Örnek:** Bir otobüs durağında bir saatte otobüs gelme sayısını modellemek için Poisson dağılımını kullanabilirsiniz. Eğer ortalama olarak saatte 3 otobüs geliyorsa $(\lambda=3)$ , bu dağılım otobüs sayısının olasılıklarını hesaplamanıza olanak tanır.
 
 **Basitçe:** Poisson dağılımını, belirli bir aralıktaki olay sayısını modellemek için kullanırsınız.
 
@@ -151,7 +145,7 @@ Grafik, ortalaması $(μ=3)$ olan bir Poisson dağılımını temsil eder.
 
 ![](images/normal.png)
 
-Grafik, ortalama $(μ=0)$ ve standart sapması $(σ=1)$ olan standart normal dağılımın yoğunluk fonksiyonunu (PDF) gösterir.
+Grafik, ortalama $(\mu=0)$ ve standart sapması $(\sigma=1)$ olan standart normal dağılımın yoğunluk fonksiyonunu (PDF) gösterir.
 
 Çizgi, sürekli verilerin simetrik bir şekilde dağıldığı çan şeklini temsil eder.
 
@@ -181,9 +175,9 @@ Grafik, ölçek parametresi $(\lambda^{-1} = 1)$ olan üstel dağılımın yoğu
 
 3.  **Bağımsız olaylar:** İki olay arasındaki süre bir önceki olaydan bağımsızdır.
 
-4.  **Tek parametre** $(λ)$: Ortalama hızın tersi $(1/λ1)$, beklenen süreyi temsil eder.
+4.  **Tek parametre** $(\lambda)$: Ortalama hızın tersi $(1/\lambda)$, beklenen süreyi temsil eder.
 
-**Örnek:** Bir ATM’de müşteriler arasında geçen süreyi modellemek için üstel dağılım kullanılabilir. Eğer ortalama olarak iki müşteri arasında 2 dakika geçiyorsa $(λ=0.5)$, üstel dağılım bu sürelerin dağılımını tanımlar.
+**Örnek:** Bir ATM’de müşteriler arasında geçen süreyi modellemek için üstel dağılım kullanılabilir. Eğer ortalama olarak iki müşteri arasında 2 dakika geçiyorsa $(\lambda=0.5)$, üstel dağılım bu sürelerin dağılımını tanımlar.
 
 **Basitçe:** Üstel dağılım, olaylar arasındaki süreyi modellemek için kullanılır.
 
@@ -241,7 +235,7 @@ Olasılık dağılımları, istatistik ve veri analizinde rastgele değişkenler
 
 ## R Fonksiyonları
 
-R'da farklı dağılım türleri için çeşitli fonksiyonlar bulunmaktadır.
+R'da farklı dağılım türleri için çeşitli fonksiyonlar bulunmaktadır. Bu fonksiyonlar, çeşitli dağılımlar üzerinde hesaplama yapmanıza ve rastgele veri üretmenize olanak tanır.
 
 ### **Özet Tablo**
 
@@ -255,91 +249,7 @@ R'da farklı dağılım türleri için çeşitli fonksiyonlar bulunmaktadır.
 | t-Dağılımı | `dt` | `pt` | `qt` | `rt` |
 | Chi-Square | `dchisq` | `pchisq` | `qchisq` | `rchisq` |
 
-Bu fonksiyonlar, çeşitli dağılımlar üzerinde hesaplama yapmanıza ve rastgele veri üretmenize olanak tanır.
-
-Bu fonksiyonlar genellikle dört ana işlevi yerine getirir:
-
-### **Özet Karşılaştırma**
-
-| **Fonksiyon Türü** | **Amaç** | **Örnek** |
-|----|----|----|
-| **Yoğunluk (Density)** | Belirli bir x değeri için yoğunluk ya da olasılığı hesaplar. | `dnorm(0, mean=0, sd=1)` |
-| **Dağılım (Distribution)** | Belirli bir x değerine kadar olan toplam olasılığı hesaplar $(X≤x)$. | `pnorm(1, mean=0, sd=1)` |
-| **Ters Dağılım (Quantile)** | Belirli bir olasılığa (p) karşılık gelen x değerini hesaplar. | `qnorm(0.95, mean=0, sd=1)` |
-| **Rastgele Üretim (Random)** | Belirli bir dağılımdan rastgele veri üretir. | `rnorm(10, mean=0, sd=1)` |
-
-1.  **Yoğunluk Fonksiyonu (Density Function):** Belirli bir x değerinin olasılık yoğunluğunu hesaplar (ör. `dnorm`, `dbinom`).
-
-Yoğunluk fonksiyonu, bir rastgele değişkenin belirli bir x değerine sahip olma olasılık yoğunluğunu hesaplar. Kesikli dağılımlar için bu, x'in olasılığını verir. Sürekli dağılımlarda ise yoğunluk değerleri, olasılık olarak değil, birim aralığındaki yoğunluk olarak yorumlanır.
-
-```{r}
-dbinom(3, size = 10, prob = 0.5)  # 10 denemede tam 3 başarı olasılığı
-```
-
-```{r}
-pnorm(1, mean=0, sd=1) - pnorm(-1, mean=0, sd=1)  # -1 ile 1 arasındaki olasılık
-
-```
-
-![](images/yogunlukfonk.png)
-
-Grafikte, standart normal dağılım $(μ=0,σ=1)$ gösterilmektedir. Kırmızı kesik çizgiler $x=−1$'i temsil ederken, mavi gölgeli alan $P(−1≤X≤1)$ kümülatif olasılığını ifade etmektedir. Bu alan, dağılımın bu iki değer arasında olma olasılığını gösterir.
-
-2.  **Dağılım Fonksiyonu (Distribution Function):** Belirli bir x değerine kadar olan kümülatif olasılığı hesaplar (ör. `pnorm`, `pbinom`).
-
-Dağılım fonksiyonu, belirli bir x değerine kadar olan kümülatif olasılığı hesaplar. Bu, rastgele değişkenin $X≤x$ olma olasılığını ifade eder. Örneğin, bir zar atıldığında $x≤3$ gelme olasılığını hesaplamak için:
-
-```{r}
-pbinom(3, size = 10, prob = 0.5)  # En fazla 3 başarı olasılığı
-```
-
-![](images/kumulatif.png)
-
-Grafikte, standart normal dağılım $(μ=0,σ=1)$ gösterilmektedir. Kırmızı kesik çizgi $x=1$'i temsil ederken, mavi gölgeli alan $P(X≤1)$ kümülatif olasılığını göstermektedir. Bu, X rastgele değişkeninin 1'den küçük veya eşit olma olasılığıdır.
-
-3.  **Ters Dağılım Fonksiyonu (Quantile Function):** Belirli bir olasılık için ilgili x değerini hesaplar (ör. `qnorm`, `qbinom`).
-
-Ters dağılım fonksiyonu, belirli bir olasılık değerine karşılık gelen x değerini verir. Bu, belirli bir yüzdelik dilimdeki değeri bulmak için kullanılır.
-
-Örneğin, binom dağılımında %95'lik dilimde kaç başarı olabileceğini bulmak:
-
-```{r}
-qbinom(0.95, size = 10, prob = 0.5)  # %95 yüzdelik başarı sayısı
-```
-
-Ya da örneğin sürekli bir dağılımda belirli bir yüzdelik dilim (p) için karşılık gelen x değeri:
-
-```{r}
-qnorm(0.95, mean = 0, sd = 1)  # %95 yüzdelik değer
-```
-
-![](images/kumulatif2.png)
-
-Grafikte, standart normal dağılım $(μ=0,σ=1)$ ve %95 yüzdelik değeri gösterilmektedir. Kırmızı kesik çizgi x değerinin %95'lik dilime denk geldiği noktayı işaret eder $(x≈1.645)$. Mavi gölgeli alan, bu değerin altında kalan toplam olasılığı temsil eder $(P(X≤1.645)=0.95).$
-
-4.  **Rastgele Sayı Üretme (Random Generation):** Belirli bir dağılımdan rastgele veri üretir (ör. `rnorm`, `rbinom`).
-
-Bu fonksiyonlar, belirli bir dağılımdan rastgele değerler üretmek için kullanılır. Araştırmalarda simülasyon yapmak, deneysel veriler oluşturmak veya algoritmalar test etmek için idealdir.
-
-Örneğin, binom dağılımından rastgele 10 değer üretmek:
-
-```{r}
-rbinom(10, size = 10, prob = 0.5)  # Rastgele 10 başarı sayısı
-```
-
-Ya da, normal dağılımdan rastgele 10 değer üretmek:
-
-```{r}
-rnorm(10, mean = 0, sd = 1)  # Normal dağılımdan rastgele değerler
-```
-
-### 
-
-R dilinde istatistiksel dağıtımlarla (Normal, Binom, Poisson vb.) çalışırken kullanılan fonksiyonların başına gelen **d-p-q-r** harfleri, o dağılımın hangi özelliğini hesaplamak istediğinizi belirtir.
-
-Bu harfler İngilizce terimlerin baş harflerinden gelir: **D**ensity, **P**robability (Cumulative), **Q**uantile, **R**andom.
-
-En yaygın örnek olan **Normal Dağılım (`norm`)** üzerinden bu 4 öneki açıklayalım.
+R dilinde istatistiksel dağılımlarla çalışırken kullanılan fonksiyonların başına gelen **d-p-q-r** harfleri, o dağılımın hangi özelliğini hesaplamak istediğinizi belirtir. Bu harfler İngilizce terimlerin baş harflerinden gelir: **D**ensity, **P**robability (Cumulative), **Q**uantile, **R**andom. Aşağıda her önek, önce sürekli (Normal) sonra kesikli (Binom) bir örnekle açıklanmaktadır.
 
 ------------------------------------------------------------------------
 
@@ -347,97 +257,78 @@ En yaygın örnek olan **Normal Dağılım (`norm`)** üzerinden bu 4 öneki aç
 
 Bu fonksiyon, dağılımın **yüksekliğini** (olasılık yoğunluğunu) verir.
 
--   **Sürekli Dağılımlarda (örn: `dnorm`):** Eğrinin $x$ noktasındaki yüksekliğini verir ($f(x)$). Bu tek başına bir olasılık değeri değildir (sürekli dağılımlarda tek bir noktanın olasılığı 0'dır), ancak eğrinin şeklini çizdirmek için kullanılır.
+-   **Sürekli dağılımlarda** (örn. `dnorm`): Eğrinin $x$ noktasındaki yüksekliğini verir ($f(x)$). Bu tek başına bir olasılık değeri değildir (sürekli dağılımlarda tek bir noktanın olasılığı 0'dır), ancak eğrinin şeklini çizdirmek için kullanılır.
+-   **Kesikli dağılımlarda** (örn. `dbinom`): Olayın tam olarak o değerde gerçekleşme olasılığını verir ($P(X=k)$).
 
--   **Kesikli Dağılımlarda (örn: `dbinom`):** Olayın tam olarak o değerde gerçekleşme olasılığını verir ($P(X=k)$).
+Örnek (Normal Dağılım) — standart normal dağılımın (ortalama=0, ss=1) tam tepe noktasındaki (0 noktası) yüksekliği nedir?
 
--   
-
-    ![Image of standard normal distribution curve](https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRcL-YZeRio-RdG381ETMZn6U1PgK5DJ_pB76TSoWud4URWVG3dtMeowjuriDPw0o8nmz2IwyswNh1jrlArbG_8TTUq_nAiv1JXj0gIBB0Z_7V2bgU)
-
-Örnek (Normal Dağılım):
-
-Standart normal dağılımın (ortalama=0, ss=1) tam tepe noktasındaki (0 noktası) yüksekliği nedir?
-
-R
-
-```         
+```{r}
 dnorm(0)
 # Sonuç: 0.3989 (Çan eğrisinin en yüksek noktası)
 ```
 
-Örnek (Binom Dağılımı):
+Örnek (Binom Dağılımı) — bir madeni parayı 10 kere attığımda, tam olarak 5 kere tura gelme olasılığı nedir?
 
-Bir madeni parayı 10 kere attığımda, tam olarak 5 kere tura gelme olasılığı nedir?
-
-R
-
-```         
+```{r}
 dbinom(x = 5, size = 10, prob = 0.5)
 # Sonuç: 0.246 (Tam olarak 5 tura gelme ihtimali %24.6)
+```
+
+![](images/yogunlukfonk.png)
+
+Grafikte, standart normal dağılım $(\mu=0,\sigma=1)$ gösterilmektedir. Kırmızı kesik çizgiler $x=-1$'i temsil ederken, mavi gölgeli alan $P(-1\le X\le1)$ kümülatif olasılığını ifade etmektedir. Bu alan, iki değer arasındaki olasılığın `p` fonksiyonlarının farkı alınarak da hesaplanabileceğini gösterir:
+
+```{r}
+pnorm(1, mean = 0, sd = 1) - pnorm(-1, mean = 0, sd = 1)  # -1 ile 1 arasındaki olasılık
 ```
 
 ------------------------------------------------------------------------
 
 ### 2. `p` - Probability (Kümülatif Olasılık)
 
-Bu fonksiyon, **eğrinin sol tarafında kalan alanı** verir. İstatistikteki $P(X \le x)$ değeridir.
+Bu fonksiyon, **eğrinin sol tarafında kalan alanı** verir: $P(X \le x)$. Bir değerin (veya o değerden küçüklerin) gerçekleşme ihtimalini hesaplarken kullanılır.
 
-Bir değerin (veya o değerden küçüklerin) gerçekleşme ihtimalini hesaplarken kullanılır. "X değeri 2'den küçük veya eşit olma olasılığı nedir?" sorusunun cevabıdır.
+Örnek (Normal Dağılım) — Z-skoru 1.96 olan değerin solunda kalan alan (kümülatif olasılık) nedir?
 
-![](https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSKM_B_uz9SkYDPxsXjN-rL7sKmn0cbro7SVTxBcnksVTXlQccScmv9jaYYSjKSlN51n2ny8ce7lFckafCyPYtUqF00wYqxouQdHETJ4o9zGAp6OcI){alt="Image of cumulative distribution function area under curve"}
-
-Örnek:
-
-Standart normal dağılımda bir değerin 0'dan küçük olma ihtimali nedir? (Simetrik olduğu için %50 olmasını bekleriz).
-
-R
-
-```         
-pnorm(0)
-# Sonuç: 0.5
-```
-
-Örnek:
-
-Z-skoru 1.96 olan değerin solunda kalan alan (kümülatif olasılık) nedir?
-
-R
-
-```         
+```{r}
 pnorm(1.96)
 # Sonuç: ~0.975
 ```
+
+Örnek (Binom Dağılımı) — 10 denemede en fazla 3 başarı elde etme olasılığı nedir?
+
+```{r}
+pbinom(3, size = 10, prob = 0.5)
+# Sonuç: en fazla 3 başarı olasılığı
+```
+
+![](images/kumulatif.png)
+
+Grafikte, standart normal dağılım $(\mu=0,\sigma=1)$ gösterilmektedir. Kırmızı kesik çizgi $x=1$'i temsil ederken, mavi gölgeli alan $P(X\le1)$ kümülatif olasılığını göstermektedir.
 
 ------------------------------------------------------------------------
 
 ### 3. `q` - Quantile (Kartil / Yüzdelik)
 
-Bu fonksiyon, `p` fonksiyonunun **tam tersidir** (Ters Kümülatif Dağılım Fonksiyonu).
+Bu fonksiyon, `p` fonksiyonunun **tam tersidir** (Ters Kümülatif Dağılım Fonksiyonu). Siz R'a bir olasılık (alan) verirsiniz, R size bu olasılığa denk gelen **x sınır değerini** (kesme noktasını) verir. "Hangi değerin altında verilerin %95'i kalır?" sorusunun cevabıdır.
 
-Siz R'a bir olasılık (alan) verirsiniz, R size bu olasılığa denk gelen **x sınır değerini** (kesme noktasını) verir. "Hangi değerin altında verilerin %95'i kalır?" sorusunun cevabıdır.
+Örnek (Normal Dağılım) — sınıfın en başarılı %10'una girmek için (yani %90'ından daha yüksek not almak için) notum kaç olmalı? (Ortalama 60, SS 10 olsun.)
 
-Örnek:
-
-Verilerin en düşük %97.5'ini kapsayan sınır değeri (z-skoru) nedir?
-
-R
-
-```         
-qnorm(0.975)
-# Sonuç: 1.9599... (Yaklaşık 1.96)
-```
-
-Örnek:
-
-Sınıfın en başarılı %10'una girmek için (yani %90'ından daha yüksek not almak için) notum kaç olmalı? (Ortalama 60, SS 10 olsun).
-
-R
-
-```         
+```{r}
 qnorm(0.90, mean = 60, sd = 10)
 # Sonuç: ~72.8 (72.8'den yüksek alırsan ilk %10'dasın)
 ```
+
+Örnek (Binom Dağılımı) — 10 denemede %95'lik dilimde kaç başarı olabileceğini bulmak:
+
+```{r}
+qbinom(0.95, size = 10, prob = 0.5)
+# Sonuç: %95 yüzdelik başarı sayısı
+```
+
+![](images/kumulatif2.png)
+
+Grafikte, standart normal dağılım $(\mu=0,\sigma=1)$ ve %95 yüzdelik değeri gösterilmektedir. Kırmızı kesik çizgi x değerinin %95'lik dilime denk geldiği noktayı işaret eder $(x\approx1.645)$. Mavi gölgeli alan, bu değerin altında kalan toplam olasılığı temsil eder $(P(X\le1.645)=0.95)$.
 
 ------------------------------------------------------------------------
 
@@ -445,15 +336,16 @@ qnorm(0.90, mean = 60, sd = 10)
 
 Bu fonksiyon, belirtilen dağılıma uygun **simülasyon verisi** (rastgele sayılar) üretir. Analiz, test veya Monte Carlo simülasyonları yaparken kullanılır.
 
-Örnek:
+Örnek (Normal Dağılım) — ortalaması 100, standart sapması 15 olan (IQ testi gibi) bir dağılımdan rastgele 5 kişi seç (simüle et):
 
-Ortalaması 100, standart sapması 15 olan (IQ testi gibi) bir dağılımdan rastgele 5 kişi seç (simüle et).
-
-R
-
-```         
+```{r}
 rnorm(n = 5, mean = 100, sd = 15)
-# Sonuç Örneği: 102.4, 98.1, 115.3, 89.5, 108.2
+```
+
+Örnek (Binom Dağılımı) — 10 denemelik bir binom dağılımından rastgele 10 gözlem üret:
+
+```{r}
+rbinom(10, size = 10, prob = 0.5)
 ```
 
 ------------------------------------------------------------------------

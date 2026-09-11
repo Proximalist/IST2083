@@ -1,0 +1,220 @@
+---
+title: "Modül 08: Olasılık Dağılımları ve Dağılım Fonksiyonları"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    toc: true
+    toc-depth: 2
+    incremental: true
+    code-overflow: scroll
+    code-line-numbers: false
+    transition: fade
+    math: mathjax
+editor: visual
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    fig.width: 8
+    fig.height: 4.2
+    dpi: 110
+---
+
+## 🎯 Öğrenme Hedefleri
+
+Bu oturumun sonunda:
+
+-   Kesikli ve sürekli rastgele değişkeni ayırt edebileceksiniz
+-   Olasılık kütle fonksiyonu (PMF) ile olasılık yoğunluk fonksiyonu
+    (PDF) arasındaki farkı açıklayabileceksiniz
+-   Binom, Poisson, Normal ve Üstel dağılımların hangi durumu
+    modellediğini bilebileceksiniz
+-   R'daki **d-p-q-r** fonksiyon ailesini (`dnorm`, `pnorm`, `qnorm`,
+    `rnorm` vb.) doğru fonksiyonu seçerek kullanabileceksiniz
+
+------------------------------------------------------------------------
+
+## Rastgele Değişken Nedir?
+
+Sayısal bir değişkenden bahsettiğimizde, aslında rastgele bir olayın
+sayısal özetini ifade eden bir **rastgele değişkenden** söz ederiz.
+
+-   **Kesikli:** Sayılabilir sayıda sonuca sahip (çocuk sayısı, hatalı
+    ürün sayısı)
+-   **Sürekli:** Sayılamayacak kadar çok (sonsuz) sonuca sahip (boy,
+    sıcaklık, süre)
+
+## Olasılık Dağılımı: PMF vs PDF
+
+::: columns
+::: {.column width="50%"}
+**Kesikli → PMF**
+
+Her sonucun kendi olasılığı, bir liste/tablo ile verilir.
+
+$$P(X=k)$$
+:::
+
+::: {.column width="50%"}
+**Sürekli → PDF**
+
+Olasılık, eğrinin altındaki **alan**dır; tek bir noktanın olasılığı 0.
+
+$$P(a \le X \le b) = \int_a^b f(x)\,dx$$
+:::
+:::
+
+## Kesikli Örnek: İki Para Atışı
+
+Yazı sayısını $X$ ile gösterelim:
+
+| $X$ (Yazı Sayısı) | $P(X)$ |
+|---|---|
+| 0 | 0.25 |
+| 1 | 0.50 |
+| 2 | 0.25 |
+
+Olasılıkların toplamı **1**'e eşit olmalı — geçerli bir dağılımın
+tanımı budur.
+
+## Sürekli Örnek: Araç Hızı
+
+Hız $X$, 0–120 km/s arasında **eşit olasılıkla** dağılıyor olsun:
+
+$$
+f(X) = \begin{cases} \dfrac{1}{120} & 0 \le X \le 120 \\ 0 & \text{diğer} \end{cases}
+$$
+
+60–80 km/s arasında olma olasılığı:
+
+$$
+P(60 \le X \le 80) = \int_{60}^{80} \frac{1}{120}\,dx = \frac{20}{120} \approx 0.167
+$$
+
+------------------------------------------------------------------------
+
+## Dağılım Ailelerine Genel Bakış
+
+| Dağılım | Tür | Ne Modeller? |
+|---|---|---|
+| **Binom** | Kesikli | Sabit sayıda denemede başarı sayısı |
+| **Poisson** | Kesikli | Belirli aralıkta nadir olay sayısı |
+| **Normal** | Sürekli | Ortalama etrafında simetrik ölçüm |
+| **Üstel** | Sürekli | İki olay arasındaki süre |
+
+## Binom Dağılımı
+
+![](images/binom.png){height="320"}
+
+-   Sabit deneme sayısı, iki olası sonuç, sabit başarı olasılığı
+-   Örnek: 10 üründen kaçının hatalı olduğu
+
+```{r}
+dbinom(x = 5, size = 10, prob = 0.5)  # tam olarak 5 başarı
+```
+
+## Poisson Dağılımı
+
+![](images/poison.png){height="320"}
+
+-   Nadir, bağımsız olaylar; sabit ortalama hız $\lambda$
+-   Örnek: bir saatte mağazaya gelen müşteri sayısı
+
+```{r}
+dpois(x = 3, lambda = 3)  # ortalaması 3 olan dağılımda tam 3 olay
+```
+
+## Normal Dağılım
+
+![](images/normal.png){height="320"}
+
+-   Sürekli, ortalama $\mu$ etrafında simetrik, çan biçimli
+-   Örnek: boy, kilo, sınav notları
+
+## Üstel Dağılım ve Poisson ile İlişkisi
+
+![](images/ustsel.png){height="300"}
+
+-   Poisson → belirli sürede **kaç** olay olduğunu modeller
+-   Üstel → bu olaylar **arasında ne kadar süre** geçtiğini modeller
+-   İkisi aynı $\lambda$ ile birbirine bağlıdır
+
+------------------------------------------------------------------------
+
+## R'da d-p-q-r Çerçevesi
+
+| Önek | Anlamı | Sorusu |
+|---|---|---|
+| **d** | Density | Bu noktanın yoğunluğu/olasılığı ne? |
+| **p** | Probability | Bu değere kadar kümülatif olasılık ne? |
+| **q** | Quantile | Bu olasılığa karşılık gelen x ne? |
+| **r** | Random | Bu dağılımdan rastgele değer üret |
+
+Aynı mantık `norm`, `binom`, `pois`, `exp` gibi tüm dağılımlar için
+geçerlidir.
+
+## `d` — Density
+
+Eğrinin/olasılığın **yüksekliği**:
+
+```{r}
+dnorm(0)                          # standart normalin tepe noktası
+dbinom(x = 5, size = 10, prob = 0.5)
+```
+
+## `p` — Probability
+
+**Solda kalan kümülatif alan**, $P(X \le x)$:
+
+```{r}
+pnorm(1.96)                       # ~0.975
+pbinom(3, size = 10, prob = 0.5)  # en fazla 3 başarı
+```
+
+## `q` — Quantile
+
+`p`'nin **tam tersi**: olasılıktan x değerine gidilir.
+
+```{r}
+qnorm(0.90, mean = 60, sd = 10)   # en başarılı %10'un sınırı
+```
+
+## `r` — Random
+
+Dağılıma uygun **simülasyon verisi**:
+
+```{r}
+set.seed(2026)
+rnorm(5, mean = 100, sd = 15)
+```
+
+```{r}
+#| fig.height: 3
+hist(rnorm(1000), main = "1000 Rastgele Normal Gözlem",
+     xlab = "x", col = "gray85", border = "white")
+```
+
+------------------------------------------------------------------------
+
+## Özet
+
+-   Rastgele değişken **kesikli** ise PMF, **sürekli** ise PDF ile
+    tanımlanır
+-   Binom/Poisson kesikli; Normal/Üstel sürekli dağılım ailelerindendir
+-   R'da her dağılım için aynı dört fonksiyon kalıbı çalışır:
+    `d` (yoğunluk), `p` (kümülatif), `q` (ters kümülatif), `r`
+    (rastgele üretim)
+
+## Sırada Ne Var?
+
+Bir sonraki oturumda: **örnekleme, örneklem dağılımı ve Merkezi Limit
+Teoremi** — tek bir gözlemden değil, **örneklem ortalamalarının kendi
+dağılımından** söz etmeye başlayacağız.
