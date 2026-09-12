@@ -2,7 +2,7 @@
 title: "Modül 09 — Cevap Anahtarı"
 subtitle: "Tahmin ve Güven Aralıkları"
 author: "Prof. Dr. Hakan Mehmetcik"
-date: "`r Sys.Date()`"
+date: today
 lang: tr
 format: pdf
 editor: visual

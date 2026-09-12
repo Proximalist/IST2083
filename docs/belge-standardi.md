@@ -259,6 +259,11 @@ knitr zaten çalışıyor olacaktır.
 "Invalid Date" yazıyordu); 03. modül denetimi sırasında fark edildi,
 04. modül denetimiyle birlikte düzeltildi — her iki dosyanın `date`
 alanı `date: today` olarak güncellendi ve PDF'leri yeniden render edildi.
+Aynı hata `09_modul/09_modul_alistirmalar.qmd` ve
+`09_modul/09_modul_cevap_anahtari.qmd` dosyalarında da (hiç R öbeği
+içermedikleri hâlde `` `r Sys.Date()` `` kullanıyorlardı) bulundu; 10.
+modül denetimi sırasında fark edildi ve aynı şekilde `date: today`
+olarak düzeltildi.
 
 ## 11. Düz metinde matematik sembolü kullanmayın — `$...$` içine alın
 
@@ -281,3 +286,12 @@ unicode-math yüklenmeden kullanılmış) bu deseni taşıyor; 04. modül
 denetimi sırasında fark edildi, düzeltilmedi çünkü ikisi de kapsam
 dışı (henüz denetlenmemiş modüller). Bu iki dosya kendi denetim
 sırası geldiğinde gözden geçirilmeli.
+
+**10. modül bulgusu:** `10_modul/10_modul_ders.qmd`, 06/08. modüllerden
+çok daha ağır bir biçimde bu deseni taşıyordu — `α`, `μ`, `≤`, `≥`,
+`≠` ve alt simge Unicode rakamları (`₀`, `₁`) toplam 58 kez `$...$`
+dışında geçiyordu. 10. modül denetimi sırasında tamamı `$...$` içine
+alınarak düzeltildi; ayrıca aynı dosyadaki bir tablo hücresinde
+"H0H_0H0" biçiminde üçlü bir metin bozulması ve kapsam dışı bir
+regresyon örneği (bkz. izlence — regresyon Modül 11-12'nin konusu)
+tespit edilip kaldırıldı.

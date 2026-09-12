@@ -15,46 +15,54 @@ df-print: kable
 
 # Hipotez Testi
 
-**Hipotez testi**, bir popülasyon hakkında öne sürülen bir iddianın (hipotezin) istatistiksel olarak doğrulanması veya reddedilmesi için kullanılan bir istatistiksel yöntemdir. Fakat unutmayalım, **hipotez testi,** örneklemden elde edilen verilerden hareketle popülasyonla ilgili bir karar verme sürecini ifade eder.
+**Hipotez testi**, bir popülasyon hakkında öne sürülen bir iddianın (hipotezin) istatistiksel olarak doğrulanması veya reddedilmesi için kullanılan bir istatistiksel yöntemdir. Fakat unutmayalım, **hipotez testi**, örneklemden elde edilen verilerden hareketle popülasyonla ilgili bir karar verme sürecini ifade eder.
 
-**Hipotez testi,** yalnızca verilerle desteklenmiş iddiaları kabul ederek objektif ve güvenilir sonuçlara ulaşmamıza olanak tanır ve bu yönüylede oldukça yayğın olarak kullanılan bir istatistiksel yöntemdir.
+**Hipotez testi**, yalnızca verilerle desteklenmiş iddiaları kabul ederek objektif ve güvenilir sonuçlara ulaşmamıza olanak tanır ve bu yönüyle de oldukça yaygın olarak kullanılan bir istatistiksel yöntemdir.
+
+Aşağıdaki şema, hipotez testinin **yorumlayıcı (çıkarımsal) istatistik** içindeki yerini gösterir. Modül 09'da gördüğümüz tahmin (güven aralığı) ile Modül 11-12'de göreceğimiz regresyon ve korelasyon analizi, hipotez testiyle aynı ailenin — örneklemden popülasyona çıkarım yapma — farklı araçlarıdır:
+
+![](images/hipotez_testi1.png)
 
 ## **Temel Kavramlar:**
 
-1.  **Null Hipotez (**H0​):
+Bu modülde odaklanacağımız dört temel kavram aşağıdaki şemada özetlenmiştir:
+
+![](images/tahmin1.png)
+
+1.  **Null Hipotez (**$H_0$):
 
     -   Genellikle "hiçbir fark yoktur" veya "etki yoktur" iddiasını temsil eder.
 
-    -   Örneğin: Bir ilaç, mevcut tedaviye göre daha etkili değildir (H0:μ1=μ2​).
+    -   Örneğin: Bir ilaç, mevcut tedaviye göre daha etkili değildir ($H_0: \mu_1 = \mu_2$).
 
-2.  **Alternatif Hipotez (**Ha ya da H1):
+2.  **Alternatif Hipotez (**$H_a$ ya da $H_1$):
 
     -   Null hipoteze karşı öne sürülen iddiadır.
 
-    -   Örneğin: Bir ilaç, mevcut tedaviye göre daha etkilidir (Ha:μ1\>μ2​).
+    -   Örneğin: Bir ilaç, mevcut tedaviye göre daha etkilidir ($H_1: \mu_1 > \mu_2$).
 
 3.  **Test İstatistiği:**
 
     -   Hipotez testi için kullanılan hesaplama, genellikle t-skoru veya z-skorudur. Bu istatistik, örneklem verilerinin null hipotezle ne kadar uyumlu olduğunu ölçer.
 
-4.  **Anlamlılık Düzeyi (**α):
+4.  **Anlamlılık Düzeyi (**$\alpha$):
 
-    -   Hata yapma ihtimalini ifade eder. Tipik olarak %5 (α=0.05) seçilir.
+    -   Hata yapma ihtimalini ifade eder. Tipik olarak %5 ($\alpha = 0.05$) seçilir.
 
     -   **Tip I ve Tip II Hataları:**
 
-        -   **Tip I Hatası**: Bu hata, null hipotez (H0​) doğru olduğu halde yanlışlıkla reddedildiğinde meydana gelir. Bu, "yanlış pozitif" hata olarak da bilinir.
+        -   **Tip I Hatası**: Bu hata, null hipotez ($H_0$) doğru olduğu halde yanlışlıkla reddedildiğinde meydana gelir. Bu, "yanlış pozitif" hata olarak da bilinir.
 
-        -   **Tip II Hatası**: Bu hata, null hipotez (H0​) yanlış olduğu halde reddedilmediğinde meydana gelir. Bu durum "yanlış negatif" hata olarak adlandırılır.
+        -   **Tip II Hatası**: Bu hata, null hipotez ($H_0$) yanlış olduğu halde reddedilmediğinde meydana gelir. Bu durum "yanlış negatif" hata olarak adlandırılır.
 
     ::: callout-note
     👋 **Mahkeme Davası Benzetmesi ile Tip I ve Tip II Hataları**
 
-    Bir mahkeme davasında, bir sanık suçu kanıtlanana kadar masum kabul edilir (Masumiyet Karinesi Hukukun en temel ilkelerindendir). Bu durum, hipotez testine şu şekillerde benzer:
+    Bir mahkeme davasında, bir sanık suçu kanıtlanana kadar masum kabul edilir (Masumiyet Karinesi hukukun en temel ilkelerindendir). Bu durum, hipotez testine şu şekillerde benzer:
 
-    -   **Null Hipotez (**H0​):Sanık masumdur.
+    -   **Null Hipotez (**$H_0$): Sanık masumdur.
 
-    -   **Alternatif Hipotez (**Ha​): Sanık suçludur.
+    -   **Alternatif Hipotez (**$H_a$): Sanık suçludur.
 
     -   **Tip I Hatası**: Sanık masumdur, ancak yanlış bir şekilde suçlu bulunur.
 
@@ -63,44 +71,42 @@ df-print: kable
 
     -   **P-Değeri:**
 
-        -   **P-değeri (p-value)**, bir istatistiksel testte, null hipotezin (H0​) doğru olduğu varsayımı altında, elde edilen test istatistiği kadar veya daha uç bir sonucun ortaya çıkma olasılığını ifade eden bir değerdir.
+        -   **P-değeri (p-value)**, bir istatistiksel testte, null hipotezin ($H_0$) doğru olduğu varsayımı altında, elde edilen test istatistiği kadar veya daha uç bir sonucun ortaya çıkma olasılığını ifade eden bir değerdir.
 
-        -   P-değeri, hipotez testindeki anlamlılık düzeyini (örneğin, α=0.05) değerlendirmek için kullanılır.
+        -   P-değeri, hipotez testindeki anlamlılık düzeyini (örneğin, $\alpha = 0.05$) değerlendirmek için kullanılır.
 
-        -   Küçük bir p-değeri (genellikle p\<α ):
+        -   Küçük bir p-değeri (genellikle $p < \alpha$):
 
-            -   Elde edilen sonuçların null hipotezle açıklanmasının zor olduğunu ve alternatif hipotezin (Ha​) daha olası olduğunu gösterir.
+            -   Elde edilen sonuçların null hipotezle açıklanmasının zor olduğunu ve alternatif hipotezin ($H_a$) daha olası olduğunu gösterir.
 
-        -   Büyük bir p-değeri (genellikle p\>α):
+        -   Büyük bir p-değeri (genellikle $p > \alpha$):
 
-            -   Elde edilen sonuçların null hipotezle uyumlu olduğunu ve H0​'ı reddetmek için yeterli kanıt olmadığını gösterir.
+            -   Elde edilen sonuçların null hipotezle uyumlu olduğunu ve $H_0$'ı reddetmek için yeterli kanıt olmadığını gösterir.
 
     ![](images/hipotez_testi2.png)
 
 5.  **Karar:**
 
--   **Eğer p-değeri** α'dan küçükse:
+-   **Eğer p-değeri** $\alpha$'dan küçükse:
 
-    -   **H₀ reddedilir ve H₁ kabul edilir.**\
-        Bu durumda, p-değeri, gözlemlenen sonuçların null hipotez (H₀​) doğruyken oluşma olasılığının çok düşük olduğunu gösterir. Bu nedenle, H₀ reddedilir ve alternatif hipotez (H₁​) desteklenir.
+    -   **$H_0$ reddedilir ve $H_1$ kabul edilir.**\
+        Bu durumda, p-değeri, gözlemlenen sonuçların null hipotez ($H_0$) doğruyken oluşma olasılığının çok düşük olduğunu gösterir. Bu nedenle, $H_0$ reddedilir ve alternatif hipotez ($H_1$) desteklenir.
 
--   **Eğer p-değeri** α'dan büyükse:
+-   **Eğer p-değeri** $\alpha$'dan büyükse:
 
-    -   **H₀ reddedilmez.**\
-        Ancak, bu durum H₀​'ın kesinlikle doğru olduğu anlamına gelmez. Sadece, H₀​'yı reddetmek için yeterince güçlü kanıt bulunmadığını ifade eder.
+    -   **$H_0$ reddedilmez.**\
+        Ancak, bu durum $H_0$'ın kesinlikle doğru olduğu anlamına gelmez. Sadece, $H_0$'yı reddetmek için yeterince güçlü kanıt bulunmadığını ifade eder.
 
-Bu ifade, mahkeme analojisiyle şu şekilde açıklanabilir: Sanık hukukun genel ilkelerinden biri olan masumiyet karinesi uyarınca başlangıçta suçsuz kabul edilir (H0​), ancak mahkeme sürecinde suçluluğunu kanıtlamak için yeterli delil olmadığında sanık beraat eder. Bu, sanığın masum olduğunu kesin olarak kanıtlamaz; yalnızca suçlu olduğuna dair yeterli kanıt bulunmadığını gösterir.
+Bu ifade, mahkeme analojisiyle şu şekilde açıklanabilir: Sanık hukukun genel ilkelerinden biri olan masumiyet karinesi uyarınca başlangıçta suçsuz kabul edilir ($H_0$), ancak mahkeme sürecinde suçluluğunu kanıtlamak için yeterli delil olmadığında sanık beraat eder. Bu, sanığın masum olduğunu kesin olarak kanıtlamaz; yalnızca suçlu olduğuna dair yeterli kanıt bulunmadığını gösterir.
 
--   **P-Değeri ve Anlamlılık Düzeyi (**α**) Arasındaki İlişki:**
+-   **P-Değeri ve Anlamlılık Düzeyi (**$\alpha$**) Arasındaki İlişki:**
 
 | **P-Değeri** | **Sonuç** |
 |----|----|
-| p\<0.01 | Çok güçlü bir şekilde H0H_0H0​ reddedilir (sonuç oldukça anlamlıdır). |
-| 0.01≤p\<0.05 | H0​ reddedilir (sonuç anlamlıdır). |
-| 0.05≤p\<0.10 | Zayıf bir şekilde H0 reddedilir (sonuç marjinal olarak anlamlıdır). |
-| p≥0.10 | H0​ reddedilmez (sonuç anlamlı değildir). |
-
-------------------------------------------------------------------------
+| $p < 0.01$ | Çok güçlü bir şekilde $H_0$ reddedilir (sonuç oldukça anlamlıdır). |
+| $0.01 \le p < 0.05$ | $H_0$ reddedilir (sonuç anlamlıdır). |
+| $0.05 \le p < 0.10$ | Zayıf bir şekilde $H_0$ reddedilir (sonuç marjinal olarak anlamlıdır). |
+| $p \ge 0.10$ | $H_0$ reddedilmez (sonuç anlamlı değildir). |
 
 ------------------------------------------------------------------------
 
@@ -108,12 +114,12 @@ Bu ifade, mahkeme analojisiyle şu şekilde açıklanabilir: Sanık hukukun gene
 
 #### **Adım 1: Hipotezleri Belirle**
 
-İlk olarak, null hipotezi (H0​) ve alternatif hipotezi (Ha​) tanımlayın. Bu hipotezler karşılıklı olarak birbirini dışlamalı ve birlikte tüm olasılıkları kapsamalıdır.
+İlk olarak, null hipotezi ($H_0$) ve alternatif hipotezi ($H_a$) tanımlayın. Bu hipotezler karşılıklı olarak birbirini dışlamalı ve birlikte tüm olasılıkları kapsamalıdır.
 
--   **Null Hipotez (**H0​): Genellikle, bir etkinin olmadığı veya gruplar arasında fark bulunmadığını ifade eder.\
+-   **Null Hipotez (**$H_0$): Genellikle, bir etkinin olmadığı veya gruplar arasında fark bulunmadığını ifade eder.\
     Örneğin: "Farklı öğretim yöntemleriyle eğitim alan öğrenciler arasında test puanı ortalamaları arasında fark yoktur."
 
--   **Alternatif Hipotez (**Ha​): Bir etkinin veya farkın olduğunu ifade eder.\
+-   **Alternatif Hipotez (**$H_a$): Bir etkinin veya farkın olduğunu ifade eder.\
     Örneğin: "Yöntem B ile eğitim alan öğrencilerin ortalama test puanları, Yöntem A ile eğitim alan öğrencilerden daha yüksektir."
 
 #### **Adım 2: Uygun Bir Test Seç**
@@ -134,11 +140,11 @@ Veri türüne ve test etmek istediğiniz hipoteze göre bir istatistiksel test s
 
 -   **ANOVA:** Üç veya daha fazla grubun ortalamalarını karşılaştırır.
 
--   **Ki-Kare (Chi-Squaere) Testi:** Kategorik değişkenler arasındaki ilişkileri test eder.
+-   **Ki-Kare (Chi-Square) Testi:** Kategorik değişkenler arasındaki ilişkileri test eder.
 
--   **Regresyon Analizi:** Değişkenler arasındaki ilişkileri anlamak için kullanılır.
+-   **Regresyon Analizi:** Değişkenler arasındaki ilişkileri anlamak için kullanılır (bkz. Modül 11-12).
 
-#### **3: Test İstatistiğini Hesapla**
+#### **Adım 3: Test İstatistiğini Hesapla**
 
 Seçtiğiniz teste göre şu adımları izleyin:
 
@@ -152,11 +158,11 @@ Seçtiğiniz teste göre şu adımları izleyin:
 
 -   p-değeri, testin anlamlılık düzeyine göre sonuçların istatistiksel olarak önemli olup olmadığını belirler.
 
-#### **Adım 5: Karar Ver (p-Değeri ve Anlamlılık Düzeyi** α'ya Göre)
+#### **Adım 5: Karar Ver (p-Değeri ve Anlamlılık Düzeyi** $\alpha$'ya Göre)
 
--   **p-değeri ≤** α: Null hipotezi reddedin (etkiye dair kanıt var).
+-   **p-değeri** $\le \alpha$: Null hipotezi reddedin (etkiye dair kanıt var).
 
--   **p-değeri \>** α: Null hipotezi reddetmeyin (etki olduğuna dair yeterli kanıt yok).
+-   **p-değeri \>** $\alpha$: Null hipotezi reddetmeyin (etki olduğuna dair yeterli kanıt yok).
 
 #### **Adım 6: Sonuçları Raporla**
 
@@ -192,15 +198,32 @@ Burada:
 
 ------------------------------------------------------------------------
 
+## Varsayımların Denetlenmesi
+
+Bir hipotez testinin sonucu, ancak testin **varsayımları** karşılandığında güvenilirdir. Bir testi çalıştırıp p-değerini okumak yetmez; sonucu raporlamadan önce o testin dayandığı varsayımların makul ölçüde sağlandığını göstermek gerekir. Aşağıdaki tablo, bu modülde göreceğimiz testlerin en sık denetlenen varsayımlarını ve bunları R'da denetlemenin yollarını özetler:
+
+| Test | Temel Varsayım | R'da Denetleme |
+|----|----|----|
+| t-testi (tek/iki örneklem) | Verinin (küçük örneklemde) normale yakın dağılması | `shapiro.test()`, `qqnorm()` + `qqline()` |
+| İki örneklem t-testi (eşit varyans) | Grup varyanslarının homojenliği | `var.test()`, `bartlett.test()` |
+| ANOVA | Normallik, gözlem bağımsızlığı, varyans homojenliği | `shapiro.test(residuals(...))`, `bartlett.test()` |
+| Ki-kare | Beklenen hücre frekanslarının yeterince büyük olması (genellikle $\ge 5$) | `chisq.test(...)$expected` |
+
+::: callout-note
+👋 **Varsayım ihlal edilirse ne olur?** Test otomatik olarak "yanlış" sonuç vermez, ama p-değerinin güvenilirliği düşer. Örneğin ANOVA'da varyans homojenliği ciddi biçimde bozulmuşsa, `aov()` yerine `oneway.test(var.equal = FALSE)` (Welch ANOVA) tercih edilir. Bu dersin sınavlarında sizden bir varsayım testini **hesaplamanız değil**, hazır bir `shapiro.test()` veya `bartlett.test()` çıktısındaki p-değerini okuyup ne anlama geldiğini **yorumlamanız** istenir — tıpkı aşağıdaki Örnek 6'da olduğu gibi.
+:::
+
+------------------------------------------------------------------------
+
 ## Örnek 1: Bir Örneklem t-Testi
 
 Bir örneklem t-testi, bir popülasyonun ortalamasının bilinen bir değere eşit olup olmadığını test etmek için kullanılır. Örneğin, tarım bilimcilerinin yeni bir mısır türü geliştirdiğini ve bu türün ortalama boyunun, standart mısır türlerinin ulusal ortalama boyu olan 150 cm'den farklı olduğunu iddia ettiklerini varsayalım.
 
 ### Adım 1: Hipotezlerin Formülasyonu
 
--   **Null Hipotezi (H0):** Yeni mısır türünün ortalama boyu 150 cm'dir.
+-   **Null Hipotezi (**$H_0$**):** Yeni mısır türünün ortalama boyu 150 cm'dir.
 
--   **Alternatif Hipotez (H1):** Yeni mısır türünün ortalama boyu 150 cm değildir.
+-   **Alternatif Hipotez (**$H_1$**):** Yeni mısır türünün ortalama boyu 150 cm değildir.
 
 ### Adım 2: Uygun Testin Seçimi
 
@@ -220,7 +243,6 @@ corn_heights <- c(155, 153, 149, 156, 151, 154, 152, 150, 151, 153, 152, 150)
 
 # Bir örneklem t-testi yap
 t_test_result <- t.test(corn_heights, mu = 150)
-
 ```
 
 ### Adım 4: p-değerini Almak ve Yorumlamak
@@ -228,16 +250,15 @@ t_test_result <- t.test(corn_heights, mu = 150)
 ```{r}
 # Test sonucunu yazdır
 print(t_test_result)
-
 ```
 
 **Test Çıktısı Yorumlaması:**
 
-p-değeri (0.004697), yaygın α (0.05) seviyesinden önemli ölçüde küçüktür, bu da null hipotezini reddetmek için güçlü istatistiksel bir kanıt olduğunu gösterir. Bu durum, yeni mısır türünün ortalama boyunun 150 cm'den istatistiksel olarak farklı olduğunu belirtir.
+p-değeri (0.004697), yaygın $\alpha$ (0.05) seviyesinden önemli ölçüde küçüktür, bu da null hipotezini reddetmek için güçlü istatistiksel bir kanıt olduğunu gösterir. Bu durum, yeni mısır türünün ortalama boyunun 150 cm'den istatistiksel olarak farklı olduğunu belirtir.
 
-### Adım 5: p-değeri ve Alfa (α) Temelinde Karar Vermek
+### Adım 5: p-değeri ve Alfa ($\alpha$) Temelinde Karar Vermek
 
-p-değeri (0.004697) \< α (0.05) olduğundan, null hipotezini reddedin.
+p-değeri (0.004697) $<$ $\alpha$ (0.05) olduğundan, null hipotezini reddedin.
 
 Veriler, yeni mısır türünün ortalama boyunun 150 cm'den anlamlı şekilde farklı olduğunu göstermektedir.
 
@@ -258,10 +279,9 @@ Eğer mısır boyunun ortalama değeri 150 cm'den büyük mü, yoksa küçük m�
 #### 150 cm'den Büyük Olması Durumunda:
 
 ```{r}
-# 150 cm'den büyük olması durumu için (Ho: mu≤150, H1: mu>150)
+# 150 cm'den büyük olması durumu için (H0: mu <= 150, H1: mu > 150)
 t_test_greater <- t.test(corn_heights, mu = 150, alternative = "greater")
 print(t_test_greater)
-
 ```
 
 **Yorum:** p-değeri 0.002348 olduğundan, null hipotezini reddediyorsunuz ve mısır boyunun 150 cm'den büyük olduğuna dair istatistiksel olarak anlamlı bir kanıt buluyorsunuz. Güven aralığı 151.0651'den başlayarak 150 cm'yi dışlıyor ve bu durumu destekliyor.
@@ -269,26 +289,25 @@ print(t_test_greater)
 ::: callout-note
 👋 Eğer **150 cm'den büyük olup olmadığını** test ediyorsanız, bu durumda hipotezler şu şekilde olacak:
 
--   **Null Hipotezi (H0)**: Ortalama boy 150 cm'den küçük veya eşittir (mu ≤ 150).
+-   **Null Hipotezi (**$H_0$**)**: Ortalama boy 150 cm'den küçük veya eşittir ($\mu \le 150$).
 
--   **Alternatif Hipotez (H1)**: Ortalama boy 150 cm'den büyüktür (mu \> 150).
+-   **Alternatif Hipotez (**$H_1$**)**: Ortalama boy 150 cm'den büyüktür ($\mu > 150$).
 
 Eğer 150 cm'den küçük olup olmadığını test ediyorsanız, bu durumda hipotezler şu şekilde olacak:
 
--   **Null Hipotezi (H0)**: Ortalama boy 150 cm'den büyük veya eşittir (mu ≥ 150).
+-   **Null Hipotezi (**$H_0$**)**: Ortalama boy 150 cm'den büyük veya eşittir ($\mu \ge 150$).
 
 <!-- -->
 
--   **Alternatif Hipotez (H1)**: Ortalama boy 150 cm'den küçüktür (mu \< 150).
+-   **Alternatif Hipotez (**$H_1$**)**: Ortalama boy 150 cm'den küçüktür ($\mu < 150$).
 :::
 
 #### 150 cm'den Küçük Olması Durumunda:
 
 ```{r}
-# 150 cm'den küçük olması durumu için (Ho: mu ≥ 150, H1:mu < 150 )
+# 150 cm'den küçük olması durumu için (H0: mu >= 150, H1: mu < 150)
 t_test_less <- t.test(corn_heights, mu = 150, alternative = "less")
 print(t_test_less)
-
 ```
 
 **Yorum:** p-değeri 0.9977 olduğundan, null hipotezini reddetmiyorsunuz. Bu sonuç, mısır boyunun 150 cm'den küçük olmadığına dair güçlü bir kanıt sağlıyor. Gerçekten de örneklem verileri, mısır boyunun 150 cm'den büyük olduğunu gösteriyor.
@@ -303,9 +322,9 @@ R'deki **PlantGrowth** veri seti, kontrol ve iki farklı tedavi koşulu altında
 
 -   **Senaryo:** Tarihsel veriler, benzer büyüme koşullarındaki bitkilerin ortalama ağırlığının 5 gram olduğunu öne sürmektedir. Tedavi 1 (trt1) grubundaki bitkilerin ortalama ağırlığının bu değerden farklı olup olmadığını test edeceğiz.
 
--   **Null Hipotezi (**H0​): Tedavi edilen bitkilerin ortalama ağırlığı 5 gramdır (μ=5).
+-   **Null Hipotezi (**$H_0$): Tedavi edilen bitkilerin ortalama ağırlığı 5 gramdır ($\mu = 5$).
 
--   **Alternatif Hipotezi (**H1​): Tedavi edilen bitkilerin ortalama ağırlığı 5 gramdan farklıdır (μ≠5).
+-   **Alternatif Hipotezi (**$H_1$): Tedavi edilen bitkilerin ortalama ağırlığı 5 gramdan farklıdır ($\mu \neq 5$).
 
 ### **Adım 2: Uygun Testin Seçimi**
 
@@ -313,7 +332,7 @@ R'deki **PlantGrowth** veri seti, kontrol ve iki farklı tedavi koşulu altında
 
 -   **Veri Türü:** Sürekli (bitki ağırlıkları)
 
--   **Dağılım:** Verinin normal dağıldığı varsayılır. Küçük örneklemler için bu varsayım Shapiro-Wilk testi gibi bir normallik testi ile kontrol edilebilir.
+-   **Dağılım:** Verinin normal dağıldığı varsayılır. Küçük örneklemler için bu varsayım Shapiro-Wilk testi gibi bir normallik testi ile kontrol edilebilir (bkz. yukarıdaki "Varsayımların Denetlenmesi").
 
 ### **Adım 3: Test İstatistiğinin Hesaplanması**
 
@@ -328,7 +347,6 @@ trt1_data <- PlantGrowth$weight[PlantGrowth$group == 'trt1']
 
 # 5'e karşı bir örneklem t-testi yap
 t_test_result <- t.test(trt1_data, mu = 5)
-
 ```
 
 ### Adım 4: p-Değerinin Alınması ve Yorumlanması
@@ -340,13 +358,13 @@ print(t_test_result)
 
 **Test Çıktısının Yorumu:**
 
--   **p-değeri (0.2098):** Bu değer, yaygın olarak kullanılan anlamlılık seviyesi (α=0.05) ile karşılaştırıldığında büyüktür. Bu, null hipotezi reddetmek için yeterli kanıt olmadığını gösterir.
+-   **p-değeri (0.2098):** Bu değer, yaygın olarak kullanılan anlamlılık seviyesi ($\alpha = 0.05$) ile karşılaştırıldığında büyüktür. Bu, null hipotezi reddetmek için yeterli kanıt olmadığını gösterir.
 
 -   **Sonuç:** Tedavi edilen bitkilerin ortalama ağırlığının varsayılan 5 gramdan anlamlı bir şekilde farklı olduğunu söylemek için yeterli kanıt yoktur.
 
-### **Adım 5: Karar Ver (p-değeri ve** α'ya Göre)
+### **Adım 5: Karar Ver (p-değeri ve** $\alpha$'ya Göre)
 
--   **p-değeri (0.2098) \>** α(0.05): Null hipotezi reddetmeyin.
+-   **p-değeri (0.2098) \>** $\alpha$ (0.05): Null hipotezi reddetmeyin.
 
 -   Bu karar, tedavi edilen bitkilerin ortalama ağırlığının 5 gramdan farklı olmadığı anlamına gelir.
 
@@ -376,9 +394,9 @@ Bu senaryoda, basketbol oyuncularının antrenman öncesi ve sonrası maksimum s
 
 ### **Adım 1: Hipotezleri Belirleme**
 
--   **Null Hipotezi (**H0): Antrenman programının basketbol oyuncularının maksimum dikey sıçramaları üzerinde hiçbir etkisi yoktur. Matematiksel olarak: μd=0​ antrenman öncesi ve sonrası sıçrama yükseklikleri arasındaki farkın ortalamasıdır.
+-   **Null Hipotezi (**$H_0$): Antrenman programının basketbol oyuncularının maksimum dikey sıçramaları üzerinde hiçbir etkisi yoktur. Matematiksel olarak: $\mu_d = 0$ — antrenman öncesi ve sonrası sıçrama yükseklikleri arasındaki farkın ortalamasıdır.
 
--   **Alternatif Hipotezi (**H1​): Antrenman programının basketbol oyuncularının maksimum dikey sıçramaları üzerinde etkisi vardır. Matematiksel olarak: μd≠0.
+-   **Alternatif Hipotezi (**$H_1$): Antrenman programının basketbol oyuncularının maksimum dikey sıçramaları üzerinde etkisi vardır. Matematiksel olarak: $\mu_d \neq 0$.
 
 ------------------------------------------------------------------------
 
@@ -403,7 +421,6 @@ after <- c(23, 25, 20, 24, 18, 22, 23, 28, 24, 25, 24, 20)
 
 # Eşleştirilmiş t-testi yapın
 paired_t_test_result <- t.test(x = before, y = after, paired = TRUE)
-
 ```
 
 ### Adım 4: p-Değerinin Alınması ve Yorumlanması
@@ -411,14 +428,13 @@ paired_t_test_result <- t.test(x = before, y = after, paired = TRUE)
 ```{r}
 # Test sonucunu yazdır
 print(paired_t_test_result)
-
 ```
 
 **p-değeri:** 0.02803. Bu değer, null hipotez doğruyken gözlemlenen veya daha uç bir test istatistiği elde etme olasılığını temsil eder.
 
-### **Adım 5: p-Değeri ve Alfa (**α) Temelinde Karar Verme
+### **Adım 5: p-Değeri ve Alfa (**$\alpha$**) Temelinde Karar Verme**
 
--   **p-değeri (0.02803) \<** α (0.05): Null hipotez reddedilir.
+-   **p-değeri (0.02803) \<** $\alpha$ (0.05): Null hipotez reddedilir.
 
 -   Bu karar, antrenman programının basketbol oyuncularının maksimum dikey sıçrama yükseklikleri üzerinde etkisi olduğunu göstermektedir.
 
@@ -436,13 +452,9 @@ Sonuç olarak, antrenman programı basketbol oyuncularının sıçrama performan
 
 ### **Adım 1: Hipotezlerin Belirlenmesi**
 
--   **Null Hipotezi (**H0​): Mısır türü 1’in ortalama boyu, mısır türü 2’nin ortalama boyuna eşittir. Matematiksel olarak:
+-   **Null Hipotezi (**$H_0$): Mısır türü 1'in ortalama boyu, mısır türü 2'nin ortalama boyuna eşittir. Matematiksel olarak: $\mu_1 = \mu_2$.
 
-    μ1=μ2​
-
--   **Alternatif Hipotezi (**H1​): Mısır türü 1’in ortalama boyu, mısır türü 2’nin ortalama boyuna eşit değildir. Matematiksel olarak:
-
-    μ1≠μ2​
+-   **Alternatif Hipotezi (**$H_1$): Mısır türü 1'in ortalama boyu, mısır türü 2'nin ortalama boyuna eşit değildir. Matematiksel olarak: $\mu_1 \neq \mu_2$.
 
 ------------------------------------------------------------------------
 
@@ -450,7 +462,7 @@ Sonuç olarak, antrenman programı basketbol oyuncularının sıçrama performan
 
 -   İki bağımsız örneklemin ortalamalarını karşılaştırmak için **iki örneklem t-testi** uygundur.
 
--   Bu test, her iki grubun verilerinin normal dağıldığı ve varyanslarının eşit olduğu varsayımı altında kullanılabilir (varyansların eşit olup olmadığını kontrol etmek için gerekirse bir F-testi yapılabilir).
+-   Bu test, her iki grubun verilerinin normal dağıldığı ve varyanslarının eşit olduğu varsayımı altında kullanılabilir (varyansların eşit olup olmadığını kontrol etmek için gerekirse `var.test()` veya `bartlett.test()` kullanılabilir).
 
 ------------------------------------------------------------------------
 
@@ -465,7 +477,6 @@ sample2 <- c(162, 158, 159, 161, 160, 157, 158, 159)
 
 # Eşit varyans varsayımı ile iki örneklem t-testi yap
 t_test_result <- t.test(sample1, sample2, alternative = "two.sided", var.equal = TRUE)
-
 ```
 
 ### Adım 4: p-Değerinin Alınması ve Yorumlanması
@@ -473,16 +484,15 @@ t_test_result <- t.test(sample1, sample2, alternative = "two.sided", var.equal =
 ```{r}
 # Test sonucunu yazdır
 print(t_test_result)
-
 ```
 
 -   **p-Değeri:** $1.545 \times 10^{-5}$. Bu çok küçük değer, null hipotezin doğru olduğu varsayımı altında gözlemlenen fark kadar veya daha büyük bir farkın oluşma olasılığının yaklaşık 0.00001545 olduğunu ifade eder.
 
--   **Yorum:** p-değeri, yaygın olarak kullanılan anlamlılık seviyesi (α=0.05) ile karşılaştırıldığında oldukça küçüktür ve null hipoteze karşı güçlü kanıt sağlar.
+-   **Yorum:** p-değeri, yaygın olarak kullanılan anlamlılık seviyesi ($\alpha = 0.05$) ile karşılaştırıldığında oldukça küçüktür ve null hipoteze karşı güçlü kanıt sağlar.
 
-### **Adım 5: p-Değeri ve Alfa (**α) Temelinde Karar Verme
+### **Adım 5: p-Değeri ve Alfa (**$\alpha$**) Temelinde Karar Verme**
 
--   **Karar:** p-değeri 0.05’ten küçük olduğu için null hipotez reddedilir.
+-   **Karar:** p-değeri 0.05'ten küçük olduğu için null hipotez reddedilir.
 
 -   **Sonuç:** İki mısır türünün ortalama boyları arasında istatistiksel olarak anlamlı bir fark vardır.
 
@@ -490,7 +500,7 @@ print(t_test_result)
 
 -   **Test Türü:** İki örneklem t-testi.
 
--   **t-İstatistiği:** -6.4411. Bu, sample1’in ortalama boyunun sample2’nin ortalama boyundan daha düşük olduğunu gösterir.
+-   **t-İstatistiği:** -6.4411. Bu, sample1'in ortalama boyunun sample2'nin ortalama boyundan daha düşük olduğunu gösterir.
 
 -   **Serbestlik Dereceleri:** 14.
 
@@ -504,7 +514,7 @@ print(t_test_result)
 
     -   Sample2 için ortalama boy: **159.25 cm**.
 
-**Sonuç:** İki mısır türünün ortalama boyları arasında anlamlı bir fark vardır. Mısır türü 2’nin ortalama boyu, mısır türü 1’den daha uzundur. Bu fark istatistiksel olarak anlamlıdır.
+**Sonuç:** İki mısır türünün ortalama boyları arasında anlamlı bir fark vardır. Mısır türü 2'nin ortalama boyu, mısır türü 1'den daha uzundur. Bu fark istatistiksel olarak anlamlıdır.
 
 ------------------------------------------------------------------------
 
@@ -512,13 +522,13 @@ print(t_test_result)
 
 ### **Adım 1: Hipotezlerin Belirlenmesi**
 
--   **Null Hipotezi (**H0​): İki ilaç grubu arasında ortalama ekstra uyku süresi açısından fark yoktur.
+-   **Null Hipotezi (**$H_0$): İki ilaç grubu arasında ortalama ekstra uyku süresi açısından fark yoktur.
 
--   **Alternatif Hipotezi (**H1​): İki ilaç grubu arasında ortalama ekstra uyku süresi açısından fark vardır.
+-   **Alternatif Hipotezi (**$H_1$): İki ilaç grubu arasında ortalama ekstra uyku süresi açısından fark vardır.
 
 ### **Adım 2: Uygun Testin Seçilmesi**
 
-İki bağımsız grubun ortalamalarını karşılaştırmak için **iki örneklem t-testi** uygundur. Bu test, popülasyon varyanslarının eşit olmadığı varsayımı altında yapılır (**Welch’in t-testi**).
+İki bağımsız grubun ortalamalarını karşılaştırmak için **iki örneklem t-testi** uygundur. Bu test, popülasyon varyanslarının eşit olmadığı varsayımı altında yapılır (**Welch't testi**).
 
 ### **Adım 3: Test İstatistiğinin Hesaplanması**
 
@@ -530,7 +540,6 @@ data("sleep")
 
 # İki örneklem t-testi (Welch t-testi)
 t_test_result <- t.test(extra ~ group, data = sleep)
-
 ```
 
 ### Adım 4: p-Değerinin Alınması ve Yorumlanması
@@ -542,7 +551,7 @@ print(t_test_result)
 
 **p-değeri:** 0.07939. Bu değer, null hipotezin doğru olduğu varsayımı altında, iki grup arasındaki fark kadar veya daha büyük bir fark gözlemleme olasılığını ifade eder.
 
-### **Adım 5: p-Değeri ve Alfa (**α) Temelinde Karar Verme
+### **Adım 5: p-Değeri ve Alfa (**$\alpha$**) Temelinde Karar Verme**
 
 -   **p-değeri \> 0.05:** Null hipotez reddedilmez.
 
@@ -554,11 +563,11 @@ Welch İki Örneklem t-Testi, iki farklı uyku tedavisinin bireylerde sağladı�
 
 **Test Sonuçları:**
 
--   **t-İstatistiği:** -1.8608 (Grup 1’in uyku artışı, Grup 2’den daha az).
+-   **t-İstatistiği:** -1.8608 (Grup 1'in uyku artışı, Grup 2'den daha az).
 
--   **p-Değeri:** 0.07939 (0.05’ten büyük olduğu için anlamlı değildir).
+-   **p-Değeri:** 0.07939 (0.05'ten büyük olduğu için anlamlı değildir).
 
--   **Güven Aralığı:** -3.365 ile 0.205 (%95 güven aralığı 0’ı içerdiği için fark sıfır olabilir).
+-   **Güven Aralığı:** -3.365 ile 0.205 (%95 güven aralığı 0'ı içerdiği için fark sıfır olabilir).
 
 -   **Ortalama Uyku Artışı:**
 
@@ -580,13 +589,13 @@ ANOVA (Varyans Analizi), üç veya daha fazla grup ortalaması arasında fark ol
 
 -   **dose**: Takviyenin doz seviyesi.
 
-Bu analizde, takviye doz seviyelerine göre diş büyümesi (lenlenlen) ortalamalarını karşılaştırmak için **tek yönlü ANOVA** testi yapacağız.
+Bu analizde, takviye doz seviyelerine göre diş büyümesi ($len$) ortalamalarını karşılaştırmak için **tek yönlü ANOVA** testi yapacağız.
 
 ### **Adım 1: Hipotezlerin Belirlenmesi**
 
--   **Null Hipotezi (**H0​): Farklı C vitamini dozları arasında ortalama diş büyümesi (lenlenlen) açısından fark yoktur.
+-   **Null Hipotezi (**$H_0$): Farklı C vitamini dozları arasında ortalama diş büyümesi ($len$) açısından fark yoktur.
 
--   **Alternatif Hipotezi (**H1​): En az bir doz seviyesi diğerlerinden farklı bir ortalama diş büyümesine sahiptir.
+-   **Alternatif Hipotezi (**$H_1$): En az bir doz seviyesi diğerlerinden farklı bir ortalama diş büyümesine sahiptir.
 
 ### **Adım 2: Uygun Testin Seçilmesi**
 
@@ -599,6 +608,8 @@ Bu analizde, takviye doz seviyelerine göre diş büyümesi (lenlenlen) ortalama
     -   Gözlemler arasında bağımsızlık,
 
     -   Grupların varyanslarının homojenliği.
+
+    Bu varsayımları varsaymakla yetinmeyip Adım 3'te fiilen denetleyeceğiz.
 
 ### **Adım 3: Test İstatistiğinin Hesaplanması**
 
@@ -620,17 +631,29 @@ anova_result <- aov(len ~ dose, data = ToothGrowth)
 summary(anova_result)
 ```
 
+**Varsayım denetimi:** ANOVA'yı yorumlamadan önce iki temel varsayımı sınayalım — artıkların (residuals) normalliği ve grup varyanslarının homojenliği:
+
+```{r}
+# Normallik varsayımı: ANOVA artıkları üzerinde Shapiro-Wilk testi
+shapiro.test(residuals(anova_result))
+
+# Varyans homojenliği varsayımı: Bartlett testi
+bartlett.test(len ~ dose, data = ToothGrowth)
+```
+
+**Yorum:** `shapiro.test()` çıktısındaki p-değeri 0.05'ten büyükse, artıkların normal dağılımdan anlamlı şekilde sapmadığını (normallik varsayımının makul olduğunu) söyleriz. Aynı şekilde `bartlett.test()` çıktısındaki p-değeri 0.05'ten büyükse, grup varyansları arasında anlamlı bir fark yoktur ve varyans homojenliği varsayımı korunur. Her iki test de bu veri setinde p \> 0.05 verir; dolayısıyla yukarıdaki ANOVA sonucunu yorumlamaya güvenle devam edebiliriz. (Varsayım ihlal edilseydi, `oneway.test(len ~ dose, data = ToothGrowth, var.equal = FALSE)` ile Welch ANOVA'ya başvurulurdu.)
+
 ### **Adım 4: p-Değerinin Alınması ve Yorumlanması**
 
 -   **F değeri:** 67.42. Bu değer, tedavi grupları (doz seviyeleri) ile artıklardan (hatalardan) kaynaklanan varyans oranını ölçer. Yüksek bir F değeri, modelin güçlü olduğunu gösterir.
 
--   **p-değeri:** $9.53 \times 10^{-16}$ Bu çok küçük değer, null hipotezin doğru olduğu varsayımı altında, gözlemlenen fark kadar veya daha büyük bir farkın oluşma olasılığının neredeyse sıfır olduğunu gösterir.
+-   **p-değeri:** $9.53 \times 10^{-16}$. Bu çok küçük değer, null hipotezin doğru olduğu varsayımı altında, gözlemlenen fark kadar veya daha büyük bir farkın oluşma olasılığının neredeyse sıfır olduğunu gösterir.
 
 **Yorum:** Çok düşük p-değeri, null hipotezi reddetmek için güçlü bir istatistiksel kanıt sağlar. Farklı doz seviyeleri, diş büyümesi üzerinde istatistiksel olarak anlamlı farklı etkilere sahiptir.
 
-### **Adım 5: p-Değeri ve Alfa (**α) Temelinde Karar Verme
+### **Adım 5: p-Değeri ve Alfa (**$\alpha$**) Temelinde Karar Verme**
 
--   α seviyesi: 0.05 (genel olarak kullanılan anlamlılık seviyesi).
+-   $\alpha$ seviyesi: 0.05 (genel olarak kullanılan anlamlılık seviyesi).
 
 -   **Karar:** p-değeri $9.53 \times 10^{-16}$, 0.05'ten çok daha küçük olduğu için null hipotez reddedilir.
 
@@ -638,7 +661,7 @@ summary(anova_result)
 
 ### **Adım 6: Sonuçları Raporlama**
 
--   **Analizin Özeti:** ANOVA testi, farklı dozlarda uygulanan C vitamininin diş büyümesi üzerinde anlamlı farklılıklar yarattığını göstermiştir.
+-   **Analizin Özeti:** ANOVA testi, farklı dozlarda uygulanan C vitamininin diş büyümesi üzerinde anlamlı farklılıklar yarattığını göstermiştir. Varsayım denetimleri (normallik ve varyans homojenliği) bu sonucu desteklemektedir.
 
 -   **Detaylı Bulgular:**
 
@@ -648,7 +671,7 @@ summary(anova_result)
 
     -   Bu sonuçlar, C vitamini dozunun kobayların diş büyümesi üzerinde önemli bir etkisi olduğunu göstermektedir.
 
-**Grafiksel Temsil:** Gruplar arasındaki farkları görsel olarak göstermek için kutu grafikleri gibi grafiksel özetlerin eklenmesi faydalı olabilir.
+**Grafiksel Temsil:** Gruplar arasındaki farkları görsel olarak göstermek için kutu grafikleri gibi grafiksel özetlerin eklenmesi faydalıdır:
 
 ```{r}
 boxplot(len ~ dose, data = ToothGrowth,
@@ -664,13 +687,13 @@ boxplot(len ~ dose, data = ToothGrowth,
 
 ### **Adım 1: Hipotezlerin Belirlenmesi**
 
--   **Null Hipotezi (**H0​): Cinsiyet ve kabul durumu birbirinden bağımsızdır.
+-   **Null Hipotezi (**$H_0$): Cinsiyet ve kabul durumu birbirinden bağımsızdır.
 
--   **Alternatif Hipotezi (**H1​): Cinsiyet ve kabul durumu bağımsız değildir.
+-   **Alternatif Hipotezi (**$H_1$): Cinsiyet ve kabul durumu bağımsız değildir.
 
 ### **Adım 2: Uygun Testin Seçilmesi**
 
-Ki-kare bağımsızlık testi, iki kategorik değişken arasındaki ilişkiyi test etmek için uygundur.
+Ki-kare bağımsızlık testi, iki kategorik değişken arasındaki ilişkiyi test etmek için uygundur. Bu testin ön koşulu, beklenen hücre frekanslarının yeterince büyük olmasıdır (genellikle $\ge 5$); bu, `chisq.test(...)$expected` ile denetlenebilir.
 
 ### **Adım 3: Test İstatistiğinin Hesaplanması**
 
@@ -687,94 +710,22 @@ print(admission_table)
 chi_sq_result <- chisq.test(admission_table)
 print(chi_sq_result)
 
+# Beklenen frekansları denetle (varsayım kontrolü)
+chi_sq_result$expected
 ```
 
 ### **Adım 4: p-Değerinin Yorumlanması**
 
 -   **p-Değeri:** \< $2.2 \times 10^{-16}$. Bu pratikte sıfır anlamına gelir ve null hipotezi reddetmek için güçlü bir kanıt sağlar.
 
--   **Yorum:** Cinsiyet ve kabul durumu arasındaki ilişki, istatistiksel olarak anlamlıdır.
+-   **Yorum:** Cinsiyet ve kabul durumu arasındaki ilişki, istatistiksel olarak anlamlıdır. Beklenen frekansların tamamı 5'in üzerinde olduğundan, testin ön koşulu da sağlanmıştır.
 
-### **Adım 5: Karar Verme (**α=0.05)
+### **Adım 5: Karar Verme (**$\alpha = 0.05$)
 
--   **Karar:** p-değeri \<0.05 olduğundan, null hipotez reddedilir.
+-   **Karar:** p-değeri \< 0.05 olduğundan, null hipotez reddedilir.
 
 -   **Sonuç:** Cinsiyet, kabul kararlarında önemli bir etkiye sahiptir. Bu, potansiyel eşitsizlikler veya diğer etkenlerin araştırılmasını gerektirebilir.
 
 ### **Adım 6: Sonuçların Raporlanması**
 
 Bu analiz, cinsiyetin kabul kararlarını etkileyebileceğini gösterir. Bu sonuçlar, eğitim politikalarının adil ve eşitlikçi olmasını sağlamak için yeniden değerlendirme gerekliliğini vurgular.
-
-------------------------------------------------------------------------
-
-## Örnek 8: **mtcars Veri Seti ile Basit Doğrusal Regresyon**
-
-### **Adım 1: Hipotezlerin Belirlenmesi**
-
--   **Null Hipotezi (**H0): Araç ağırlığı (wt) ile yakıt verimliliği (mpg) arasında ilişki yoktur.
-
--   **Alternatif Hipotezi (**H1​): Daha ağır araçlar (daha büyük wt), daha düşük yakıt verimliliğine (mpg) sahiptir.
-
-### **Adım 2: Uygun Testin Seçilmesi**
-
-Basit doğrusal regresyon, iki sürekli değişken arasındaki ilişkinin yönünü ve gücünü modellemek için uygundur.
-
-### **Adım 3: Test İstatistiğinin Hesaplanması**
-
-R kodu ile regresyonu gerçekleştirin:
-
-```{r}
-data("mtcars")
-
-# Regresyon modeli oluştur
-model <- lm(mpg ~ wt, data = mtcars)
-summary(model)
-
-```
-
-### **Adım 4: p-Değerinin Yorumlanması**
-
--   **Kesim noktası (Intercept):** 37.2851, p-değeri \<1.29×10−10\< 1.29 \times 10\^{-10}\<1.29×10−10, anlamlıdır.
-
--   **Ağırlık katsayısı (Slope):** −5.3445-5.3445−5.3445, p-değeri 1.29×10−101.29 \times 10\^{-10}1.29×10−10. Araç ağırlığı ile yakıt verimliliği arasında negatif bir ilişki vardır. Ağırlık arttıkça yakıt verimliliği azalır.
-
-### **Adım 5: Karar Verme (**α=0.05\alpha = 0.05α=0.05)
-
--   **Karar:** Hem kesim noktası hem de ağırlık katsayısı için p-değeri \<0.05\< 0.05\<0.05. Null hipotez reddedilir.
-
--   **Sonuç:** Araç ağırlığının yakıt verimliliği üzerinde anlamlı bir etkisi vardır.
-
-### **Adım 6: Sonuçların Raporlanması**
-
--   **Model Özeti:** Regresyon denklemi: mpg=37.2851−5.3445×wtmpg = 37.2851 - 5.3445 \times wtmpg=37.2851−5.3445×wt. Araç ağırlığı bir birim arttığında, yakıt verimliliği yaklaşık 5.3445 mil/galon azalır.
-
--   **İstatistiksel Anlamlılık:** Kesim noktası ve ağırlık katsayısı anlamlıdır (p\<0.05p \< 0.05p\<0.05).
-
--   **Uyum İyiliği:**
-
-    -   **R-kare:** 0.75280.75280.7528, değişkenliğin %75.28'ini açıklar.
-
-    -   **Düzeltilmiş R-kare:** 0.74460.74460.7446, örneklem büyüklüğünü ve değişken sayısını dikkate alır.
-
--   **Sonuç:** Araç ağırlığı ile yakıt verimliliği arasında anlamlı bir negatif ilişki vardır. Daha ağır araçlar daha az yakıt verimlidir.
-
-### **Grafiksel Temsil**
-
-Araç ağırlığı ve yakıt verimliliği arasındaki ilişkiyi gösteren bir regresyon grafiği oluşturabilirsiniz:
-
-```{r}
-library(ggplot2)
-
-# Regresyon grafiği oluştur
-plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = TRUE, color = "blue", fill = "lightblue") +
-  labs(title = "Araç Ağırlığı ve Yakıt Verimliliği Arasındaki İlişki",
-       x = "Ağırlık (1000 lbs)",
-       y = "Mil/Galon") +
-  theme_minimal()
-
-# Grafiği göster
-print(plot)
-
-```

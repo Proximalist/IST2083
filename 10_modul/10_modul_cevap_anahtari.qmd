@@ -1,0 +1,59 @@
+---
+title: "Modül 10 — Cevap Anahtarı"
+subtitle: "Hipotez Testi"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+---
+
+Bu belge `10_modul_alistirmalar.qmd` dosyasındaki 16 sorunun doğru cevaplarını ve gerekçelerini içerir. Gerekçeler yalnızca "doğru cevap bu" demekle kalmaz — neden doğru olduğunu da açıklar, çünkü sınavda sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Temel Kavramlar
+
+**1. Doğru cevap: b)** Null hipotez ($H_0$), varsayılan durumu — "hiçbir fark yok, hiçbir etki yok" iddiasını — temsil eder. Araştırmacının göstermek istediği iddia genellikle alternatif hipotezdir ($H_a$).
+
+**2. Doğru cevap: a)** Tip I Hatası, $H_0$ (masumiyet) doğruyken onu yanlışlıkla reddetmektir — "yanlış pozitif". Tip II Hatası ise tam tersi: suçlu birinin yanlışlıkla beraat etmesidir.
+
+**3. Doğru cevap: b)** $\alpha$, $H_0$ doğruyken onu yanlışlıkla reddetme (Tip I Hatası yapma) riskine karşı kabul ettiğimiz üst sınırdır. $H_0$'ın doğru olma olasılığıyla veya testin genel doğruluğuyla ilgili bir garanti değildir.
+
+**4. Doğru cevap: b)** p-değeri, $H_0$'ın doğru olduğu **varsayımı altında**, elde edilen (veya daha uç) bir sonucun gözlenme olasılığıdır. $H_0$'ın kendisinin doğru olma olasılığı **değildir** — bu, sık yapılan bir yanlış yorumdur.
+
+------------------------------------------------------------------------
+
+## Bölüm B — Doğru Testi Seçmek
+
+**5. Doğru cevap: b)** Aynı 20 kişiden **iki ölçüm** (öncesi/sonrası) alınıyor; ölçümler birbirine bağımlı (eşleştirilmiş) olduğundan eşleştirilmiş örneklem t-testi kullanılır.
+
+**6. Doğru cevap: c)** Dört (üçten fazla) grup ortalaması karşılaştırılıyor; bu, ANOVA'nın tanımlayıcı kullanım alanıdır. t-testi yalnızca bir veya iki grup için uygundur.
+
+**7. Doğru cevap: c)** İki kategorik değişken (cinsiyet, haber kaynağı tercihi) arasındaki ilişki sorgulanıyor; bu, ki-kare bağımsızlık testinin tam kullanım alanıdır.
+
+**8. Doğru cevap: a)** Tek bir grubun (pil ömürleri) ortalaması, bilinen/sabit bir değerle (500 saat) karşılaştırılıyor; bu tek örneklem t-testidir.
+
+------------------------------------------------------------------------
+
+## Bölüm C — R Çıktısını Yorumlamak
+
+**9. Doğru cevap: a)** $p = 0.0082 < \alpha = 0.05$, dolayısıyla $H_0$ reddedilir. Ayrıca %95 güven aralığı (151.02, 153.98) 150'yi içermediği için bu karar tutarlıdır.
+
+**10. Doğru cevap: b)** $p = 0.312 > 0.05$ olduğundan $H_0$ reddedilmez. Bunu, güven aralığının 0'ı içermesiyle de doğrulayabiliriz — fark istatistiksel olarak sıfırdan ayırt edilemez. (c) yanlıştır: güven aralığının negatif bir uçtan başlaması, "birinci grup her zaman daha küçük" anlamına gelmez, çünkü aralık 0'ı da kapsıyor.
+
+**11. Doğru cevap: b)** $p = 0.44 \gg 0.05$; düşük F değeriyle birlikte bu, grup ortalamaları arasında anlamlı bir farka dair yeterli kanıt olmadığını gösterir. F değerinin "düşük" olması testin yanlış uygulandığı anlamına gelmez — sonucun kendisidir.
+
+**12. Doğru cevap: b)** $p = 0.48 > 0.05$ olduğundan $H_0$ (bağımsızlık) reddedilmez; iki kategorik değişken arasında anlamlı bir ilişkiye dair yeterli kanıt yoktur. Serbestlik derecesinin 1 olması testin geçerliliğini etkilemez — bu yalnızca tablo boyutuna bağlı bir parametredir.
+
+**13. Doğru cevap: a)** $p = 0.028 < 0.05$ olduğundan $H_0$ reddedilir; öncesi ve sonrası arasında istatistiksel olarak anlamlı bir fark vardır. Ortalama farkın negatif işaretli olması yalnızca yönü gösterir (sonrası değerlerinin daha yüksek/düşük olduğunu), testin geçerliliğiyle ilgisizdir.
+
+------------------------------------------------------------------------
+
+## Bölüm D — Varsayımların Denetlenmesi
+
+**14. Doğru cevap: b)** `shapiro.test()` Shapiro-Wilk normallik testidir; verinin (veya ANOVA'da artıkların) normal dağılımdan anlamlı şekilde sapıp sapmadığını denetler.
+
+**15. Doğru cevap: b)** `bartlett.test()` p-değeri $0.02 < 0.05$ olduğundan varyans homojenliği varsayımı ihlal edilmiştir. Bu durumda standart `aov()` yerine varyansların eşit olmasını varsaymayan `oneway.test(var.equal = FALSE)` (Welch ANOVA) tercih edilir. Varsayım ihlalini görmezden gelmek (a), sonucun güvenilirliğini zedeler.
+
+**16. Doğru cevap: a)** Ki-kare testinin geçerliliği için beklenen hücre frekanslarının genellikle en az 5 olması istenir. Beklenen frekans 2 gibi düşük bir değerse, test varsayımı zorlanmış demektir ve sonuç (özellikle küçük örneklemlerde) temkinli yorumlanmalı, gerekirse Fisher'in kesin testi gibi alternatifler düşünülmelidir. Bu, testin "kesinlikle geçersiz" olduğu anlamına gelmez (b) — yalnızca güvenilirliğinin azaldığı anlamına gelir.
