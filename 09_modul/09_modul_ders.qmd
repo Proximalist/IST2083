@@ -442,6 +442,16 @@ Ancak z-skorları:
 
 Güven aralığı, bir popülasyon parametresinin (örneğin ortalama veya oran) belirli bir olasılık seviyesinde hangi değerler arasında yer alabileceğini ifade eden bir aralıktır. Güven aralığı, bir tahminin güvenilirliğini ve belirsizliğini ölçmek için istatistikte kullanılan önemli bir araçtır.
 
+**Z-skoru bir *bireyin* popülasyondan ne kadar saptığını ölçerken, Standart Hata (SE) bir *örneklem ortalamasının* gerçek ortalamadan ne kadar saptığını ölçer.** Bu ayrımı kaçırmak yaygın bir karışıklık kaynağıdır: $\sigma$ (standart sapma) tek bir gözlemin değişkenliğini, $SE=\sigma/\sqrt{n}$ ise örneklem ortalamasının değişkenliğini anlatır. Bu ayrımın temelinde Modül 07'de gördüğümüz **Merkezi Limit Teoremi (CLT)** yatar: örneklem büyüdükçe, örneklem ortalamasının dağılımı normale yakınsar ve yayılımı $\sigma/\sqrt{n}$'e küçülür — güven aralığı formülünün $SE$ kullanmasının nedeni budur.
+
+::: callout-warning
+## Sık yapılan yorumlama hatası
+
+*"%95 güvenle, gerçek popülasyon ortalaması bu aralık içinde yer alır"* ifadesi pragmatik bir kısayoldur, ama gerçek popülasyon parametresi **sabittir** — hareket etmez; dolayısıyla bir aralığın içine "düşme" ihtimali %95 değildir (ya içindedir ya dışındadır).
+
+**%95 Güven Aralığı'nın teknik anlamı şudur:** Eğer aynı büyüklükte 100 farklı örneklem çekip 100 farklı güven aralığı hesaplasaydık, bu aralıkların yaklaşık 95 tanesi gerçek popülasyon ortalamasını kapsardı. Biz, elimizdeki tek aralığın o başarılı 95 aralıktan biri olduğuna "güveniriz."
+:::
+
 ------------------------------------------------------------------------
 
 ### **1. Güven Aralığı Nedir?**
@@ -454,7 +464,7 @@ Bir güven aralığı, örneklem verilerinden hesaplanır ve iki sınırdan olu�
 
 **Örnek:** Bir sınıftaki öğrencilerin ortalama IQ'su için %95 güven aralığı \[98,100\] ise, bu şu anlama gelir:
 
--   %95 güvenle, gerçek popülasyon ortalaması bu aralık içinde yer alır.
+-   Yukarıdaki teknik anlamıyla: bu aralığı üreten yöntem, tekrar tekrar uygulansaydı, zamanın %95'inde gerçek popülasyon ortalamasını kapsayan bir aralık üretirdi. Kısaca (ve pragmatik olarak) söylersek: "gerçek ortalamanın bu aralıkta olduğuna %95 güveniyoruz."
 
 ### **2. Güven Aralığının Unsurları**
 
@@ -855,6 +865,33 @@ cat("Otomatik Hesaplanan %95 Güven Aralığı:", sonuc$conf.int)
 
 ------------------------------------------------------------------------
 
+## Oranlar için Güven Aralığı (Margin of Error)
+
+Şimdiye kadar gördüğümüz tüm örnekler **ortalamalar** (IQ, yakıt tüketimi, ekran süresi) içindi. Ama siyaset bilimi, sosyoloji ve iletişim araştırmalarında çoğunlukla **oranlarla** (kategorik veriler) çalışırız: "Bir adaya oy verme oranı", "bir politikayı destekleme oranı" gibi.
+
+Her gün haberlerde duyduğumuz **±%3 Hata Payı (Margin of Error)** kavramı, aslında bir oran için hesaplanan güven aralığından başka bir şey değildir:
+
+$$GA = \hat{p} \pm z\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+Burada $\hat{p}$ örneklemdeki gözlenen orandır (örneğin ankette "evet" diyenlerin payı).
+
+### Örnek: Bir Anket
+
+1200 kişilik bir ankette 540 kişi bir adaya oy vereceğini söylüyor. Bu oranın %95 güven aralığı nedir?
+
+```{r}
+x <- 540    # "evet" diyenlerin sayısı
+n <- 1200   # toplam örneklem büyüklüğü
+
+sonuc_oran <- prop.test(x, n, conf.level = 0.95, correct = FALSE)
+sonuc_oran$estimate
+sonuc_oran$conf.int
+```
+
+Çıktı, gözlenen oranın (%45) etrafında yaklaşık ±%2.8'lik bir hata payı (%95 güven aralığı: yaklaşık %42–%48) verir — anket şirketlerinin manşetlerde verdiği "±%3 hata payı" ifadesi tam olarak bu hesaptır. `prop.test()`, `t.test()`'in oranlar için karşılığıdır: ham veri yerine "kaç başarı, kaç deneme" bilgisini alır.
+
+------------------------------------------------------------------------
+
 ## Özet Karşılaştırma Tablosu
 
 Hangi durumda hangi kodu kullanmalısınız?
@@ -895,40 +932,77 @@ Hangi durumda hangi kodu kullanmalısınız?
 
 ### R ile İspatlayalım (Görsel Fark)
 
-Aşağıdaki kodu RStudio'da çalıştırdığında, senin tanımının (Tahmin Aralığı) neden Güven Aralığından çok daha geniş olduğunu göreceksin.
+Aşağıdaki kodu RStudio'da çalıştırdığında, Tahmin Aralığının neden Güven Aralığından çok daha geniş olduğunu göreceksin. Bu sefer sınav notu yerine gerçek bir sosyal bilim sorusuyla çalışıyoruz: **kişi başına düşen GSYİH, bir ülkenin ortalama yaşam beklentisini ne kadar iyi tahmin eder?**
 
 ```{r}
-# 1. Veri Oluşturalım (Örn: Sınav Notları)
-set.seed(123)
-notlar <- rnorm(100, mean = 50, sd = 10) # Ortalaması 50, SS 10 olan 100 not
+library(gapminder)
 
-# Basit bir model kuralım (Sadece ortalama üzerinden)
-model <- lm(notlar ~ 1)
+# 1. Veri: 2007 yılı, tüm ülkeler
+veri_2007 <- subset(gapminder, year == 2007)
+
+# Basit bir doğrusal model: yaşam beklentisi ~ kişi başına GSYİH
+model <- lm(lifeExp ~ gdpPercap, data = veri_2007)
+
+# Kişi başına GSYİH'si 5000 dolar olan (varsayımsal) bir ülke için tahmin
+yeni_ulke <- data.frame(gdpPercap = 5000)
 
 # 2. HESAPLAMA
-# predict fonksiyonu bir matris (tablo) döndürür: fit (tahmin), lwr (alt), upr (üst)
+# A) Güven Aralığı: GSYİH'si 5000 olan ÜLKELERİN ORTALAMA yaşam beklentisi nerede?
+ci <- predict(model, newdata = yeni_ulke, interval = "confidence", level = 0.95)[1, ]
 
-# A) Güven Aralığı (Confidence Interval) - Sadece ilk satırı alıyoruz
-ci <- predict(model, interval = "confidence", level = 0.95)[1, ]
-
-# B) Tahmin Aralığı (Prediction Interval) - Sadece ilk satırı alıyoruz
-pi_araligi <- predict(model, interval = "prediction", level = 0.95)[1, ]
+# B) Tahmin Aralığı: GSYİH'si 5000 olan TEK BİR ülkenin yaşam beklentisi ne olabilir?
+pi_araligi <- predict(model, newdata = yeni_ulke, interval = "prediction", level = 0.95)[1, ]
 
 # 3. SONUÇLARI KARŞILAŞTIRMA
 cat("--- SONUÇLAR ---\n")
-# ci["lwr"] ve ci["upr"] isimleriyle çağırıyoruz
-cat("Güven Aralığı (Ortalama nerede?): [", round(ci["lwr"], 2), "-", round(ci["upr"], 2), "]\n")
-cat("Tahmin Aralığı (Sıradaki öğrenci kaç alır?): [", round(pi_araligi["lwr"], 2), "-", round(pi_araligi["upr"], 2), "]\n")
+cat("Güven Aralığı (Ortalama nerede?):\n")
+cat(" [", round(ci["lwr"], 1), "-", round(ci["upr"], 1), "]\n")
+cat("Tahmin Aralığı (Tek bir ülke kaç çıkar?):\n")
+cat(" [", round(pi_araligi["lwr"], 1), "-", round(pi_araligi["upr"], 1), "]\n")
 ```
 
 **Çıktıyı yorumlarsak (yaklaşık değerler):**
 
--   **Güven Aralığı:** `[49 - 52]` -\> "Sınıfın ortalamasının 50 civarında olduğundan çok eminiz." (Dar aralık)
+-   **Güven Aralığı:** `[61.1 - 64.4]` -\> "Kişi başına GSYİH'si 5000 dolar olan **ülkelerin ortalama** yaşam beklentisinin 62-63 civarında olduğundan oldukça eminiz." (Dar aralık)
 
--   **Tahmin Aralığı:** `[30 - 70]` -\> "Ama rastgele bir öğrenci seçersen notu 30 da olabilir, 70 de." (Geniş aralık)
+-   **Tahmin Aralığı:** `[45.1 - 80.4]` -\> "Ama bu GSYİH düzeyindeki **tek bir ülkeyi** ele alırsak, yaşam beklentisi 45 de olabilir, 80 de — ülkeler arası sağlık sistemi, eşitsizlik gibi farklar bu aralığı çok genişletir." (Geniş aralık)
 
 ### Özet
 
 -   Eğer **"Genel durum (trend/ortalama) nedir?"** diyorsan -\> **Güven Aralığı**
 
 -   Eğer **"Sıradaki veri ne gelecek?"** diyorsan -\> **Tahmin Aralığı**
+
+------------------------------------------------------------------------
+
+## Araştırmacı Pratiği: Güven Aralıklarını Raporlamak
+
+Bu modülde güven aralığını, çan eğrisinin altındaki alanı tarayarak **kavramsal olarak** gösterdik — bu, öğrenmek için idealdir. Ama bir araştırma makalesinde güven aralıkları çan eğrileriyle değil, gruplar arası karşılaştırmalarda **hata çubuklarıyla (error bars)** raporlanır.
+
+Aşağıdaki kod, kıtalara göre ortalama yaşam beklentisini ve %95 güven aralıklarını, sosyal bilim makalelerinde alışık olduğunuz biçimde görselleştirir:
+
+```{r}
+#| label: fig-errorbar-kita
+#| fig-cap: 'Kıtalara göre ortalama yaşam beklentisi ve %95 güven aralıkları (2007)'
+library(dplyr)
+library(ggplot2)
+library(gapminder)
+
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarise(
+    ort = mean(lifeExp),
+    se = sd(lifeExp) / sqrt(n()),
+    alt_sinir = ort - 1.96 * se,
+    ust_sinir = ort + 1.96 * se
+  ) |>
+  ggplot(aes(x = reorder(continent, ort), y = ort)) +
+  geom_point(size = 3, color = "darkblue") +
+  geom_errorbar(aes(ymin = alt_sinir, ymax = ust_sinir), width = 0.2, color = "darkblue") +
+  coord_flip() +
+  labs(x = "", y = "Yaşam Beklentisi (Yıl)") +
+  theme_minimal()
+```
+
+Her nokta bir kıtanın ortalama yaşam beklentisini, her çubuk o ortalamanın %95 güven aralığını gösterir. Çubukların birbiriyle **çakışmaması**, kıtalar arasındaki farkın rastgele örnekleme hatasından çok daha büyük olduğuna işaret eder — bu, sonraki modüllerde göreceğiniz hipotez testlerinin görsel bir ön-izlemesidir.
