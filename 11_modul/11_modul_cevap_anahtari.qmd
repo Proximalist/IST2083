@@ -1,0 +1,71 @@
+---
+title: "Modül 11 — Cevap Anahtarı"
+subtitle: "Korelasyon ve Basit Doğrusal Regresyon"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+---
+
+Bu belge `11_modul_alistirmalar.qmd` dosyasındaki 18 sorunun doğru cevaplarını ve gerekçelerini içerir. Gerekçeler yalnızca "doğru cevap bu" demekle kalmaz — neden doğru olduğunu da açıklar, çünkü sınavda sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Korelasyon
+
+**1. Doğru cevap: b)** Pearson korelasyon katsayısı $r$, tanımı gereği $-1$ ile $+1$ arasında değer alır; $-1$ ve $+1$ mükemmel doğrusal ilişkiyi, 0 ise doğrusal ilişki yokluğunu ifade eder.
+
+**2. Doğru cevap: b)** $r=-0.85$, mutlak değeri büyük (0.85) ve işareti negatif olduğu için **güçlü, ters yönlü** bir doğrusal ilişkiyi gösterir. Negatif korelasyon bir hata değildir — yalnızca ilişkinin yönünü belirtir.
+
+**3. Doğru cevap: b)** `cor.test()`'in null hipotezi, popülasyon korelasyonunun ($\rho$) sıfır olduğudur. $p=0.34 > 0.05$ olduğundan bu null hipotez reddedilemez; yani gözlemlenen korelasyonun tesadüften kaynaklanmadığına dair yeterli kanıt yoktur.
+
+**4. Doğru cevap: b)** Anscombe Dörtlüsü'nün tüm mesajı budur: özet istatistikler (korelasyon, regresyon denklemi) aynı olsa bile, altta yatan veri yapıları çok farklı olabilir. Bu yüzden regresyon kurmadan önce mutlaka grafiğe bakılmalıdır.
+
+------------------------------------------------------------------------
+
+## Bölüm B — Regresyon Katsayılarını Yorumlama
+
+**5. Doğru cevap: b)** Eğim (slope) katsayısı, açıklayıcı değişkende bir birimlik artışın, bağımlı değişkende ortalama olarak ne kadar değişime yol açtığını gösterir.
+
+**6. Doğru cevap: b)** Kesişim (intercept), açıklayıcı değişken $X=0$ olduğunda bağımlı değişken için modelin verdiği tahmindir — bazen (Örnek 4'teki sigorta örneğinde olduğu gibi) bu, verinin gerçek aralığının dışında kaldığı için pratik bir anlam taşımayabilir.
+
+**7. Doğru cevap: b)** $X=0$ genellikle verinin gözlemlenen aralığının dışındadır (ekstrapolasyon); kesişimin "anlamsız" görünmesi, modelin **eğim** kısmının (asıl ilgilendiğimiz ilişkinin) geçersiz olduğu anlamına gelmez. Ders notundaki sigorta örneğinde de tam olarak bu durumla karşılaşılmıştı.
+
+------------------------------------------------------------------------
+
+## Bölüm C — R Çıktısını Yorumlamak
+
+**8. Doğru cevap: a)** $R^2$, bağımlı değişkendeki toplam varyansın açıklayıcı değişken(ler) tarafından açıklanan oranını ifade eder. $R^2=0.72$, varyansın %72'sinin açıklandığı anlamına gelir — bu bir olasılık veya anlamlılık yüzdesi değildir.
+
+**9. Doğru cevap: a)** $p=0.62 \gg 0.05$ olduğundan, eğim katsayısının sıfırdan farklı olduğuna dair yeterli istatistiksel kanıt yoktur; yani açıklayıcı değişkenin bağımlı değişken üzerinde anlamlı bir doğrusal etkisi olduğu söylenemez.
+
+**10. Doğru cevap: b)** Ders notunda gördüğümüz gibi (GSYİH: $R^2\approx0.46$, maaş-SAT: $R^2\approx0.11$, sigorta: $R^2\approx0.99$), "iyi" bir $R^2$ değeri incelenen olgunun doğasına bağlıdır. İnsan davranışını içeren ilişkilerde düşük $R^2$ sık görülür ve tek başına modelin "yanlış" olduğu anlamına gelmez.
+
+**11. Doğru cevap: b)** F-istatistiği ve ona ait p-değeri, modelin **bir bütün olarak** (basit regresyonda tek açıklayıcı değişkenin) istatistiksel olarak anlamlı olup olmadığını test eder — $H_0$: tüm eğim katsayıları sıfırdır.
+
+------------------------------------------------------------------------
+
+## Bölüm D — Residüeller
+
+**12. Doğru cevap: b)** Residüel $= y_{\text{gözlem}} - y_{\text{tahmin}} = 80 - 72 = 8$.
+
+**13. Doğru cevap: b)** Residüelin tanımı, gözlemlenen değerden tahmin edilen değerin çıkarılmasıdır: $e = y_{\text{gözlem}} - y_{\text{tahmin}}$. Sıra önemlidir — ters çevrilirse işaret ters döner.
+
+**14. Doğru cevap: a)** Residüel $=y_{\text{gözlem}}-y_{\text{tahmin}}$ tanımına göre, residüel pozitifse gözlemlenen değer tahminden büyüktür — yani model, gerçek değeri **olduğundan düşük** tahmin etmiştir.
+
+------------------------------------------------------------------------
+
+## Bölüm E — Korelasyon, Nedensellik ve Karıştırıcı Değişkenler
+
+**15. Doğru cevap: b)** Ders notunda tartışıldığı gibi, bu ilişkinin standart açıklaması, sınava giren öğrenci **katılım oranının** hem maaşla hem puanla ilişkili bir karıştırıcı değişken olmasıdır — yüksek maaşın öğretmenleri "tembelleştirdiği" gibi bir nedensel iddia (a) veri tarafından desteklenmez.
+
+**16. Doğru cevap: b)** Bu, korelasyon-nedensellik karışıklığının klasik tanımıdır: gözlemlenen bir ilişki, X→Y, Y→X veya bir karıştırıcı değişken (Z→X ve Z→Y) gibi birden fazla nedensel yapıyla tutarlı olabilir; korelasyonun kendisi bu olasılıklar arasında ayrım yapmaz.
+
+**17. Doğru cevap: b)** Her iki örnekte de iki değişken arasındaki görünür ilişki (cinsiyet-kabul; maaş-puan), hesaba katılmayan üçüncü bir değişken (bölüm; katılım oranı) devreye girdiğinde farklı, hatta yanıltıcı bir görünüm kazanmaktadır. Bu, çok değişkenli (regresyon gibi) yöntemlerin neden gerekli olduğunun temel gerekçesidir.
+
+------------------------------------------------------------------------
+
+## Bölüm F — gapminder Örneği Üzerine
+
+**18. Doğru cevap: b)** Residüel $=y_{\text{gözlem}}-y_{\text{tahmin}}=71.8-65\approx +6.8$, yani **pozitiftir**. Pozitif residüel, modelin gerçek değeri olduğundan düşük tahmin ettiği anlamına gelir — burada Türkiye'nin GSYİH düzeyine göre "beklenenden" daha yüksek bir yaşam beklentisine sahip olduğunu gösterir.

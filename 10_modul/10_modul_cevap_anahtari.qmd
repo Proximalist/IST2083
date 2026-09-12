@@ -57,3 +57,15 @@ Bu belge `10_modul_alistirmalar.qmd` dosyasındaki 16 sorunun doğru cevapların
 **15. Doğru cevap: b)** `bartlett.test()` p-değeri $0.02 < 0.05$ olduğundan varyans homojenliği varsayımı ihlal edilmiştir. Bu durumda standart `aov()` yerine varyansların eşit olmasını varsaymayan `oneway.test(var.equal = FALSE)` (Welch ANOVA) tercih edilir. Varsayım ihlalini görmezden gelmek (a), sonucun güvenilirliğini zedeler.
 
 **16. Doğru cevap: a)** Ki-kare testinin geçerliliği için beklenen hücre frekanslarının genellikle en az 5 olması istenir. Beklenen frekans 2 gibi düşük bir değerse, test varsayımı zorlanmış demektir ve sonuç (özellikle küçük örneklemlerde) temkinli yorumlanmalı, gerekirse Fisher'in kesin testi gibi alternatifler düşünülmelidir. Bu, testin "kesinlikle geçersiz" olduğu anlamına gelmez (b) — yalnızca güvenilirliğinin azaldığı anlamına gelir.
+
+------------------------------------------------------------------------
+
+## Bölüm E — Etki Büyüklüğü ve Yorumlama Tuzakları
+
+**17. Doğru cevap: b)** $n=8000$ gibi çok büyük bir örneklemde, testin istatistiksel gücü çok yüksektir; bu yüzden pratikte önemsiz, ihmal edilebilir büyüklükteki farklar bile $p<0.05$ (hatta $p<0.001$) verebilir. Cohen's d $=0.05$, bu farkın **pratikte anlamsız** olduğunu gösterir. P-değerinin küçüklüğü, etki büyüklüğüne bakma ihtiyacını **ortadan kaldırmaz** — tam tersine, tam da bu tür durumlarda etki büyüklüğü esas bilgiyi taşır.
+
+**18. Doğru cevap: b)** Aynı mantık ki-kare için de geçerlidir: çok büyük bir örneklemde $\chi^2$ ve dolayısıyla p-değeri küçük çıkabilir, ama Cramér's $V=0.08$ ilişkinin **çok zayıf** olduğunu gösterir. İki ölçüt farklı şeyi ölçtüğü için (biri anlamlılık, diğeri büyüklük) aralarında bir "çelişki" değil, tamamlayıcılık vardır (d yanlış).
+
+**19. Doğru cevap: c)** Bu, ders notunda işlenen klasik Simpson Paradoksu örneğidir: iki değişken (cinsiyet, kabul) arasındaki görünür ilişki, üçüncü bir değişken (başvurulan bölüm) hesaba katıldığında büyük ölçüde ortadan kalkmaktadır. Tip I Hatası (a) burada söz konusu değildir çünkü ilişki gerçekten var — yalnızca yanlış yorumlanıyor; p-hacking (b) veriyi seçici test etmekle ilgilidir, bu senaryoda anlatılan durum değildir.
+
+**20. Doğru cevap: c)** Çok sayıda değişkeni test edip yalnızca anlamlı çıkanları raporlamak, ders notunda "P-Hacking (P-Değeri Avcılığı)" olarak tanımlanan, replikasyon krizine yol açan seçici raporlama pratiğinin tam tanımıdır. 25 değişkenden ikisinin şans eseri $p<0.05$ çıkması, $\alpha=0.05$'in "her test için %5 hata payı" anlamına geldiği hatırlanırsa, sürpriz değildir.

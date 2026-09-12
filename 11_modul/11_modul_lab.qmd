@@ -1,0 +1,155 @@
+---
+title: "Modül 11 — Rehberli Laboratuvar"
+subtitle: "Korelasyon ve Basit Doğrusal Regresyon"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–D): her görevde ne yapmanız gerektiği yazılıdır ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____` gördüğünüz yerleri siz dolduracaksınız. Bu kodlar render sırasında çalıştırılmaz — sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli.
+
+Her görevden sonra **bir cümleyle** sonucu yorumlayın (kod öbeğinin altına, düz metin olarak). Sınavda sizden istenecek olan kod yazmak değil, bu yorumu kurabilmektir.
+
+Bu modülde kullanılan `cor()`, `cor.test()`, `lm()`, `predict()` fonksiyonları R'ın temel `stats` paketindendir; ek bir paket yüklemenize gerek yoktur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Korelasyon
+
+10 öğrencinin yıllık okuduğu kitap sayısı ile sınav puanı (100 üzerinden) aşağıdadır:
+
+| Öğrenci | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|----|----|----|----|----|----|----|----|----|----|----|
+| Kitap sayısı | 2 | 5 | 8 | 3 | 10 | 6 | 1 | 7 | 4 | 9 |
+| Sınav puanı | 55 | 72 | 78 | 65 | 88 | 68 | 60 | 85 | 58 | 80 |
+
+### Görev A1 — Korelasyonu hesaplayın ve test edin
+
+```{r}
+#| eval: false
+kitap <- c(2, 5, 8, 3, 10, 6, 1, 7, 4, 9)
+puan <- c(____, ____, ____, ____, ____, ____, ____, ____, ____, ____)
+
+cor(kitap, puan)
+cor.test(____, ____)
+```
+
+**Yorumunuz:** $r$ değeri ne kadar güçlü? p-değeri anlamlı mı?
+
+------------------------------------------------------------------------
+
+## Bölüm B — Basit Doğrusal Regresyon
+
+### Görev B1 — Modeli kurun
+
+```{r}
+#| eval: false
+mod <- lm(puan ~ ____, data = data.frame(kitap, puan))
+summary(mod)
+```
+
+**Yorumunuz:** Kesişim (intercept) ve eğim (slope) katsayılarını, birer cümleyle yorumlayın. $R^2$ nedir?
+
+------------------------------------------------------------------------
+
+## Bölüm C — Tahmin ve Residüel
+
+### Görev C1 — Yeni bir gözlem için tahmin yapın
+
+Yılda **6 kitap** okuyan bir öğrencinin sınav puanı ne olur?
+
+```{r}
+#| eval: false
+tahmin_6 <- predict(____, newdata = data.frame(kitap = ____))
+tahmin_6
+```
+
+### Görev C2 — Residüeli hesaplayın
+
+Aslında 6. öğrenci (yılda 6 kitap okuyan) gerçekte **68 puan** almıştı.
+
+```{r}
+#| eval: false
+residuel <- ____ - tahmin_6
+residuel
+```
+
+**Yorumunuz:** Residüel pozitif mi negatif mi? Model bu öğrenciyi olduğundan yüksek mi düşük mü tahmin etmiş?
+
+------------------------------------------------------------------------
+
+## Bölüm D — Grafiğe Bakmanın Önemi
+
+### Görev D1 — Dağılım grafiği çizin
+
+```{r}
+#| eval: false
+plot(____, ____, xlab = "Kitap Sayısı", ylab = "Sınav Puanı")
+abline(____, col = "red")
+```
+
+**Yorumunuz:** İlişki gerçekten doğrusal görünüyor mu, yoksa doğrusal olmayan bir örüntü (eğrilik, aykırı değer) var mı? (Bkz. ders notundaki Anscombe Dörtlüsü uyarısı — asla yalnızca $r$ ve $R^2$'ye güvenmeyin.)
+
+------------------------------------------------------------------------
+
+## Çözümler
+
+### A1
+
+```{r}
+kitap <- c(2, 5, 8, 3, 10, 6, 1, 7, 4, 9)
+puan <- c(55, 72, 78, 65, 88, 68, 60, 85, 58, 80)
+
+cor(kitap, puan)
+cor.test(kitap, puan)
+```
+
+$r \approx 0.90$: güçlü, pozitif bir doğrusal ilişki. $p \approx 0.0004 < 0.05$: bu ilişkinin şans eseri ortaya çıkma olasılığı çok düşük.
+
+### B1
+
+```{r}
+mod <- lm(puan ~ kitap, data = data.frame(kitap, puan))
+summary(mod)
+```
+
+**Intercept ($\approx 51.93$):** Hiç kitap okumayan bir öğrenci için tahmin edilen puan. **Eğim ($\approx 3.45$):** Her ek kitap, sınav puanını ortalama 3.45 puan artırıyor. $R^2 \approx 0.81$: kitap sayısı, puan değişkenliğinin %81'ini açıklıyor.
+
+### C1–C2
+
+```{r}
+tahmin_6 <- predict(mod, newdata = data.frame(kitap = 6))
+tahmin_6
+
+residuel <- 68 - tahmin_6
+residuel
+```
+
+Tahmin $\approx 72.6$, gerçek değer 68 — residüel $\approx -4.6$ (**negatif**). Model bu öğrencinin puanını olduğundan **yüksek** tahmin etmiş.
+
+### D1
+
+```{r}
+plot(kitap, puan, xlab = "Kitap Sayısı", ylab = "Sınav Puanı")
+abline(mod, col = "red")
+```
+
+İlişki büyük ölçüde doğrusal görünüyor, belirgin bir aykırı değer veya eğrilik yok — bu, Bölüm B'deki yüksek $R^2$ ile tutarlı. (Anscombe Dörtlüsü'nü hatırlayın: her zaman bu kontrolü yapın, çünkü yüksek $R^2$ tek başına doğrusallığı garanti etmez.)

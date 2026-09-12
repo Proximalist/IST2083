@@ -1,0 +1,167 @@
+---
+title: "Modül 11 — Alıştırmalar"
+subtitle: "Korelasyon ve Basit Doğrusal Regresyon"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: today
+lang: tr
+format: pdf
+editor: visual
+---
+
+## Bu Alıştırmalar Hakkında
+
+Bu alıştırmalar **notlandırılmaz ve teslim edilmez.** Amacı, sınavdan önce kendi durumunuzu ölçebilmenizdir. Sınav soruları da bu biçimde (çoktan seçmeli, tek doğru cevap) ve genellikle **hazır bir R çıktısının yorumlanmasını isteyen** biçimde kurgulanır.
+
+Her soru 4 şıklıdır ve yalnızca **bir tanesi** doğrudur.
+
+Cevaplarınızı not edin, sonra `11_modul_cevap_anahtari.qmd` dosyasıyla karşılaştırın.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Korelasyon
+
+**1.** Korelasyon katsayısı ($r$) hangi aralıkta değer alır?
+
+a\) 0 ile 100 arası\
+b) $-1$ ile $+1$ arası\
+c) $-\infty$ ile $+\infty$ arası\
+d) Yalnızca pozitif değerler
+
+**2.** İki değişken arasında $r = -0.85$ bulunmuştur. Bu ne anlama gelir?
+
+a\) Değişkenler arasında ilişki yoktur\
+b) Güçlü, negatif bir doğrusal ilişki vardır: biri artarken diğeri azalır\
+c) Ölçümde hata yapılmıştır çünkü korelasyon negatif olamaz\
+d) Değişkenlerden biri diğerinin nedenidir
+
+**3.** `cor.test(x, y)` çıktısında `p-value = 0.34` bulunmuştur. Bu ne anlama gelir?
+
+a\) İki değişken arasında güçlü bir ilişki vardır\
+b) İki değişken arasındaki doğrusal ilişkinin sıfırdan farklı olduğuna dair yeterli istatistiksel kanıt yoktur\
+c) Korelasyon katsayısı 0.34'tür\
+d) Test geçersizdir
+
+**4.** Anscombe Dörtlüsü'nün temel dersi nedir?
+
+a\) Korelasyon her zaman nedenselliği ima eder\
+b) Aynı korelasyon katsayısı ve regresyon denklemi, çok farklı görünen veri dağılımlarından gelebilir; regresyon kurmadan önce grafiğe bakmak gerekir\
+c) $R^2$ her zaman korelasyondan daha güvenilirdir\
+d) Dört veri seti aynı olduğu için sonuç da aynıdır
+
+------------------------------------------------------------------------
+
+## Bölüm B — Regresyon Katsayılarını Yorumlama
+
+**5.** $\widehat{Y} = 12 + 3X$ modelinde eğim katsayısı (3) ne anlama gelir?
+
+a\) $X=0$ olduğunda $Y$'nin değeri 3'tür\
+b) $X$ bir birim arttığında, $Y$'nin ortalama olarak 3 birim artması beklenir\
+c) Model, verinin %3'ünü açıklamaktadır\
+d) $X$ ile $Y$ arasında korelasyon 3'tür
+
+**6.** Aynı modelde kesişim (intercept) terimi olan 12 ne anlama gelir?
+
+a\) $X$ bir birim arttığında $Y$'nin artış miktarı\
+b) $X=0$ olduğunda $Y$ için tahmin edilen değer\
+c) Modelin $R^2$ değeri\
+d) Modelin p-değeri
+
+**7.** Bir araştırmacı, kesişim noktasını negatif bulmuş ve bağımlı değişkenin (örneğin fiyat) negatif olması fiziksel olarak anlamsız olduğu için modeli sorgulamıştır. Bu yaklaşım hakkında ne söylenebilir?
+
+a\) Negatif kesişim her zaman modelin tamamen yanlış olduğu anlamına gelir\
+b) Kesişim genellikle $X=0$'ın veri aralığının dışında kaldığı durumlarda anlamsız bir ekstrapolasyondur; bu, modelin eğim kısmının geçersiz olduğu anlamına gelmez\
+c) Negatif kesişim yalnızca ki-kare testlerinde görülür\
+d) Kesişim değeri her zaman 0 ile 1 arasında olmalıdır
+
+------------------------------------------------------------------------
+
+## Bölüm C — R Çıktısını Yorumlamak
+
+**8.** Bir `lm()` çıktısında `Multiple R-squared: 0.72` bulunmuştur. Bu ne anlama gelir?
+
+a\) Bağımsız değişken, bağımlı değişkendeki varyansın %72'sini açıklamaktadır\
+b) Modelin %72 ihtimalle doğru olduğu\
+c) Model, katsayıların %72'sinin anlamlı olduğunu gösterir\
+d) Örneklemin %72'si kullanılmıştır
+
+**9.** Bir regresyon çıktısında eğim katsayısının p-değeri `0.62` bulunmuştur ($\alpha=0.05$). Doğru yorum hangisidir?
+
+a\) Eğim katsayısı istatistiksel olarak sıfırdan anlamlı şekilde farklı değildir\
+b) Model mükemmel bir uyum sağlamaktadır\
+c) $R^2$ kesinlikle yüksektir\
+d) Bağımsız değişken hatalı ölçülmüştür
+
+**10.** İki farklı regresyon modelinden biri $R^2 = 0.11$, diğeri $R^2 = 0.99$ vermiştir. Bu ikisi hakkında en isabetli yorum hangisidir?
+
+a\) $R^2=0.11$ olan model kesinlikle hatalıdır\
+b) Düşük $R^2$, incelenen ilişkinin türüne bağlı olabilir (örn. insan davranışı çok değişkenlidir); tek bir "iyi $R^2$" eşiği yoktur\
+c) İki model de aynı bağlamda kurulduysa sonuçlar tutarsızdır\
+d) $R^2$ değeri her zaman örneklem büyüklüğüne eşittir
+
+**11.** Bir `summary(lm(...))` çıktısında F-istatistiği için p-değeri `< 2.2e-16` bulunmuştur. Bu neyi test eder?
+
+a\) Bağımlı değişkenin normal dağılıp dağılmadığını\
+b) Modelin bir bütün olarak (en az bir açıklayıcı değişkenin) istatistiksel olarak anlamlı olup olmadığını\
+c) Örneklem büyüklüğünün yeterli olup olmadığını\
+d) Kesişim teriminin sıfır olup olmadığını
+
+------------------------------------------------------------------------
+
+## Bölüm D — Residüeller
+
+**12.** Bir gözlemin gerçek değeri 80, modelin tahmini 72'dir. Residüel nedir?
+
+a\) $-8$\
+b) $8$\
+c) $152$\
+d) $0.9$
+
+**13.** Residüel şu şekilde tanımlanır:
+
+a\) $e = y_{\text{tahmin}} - y_{\text{gözlem}}$\
+b) $e = y_{\text{gözlem}} - y_{\text{tahmin}}$\
+c) $e = y_{\text{gözlem}} \times y_{\text{tahmin}}$\
+d) $e = y_{\text{gözlem}} / y_{\text{tahmin}}$
+
+**14.** Bir modelin residüelleri sistematik olarak (çoğunlukla) pozitifse, bu ne anlama gelir?
+
+a\) Model, gözlemlenen değerleri genellikle **olduğundan düşük** tahmin etmektedir\
+b) Model, gözlemlenen değerleri genellikle **olduğundan yüksek** tahmin etmektedir\
+c) Model mükemmeldir\
+d) $R^2$ kesinlikle 1'dir
+
+------------------------------------------------------------------------
+
+## Bölüm E — Korelasyon, Nedensellik ve Karıştırıcı Değişkenler
+
+**15.** Bir eyalette öğretmen maaşı arttıkça ortalama SAT puanının düştüğü gözlemlenmiştir. Ders notunda bu ilişkinin en olası açıklaması nedir?
+
+a\) Yüksek maaş, öğretmenleri tembelleştirmektedir\
+b) SAT'a giren öğrenci **katılım oranı**, hem maaşla hem puanla ayrı ayrı ilişkili bir karıştırıcı değişkendir\
+c) SAT puanları rastgele atanmaktadır\
+d) Bu ilişki tesadüfidir ve hiçbir açıklaması yoktur
+
+**16.** "X ile Y arasında güçlü bir korelasyon bulundu, öyleyse X, Y'nin nedenidir" ifadesindeki mantık hatası nedir?
+
+a\) Korelasyon hiçbir zaman hesaplanamaz\
+b) Güçlü bir korelasyon; X'in Y'yi etkilemesi, Y'nin X'i etkilemesi veya üçüncü bir karıştırıcı değişken gibi birden fazla nedenden kaynaklanabilir — korelasyon tek başına bunlar arasında ayrım yapamaz\
+c) Korelasyon yalnızca kategorik değişkenler için geçerlidir\
+d) Nedensellik yalnızca deneysel olmayan verilerde test edilebilir
+
+**17.** Modül 10'daki Simpson Paradoksu ile bu modüldeki "öğretmen maaşı — SAT puanı" örneği arasındaki ortak nokta nedir?
+
+a\) İkisi de ki-kare testi kullanır\
+b) İkisinde de görünürdeki iki değişkenli ilişki, hesaba katılmayan üçüncü bir değişken (bölüm / katılım oranı) yüzünden yanıltıcı çıkmaktadır\
+c) İkisi de aynı veri setini kullanır\
+d) İkisi de p-hacking örneğidir
+
+------------------------------------------------------------------------
+
+## Bölüm F — gapminder Örneği Üzerine
+
+**18.** Ders notundaki gapminder modelinde (yaşam beklentisi $\sim$ kişi başı GSYİH), Türkiye için model tahmini (65 yıl), gerçek değerden (71.8 yıl) düşük çıkmıştır. Bu residüel hakkında ne söylenebilir?
+
+a\) Residüel negatiftir ve model Türkiye'yi olduğundan yüksek tahmin etmiştir\
+b) Residüel pozitiftir ve model Türkiye'yi olduğundan düşük tahmin etmiştir; Türkiye, gelir düzeyine göre beklenenden iyi bir yaşam beklentisine sahiptir\
+c) Bu durum modelin tamamen geçersiz olduğu anlamına gelir\
+d) Residüel hesaplanamaz çünkü Türkiye örneklemde yoktur

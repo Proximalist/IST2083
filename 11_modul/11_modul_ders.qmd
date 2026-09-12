@@ -25,7 +25,7 @@ Bir **fonksiyon**, belirli bir girdiyle belirli bir çıktıyı ilişkilendirir.
 
 -   Aynı tuşa bastığınızda farklı bir içecek çıkması mümkün değildir.
 
-💡 Bir fonksiyon genellikle f(x) olarak gösterilir, burada x girdidir. Örneğin, $(x) = x^2$ fonksiyonunda, f(x) fonksiyonu x değerini alır ve onun karesini çıktı olarak verir!
+💡 Bir fonksiyon genellikle $f(x)$ olarak gösterilir, burada x girdidir. Örneğin, $f(x) = x^2$ fonksiyonunda, $f(x)$ fonksiyonu x değerini alır ve onun karesini çıktı olarak verir!
 
 👋 İstatistik açısından **fonksiyonlar, bir modelin nasıl çalıştığını anlamak için bir çerçeve sağlar.**
 
@@ -41,35 +41,41 @@ Regresyon analizi, tahmin ve hipotez testini tamamlayan temel bir çıkarımsal 
 
 Bu, bağımlı değişken ile bir veya daha fazla bağımsız değişken arasındaki ilişkinin doğrusal olduğu varsayımıyla oluşturulan en basit regresyon türüdür.
 
-Aşağıdaki gibi ifade edilir: $Y=β0+β1X1+ϵY$
+Tek açıklayıcı değişkenli (basit) hâli aşağıdaki gibi ifade edilir:
+
+$$Y = \beta_0 + \beta_1 X_1 + \epsilon$$
 
 Burada:
 
 -   Y: Bağımlı değişken
 
--   X1: Bağımsız değişken
+-   $X_1$: Bağımsız değişken
 
--   β0: Sabit terim (intercept)
+-   $\beta_0$: Sabit terim (intercept)
 
--   β1: Katsayı (eğim)
+-   $\beta_1$: Katsayı (eğim)
 
--   ϵ\\epsilon: Hata terimi
+-   $\epsilon$: Hata terimi
 
 **2. Çoklu Regresyon (Multiple Regression)**
 
 Doğrusal regresyonun genişletilmiş bir halidir ve bağımlı değişkeni daha iyi tahmin edebilmek için birden fazla bağımsız değişken kullanılır.
 
-Aşağıdaki gibi ifade edilir: $$Y=β0+β1X1+β2X2+…+βnXn+ϵ$$
+Aşağıdaki gibi ifade edilir:
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \ldots + \beta_n X_n + \epsilon$$
 
 Burada:
 
 -   Y: Bağımlı değişken
 
--   X1,X2,…,Xn: Bağımsız değişkenler
+-   $X_1, X_2, \ldots, X_n$: Bağımsız değişkenler
 
--   β0,β1,β2,…,βn: Katsayılar
+-   $\beta_0, \beta_1, \beta_2, \ldots, \beta_n$: Katsayılar
 
--   ϵ: Hata terimi
+-   $\epsilon$: Hata terimi
+
+Çoklu regresyonu ve kategorik açıklayıcı değişkenleri Modül 12'de ayrıntılı olarak işleyeceğiz. Bu modülde **tek bir açıklayıcı değişkenli** (basit) regresyona odaklanıyoruz.
 
 **3. Lojistik Regresyon (Logistic Regression)**
 
@@ -85,6 +91,55 @@ Bağımlı değişkenin kategorik olduğu durumlarda kullanılır. Genellikle ik
 
 3.  **Hipotezleri Test Etme:** Değişkenler arasındaki ilişkiler hakkında belirli hipotezleri test eder. Örneğin, bağımsız değişkenlerin etkisinin anlamlı olup olmadığını değerlendirir.
 
+------------------------------------------------------------------------
+
+## Korelasyon
+
+Regresyona geçmeden önce, iki sürekli değişken arasındaki **doğrusal ilişkinin gücünü ve yönünü** özetleyen daha basit bir araca bakalım: **korelasyon katsayısı** ($r$, Pearson korelasyonu).
+
+-   $r$, $-1$ ile $+1$ arasında değişir.
+-   $r > 0$: pozitif ilişki (biri artarken diğeri de artar).
+-   $r < 0$: negatif ilişki (biri artarken diğeri azalır).
+-   $r = 0$: doğrusal ilişki yok (ama doğrusal olmayan güçlü bir ilişki hâlâ olabilir — aşağıya bakın).
+
+| $|r|$ | Yorum |
+|----|----|
+| $\approx 0.1$ | Zayıf ilişki |
+| $\approx 0.3$ | Orta düzey ilişki |
+| $\approx 0.5$ ve üzeri | Güçlü ilişki |
+
+```{r}
+#| eval: false
+cor(x, y)                 # Pearson korelasyon katsayısı
+cor.test(x, y)             # korelasyonun anlamlılık testi (H0: rho = 0)
+```
+
+::: callout-warning
+⚠️ **Anscombe Dörtlüsü: Neden Her Zaman Grafiğe Bakmalısınız**
+
+Base R'da yer alan `anscombe` veri seti, istatistikte ünlü bir uyarı örneğidir: dört farklı $(x,y)$ çifti seti, **aynı** ortalama, aynı varyans, aynı korelasyon katsayısı ($r \approx 0.816$) ve **aynı** doğrusal regresyon denklemini verir — ama dağılım grafiklerine bakıldığında dördü de tamamen farklı görünür (biri gerçekten doğrusal, biri eğrisel, biri tek bir aykırı değerden kaynaklanıyor, biri ise dikey bir çizgi + bir aykırı değer).
+
+```{r}
+data(anscombe)
+
+# Her çift için korelasyon aynı mı, kontrol edelim
+cor(anscombe$x1, anscombe$y1)
+cor(anscombe$x2, anscombe$y2)
+cor(anscombe$x3, anscombe$y3)
+cor(anscombe$x4, anscombe$y4)
+```
+
+**Ders:** $r$ veya $R^2$ gibi tek bir sayı, veriyi asla tam özetleyemez. Regresyon kurmadan **önce** her zaman verinizin dağılım grafiğini çizin.
+:::
+
+::: callout-warning
+⚠️ **Korelasyon nedensellik değildir** — Modül 10'da gördüğümüz Simpson Paradoksu uyarısının doğal devamı budur. İki değişken güçlü bir korelasyona sahip olabilir çünkü (a) biri diğerini gerçekten etkiliyordur, (b) ilişki tam tersi yöndedir, ya da (c) üçüncü bir **karıştırıcı değişken** her ikisini de etkiliyordur. Bu modülün Örnek 3'ünde tam da bu üçüncü duruma bir örnek göreceğiz.
+:::
+
+------------------------------------------------------------------------
+
+## Basit Doğrusal Regresyon
+
 ### **Örnek 1:**
 
 Bu alıştırmada, bir grup üniversite öğrencisine ait iki değişken içeren ikili (bivariate) veri bulunmaktadır:
@@ -99,11 +154,11 @@ $$\text{Tahmin Edilen GPA} = 2.84 + 0.04 \times \text{Ders Kitaplarına Harcanan
 
 ### **Soru 1:**
 
-Bir öğrenci üniversite boyunca ders kitaplarına toplam **970 dolar** harcamışsa, bu öğrencinin tahmin edilen GPA'sı nedir?
+Bir öğrenci üniversite boyunca ders kitaplarına **hiç para harcamamışsa** (0 dolar), bu öğrencinin tahmin edilen GPA'sı nedir? (Bu, modelin kesişim noktasını — intercept'ini — sorar.)
 
-Harcanan para 0 dolar olduğunda (dolar cinsinden 0):
+Harcanan para 0 dolar olduğunda:
 
-Tahmin Edilen GPA=2.84+0.04×0 Tahmin Edilen GPA=2.84
+$$\text{Tahmin Edilen GPA} = 2.84 + 0.04 \times 0 = 2.84$$
 
 ```{r}
 predictedgpa <- function(x) {
@@ -261,241 +316,67 @@ Bu kodda **lm(y \~ x)**, y değişkenini bağımlı değişken, x değişkenini 
 
 -   Artıklar iyi dağılmış görünmekte ve model, test skorlarındaki değişkenliğin önemli bir kısmını açıklamaktadır.
 
-### **Örnek 2:**
+### **Örnek 2: gapminder ile Korelasyon ve Basit Regresyon**
 
-Havayolu gecikmeleri veri setinden bir soruyu ele alalım: Planlanan kalkış saati, beklenen uçuş gecikmesi üzerinde bir etkiye sahip mi? Çoğu kişi, sabah erken uçuşların daha az geciktiğini düşünür çünkü uçuş gecikmeleri gün boyunca kademeli olarak artma eğilimindedir. Bu teori veri ile destekleniyor mu?
-
-**nycflights13** paketindeki **flights** veri çerçevesinde, kalkışın planlanan saatini belirten bir **hour** değişkeni bulunmaktadır. Bu veri setini kullanarak bu soruyu bir linear regresyon modeli kullanarak cevaplamaya çalışalım
+Modül 10'da, `gapminder` verisiyle kıtalar arasında yaşam beklentisi farkını ANOVA ile test etmiştik. Şimdi aynı veri setiyle şu soruyu soralım: **Bir ülkenin kişi başına düşen GSYİH'si, yaşam beklentisini ne ölçüde açıklar?**
 
 ```{r}
-library(nycflights13)
-library(dplyr)
+library(gapminder)
+gapminder_2007 <- subset(gapminder, year == 2007)
+gapminder_2007$gdp_bin <- gapminder_2007$gdpPercap / 1000  # bin USD cinsinden
 
-SF <- flights |> 
-  filter(dest == "SFO", !is.na(arr_delay))
-
-head(SF)
-
+# Once korelasyona bakalim
+cor.test(gapminder_2007$gdp_bin, gapminder_2007$lifeExp)
 ```
 
-Çıktıda, dep_time olarak verilen değerleri saat olarak görmemiz gerekiyor. Bunun için bu veriyi saat formatına dönüştürüyoruz:
+**Korelasyon sonucu:** $r pprox 0.68$, $p < .001$ — orta-güçlü, pozitif ve istatistiksel olarak anlamlı bir doğrusal ilişki.
 
 ```{r}
-library(tidyverse)
-convert_time <- function(time_minutes) {
-  # Calculate hours and minutes from total minutes
-  hours <- time_minutes %/% 60
-  minutes <- time_minutes %% 60
-  
-  # Create time strings, ensuring two-digit formatting
-  time_str <- sprintf("%02d:%02d", hours, minutes)
-  
-  # Return formatted string
-  time_str
-}
-
-# Times provided
-times <- SF |>
-  group_by(hour) |>
-  count() |>
-  pivot_wider(names_from = hour, values_from = n) |>
-  data.frame()
-
-# Apply the conversion function
-formatted_times <- sapply(times, convert_time)
-
-# Print formatted times
-formatted_times
+plot(lifeExp ~ gdp_bin, data = gapminder_2007,
+     xlab = "Kişi başı GSYİH (bin USD)", ylab = "Yaşam Beklentisi (yıl)",
+     main = "GSYİH ve Yaşam Beklentisi (2007)")
 ```
 
-Şimdi daha açık bir şekilde birçok uçuşun sabah erken saatlerde ve öğleden sonra ile akşam arasında planlandığını görüyoruz. Hiçbir uçuş sabah 5'ten önce veya akşam 10'dan sonra planlanmamış. Şimdi varış gecikmesinin saate bağlı olarak nasıl değiştiğini iki şekilde inceleyeceğiz:
-
-1.  Standart kutu grafikleriyle (boxplot) gecikme dağılımını gösterme.
-
-2.  Gün boyunca ortalama varış gecikmesini izlemek için doğrusal model kullanma
+Grafikte, ilişkinin tam doğrusal olmadığı da görülüyor (düşük GSYİH aralığında eğri daha dik, yüksek GSYİH'de düzleşiyor) — Anscombe uyarısını burada hatırlamakta fayda var. Yine de basit doğrusal modeli kuralım:
 
 ```{r}
-SF |> 
-  ggplot(aes(x = hour, y = arr_delay)) +
-  geom_boxplot(alpha = 0.1, aes(group = hour)) +
-  geom_smooth(method = "lm") +
-  xlab("Planlanan Kalkış Saati") +
-  ylab("Varış Gecikmesi (dakika)") +
-  coord_cartesian(ylim = c(-30, 120))
-
-```
-
-Yukarıdaki grafik, varış gecikmesini planlanan kalkış saatine göre gösterir. Ortalama varış gecikmesi gün boyunca artış gösteriyor. Eğilim çizgisi, bir regresyon modeli kullanılarak oluşturulmuştur.
-
-```{r}
-mod1 <- lm(arr_delay ~ hour, data = SF)
-summary(mod1)
-
+mod_gdp <- lm(lifeExp ~ gdp_bin, data = gapminder_2007)
+summary(mod_gdp)
 ```
 
 ### **Model Özeti**
 
-1.  **Regresyon Denklemi:**
+Model denklemi:
 
-arr_delay = -22.93 + 2.01 x hour
+$$\widehat{\text{Yaşam Beklentisi}} = 59.57 + 0.637 \times \text{Kişi Başı GSYİH (bin USD)}$$
 
-```         
--   **Intercept (-22.93):** Günün başında (saat 0) varış gecikmesinin ortalama olarak **-22.93 dakika** olduğunu gösterir. Bu negatif değer, günün başındaki uçuşların genellikle erken varış yaptığını gösteriyor olabilir.
+-   **Intercept (59.57):** Kişi başı GSYİH'si 0 olan (gerçekte var olmayan, teorik) bir ülke için tahmin edilen yaşam beklentisi.
 
--   **hour Katsayısı (2.01):** Her saat başına, varış gecikmesinde **2.01 dakikalık bir artış** beklenmektedir. Bu, gün ilerledikçe uçuş gecikmelerinin arttığını destekleyen bir bulgudur.
-```
+-   **gdp_bin katsayısı (0.637):** Kişi başı GSYİH her 1000 dolar arttığında, yaşam beklentisinin ortalama 0.637 yıl artması beklenir. %95 güven aralığı (0.52, 0.75) — 0'ı içermiyor.
 
-2.  **Artıklar (Residuals):**
+-   **t-değeri (10.93), p-değeri (\<0.001):** Katsayı son derece anlamlıdır.
 
-    -   **Min:** -97.32 — Model tahminlerinden en fazla 97.32 dakika daha erken varış yapılmış.
+-   **R-Kare (0.461):** Kişi başı GSYİH tek başına, yaşam beklentisindeki varyansın **%46.1**'ini açıklıyor.
 
-    -   **Max:** 993.66 — Model tahminlerinden en fazla 993.66 dakika daha geç varış yapılmış.
+::: callout-note
+👋 **R² regresyonun "etki büyüklüğüdür"** — Modül 10'da tanıttığımız Cohen's d ve Cramér's V'nin regresyondaki karşılığı $R^2$'dir: modelin ne kadar **açıkladığını**, p-değerinin ise yalnızca bu açıklamanın **şansa bağlı olma ihtimalinin düşük olduğunu** gösterdiğini unutmayın. $R^2=0.461$ gibi orta-yüksek bir değer, hem istatistiksel hem pratik açıdan önemli bir ilişkiye işaret ediyor — ama %54'lük kısmı hâlâ açıklanamıyor; sağlık altyapısı, eğitim, gelir dağılımı gibi başka etkenler devrede.
+:::
 
-    -   **Median:** -9.17 — Çoğu tahmin, gerçek değerden yaklaşık 9.17 dakika sapmıştır.
-
-    -   Artıkların dağılımı, modelin hata payının (standart sapmanın) yüksek olduğunu gösterir.
-
-3.  **Katsayıların Anlamlılığı:**
-
-    -   **Intercept ve hour:** Her iki katsayının da p-değerleri **\< 2e-16**, bu da katsayıların istatistiksel olarak anlamlı olduğunu ve tesadüfen oluşma ihtimalinin çok düşük olduğunu gösterir.
-
-4.  **Residual Standard Error (RSE):**
-
-    -   **46.82:** Varış gecikmesinin tahmini değerlerden ortalama sapması 46.82 dakikadır. Bu, modelin hata payının oldukça yüksek olduğunu ve yalnızca saat bilgisinin uçuş gecikmelerini açıklamada yetersiz kaldığını gösterir.
-
-5.  **R-Kare ve Ayarlanmış R-Kare:**
-
-    -   **R-Kare (0.03548):** Model, uçuş gecikmelerindeki varyansın yalnızca **%3.5**'ini açıklayabilmektedir. Bu, saat değişkeninin gecikmeleri açıklamada çok zayıf bir değişken olduğunu gösterir.
-
-    -   **Ayarlanmış R-Kare (0.03541):** Bu değer, R-kare ile neredeyse aynı ve modelin genel açıklayıcılığının düşük olduğunu teyit eder.
-
-6.  **F-İstatistiği:**
-
-    -   **484.5 (p-değeri \< 2.2e-16):** Model genel olarak anlamlıdır; yani saat değişkeninin gecikmeler üzerinde anlamlı bir etkisi olduğu söylenebilir. Ancak, etkisinin gücü oldukça sınırlıdır.
-
-### **Yorum:**
-
--   **Pozitif ilişki:** Planlanan kalkış saati arttıkça, varış gecikmesi de artma eğilimindedir. Her saat başına yaklaşık **2 dakika** gecikme eklenmektedir.
-
--   **Modelin yetersizliği:** R-kare ve artık standart hatası (RSE) değerlerinden görüldüğü üzere, bu model uçuş gecikmelerindeki varyansın çok küçük bir kısmını açıklamaktadır. Sadece saat değişkeniyle uçuş gecikmelerini tam anlamıyla açıklamak mümkün değildir.
-
--   **Ek değişkenlerin gerekliliği:** Gecikmeleri daha iyi modellemek için havayolu şirketi, mevsim, kalkış havalimanı gibi diğer değişkenlerin eklenmesi gereklidir.
-
-Bu model, saat değişkeninin gecikmeler üzerindeki anlamlı etkisini göstermektedir ancak tek başına yeterli bir açıklama sağlayamamaktadır.
-
-### Daha İyi Bir Model Oluşturabilir miyiz?
-
-Uçuş gecikmelerini daha iyi açıklamak için başka hangi faktörler faydalı olabilir? Kalkış havalimanı, havayolu (taşıyıcı), yılın ayı ve haftanın günü gibi ek değişkenlere bakalım. Bazı veri düzenlemeleri yaparak haftanın gününü (**dow**) yıl, ay ve gün bilgisiyle çıkarabiliriz. Ayrıca, Haziran ve Temmuz aylarının uzun gecikmelerle bilindiğini özetleyen bir **season** değişkeni oluşturacağız. Bu değişkenler, varış gecikmesini (**arrival delay**) açıklamak için kullanılacak.
+### Tahmin ve Residüel: Türkiye Örneği
 
 ```{r}
-library(lubridate)
+turkiye <- subset(gapminder_2007, country == "Turkey")
+turkiye[, c("country", "gdpPercap", "lifeExp")]
 
-SF <- SF |> 
-  mutate(
-    day = as.Date(time_hour), 
-    dow = as.character(wday(day, label = TRUE)),
-    season = ifelse(month %in% 6:7, "summer", "other month")
-  )
-
+tahmin_turkiye <- predict(mod_gdp, newdata = data.frame(gdp_bin = turkiye$gdp_bin))
+residuel_turkiye <- turkiye$lifeExp - tahmin_turkiye
+c(tahmin = tahmin_turkiye, gercek = turkiye$lifeExp, residuel = residuel_turkiye)
 ```
 
-### Yeni Model Oluşturma
-
-Bu açıklayıcı değişkenleri içeren bir model oluşturabiliriz:
-
-```{r}
-mod2 <- lm(arr_delay ~ hour + origin + carrier + season + dow, data = SF)
-summary(mod2)
-
-```
-
-### **Sonuçların Yorumu**
-
-Bu model, **planlanan kalkış saati**, **kalkış havalimanı**, **havayolu şirketi**, **mevsim** ve **haftanın günü** gibi değişkenlerin varış gecikmesi (**arr_delay**) üzerindeki etkisini inceleyen bir doğrusal regresyon modelidir.
-
-### **Model Özeti**
-
-#### 1. **Regresyon Denklemi:**
-
-Model şu şekilde ifade edilebilir:
-
-$${arr\_delay} = -24.64 + 2.08 \cdot \text{hour} + 4.12 \cdot \text{originJFK} - 10.32 \cdot \text{carrierB6} + \ldots $$
-
--   **Intercept (-24.64):** Kalkış saati 0 (gece yarısı) ve referans gruplar (EWR havalimanı, diğer aylar, Cuma günü) için ortalama varış gecikmesi **-24.64 dakika**. Negatif değer, bu koşullarda uçuşların genellikle erken varış yaptığını gösterebilir.
-
-#### 2. **Değişkenler Üzerindeki Etkiler:**
-
--   **Kalkış Saati (hour):** Her saatlik artış, varış gecikmesini **2.08 dakika artırır**. Bu, günün ilerleyen saatlerinde gecikmelerin arttığını doğrular.
-
--   **Kalkış Havalimanı (originJFK):** JFK'den yapılan kalkışlar, Newark (EWR) referans grubuna kıyasla ortalama **4.12 dakika daha fazla gecikme** ile ilişkilidir.
-
--   **Havayolu Şirketleri:**
-
-    -   **Delta (DL):** Ortalama olarak gecikmeler diğer taşıyıcılara kıyasla **18.41 dakika daha azdır**.
-
-    -   **JetBlue (B6):** Ortalama gecikme **10.32 dakika daha azdır**.
-
-    -   **United (UA):** Ortalama gecikme **4.76 dakika daha azdır**.
-
-    -   **Virgin America (VX):** Ortalama gecikme **5.06 dakika daha azdır**.
-
--   **Mevsim (season):** Yaz aylarında (Haziran ve Temmuz) varış gecikmeleri ortalama **25.29 dakika daha uzundur**.
-
--   **Haftanın Günleri (dow):**
-
-    -   **Cumartesi:** Ortalama gecikme **5.60 dakika daha azdır**.
-
-    -   **Pazar:** Ortalama gecikme **5.12 dakika daha fazladır**.
-
-    -   **Perşembe:** Ortalama gecikme **3.16 dakika daha fazladır**.
-
-    -   Diğer günlerin etkisi istatistiksel olarak anlamlı değildir.
-
-#### 3. **Katsayıların Anlamlılığı (p-Değerleri):**
-
--   Değişkenlerin çoğu (örneğin, hour, originJFK, seasonsummer) **p \< 0.001** ile anlamlıdır.
-
--   **Haftanın bazı günleri (dowMon, dowTue, dowWed):** p \> 0.05 olduğundan anlamlı değildir.
-
-#### 4. **Artıklar (Residuals):**
-
--   **Artıkların Standart Hatası (RSE):** 45.45 dakika. Bu, modelin hata payının yüksek olduğunu ve varış gecikmesinin sadece bu açıklayıcı değişkenlerle tam olarak açıklanamayacağını gösterir.
-
-#### 5. **R-Kare ve Ayarlanmış R-Kare:**
-
--   **R-Kare (0.09174):** Model, varış gecikmelerindeki toplam varyansın yalnızca **%9.2'sini** açıklayabilmektedir.
-
--   **Ayarlanmış R-Kare (0.09084):** Eklenen açıklayıcı değişkenler hesaba katıldığında modelin açıklayıcılığı benzer düzeydedir.
-
-#### 6. **F-İstatistiği:**
-
--   **F-İstatistiği (102.2, p \< 2.2e-16):** Modelin genel olarak anlamlı olduğunu ve açıklayıcı değişkenlerin gecikmeler üzerinde anlamlı bir etkisi olduğunu gösterir.
+Model, Türkiye'nin GSYİH'sine bakarak yaşam beklentisini yaklaşık **65 yıl** olarak tahmin ediyor; gerçek değer ise **71.8 yıl** — yani **pozitif bir residüel** (model olduğundan düşük tahmin etmiş). Bu, Türkiye'nin gelir düzeyine göre beklenenden **daha iyi** bir sağlık/yaşam beklentisi performansı sergilediğini düşündürür; nedenini (sağlık politikaları, halk sağlığı yatırımları vb.) tek bir regresyon bize söylemez, ama araştırılması gereken bir soruyu işaret eder.
 
 ------------------------------------------------------------------------
 
-### **Yorum:**
-
-1.  **Pozitif İlişkiler:**
-
-    -   Gün ilerledikçe uçuş gecikmeleri artar.
-
-    -   Yaz aylarında ve Pazar günleri gecikmeler daha uzundur.
-
-    -   JFK'den kalkış yapmak, daha uzun gecikmelerle ilişkilidir.
-
-2.  **Negatif İlişkiler:**
-
-    -   Delta ve JetBlue gibi bazı havayolu şirketleri, daha düşük ortalama gecikmelere sahiptir.
-
-    -   Cumartesi günleri gecikmeler daha azdır.
-
-3.  **Model Yetersizlikleri:**
-
-    -   **R-Kare değeri**, açıklayıcı değişkenlerin gecikmeleri açıklamada yetersiz olduğunu gösterir. Diğer faktörler (hava durumu, uçak tipi vb.) modele dahil edilmelidir.
-
-4.  **Genel Değerlendirme:**
-
-    -   Model bazı genel trendleri gösterse de, varış gecikmelerini tahmin etmede oldukça sınırlıdır. Daha fazla açıklayıcı değişken eklenmesi gereklidir.
 
 ### Örnek 3:
 
@@ -533,15 +414,15 @@ Bu denklem, bağımsız değişken (Salary) kullanılarak bağımlı değişkeni
 
 ### Coefficients (Katsayılar):
 
--   **Intercept (Sabit terim):** 1871.1041871.1041871.104
+-   **Intercept (Sabit terim):** 1871.104
 
     -   Maaşın 0 olduğu varsayıldığında (teorik olarak anlamlı olmasa da), SAT toplam puanının başlangıç tahmini.
 
     -   Çok yüksek bir değere sahiptir çünkü maaşın sıfır olduğu bir durum pratikte mevcut değildir.
 
--   **Salary:** −5.019
+-   **Salary:** -5.019
 
-    -   Maaş (bin USD cinsinden) her bir birim arttığında, SAT toplam puanında ortalama −5.019 birim azalma beklenir.
+    -   Maaş (bin USD cinsinden) her bir birim arttığında, SAT toplam puanında ortalama -5.019 birim azalma beklenir.
 
     -   Negatif bir ilişki olduğunu gösterir; yani, daha yüksek öğretmen maaşları, daha düşük ortalama SAT puanları ile ilişkilidir.
 
@@ -549,17 +430,17 @@ Bu denklem, bağımsız değişken (Salary) kullanılarak bağımlı değişkeni
 
 -   **Salary'nin p-değeri:** 0.01790
 
-    -   p\<0.05, bu nedenle maaş katsayısı istatistiksel olarak anlamlıdır. Bu, maaş ile SAT toplam puanları arasında anlamlı bir ilişki olduğunu gösterir.
+    -   $p < 0.05$, bu nedenle maaş katsayısı istatistiksel olarak anlamlıdır. Bu, maaş ile SAT toplam puanları arasında anlamlı bir ilişki olduğunu gösterir.
 
--   **Intercept'in p-değeri:** \<2e−16
+-   **Intercept'in p-değeri:** $< 2\times10^{-16}$
 
     -   Bu, sabit terimin de istatistiksel olarak anlamlı olduğunu gösterir.
 
 ### Artıklar (Residuals):
 
--   Artıklar, gözlemlenen değerler ile model tarafından tahmin edilen değerler arasındaki farklardır. Artıkların medyanı −8.943 ve bu, modelin tahminlerinde hafif bir negatif sapma olduğunu gösterir.
+-   Artıklar, gözlemlenen değerler ile model tarafından tahmin edilen değerler arasındaki farklardır. Artıkların medyanı -8.943 ve bu, modelin tahminlerinde hafif bir negatif sapma olduğunu gösterir.
 
--   Minimum artığın −239.136, maksimum artığın ise 218.027 olması, modelin bazı durumlarda büyük tahmin hataları yaptığını gösterir.
+-   Minimum artığın -239.136, maksimum artığın ise 218.027 olması, modelin bazı durumlarda büyük tahmin hataları yaptığını gösterir.
 
 ### Model Uygunluğu:
 
@@ -577,7 +458,11 @@ Bu denklem, bağımsız değişken (Salary) kullanılarak bağımlı değişkeni
 
 ### Genel Değerlendirme:
 
-Bu model, maaş ile SAT toplam puanları arasında anlamlı bir ilişki olduğunu gösterse de, ilişki negatif ve açıklayıcı gücü düşüktür. Bu, başka bir değişkenin (örneğin SAT sınavına katılım yüzdesi) modelde eksik olabileceğine işaret eder. Daha doğru bir analiz için ek değişkenler eklenmelidir.
+Bu model, maaş ile SAT toplam puanları arasında anlamlı bir ilişki olduğunu gösterse de, ilişki negatif ve açıklayıcı gücü düşüktür ($R^2 \approx 0.11$).
+
+::: callout-warning
+⚠️ **Bu negatif ilişkiyi "öğretmenlere daha az maaş verirsek sınav sonuçları düzelir" diye okumayın.** Korelasyon bölümünde verdiğimiz uyarının tam bir örneğiyle karşı karşıyayız: burada devrede olan gerçek **karıştırıcı değişken**, SAT sınavına giren öğrenci **katılım oranıdır**. Bazı eyaletlerde SAT'a yalnızca üniversiteye başvuracak seçkin, küçük bir grup girer (ortalama puan yükselir); bazı eyaletlerde ise öğrencilerin büyük çoğunluğu girer (ortalama puan daha geniş bir yetenek dağılımını yansıttığı için düşer). Bu katılım oranı, hem öğretmen maaşlarıyla hem de ortalama puanla ayrı ayrı ilişkili olduğu için, maaş-puan ilişkisi kısmen **sahte (spurious)** görünmektedir. Katılım oranı modele eklendiğinde maaş katsayısının yönü ve anlamlılığı değişebilir — bu da tam olarak Modül 12'de göreceğimiz çoklu regresyonun neden gerekli olduğunun bir gerekçesidir.
+:::
 
 ### Örnek 4:
 
@@ -586,8 +471,7 @@ Bu alıştırmada, İsveç Motor Sigortası veri seti kullanılacaktır. Veri se
 ```{r}
 # Gerekli kütüphaneler
 library(here)
-library(fst)
-library(tidyverse) 
+library(tidyverse)
 
 # Veriyi yükleyelim
 motor_insurance <- read.csv(here("data", "SwedishMotorInsurance.csv"))
@@ -667,3 +551,17 @@ $$ \text{Payment} = -3362.29 + 5020.08 \times \text{Claims} $$
 4.  Ancak, artıklar (residuals) arasında büyük bir aralık olduğu için, modelin bazı uç gözlemlerde kötü performans gösterebileceği göz önünde bulundurulmalıdır.
 
 **Öneri**: Kesme noktasının negatif bir değer olduğu düşünüldüğünde, modelin bu kısmı daha dikkatlice incelenmeli veya bağlama uygun bir alternatif model düşünülebilir.
+
+------------------------------------------------------------------------
+
+## Bu Modülün Üç Örneğinde R² Ne Kadar Değişti?
+
+Aynı modül içinde gördüğümüz üç gerçek-veri örneği, $R^2$'nin bağlama göre ne kadar farklılaşabileceğini gösteriyor:
+
+| Örnek | İlişki | $R^2$ |
+|----|----|----|
+| GSYİH $\to$ Yaşam Beklentisi (gapminder) | Orta-güçlü | $\approx 0.46$ |
+| Öğretmen Maaşı $\to$ SAT Puanı | Zayıf (ve muhtemelen karıştırıcı değişkenli) | $\approx 0.11$ |
+| Talep Sayısı $\to$ Ödeme (sigorta) | Neredeyse deterministik | $\approx 0.99$ |
+
+Tek bir "iyi $R^2$ nedir" eşiği yoktur — bu, incelenen olgunun doğasına bağlıdır. İnsan davranışı ve sosyal sonuçlar (SAT örneği gibi) genellikle çok sayıda ölçülemeyen etkenden etkilendiği için düşük $R^2$ değerleri **normaldir**; mekanik/muhasebesel bir ilişki (talep sayısı arttıkça toplam ödemenin neredeyse aritmetik olarak artması gibi) ise çok yüksek $R^2$ verir. Modül 10'da öğrendiğimiz dersi burada da tekrarlıyoruz: **tek bir sayıya (p-değeri ya da $R^2$) bakıp karar vermeyin — bağlamı, grafiği ve varsa karıştırıcı değişkenleri birlikte değerlendirin.**

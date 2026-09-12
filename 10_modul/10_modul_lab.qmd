@@ -1,0 +1,187 @@
+---
+title: "Modül 10 — Rehberli Laboratuvar"
+subtitle: "Hipotez Testi"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–D): her görevde ne yapmanız gerektiği yazılıdır ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____` gördüğünüz yerleri siz dolduracaksınız. Bu kodlar render sırasında çalıştırılmaz — sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli.
+
+Her görevden sonra **bir cümleyle** sonucu yorumlayın (kod öbeğinin altına, düz metin olarak). Sınavda sizden istenecek olan kod yazmak değil, bu yorumu kurabilmektir.
+
+Bu modülde kullanılan tüm fonksiyonlar (`t.test`, `aov`, `chisq.test`, `shapiro.test`, `bartlett.test` vb.) R'ın temel `stats` paketindendir; ek bir paket yüklemenize gerek yoktur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Tek Örneklem t-Testi
+
+Bir gönüllü kuruluşu, gönüllülerinin haftalık ortalama çalışma saatinin **10 saat** olduğunu iddia ediyor. 10 gönüllüden toplanan veri:
+
+```
+12, 9, 11, 14, 8, 13, 10, 15, 9, 12
+```
+
+### Görev A1 — Hipotezleri ve testi kurun
+
+```{r}
+#| eval: false
+saatler <- c(____, ____, ____, ____, ____, ____, ____, ____, ____, ____)
+sonuc_a <- t.test(saatler, mu = ____)
+sonuc_a
+```
+
+**Yorumunuz:** p-değeri $\alpha=0.05$'ten büyük mü, küçük mü? $H_0$ reddediliyor mu?
+
+------------------------------------------------------------------------
+
+## Bölüm B — Eşleştirilmiş t-Testi
+
+Bir okul, 8 öğrencisine bir çalışma tekniği eğitimi verdi ve sınav puanlarını (10 üzerinden) öncesi/sonrası ölçtü:
+
+| Öğrenci | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|----|----|----|----|----|----|----|----|----|
+| Öncesi | 6 | 5 | 7 | 6 | 4 | 7 | 5 | 6 |
+| Sonrası | 7 | 6 | 8 | 7 | 6 | 8 | 6 | 7 |
+
+### Görev B1 — Eşleştirilmiş t-testini çalıştırın
+
+```{r}
+#| eval: false
+once <- c(6, 5, 7, 6, 4, 7, 5, 6)
+sonra <- c(____, ____, ____, ____, ____, ____, ____, ____)
+sonuc_b <- t.test(sonra, once, paired = ____)
+sonuc_b
+```
+
+**Yorumunuz:** Eğitim, sınav puanını anlamlı şekilde değiştirmiş mi? Ortalama fark ne kadar?
+
+------------------------------------------------------------------------
+
+## Bölüm C — ANOVA ve Varsayım Denetimi
+
+Base R'daki `PlantGrowth` veri seti, kontrol (`ctrl`) ve iki tedavi grubunun (`trt1`, `trt2`) bitki ağırlıklarını içerir.
+
+### Görev C1 — ANOVA'yı çalıştırın
+
+```{r}
+#| eval: false
+data(PlantGrowth)
+anova_c <- aov(____ ~ ____, data = PlantGrowth)
+summary(anova_c)
+```
+
+### Görev C2 — Varsayımları denetleyin
+
+```{r}
+#| eval: false
+shapiro.test(residuals(____))
+bartlett.test(weight ~ group, data = ____)
+```
+
+**Yorumunuz:** Her iki varsayım testinin p-değeri 0.05'ten büyük mü? ANOVA sonucuna güvenebilir miyiz?
+
+------------------------------------------------------------------------
+
+## Bölüm D — Ki-Kare Testi ve Etki Büyüklüğü
+
+100 kişilik bir ankette, cinsiyet ile bir politikayı destekleme durumu şöyle dağılmıştır:
+
+|  | Destekliyor | Desteklemiyor |
+|----|----|----|
+| Kadın | 28 | 22 |
+| Erkek | 15 | 35 |
+
+### Görev D1 — Tabloyu oluşturun ve ki-kare testi yapın
+
+```{r}
+#| eval: false
+tablo <- matrix(c(____, ____, ____, ____), nrow = 2, byrow = TRUE)
+rownames(tablo) <- c("Kadın", "Erkek")
+colnames(tablo) <- c("Destekliyor", "Desteklemiyor")
+sonuc_d <- chisq.test(____)
+sonuc_d
+```
+
+### Görev D2 — Cramér's V'yi hesaplayın
+
+```{r}
+#| eval: false
+n <- sum(tablo)
+cramers_v <- sqrt(as.numeric(sonuc_d$statistic) / (n * min(nrow(tablo) - 1, ncol(tablo) - 1)))
+cramers_v
+```
+
+**Yorumunuz:** İlişki istatistiksel olarak anlamlı mı? Etki büyüklüğü tabloya göre (Modül 10 ders notu) nasıl yorumlanır?
+
+------------------------------------------------------------------------
+
+## Çözümler
+
+### A1
+
+```{r}
+saatler <- c(12, 9, 11, 14, 8, 13, 10, 15, 9, 12)
+sonuc_a <- t.test(saatler, mu = 10)
+sonuc_a
+```
+
+$p \approx 0.109 > 0.05$: $H_0$ reddedilmez. Örneklem ortalaması (11.3 saat) 10'dan yüksek görünse de, bu fark istatistiksel olarak anlamlı değildir — küçük örneklem büyüklüğü (n=10) ve göreli değişkenlik nedeniyle.
+
+### B1
+
+```{r}
+once <- c(6, 5, 7, 6, 4, 7, 5, 6)
+sonra <- c(7, 6, 8, 7, 6, 8, 6, 7)
+sonuc_b <- t.test(sonra, once, paired = TRUE)
+sonuc_b
+```
+
+$p \approx 0.00004 < 0.05$: $H_0$ reddedilir. Ortalama fark 1.125 puan — eğitim programı sınav puanını anlamlı şekilde artırmıştır.
+
+### C1–C2
+
+```{r}
+data(PlantGrowth)
+anova_c <- aov(weight ~ group, data = PlantGrowth)
+summary(anova_c)
+
+shapiro.test(residuals(anova_c))
+bartlett.test(weight ~ group, data = PlantGrowth)
+```
+
+$F \approx 4.85$, $p \approx 0.016$: gruplar arasında anlamlı bir fark var. Her iki varsayım testinin p-değeri de 0.05'ten büyük (normallik ve varyans homojenliği korunuyor), dolayısıyla standart ANOVA sonucuna güvenebiliriz.
+
+### D1–D2
+
+```{r}
+tablo <- matrix(c(28, 22, 15, 35), nrow = 2, byrow = TRUE)
+rownames(tablo) <- c("Kadın", "Erkek")
+colnames(tablo) <- c("Destekliyor", "Desteklemiyor")
+sonuc_d <- chisq.test(tablo)
+sonuc_d
+
+n <- sum(tablo)
+cramers_v <- sqrt(as.numeric(sonuc_d$statistic) / (n * min(nrow(tablo) - 1, ncol(tablo) - 1)))
+cramers_v
+```
+
+$\chi^2 \approx 5.88$, $p \approx 0.015 < 0.05$: cinsiyet ile destek durumu arasında istatistiksel olarak anlamlı bir ilişki var. Cramér's $V \approx 0.24$ — Modül 10 ders notundaki tabloya göre bu **orta düzeyde** bir ilişkidir (küçük ile güçlü arası).

@@ -69,6 +69,12 @@ Bu modülde odaklanacağımız dört temel kavram aşağıdaki şemada özetlenm
     -   **Tip II Hatası**: Sanık suçludur, ancak yanlış bir şekilde beraat eder.
     :::
 
+    ::: callout-warning
+    ⚠️ **P-Hacking (P-Değeri Avcılığı) ve Replikasyon Krizi**
+
+    $\alpha = 0.05$ eşiği, **her bir test için** kabul edilen Tip I Hatası riskidir — 20 farklı değişkeni birbiriyle test ederseniz, aralarından **şans eseri** en az birinin $p < 0.05$ çıkması sürpriz değildir. Araştırmacıların istedikleri p-değerini bulana kadar veriden değişken çıkarıp eklemesi ("p-hacking") ya da yalnızca anlamlı çıkan sonuçları raporlaması, sosyal bilimlerde ciddi bir güvenilirlik sorununa — literatürde **"Replikasyon Krizi"** olarak anılan olguya — yol açmıştır. Bu yüzden p-değeri sihirli bir doğru/yanlış butonu değildir; hipotezler veriye bakmadan **önce** kurulmalı ve testler önceden belirlenmiş sayıda çalıştırılmalıdır.
+    :::
+
     -   **P-Değeri:**
 
         -   **P-değeri (p-value)**, bir istatistiksel testte, null hipotezin ($H_0$) doğru olduğu varsayımı altında, elde edilen test istatistiği kadar veya daha uç bir sonucun ortaya çıkma olasılığını ifade eden bir değerdir.
@@ -215,34 +221,63 @@ Bir hipotez testinin sonucu, ancak testin **varsayımları** karşılandığınd
 
 ------------------------------------------------------------------------
 
+## Etki Büyüklüğü (Effect Size): P-Değeri Tek Başına Yetmez
+
+P-değeri bize bir farkın **var olup olmadığını** söyler, ancak bu farkın **ne kadar büyük veya önemli** olduğunu söylemez. Özellikle büyük örneklemlerde (örneğin 10.000 kişilik bir anket), pratikte hiçbir anlamı olmayan çok küçük bir fark bile istatistiksel olarak anlamlı ($p < 0.05$) çıkabilir — Örnek 7'de tam olarak bunu göreceğiz. Bu yüzden modern sosyal bilim yayınlarında bir test sonucu raporlanırken p-değeriyle birlikte mutlaka bir **etki büyüklüğü** ölçütü de verilir. Bu modülde iki tanesini kullanacağız; her ikisi de temel R fonksiyonlarıyla, ek paket gerektirmeden hesaplanabilir:
+
+-   **Cohen's d** (t-testleri için): İki ortalama arasındaki farkın, verinin standart sapması cinsinden ifadesidir.
+
+    -   Tek örneklem: $d = (\bar{x} - \mu_0) / s$
+    -   İki bağımsız örneklem: $d = (\bar{x}_1 - \bar{x}_2) / s_{pooled}$, burada $s_{pooled} = \sqrt{\dfrac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1+n_2-2}}$
+
+    | $|d|$ | Yorum |
+    |----|----|
+    | $\approx 0.2$ | Küçük etki |
+    | $\approx 0.5$ | Orta etki |
+    | $\approx 0.8$ ve üzeri | Büyük etki |
+
+-   **Cramér's V** (ki-kare için): $V = \sqrt{\dfrac{\chi^2}{n \times \min(r-1,\, c-1)}}$, burada $r$ ve $c$ tablonun satır/sütun sayısıdır.
+
+    | $V$ | Yorum |
+    |----|----|
+    | $\approx 0.1$ | Küçük ilişki |
+    | $\approx 0.3$ | Orta ilişki |
+    | $\approx 0.5$ ve üzeri | Güçlü ilişki |
+
+::: callout-note
+👋 Bu değerler R'da paket gerektirmeden, doğrudan formülle hesaplanır (aşağıdaki örneklerde gösterilmiştir). İsterseniz `effectsize` paketindeki `cohens_d()` ve `cramers_v()` fonksiyonları da aynı sonucu otomatik verir, ancak bu ders base R ile ilerlediği için formülü elle yazmayı tercih ediyoruz — bu, formülün ne ölçtüğünü unutmamanızı da sağlar.
+:::
+
+------------------------------------------------------------------------
+
 ## Örnek 1: Bir Örneklem t-Testi
 
-Bir örneklem t-testi, bir popülasyonun ortalamasının bilinen bir değere eşit olup olmadığını test etmek için kullanılır. Örneğin, tarım bilimcilerinin yeni bir mısır türü geliştirdiğini ve bu türün ortalama boyunun, standart mısır türlerinin ulusal ortalama boyu olan 150 cm'den farklı olduğunu iddia ettiklerini varsayalım.
+Bir örneklem t-testi, bir popülasyonun ortalamasının bilinen bir değere eşit olup olmadığını test etmek için kullanılır. Örneğin, bir ülkedeki belediye başkanlarının yaş ortalamasının, o ülkedeki genel yetişkin nüfusun yaş ortalamasından (temsili değer: 40) farklı olup olmadığını merak ettiğimizi varsayalım.
 
 ### Adım 1: Hipotezlerin Formülasyonu
 
--   **Null Hipotezi (**$H_0$**):** Yeni mısır türünün ortalama boyu 150 cm'dir.
+-   **Null Hipotezi (**$H_0$**):** Belediye başkanlarının ortalama yaşı 40'tır ($\mu = 40$).
 
--   **Alternatif Hipotez (**$H_1$**):** Yeni mısır türünün ortalama boyu 150 cm değildir.
+-   **Alternatif Hipotez (**$H_1$**):** Belediye başkanlarının ortalama yaşı 40'tan farklıdır ($\mu \neq 40$).
 
 ### Adım 2: Uygun Testin Seçimi
 
--   **Seçilen Test:** Bir örneklem t-testi, çünkü örneklem ortalamasını bilinen popülasyon ortalaması ile karşılaştırıyoruz.
+-   **Seçilen Test:** Bir örneklem t-testi, çünkü örneklem ortalamasını bilinen bir referans değeriyle karşılaştırıyoruz.
 
--   **Veri Türü:** Sürekli (mısır boyları)
+-   **Veri Türü:** Sürekli (yaş)
 
--   **Örneklem Büyüklüğü:** 12 mısır bitkisi
+-   **Örneklem Büyüklüğü:** 15 belediye başkanı (temsili veri)
 
 ### Adım 3: Test İstatistiğinin Hesaplanması
 
 Aşağıdaki R kodunu kullanarak t-testini hesaplayabilirsiniz:
 
 ```{r}
-# Örneklem verilerini tanımla
-corn_heights <- c(155, 153, 149, 156, 151, 154, 152, 150, 151, 153, 152, 150)
+# Örneklem verilerini tanımla (temsili veri)
+baskan_yaslari <- c(52, 48, 61, 55, 58, 50, 63, 47, 54, 59, 51, 56, 62, 49, 57)
 
 # Bir örneklem t-testi yap
-t_test_result <- t.test(corn_heights, mu = 150)
+t_test_result <- t.test(baskan_yaslari, mu = 40)
 ```
 
 ### Adım 4: p-değerini Almak ve Yorumlamak
@@ -254,99 +289,78 @@ print(t_test_result)
 
 **Test Çıktısı Yorumlaması:**
 
-p-değeri (0.004697), yaygın $\alpha$ (0.05) seviyesinden önemli ölçüde küçüktür, bu da null hipotezini reddetmek için güçlü istatistiksel bir kanıt olduğunu gösterir. Bu durum, yeni mısır türünün ortalama boyunun 150 cm'den istatistiksel olarak farklı olduğunu belirtir.
+p-değeri (yaklaşık $2.8 \times 10^{-8}$), yaygın $\alpha$ (0.05) seviyesinden önemli ölçüde küçüktür, bu da null hipotezini reddetmek için çok güçlü istatistiksel bir kanıt olduğunu gösterir. Bu durum, örneklemdeki belediye başkanlarının ortalama yaşının 40'tan istatistiksel olarak farklı olduğunu belirtir.
 
 ### Adım 5: p-değeri ve Alfa ($\alpha$) Temelinde Karar Vermek
 
-p-değeri (0.004697) $<$ $\alpha$ (0.05) olduğundan, null hipotezini reddedin.
+p-değeri ($\approx 2.8 \times 10^{-8}$) $<$ $\alpha$ (0.05) olduğundan, null hipotezini reddedin.
 
-Veriler, yeni mısır türünün ortalama boyunun 150 cm'den anlamlı şekilde farklı olduğunu göstermektedir.
+Veriler, belediye başkanlarının ortalama yaşının 40'tan anlamlı şekilde farklı (yüksek) olduğunu göstermektedir.
 
-### Adım 6: Sonuçları Raporlamak
+### Adım 6: Etki Büyüklüğünü Hesaplamak
 
-Bir örneklem t-testi ile mısırın ortalama boyunun 150 cm'den farklı olup olmadığı test edilmiştir.
-
-p-değeri 0.004697'dir, bu da 0.05'ten küçük olduğu için null hipotezini reddetmemize ve boy farkının anlamlı olduğunu söylememize olanak sağlar.
-
-%95 güven aralığı 150.8166 ile 153.5168 cm arasındadır. Bu aralık, 150 cm'yi içermediği için null hipotezinin reddedilmesini destekler.
-
-Sonuç olarak, mısırın ortalama boyunun 150 cm'den farklı olduğu, özellikle 150 cm'den yüksek olduğu bulunmuştur.
-
-### Alternatif Hipotez ile t-Testi: Ortalama Mısır Boyunun 150 cm'den Büyük veya Küçük Olup Olmadığını Test Etmek
-
-Eğer mısır boyunun ortalama değeri 150 cm'den büyük mü, yoksa küçük mü olduğunu test etmek istiyorsanız, `alternative` argümanını "greater" veya "less" olarak ayarlayabilirsiniz.
-
-#### 150 cm'den Büyük Olması Durumunda:
+Böylesine küçük bir p-değeri karşısında akla gelmesi gereken ilk soru şudur: **fark ne kadar büyük?**
 
 ```{r}
-# 150 cm'den büyük olması durumu için (H0: mu <= 150, H1: mu > 150)
-t_test_greater <- t.test(corn_heights, mu = 150, alternative = "greater")
+# Cohen's d (tek örneklem)
+ort <- mean(baskan_yaslari)
+ss  <- sd(baskan_yaslari)
+cohend <- (ort - 40) / ss
+cohend
+```
+
+$d \approx 2.85$ — yukarıdaki tabloya göre bu **çok büyük bir etkidir**; ortalama yaş, referans değerden neredeyse 3 standart sapma uzaktadır. Burada hem p-değeri hem etki büyüklüğü aynı yönde güçlü bir sonuca işaret ediyor.
+
+### Adım 7: Sonuçları Raporlamak
+
+Bir örneklem t-testi ile belediye başkanlarının ortalama yaşının 40'tan farklı olup olmadığı test edilmiştir. Örneklem ortalaması 54.8 (%95 güven aralığı: 51.92–57.68) olup, bu aralık 40'ı içermediği için null hipotezinin reddedilmesini desteklemektedir. Etki büyüklüğü de ($d \approx 2.85$) bu farkın yalnızca istatistiksel değil, pratik açıdan da büyük olduğunu göstermektedir.
+
+**Raporlama (APA formatına yakın bir cümle):** "Tek örneklem t-testi sonucunda, belediye başkanlarının ortalama yaşı ($M = 54.8$), referans değer olan 40'tan anlamlı şekilde yüksek bulunmuştur, $t(14) = 11.03$, $p < .001$, $d = 2.85$."
+
+### Alternatif Hipotez ile t-Testi: Yönlü Test
+
+Eğer yaş ortalamasının 40'tan **büyük olup olmadığını** (küçük olma ihtimalini baştan dışlayarak) test etmek istiyorsanız, `alternative` argümanını `"greater"` olarak ayarlayabilirsiniz:
+
+```{r}
+# H0: mu <= 40, H1: mu > 40
+t_test_greater <- t.test(baskan_yaslari, mu = 40, alternative = "greater")
 print(t_test_greater)
 ```
 
-**Yorum:** p-değeri 0.002348 olduğundan, null hipotezini reddediyorsunuz ve mısır boyunun 150 cm'den büyük olduğuna dair istatistiksel olarak anlamlı bir kanıt buluyorsunuz. Güven aralığı 151.0651'den başlayarak 150 cm'yi dışlıyor ve bu durumu destekliyor.
-
 ::: callout-note
-👋 Eğer **150 cm'den büyük olup olmadığını** test ediyorsanız, bu durumda hipotezler şu şekilde olacak:
-
--   **Null Hipotezi (**$H_0$**)**: Ortalama boy 150 cm'den küçük veya eşittir ($\mu \le 150$).
-
--   **Alternatif Hipotez (**$H_1$**)**: Ortalama boy 150 cm'den büyüktür ($\mu > 150$).
-
-Eğer 150 cm'den küçük olup olmadığını test ediyorsanız, bu durumda hipotezler şu şekilde olacak:
-
--   **Null Hipotezi (**$H_0$**)**: Ortalama boy 150 cm'den büyük veya eşittir ($\mu \ge 150$).
-
-<!-- -->
-
--   **Alternatif Hipotez (**$H_1$**)**: Ortalama boy 150 cm'den küçüktür ($\mu < 150$).
+👋 Yönlü (tek taraflı) hipotez kurarken dikkat: `alternative = "greater"` derseniz hipotezleriniz $H_0: \mu \le 40$ ve $H_1: \mu > 40$ olur; `"less"` derseniz $H_0: \mu \ge 40$ ve $H_1: \mu < 40$ olur. Yön seçimi **veriye bakmadan önce**, araştırma sorusundan gelmelidir — veriyi gördükten sonra "hangi yönde anlamlı çıkıyorsa onu seçmek" tam olarak yukarıdaki p-hacking uyarısının bir örneğidir.
 :::
-
-#### 150 cm'den Küçük Olması Durumunda:
-
-```{r}
-# 150 cm'den küçük olması durumu için (H0: mu >= 150, H1: mu < 150)
-t_test_less <- t.test(corn_heights, mu = 150, alternative = "less")
-print(t_test_less)
-```
-
-**Yorum:** p-değeri 0.9977 olduğundan, null hipotezini reddetmiyorsunuz. Bu sonuç, mısır boyunun 150 cm'den küçük olmadığına dair güçlü bir kanıt sağlıyor. Gerçekten de örneklem verileri, mısır boyunun 150 cm'den büyük olduğunu gösteriyor.
 
 ------------------------------------------------------------------------
 
-## Örnek 2: **PlantGrowth Veri Seti ile Bir Örneklem t-Testi**
+## Örnek 2: **e-Devlet Memnuniyeti — Anlamsız Çıkan Bir Sonuç**
 
-R'deki **PlantGrowth** veri seti, kontrol ve iki farklı tedavi koşulu altında yetiştirilen bitkilerin ağırlıklarını içerir. Bu örnekte, bir tedavi grubunun (trt1) ağırlığının bilinen veya varsayılan bir popülasyon ortalamasından (5 gram) farklı olup olmadığını test edeceğiz.
+Önceki örnekte $H_0$ reddedildi. Ama çoğu zaman gerçek veri bu kadar net konuşmaz — bu örnekte **null hipotezin reddedilemediği**, yani "anlamlı fark yok" denilen bir durumu göreceğiz. Bir ilin 10 ilçesinde ölçülen e-devlet hizmetlerinden memnuniyet puanının (100 üzerinden), ulusal ortalama olan 72'den farklı olup olmadığını test edeceğiz.
 
 ### **Adım 1: Hipotezlerin Formülasyonu**
 
--   **Senaryo:** Tarihsel veriler, benzer büyüme koşullarındaki bitkilerin ortalama ağırlığının 5 gram olduğunu öne sürmektedir. Tedavi 1 (trt1) grubundaki bitkilerin ortalama ağırlığının bu değerden farklı olup olmadığını test edeceğiz.
+-   **Null Hipotezi (**$H_0$): İlçelerin ortalama memnuniyet puanı 72'dir ($\mu = 72$).
 
--   **Null Hipotezi (**$H_0$): Tedavi edilen bitkilerin ortalama ağırlığı 5 gramdır ($\mu = 5$).
-
--   **Alternatif Hipotezi (**$H_1$): Tedavi edilen bitkilerin ortalama ağırlığı 5 gramdan farklıdır ($\mu \neq 5$).
+-   **Alternatif Hipotezi (**$H_1$): İlçelerin ortalama memnuniyet puanı 72'den farklıdır ($\mu \neq 72$).
 
 ### **Adım 2: Uygun Testin Seçimi**
 
--   **Test Türü:** Bir örneklem t-testi, çünkü bir örneklem ortalamasını bilinen bir popülasyon ortalaması ile karşılaştırıyoruz.
+-   **Test Türü:** Bir örneklem t-testi, çünkü bir örneklem ortalamasını bilinen bir referans değeriyle karşılaştırıyoruz.
 
--   **Veri Türü:** Sürekli (bitki ağırlıkları)
+-   **Veri Türü:** Sürekli (memnuniyet puanı)
 
--   **Dağılım:** Verinin normal dağıldığı varsayılır. Küçük örneklemler için bu varsayım Shapiro-Wilk testi gibi bir normallik testi ile kontrol edilebilir (bkz. yukarıdaki "Varsayımların Denetlenmesi").
+-   **Dağılım:** Küçük örneklemde normallik varsayımı `shapiro.test()` ile kontrol edilebilir (bkz. "Varsayımların Denetlenmesi").
 
 ### **Adım 3: Test İstatistiğinin Hesaplanması**
 
 R kodu ile testi gerçekleştirelim:
 
 ```{r}
-# Veri yükle
-data("PlantGrowth")
+# Örneklem verilerini tanımla (temsili veri, 10 ilçe)
+memnuniyet <- c(74, 70, 73, 69, 75, 71, 76, 68, 72, 77)
 
-# 'trt1' grubunun verilerini filtrele
-trt1_data <- PlantGrowth$weight[PlantGrowth$group == 'trt1']
-
-# 5'e karşı bir örneklem t-testi yap
-t_test_result <- t.test(trt1_data, mu = 5)
+# 72'ye karşı bir örneklem t-testi yap
+t_test_result <- t.test(memnuniyet, mu = 72)
 ```
 
 ### Adım 4: p-Değerinin Alınması ve Yorumlanması
@@ -358,23 +372,34 @@ print(t_test_result)
 
 **Test Çıktısının Yorumu:**
 
--   **p-değeri (0.2098):** Bu değer, yaygın olarak kullanılan anlamlılık seviyesi ($\alpha = 0.05$) ile karşılaştırıldığında büyüktür. Bu, null hipotezi reddetmek için yeterli kanıt olmadığını gösterir.
+-   **p-değeri ($\approx 0.614$):** Bu değer, yaygın olarak kullanılan anlamlılık seviyesi ($\alpha = 0.05$) ile karşılaştırıldığında çok büyüktür. Bu, null hipotezi reddetmek için yeterli kanıt olmadığını gösterir.
 
--   **Sonuç:** Tedavi edilen bitkilerin ortalama ağırlığının varsayılan 5 gramdan anlamlı bir şekilde farklı olduğunu söylemek için yeterli kanıt yoktur.
+-   **Sonuç:** İlçelerin ortalama memnuniyet puanının ulusal ortalama olan 72'den anlamlı bir şekilde farklı olduğunu söylemek için yeterli kanıt yoktur.
 
 ### **Adım 5: Karar Ver (p-değeri ve** $\alpha$'ya Göre)
 
--   **p-değeri (0.2098) \>** $\alpha$ (0.05): Null hipotezi reddetmeyin.
+-   **p-değeri ($\approx 0.614$) \>** $\alpha$ (0.05): Null hipotezi reddetmeyin.
 
--   Bu karar, tedavi edilen bitkilerin ortalama ağırlığının 5 gramdan farklı olmadığı anlamına gelir.
+-   Bu karar, ilçelerin ortalama memnuniyetinin ulusal ortalamadan farklı olmadığı anlamına gelir.
 
-### **Adım 6: Sonuçları Raporlamak**
+### **Adım 6: Etki Büyüklüğünü Hesaplamak**
 
-Tedavi grubunun (trt1) ortalama ağırlığının 5 gramdan farklı olup olmadığını değerlendirmek için bir t-testi yapıldı. Hesaplanan t-istatistiği -1.3507 ve p-değeri 0.2098'dir. P-değeri 0.05'ten büyük olduğu için null hipotezi reddetmek için yeterli kanıt yoktur.
+Bu, p-değerinin küçük olmadığı bir durumda etki büyüklüğünün neden yine de raporlanması gerektiğini gösteren iyi bir örnektir:
 
-%95 güven aralığı 4.0932 ile 5.2288 gram arasında olup, 5 gramı içerdiğinden null hipotezin reddedilmesini desteklemez.
+```{r}
+ort <- mean(memnuniyet)
+ss  <- sd(memnuniyet)
+cohend <- (ort - 72) / ss
+cohend
+```
 
-Sonuç olarak, tedavi edilen bitkilerin ortalama ağırlığının 5 gramdan farklı olduğuna dair yeterli kanıt yoktur. Bu, trt1 tedavisinin bitki ağırlığını anlamlı bir şekilde değiştirmediğini gösterir.
+$d \approx 0.17$ — tabloya göre bu **ihmal edilebilir bir etkidir**. Burada p-değeri ve etki büyüklüğü **aynı hikâyeyi anlatıyor**: hem istatistiksel olarak hem pratik olarak anlamlı bir fark yok. (Örnek 7'de bunun tam tersini — p-değeri çok küçükken etki büyüklüğünün küçük çıktığı bir durumu — göreceğiz.)
+
+### **Adım 7: Sonuçları Raporlamak**
+
+İlçelerin ortalama memnuniyet puanının 72'den farklı olup olmadığını değerlendirmek için bir t-testi yapıldı. Örneklem ortalaması 72.5 (%95 güven aralığı: 70.33–74.67) olup, bu aralık 72'yi içerdiğinden null hipotezin reddedilmesi desteklenmemektedir. Etki büyüklüğü de ($d \approx 0.17$) farkın pratikte önemsiz olduğunu doğrulamaktadır.
+
+**Raporlama (APA formatına yakın bir cümle):** "Tek örneklem t-testi sonucunda, ilçelerin ortalama memnuniyet puanı ($M = 72.5$) ile ulusal ortalama (72) arasında anlamlı bir fark bulunmamıştır, $t(9) = 0.52$, $p = .614$, $d = 0.17$."
 
 ------------------------------------------------------------------------
 
@@ -384,29 +409,29 @@ Eşleştirilmiş örneklem t-testi, bir örneklemdeki her bir gözlemin diğer b
 
 ### **Senaryo:**
 
-Bir antrenman programının basketbol oyuncularının maksimum dikey sıçrama yüksekliğini (inç cinsinden) artırıp artırmadığını bilmek istiyoruz.
+Bir belediyenin, gişe personeline verdiği vatandaş memnuniyeti eğitim programının etkili olup olmadığını bilmek istiyoruz.
 
-Bunu test etmek için rastgele 12 üniversite basketbol oyuncusu seçilir ve her birinin maksimum sıçrama yüksekliği ölçülür. Daha sonra oyuncular bir ay boyunca antrenman programını uygular ve ay sonunda sıçrama yükseklikleri tekrar ölçülür.
+Bunu test etmek için 12 belediyenin gişe hizmetlerinden vatandaş memnuniyeti (100 üzerinden) eğitim programı **öncesinde** ölçülür. Aynı 12 belediyede eğitim programı uygulandıktan bir süre sonra memnuniyet **tekrar** ölçülür.
 
-Bu senaryoda, basketbol oyuncularının antrenman öncesi ve sonrası maksimum sıçrama yüksekliğini karşılaştırmak için **eşleştirilmiş örneklem t-testi** uygun bir yöntemdir. İşte bu hipotez testini adım adım nasıl gerçekleştireceğiniz:
+Bu senaryoda, aynı belediyelerin eğitim öncesi ve sonrası memnuniyet puanlarını karşılaştırmak için **eşleştirilmiş örneklem t-testi** uygun bir yöntemdir — çünkü iki ölçüm aynı birimlerden (belediyelerden) geliyor. İşte bu hipotez testini adım adım nasıl gerçekleştireceğiniz:
 
 ------------------------------------------------------------------------
 
 ### **Adım 1: Hipotezleri Belirleme**
 
--   **Null Hipotezi (**$H_0$): Antrenman programının basketbol oyuncularının maksimum dikey sıçramaları üzerinde hiçbir etkisi yoktur. Matematiksel olarak: $\mu_d = 0$ — antrenman öncesi ve sonrası sıçrama yükseklikleri arasındaki farkın ortalamasıdır.
+-   **Null Hipotezi (**$H_0$): Eğitim programının vatandaş memnuniyeti üzerinde hiçbir etkisi yoktur. Matematiksel olarak: $\mu_d = 0$ — eğitim öncesi ve sonrası memnuniyet puanları arasındaki farkın ortalamasıdır.
 
--   **Alternatif Hipotezi (**$H_1$): Antrenman programının basketbol oyuncularının maksimum dikey sıçramaları üzerinde etkisi vardır. Matematiksel olarak: $\mu_d \neq 0$.
+-   **Alternatif Hipotezi (**$H_1$): Eğitim programının vatandaş memnuniyeti üzerinde etkisi vardır. Matematiksel olarak: $\mu_d \neq 0$.
 
 ------------------------------------------------------------------------
 
 ### **Adım 2: Uygun Testi Seçme**
 
-Bu durumda, iki ölçüm aynı kişilerden alındığı için bireysel değişkenlikleri kontrol eden **eşleştirilmiş örneklem t-testi** en uygun yöntemdir.
+Bu durumda, iki ölçüm aynı belediyelerden alındığı için birimler-arası değişkenliği kontrol eden **eşleştirilmiş örneklem t-testi** en uygun yöntemdir.
 
 -   **Test Türü:** Eşleştirilmiş t-testi.
 
--   **Veri Türü:** Sürekli (maksimum sıçrama yükseklikleri).
+-   **Veri Türü:** Sürekli (memnuniyet puanı).
 
 ------------------------------------------------------------------------
 
@@ -415,12 +440,12 @@ Bu durumda, iki ölçüm aynı kişilerden alındığı için bireysel değişke
 R kodu ile testi gerçekleştirelim:
 
 ```{r}
-# Öncesi ve sonrası sıçrama yüksekliklerini tanımlayın
-before <- c(22, 24, 20, 19, 19, 20, 22, 25, 24, 23, 22, 21)
-after <- c(23, 25, 20, 24, 18, 22, 23, 28, 24, 25, 24, 20)
+# Eğitim öncesi ve sonrası memnuniyet puanlarını tanımlayın (temsili veri, 12 belediye)
+egitim_oncesi <- c(62, 58, 65, 60, 55, 63, 59, 61, 57, 70, 60, 56)
+egitim_sonrasi <- c(68, 60, 70, 58, 59, 66, 63, 65, 61, 69, 62, 64)
 
 # Eşleştirilmiş t-testi yapın
-paired_t_test_result <- t.test(x = before, y = after, paired = TRUE)
+paired_t_test_result <- t.test(x = egitim_oncesi, y = egitim_sonrasi, paired = TRUE)
 ```
 
 ### Adım 4: p-Değerinin Alınması ve Yorumlanması
@@ -430,39 +455,53 @@ paired_t_test_result <- t.test(x = before, y = after, paired = TRUE)
 print(paired_t_test_result)
 ```
 
-**p-değeri:** 0.02803. Bu değer, null hipotez doğruyken gözlemlenen veya daha uç bir test istatistiği elde etme olasılığını temsil eder.
+**p-değeri:** $\approx 0.0019$. Bu değer, null hipotez doğruyken gözlemlenen veya daha uç bir test istatistiği elde etme olasılığını temsil eder.
 
 ### **Adım 5: p-Değeri ve Alfa (**$\alpha$**) Temelinde Karar Verme**
 
--   **p-değeri (0.02803) \<** $\alpha$ (0.05): Null hipotez reddedilir.
+-   **p-değeri ($\approx 0.0019$) \<** $\alpha$ (0.05): Null hipotez reddedilir.
 
--   Bu karar, antrenman programının basketbol oyuncularının maksimum dikey sıçrama yükseklikleri üzerinde etkisi olduğunu göstermektedir.
+-   Bu karar, eğitim programının vatandaş memnuniyeti üzerinde etkisi olduğunu göstermektedir.
 
-### **Adım 6: Sonuçları Raporlama**
+### **Adım 6: Etki Büyüklüğünü Hesaplamak**
 
-Eşleştirilmiş t-testi yapıldı ve t-istatistiği -2.5289, p-değeri 0.02803 olarak hesaplandı. Bu değer, antrenman sonrası sıçrama yüksekliklerinin antrenman öncesine göre anlamlı şekilde arttığını gösteriyor.
+```{r}
+fark <- egitim_sonrasi - egitim_oncesi
+cohend <- mean(fark) / sd(fark)
+cohend
+```
 
-%95 güven aralığı -2.3379 ile -0.1621 inç arasındadır ve 0'ı içermediği için null hipotezi reddetmeyi destekler. Ortalama fark -1.25 inç olup, bu da antrenman sonrası sıçrama yüksekliklerinin ortalama 1.25 inç arttığını belirtir.
+$d \approx 1.17$ — bu, tabloya göre **büyük bir etkidir**. Yani eğitim programının etkisi yalnızca istatistiksel olarak anlamlı değil, aynı zamanda pratikte de belirgin büyüklüktedir.
 
-Sonuç olarak, antrenman programı basketbol oyuncularının sıçrama performansını artırmada etkili bulunmuştur.
+### **Adım 7: Sonuçları Raporlama**
+
+Eşleştirilmiş t-testi yapıldı ve t-istatistiği 4.07, p-değeri $\approx 0.0019$ olarak hesaplandı. Bu değer, eğitim sonrası memnuniyet puanlarının eğitim öncesine göre anlamlı şekilde arttığını gösteriyor.
+
+%95 güven aralığı 1.49 ile 5.01 puan arasındadır ve 0'ı içermediği için null hipotezi reddetmeyi destekler. Ortalama fark 3.25 puan olup, bu da eğitim sonrası memnuniyetin ortalama 3.25 puan arttığını belirtir. (12 belediyeden 2'sinde memnuniyet hafifçe düşmüş olsa da genel eğilim güçlü ve tutarlı biçimde artış yönündedir.)
+
+Sonuç olarak, eğitim programı vatandaş memnuniyetini artırmada etkili ve büyüklüğü pratik açıdan da önemli bulunmuştur.
+
+**Raporlama (APA formatına yakın bir cümle):** "Eşleştirilmiş örneklem t-testi sonucunda, eğitim sonrası memnuniyet puanları ($M = 63.75$), eğitim öncesine ($M = 60.5$) göre anlamlı şekilde yüksek bulunmuştur, $t(11) = 4.07$, $p = .002$, $d = 1.17$."
 
 ------------------------------------------------------------------------
 
 ## Örnek 4: **İki Örneklem t-Testi**
 
+Bir araştırmacı, rejim türünün kişi başına düşen GSYİH ile ilişkili olup olmadığını merak ediyor. Aşağıdaki veri **temsili/kurgusaldır** — gerçek bir araştırmanın bulgusu değildir, yalnızca bağımsız iki örneklem t-testinin mantığını göstermek için kullanılmıştır (gerçek karşılaştırmalı siyaset verisiyle çalışmak isterseniz V-Dem veya Polity5 veri setlerine bakabilirsiniz).
+
 ### **Adım 1: Hipotezlerin Belirlenmesi**
 
--   **Null Hipotezi (**$H_0$): Mısır türü 1'in ortalama boyu, mısır türü 2'nin ortalama boyuna eşittir. Matematiksel olarak: $\mu_1 = \mu_2$.
+-   **Null Hipotezi (**$H_0$): Demokrasi grubundaki ülkelerin ortalama kişi başı GSYİH'si (bin USD), otokrasi grubundakiyle eşittir. Matematiksel olarak: $\mu_1 = \mu_2$.
 
--   **Alternatif Hipotezi (**$H_1$): Mısır türü 1'in ortalama boyu, mısır türü 2'nin ortalama boyuna eşit değildir. Matematiksel olarak: $\mu_1 \neq \mu_2$.
+-   **Alternatif Hipotezi (**$H_1$): İki grubun ortalama kişi başı GSYİH'si eşit değildir. Matematiksel olarak: $\mu_1 \neq \mu_2$.
 
 ------------------------------------------------------------------------
 
 ### **Adım 2: Uygun Testin Seçilmesi**
 
--   İki bağımsız örneklemin ortalamalarını karşılaştırmak için **iki örneklem t-testi** uygundur.
+-   İki bağımsız örneklemin (iki farklı ülke grubu) ortalamalarını karşılaştırmak için **iki örneklem t-testi** uygundur.
 
--   Bu test, her iki grubun verilerinin normal dağıldığı ve varyanslarının eşit olduğu varsayımı altında kullanılabilir (varyansların eşit olup olmadığını kontrol etmek için gerekirse `var.test()` veya `bartlett.test()` kullanılabilir).
+-   Bu test, her iki grubun verilerinin normal dağıldığı ve varyanslarının eşit olduğu varsayımı altında kullanılabilir (varyansların eşit olup olmadığını `bartlett.test()` ile kontrol edeceğiz).
 
 ------------------------------------------------------------------------
 
@@ -471,12 +510,15 @@ Sonuç olarak, antrenman programı basketbol oyuncularının sıçrama performan
 Aşağıdaki R kodu ile testi gerçekleştirin:
 
 ```{r}
-# Örnek verileri tanımla
-sample1 <- c(155, 153, 149, 156, 151, 154, 152, 150)
-sample2 <- c(162, 158, 159, 161, 160, 157, 158, 159)
+# Örnek verileri tanımla (temsili veri, kisi basi GSYIH, bin USD)
+demokrasi <- c(38, 41, 35, 44, 39, 42, 37, 40)
+otokrasi  <- c(22, 19, 25, 21, 18, 24, 20, 23)
 
-# Eşit varyans varsayımı ile iki örneklem t-testi yap
-t_test_result <- t.test(sample1, sample2, alternative = "two.sided", var.equal = TRUE)
+# Varyans homojenligini denetle
+bartlett.test(list(demokrasi, otokrasi))
+
+# Esit varyans varsayimi ile iki örneklem t-testi yap
+t_test_result <- t.test(demokrasi, otokrasi, alternative = "two.sided", var.equal = TRUE)
 ```
 
 ### Adım 4: p-Değerinin Alınması ve Yorumlanması
@@ -486,60 +528,77 @@ t_test_result <- t.test(sample1, sample2, alternative = "two.sided", var.equal =
 print(t_test_result)
 ```
 
--   **p-Değeri:** $1.545 \times 10^{-5}$. Bu çok küçük değer, null hipotezin doğru olduğu varsayımı altında gözlemlenen fark kadar veya daha büyük bir farkın oluşma olasılığının yaklaşık 0.00001545 olduğunu ifade eder.
+-   **Varsayım denetimi:** `bartlett.test()` p-değeri ($\approx 0.68$) 0.05'ten büyük olduğundan, varyans homojenliği varsayımı korunuyor ve `var.equal = TRUE` seçimimiz haklıdır.
 
--   **Yorum:** p-değeri, yaygın olarak kullanılan anlamlılık seviyesi ($\alpha = 0.05$) ile karşılaştırıldığında oldukça küçüktür ve null hipoteze karşı güçlü kanıt sağlar.
+-   **p-Değeri:** $\approx 2.1 \times 10^{-9}$. Bu çok küçük değer, null hipotezin doğru olduğu varsayımı altında gözlemlenen fark kadar veya daha büyük bir farkın oluşma olasılığının neredeyse sıfır olduğunu ifade eder.
+
+-   **Yorum:** p-değeri, yaygın olarak kullanılan anlamlılık seviyesi ($\alpha = 0.05$) ile karşılaştırıldığında son derece küçüktür ve null hipoteze karşı çok güçlü kanıt sağlar.
 
 ### **Adım 5: p-Değeri ve Alfa (**$\alpha$**) Temelinde Karar Verme**
 
--   **Karar:** p-değeri 0.05'ten küçük olduğu için null hipotez reddedilir.
+-   **Karar:** p-değeri 0.05'ten çok daha küçük olduğu için null hipotez reddedilir.
 
--   **Sonuç:** İki mısır türünün ortalama boyları arasında istatistiksel olarak anlamlı bir fark vardır.
+-   **Sonuç:** İki grup arasında ortalama kişi başı GSYİH açısından istatistiksel olarak anlamlı bir fark vardır.
 
-### **Adım 6: Sonuçların Raporlanması**
+### **Adım 6: Etki Büyüklüğünü Hesaplamak**
 
--   **Test Türü:** İki örneklem t-testi.
+```{r}
+n1 <- length(demokrasi); n2 <- length(otokrasi)
+s1 <- sd(demokrasi); s2 <- sd(otokrasi)
+s_pooled <- sqrt(((n1 - 1) * s1^2 + (n2 - 1) * s2^2) / (n1 + n2 - 2))
+cohend <- (mean(demokrasi) - mean(otokrasi)) / s_pooled
+cohend
+```
 
--   **t-İstatistiği:** -6.4411. Bu, sample1'in ortalama boyunun sample2'nin ortalama boyundan daha düşük olduğunu gösterir.
+$d \approx 6.7$ — olağanüstü büyük bir etki. (Bu örnekteki veri, iki grubu bilinçli olarak keskin biçimde ayırarak kurgulanmıştır; gerçek karşılaştırmalı siyaset verisinde etki büyüklükleri genellikle bu kadar uç olmaz.)
+
+### **Adım 7: Sonuçların Raporlanması**
+
+-   **Test Türü:** İki örneklem t-testi (eşit varyans varsayımıyla).
+
+-   **t-İstatistiği:** 13.47. Pozitif işaret, demokrasi grubunun ortalamasının otokrasi grubundan **yüksek** olduğunu gösterir.
 
 -   **Serbestlik Dereceleri:** 14.
 
--   **p-Değeri:** $1.545 \times 10^{-5}$, oldukça küçüktür.
+-   **Güven Aralığı:** Ortalama fark için %95 güven aralığı: 15.13 ile 20.87 (bin USD). Bu aralık 0'ı içermediği için null hipotezin reddedilmesini destekler.
 
--   **Güven Aralığı:** Ortalama fark için %95 güven aralığı: -8.998 ile -4.502. Bu aralık 0'ı içermediği için null hipotezin reddedilmesini destekler.
+-   **Ortalama Tahminleri:** Demokrasi grubu 39.5 bin USD, otokrasi grubu 21.5 bin USD.
 
--   **Ortalama Tahminleri:**
+**Sonuç:** Bu temsili veri setinde, iki grup arasında kişi başı GSYİH açısından anlamlı bir fark vardır.
 
-    -   Sample1 için ortalama boy: **152.5 cm**.
+**Raporlama (APA formatına yakın bir cümle):** "Bağımsız örneklem t-testi sonucunda, demokrasi grubunun ortalama kişi başı GSYİH'si ($M = 39.5$), otokrasi grubundan ($M = 21.5$) anlamlı şekilde yüksek bulunmuştur, $t(14) = 13.47$, $p < .001$, $d = 6.73$."
 
-    -   Sample2 için ortalama boy: **159.25 cm**.
-
-**Sonuç:** İki mısır türünün ortalama boyları arasında anlamlı bir fark vardır. Mısır türü 2'nin ortalama boyu, mısır türü 1'den daha uzundur. Bu fark istatistiksel olarak anlamlıdır.
+::: callout-warning
+⚠️ **Korelasyon nedensellik değildir.** Bu test bize yalnızca iki grup ortalaması arasında istatistiksel bir fark olduğunu söyler — rejim türünün GSYİH'yi **belirlediğini** değil. Gerçek veride bu ilişkiye kalkınma düzeyi, doğal kaynaklar, sömürge geçmişi gibi pek çok üçüncü değişken karışabilir (bkz. Örnek 7'nin sonundaki Simpson Paradoksu tartışması). Nedensel bir iddia için Modül 11-12'deki **çoklu regresyon** gibi, karıştırıcı değişkenleri kontrol eden yöntemler gerekir.
+:::
 
 ------------------------------------------------------------------------
 
-## Örnek 5: **sleep Veri Seti ile İki Örneklem t-Testi**
+## Örnek 5: **Welch İki Örneklem t-Testi — Sınırda Bir Karar**
+
+AB üyesi ülkeler ile AB'ye aday ülkeler arasında yolsuzluk algı endeksi (0-100, yüksek puan = daha az algılanan yolsuzluk) açısından fark olup olmadığını test ediyoruz. Aşağıdaki veri de **temsilidir**; gerçek endeks değerleri için Transparency International'ın yıllık CPI raporlarına bakılmalıdır.
 
 ### **Adım 1: Hipotezlerin Belirlenmesi**
 
--   **Null Hipotezi (**$H_0$): İki ilaç grubu arasında ortalama ekstra uyku süresi açısından fark yoktur.
+-   **Null Hipotezi (**$H_0$): AB üyesi ülkeler ile aday ülkeler arasında ortalama endeks puanı açısından fark yoktur.
 
--   **Alternatif Hipotezi (**$H_1$): İki ilaç grubu arasında ortalama ekstra uyku süresi açısından fark vardır.
+-   **Alternatif Hipotezi (**$H_1$): İki grup arasında ortalama endeks puanı açısından fark vardır.
 
 ### **Adım 2: Uygun Testin Seçilmesi**
 
-İki bağımsız grubun ortalamalarını karşılaştırmak için **iki örneklem t-testi** uygundur. Bu test, popülasyon varyanslarının eşit olmadığı varsayımı altında yapılır (**Welch't testi**).
+İki bağımsız grubun ortalamalarını karşılaştırmak için **iki örneklem t-testi** uygundur. İki grubun örneklem büyüklükleri farklı olduğundan (9'a 6) ve varyansların otomatik olarak eşit varsayılması riskli olduğundan, güvenli tercih olarak varyansların eşit olduğunu **varsaymayan Welch t-testi** kullanılacaktır — bu, R'da `t.test()`'in zaten **varsayılan** davranışıdır.
 
 ### **Adım 3: Test İstatistiğinin Hesaplanması**
 
 Aşağıdaki R kodu ile testi gerçekleştirebilirsiniz:
 
 ```{r}
-# Veri yükle
-data("sleep")
+# Örnek verileri tanımla (temsili veri)
+ab_uyesi <- c(58, 65, 52, 61, 45, 68, 55, 50, 63)
+aday     <- c(48, 42, 55, 51, 40, 58)
 
-# İki örneklem t-testi (Welch t-testi)
-t_test_result <- t.test(extra ~ group, data = sleep)
+# İki örneklem t-testi (varsayılan: Welch t-testi, var.equal = FALSE)
+t_test_result <- t.test(ab_uyesi, aday)
 ```
 
 ### Adım 4: p-Değerinin Alınması ve Yorumlanması
@@ -549,57 +608,68 @@ t_test_result <- t.test(extra ~ group, data = sleep)
 print(t_test_result)
 ```
 
-**p-değeri:** 0.07939. Bu değer, null hipotezin doğru olduğu varsayımı altında, iki grup arasındaki fark kadar veya daha büyük bir fark gözlemleme olasılığını ifade eder.
+**p-değeri:** $\approx 0.0495$. Bu değer, null hipotezin doğru olduğu varsayımı altında, iki grup arasındaki fark kadar veya daha büyük bir fark gözlemleme olasılığını ifade eder.
 
 ### **Adım 5: p-Değeri ve Alfa (**$\alpha$**) Temelinde Karar Verme**
 
--   **p-değeri \> 0.05:** Null hipotez reddedilmez.
+-   **p-değeri ($\approx 0.0495$) $<$ 0.05:** Null hipotez, tam sınırında olsa da, teknik olarak reddedilir.
 
--   Bu sonuç, iki ilaç grubu arasında ortalama ekstra uyku süresi açısından istatistiksel olarak anlamlı bir fark olmadığını gösterir.
+::: callout-warning
+⚠️ **Sınırda bir p-değeri neden dikkatle okunmalı?** $p = 0.0495$ ile $p = 0.051$ arasındaki fark, istatistiksel olarak neredeyse anlamsızdır — ama biri "anlamlı", diğeri "anlamlı değil" diye raporlanır. $\alpha = 0.05$ eşiği keyfi bir gelenektir, doğa yasası değildir. Böylesine sınırda bir sonucu tek başına, örneklem büyütmeden veya tekrar araştırmadan kesin bir bulgu gibi sunmak, yukarıda değindiğimiz replikasyon krizinin tam da beslendiği yerdir.
+:::
 
-### **Adım 6: Sonuçları Raporlama**
+### **Adım 6: Etki Büyüklüğünü Hesaplamak**
 
-Welch İki Örneklem t-Testi, iki farklı uyku tedavisinin bireylerde sağladığı ekstra uyku süresini karşılaştırmak için yapıldı.
+```{r}
+s1 <- sd(ab_uyesi); s2 <- sd(aday)
+s_avg <- sqrt((s1^2 + s2^2) / 2)
+cohend <- (mean(ab_uyesi) - mean(aday)) / s_avg
+cohend
+```
+
+$d \approx 1.15$ — büyük bir etki. Burada p-değeri sınırda olsa da etki büyüklüğü küçük bir örneklemle çalıştığımızı ve gücün (power) sınırlı olduğunu hatırlatıyor; daha büyük bir örneklemle aynı etki büyüklüğü çok daha net bir p-değeri verebilirdi.
+
+### **Adım 7: Sonuçları Raporlama**
+
+Welch İki Örneklem t-Testi, AB üyesi ve aday ülkeler arasındaki yolsuzluk algı endeksini karşılaştırmak için yapıldı.
 
 **Test Sonuçları:**
 
--   **t-İstatistiği:** -1.8608 (Grup 1'in uyku artışı, Grup 2'den daha az).
+-   **t-İstatistiği:** 2.20 (AB üyesi grubunun puanı, aday grubundan yüksek).
 
--   **p-Değeri:** 0.07939 (0.05'ten büyük olduğu için anlamlı değildir).
+-   **p-Değeri:** $\approx 0.0495$ (sınırda anlamlı).
 
--   **Güven Aralığı:** -3.365 ile 0.205 (%95 güven aralığı 0'ı içerdiği için fark sıfır olabilir).
+-   **Güven Aralığı:** yaklaşık 0.02 ile 16.87 (0'ı çok dar bir marjla dışlıyor).
 
--   **Ortalama Uyku Artışı:**
+-   **Ortalama Puanlar:** AB üyesi grubu 57.4, aday grubu 49.0.
 
-    -   Grup 1: 0.75 saat.
+**Sonuç olarak;** İki grup arasında sınırda, dikkatle yorumlanması gereken bir fark bulunmuştur. Örneklem küçük olduğundan, bu sonucu tek başına kesin kabul etmek yerine daha büyük bir örneklemle doğrulamak isabetli olur.
 
-    -   Grup 2: 2.33 saat.
-
-**Sonuç olarak;** İki grup arasında uyku süresi artışı açısından anlamlı bir fark bulunamamıştır. Gözlemlenen fark, rastgele şansa bağlı olabilir. Daha büyük bir örneklem veya farklı koşullarla ek araştırmalara ihtiyaç vardır.
+**Raporlama (APA formatına yakın bir cümle):** "Welch iki örneklem t-testi sonucunda, AB üyesi ülkelerin ortalama endeks puanı ($M = 57.4$), aday ülkelerden ($M = 49.0$) sınırda anlamlı şekilde yüksek bulunmuştur, $t(11.4) = 2.20$, $p = .050$, $d = 1.15$."
 
 ------------------------------------------------------------------------
 
-## Örnek 6: **ToothGrowth Veri Seti ile ANOVA Testi**
+## Örnek 6: **gapminder Veri Seti ile ANOVA Testi**
 
-ANOVA (Varyans Analizi), üç veya daha fazla grup ortalaması arasında fark olup olmadığını test etmek için kullanılan bir istatistiksel yöntemdir. Bu örnekte, R'deki **ToothGrowth** veri setini kullanarak, farklı doz seviyelerindeki C vitamini takviyelerinin kobaylardaki diş büyümesine etkisini inceleyeceğiz. Veri seti şu değişkenleri içerir:
+ANOVA (Varyans Analizi), üç veya daha fazla grup ortalaması arasında fark olup olmadığını test etmek için kullanılan bir istatistiksel yöntemdir. Bu örnekte, dersin önceki modüllerinden tanıdığınız **gerçek `gapminder` veri setini** kullanarak, kıtalara göre ortalama yaşam beklentisinin (2007 yılı) farklılaşıp farklılaşmadığını inceleyeceğiz. Veri seti şu değişkenleri içerir:
 
--   **len**: Diş büyüme uzunluğu.
+-   **lifeExp**: Doğumda beklenen yaşam süresi.
 
--   **supp**: Takviye türü (VC: Vitamin C, OJ: Portakal suyu).
+-   **continent**: Ülkenin bulunduğu kıta (Africa, Americas, Asia, Europe, Oceania).
 
--   **dose**: Takviyenin doz seviyesi.
+-   **gdpPercap**: Kişi başına düşen GSYİH.
 
-Bu analizde, takviye doz seviyelerine göre diş büyümesi ($len$) ortalamalarını karşılaştırmak için **tek yönlü ANOVA** testi yapacağız.
+Bu analizde, kıtalara göre yaşam beklentisi ($lifeExp$) ortalamalarını karşılaştırmak için **tek yönlü ANOVA** testi yapacağız.
 
 ### **Adım 1: Hipotezlerin Belirlenmesi**
 
--   **Null Hipotezi (**$H_0$): Farklı C vitamini dozları arasında ortalama diş büyümesi ($len$) açısından fark yoktur.
+-   **Null Hipotezi (**$H_0$): Kıtalar arasında ortalama yaşam beklentisi ($lifeExp$) açısından fark yoktur.
 
--   **Alternatif Hipotezi (**$H_1$): En az bir doz seviyesi diğerlerinden farklı bir ortalama diş büyümesine sahiptir.
+-   **Alternatif Hipotezi (**$H_1$): En az bir kıta diğerlerinden farklı bir ortalama yaşam beklentisine sahiptir.
 
 ### **Adım 2: Uygun Testin Seçilmesi**
 
--   Veri, üçten fazla grubun (farklı dozlar) ortalamalarını karşılaştırmayı içerdiğinden, **ANOVA** testi uygundur.
+-   Veri, beş grubun (kıtaların) ortalamalarını karşılaştırmayı içerdiğinden, **ANOVA** testi uygundur.
 
 -   ANOVA, şu varsayımlar altında çalışır:
 
@@ -609,25 +679,23 @@ Bu analizde, takviye doz seviyelerine göre diş büyümesi ($len$) ortalamalar�
 
     -   Grupların varyanslarının homojenliği.
 
-    Bu varsayımları varsaymakla yetinmeyip Adım 3'te fiilen denetleyeceğiz.
+    Bu varsayımları varsaymakla yetinmeyip Adım 3'te fiilen denetleyeceğiz — ve bu kez, gerçek veriyle çalıştığımız için sonuç ToothGrowth gibi "temiz" örneklerden farklı çıkacak.
 
 ### **Adım 3: Test İstatistiğinin Hesaplanması**
 
 Aşağıdaki R kodu ile ANOVA testi gerçekleştirilmiştir:
 
 ```{r}
-# Veri yükle
-data("ToothGrowth")
+library(gapminder)
 
-# 'dose' değişkenini faktöre dönüştür
-ToothGrowth$dose <- as.factor(ToothGrowth$dose)
+# Yalnızca 2007 yilini al
+gapminder_2007 <- subset(gapminder, year == 2007)
 
-# Veri yapısını kontrol et
-str(ToothGrowth)
-summary(ToothGrowth)
+# Kita basina gozlem sayisi
+table(gapminder_2007$continent)
 
 # ANOVA testi yap
-anova_result <- aov(len ~ dose, data = ToothGrowth)
+anova_result <- aov(lifeExp ~ continent, data = gapminder_2007)
 summary(anova_result)
 ```
 
@@ -638,48 +706,65 @@ summary(anova_result)
 shapiro.test(residuals(anova_result))
 
 # Varyans homojenliği varsayımı: Bartlett testi
-bartlett.test(len ~ dose, data = ToothGrowth)
+bartlett.test(lifeExp ~ continent, data = gapminder_2007)
 ```
 
-**Yorum:** `shapiro.test()` çıktısındaki p-değeri 0.05'ten büyükse, artıkların normal dağılımdan anlamlı şekilde sapmadığını (normallik varsayımının makul olduğunu) söyleriz. Aynı şekilde `bartlett.test()` çıktısındaki p-değeri 0.05'ten büyükse, grup varyansları arasında anlamlı bir fark yoktur ve varyans homojenliği varsayımı korunur. Her iki test de bu veri setinde p \> 0.05 verir; dolayısıyla yukarıdaki ANOVA sonucunu yorumlamaya güvenle devam edebiliriz. (Varsayım ihlal edilseydi, `oneway.test(len ~ dose, data = ToothGrowth, var.equal = FALSE)` ile Welch ANOVA'ya başvurulurdu.)
+**Yorum:** Bu iki test **p \< 0.05** veriyor — yani hem normallik hem de varyans homojenliği varsayımı **ihlal ediliyor**. Bu sürpriz değil: `table()` çıktısına bakarsanız Oceania'da yalnızca 2 ülke (Avustralya, Yeni Zelanda) var, Afrika'da ise 52; grup büyüklükleri ve içindeki değişkenlik çok farklı. Bu, gerçek verinin ders kitabı örnekleri kadar "temiz" olmadığının iyi bir hatırlatıcısıdır.
+
+::: callout-note
+👋 **Peki şimdi ne yapıyoruz?** Varsayım ihlal edildiğinde standart ANOVA'yı olduğu gibi raporlamak yerine, varyansların eşit olmasını **varsaymayan** Welch ANOVA'ya geçiyoruz:
+
+```{r}
+oneway.test(lifeExp ~ continent, data = gapminder_2007, var.equal = FALSE)
+```
+:::
 
 ### **Adım 4: p-Değerinin Alınması ve Yorumlanması**
 
--   **F değeri:** 67.42. Bu değer, tedavi grupları (doz seviyeleri) ile artıklardan (hatalardan) kaynaklanan varyans oranını ölçer. Yüksek bir F değeri, modelin güçlü olduğunu gösterir.
+-   **Standart ANOVA:** F $\approx 59.7$, p $\approx 4.2 \times 10^{-29}$.
 
--   **p-değeri:** $9.53 \times 10^{-16}$. Bu çok küçük değer, null hipotezin doğru olduğu varsayımı altında, gözlemlenen fark kadar veya daha büyük bir farkın oluşma olasılığının neredeyse sıfır olduğunu gösterir.
+-   **Welch ANOVA (varsayım ihlaline karşı düzeltilmiş):** F $\approx 81.5$, p $\approx 4.2 \times 10^{-11}$.
 
-**Yorum:** Çok düşük p-değeri, null hipotezi reddetmek için güçlü bir istatistiksel kanıt sağlar. Farklı doz seviyeleri, diş büyümesi üzerinde istatistiksel olarak anlamlı farklı etkilere sahiptir.
+**Yorum:** İki yöntem de aynı yöne işaret ediyor — kıtalar arası yaşam beklentisi farkı son derece anlamlı. Varsayım ihlali burada **sonucu değiştirmiyor**, ama Welch ANOVA'yı raporlamak metodolojik olarak daha savunulabilir bir tercihtir; varsayım ihlal edildiğinde standart F testinin p-değerine "körü körüne" güvenmemiş oluyoruz.
 
 ### **Adım 5: p-Değeri ve Alfa (**$\alpha$**) Temelinde Karar Verme**
 
--   $\alpha$ seviyesi: 0.05 (genel olarak kullanılan anlamlılık seviyesi).
+-   $\alpha$ seviyesi: 0.05.
 
--   **Karar:** p-değeri $9.53 \times 10^{-16}$, 0.05'ten çok daha küçük olduğu için null hipotez reddedilir.
+-   **Karar:** Her iki testte de p-değeri $\alpha$'dan çok daha küçük olduğu için null hipotez reddedilir.
 
-**Sonuç:** Farklı C vitamini dozlarının kobayların diş büyümesi üzerinde farklı etkileri olduğu istatistiksel olarak anlamlıdır.
+**Sonuç:** Kıtalar arasında yaşam beklentisi açısından istatistiksel olarak anlamlı bir fark vardır.
 
-### **Adım 6: Sonuçları Raporlama**
+### **Adım 6: Etki Büyüklüğünü Hesaplamak**
 
--   **Analizin Özeti:** ANOVA testi, farklı dozlarda uygulanan C vitamininin diş büyümesi üzerinde anlamlı farklılıklar yarattığını göstermiştir. Varsayım denetimleri (normallik ve varyans homojenliği) bu sonucu desteklemektedir.
+ANOVA için en sık kullanılan etki büyüklüğü ölçütü **eta-kare** ($\eta^2$) — bağımlı değişkendeki toplam varyansın grup üyeliğiyle açıklanan oranıdır:
 
--   **Detaylı Bulgular:**
+```{r}
+# eta-kare = Gruplar-arasi kareler toplami / Toplam kareler toplami
+# (anova_tablosu[1, ] her zaman gruplar-arasi satirdir, [2, ] artiklardir)
+anova_tablosu <- summary(anova_result)[[1]]
+eta_kare <- anova_tablosu[1, "Sum Sq"] / sum(anova_tablosu[, "Sum Sq"])
+eta_kare
+```
 
-    -   Doz seviyeleri arttıkça diş uzunluğunda anlamlı değişiklikler gözlemlenmiştir.
+$\eta^2 \approx 0.64$ — çok büyük bir etki: yaşam beklentisindeki varyansın yaklaşık **%64'ü** tek başına kıta değişkeniyle açıklanıyor.
 
-    -   Bu sonuçlar, doz-yanıt ilişkisini desteklemektedir.
+### **Adım 7: Sonuçları Raporlama**
 
-    -   Bu sonuçlar, C vitamini dozunun kobayların diş büyümesi üzerinde önemli bir etkisi olduğunu göstermektedir.
+-   **Analizin Özeti:** ANOVA testi, kıtalar arasında yaşam beklentisi açısından çok güçlü ve büyük ($\eta^2 \approx 0.64$) bir farklılık olduğunu göstermiştir. Standart ANOVA'nın varsayımları (normallik, varyans homojenliği) ihlal edildiği için sonuç Welch ANOVA ile de doğrulanmıştır.
+
+-   **Detaylı Bulgular:** Kıtaların ortalama yaşam beklentileri sırasıyla — Afrika $\approx 54.8$, Asya $\approx 70.7$, Amerika $\approx 73.6$, Avrupa $\approx 77.6$, Okyanusya $\approx 80.7$ yıldır (Okyanusya'daki n=2 nedeniyle bu son değer temkinli yorumlanmalıdır).
 
 **Grafiksel Temsil:** Gruplar arasındaki farkları görsel olarak göstermek için kutu grafikleri gibi grafiksel özetlerin eklenmesi faydalıdır:
 
 ```{r}
-boxplot(len ~ dose, data = ToothGrowth,
-        main = "Tooth Growth by Vitamin C Dose Levels",
-        xlab = "Dose of Vitamin C (mg)",
-        ylab = "Tooth Length",
-        col = c("lightblue", "lightgreen", "pink"))
+boxplot(lifeExp ~ continent, data = gapminder_2007,
+        main = "Kıtaya Göre Yaşam Beklentisi (2007)",
+        xlab = "Kıta", ylab = "Yaşam Beklentisi (yıl)",
+        col = c("lightblue", "lightgreen", "pink", "khaki", "lightgray"))
 ```
+
+**Raporlama (APA formatına yakın bir cümle):** "Tek yönlü ANOVA sonucunda, kıtalar arasında ortalama yaşam beklentisi açısından anlamlı bir fark bulunmuştur, $F(4, 137) = 59.71$, $p < .001$, $\eta^2 = 0.64$. Normallik ve varyans homojenliği varsayımlarının ihlal edilmesi nedeniyle sonuç Welch ANOVA ile doğrulanmıştır, $F_{Welch}(4, 17.58) = 81.51$, $p < .001$."
 
 ------------------------------------------------------------------------
 
@@ -724,8 +809,35 @@ chi_sq_result$expected
 
 -   **Karar:** p-değeri \< 0.05 olduğundan, null hipotez reddedilir.
 
--   **Sonuç:** Cinsiyet, kabul kararlarında önemli bir etkiye sahiptir. Bu, potansiyel eşitsizlikler veya diğer etkenlerin araştırılmasını gerektirebilir.
+-   **Sonuç:** Cinsiyet ile kabul durumu arasında istatistiksel olarak anlamlı bir ilişki vardır.
 
-### **Adım 6: Sonuçların Raporlanması**
+### **Adım 6: Etki Büyüklüğünü Hesaplamak — Neden Bu Adımı Asla Atlamamalısınız**
 
-Bu analiz, cinsiyetin kabul kararlarını etkileyebileceğini gösterir. Bu sonuçlar, eğitim politikalarının adil ve eşitlikçi olmasını sağlamak için yeniden değerlendirme gerekliliğini vurgular.
+Toplam gözlem sayısı ($n = 4526$) çok büyük olduğu için, çok küçük bir ilişki bile "istatistiksel olarak anlamlı" çıkabilir. Cramér's V bize bu ilişkinin **büyüklüğünü** söyler:
+
+```{r}
+n <- sum(admission_table)
+nr <- nrow(admission_table); nc <- ncol(admission_table)
+cramers_v <- sqrt(as.numeric(chi_sq_result$statistic) / (n * min(nr - 1, nc - 1)))
+cramers_v
+```
+
+$V \approx 0.14$ — yukarıdaki tabloya göre bu **küçük-orta düzeyde bir ilişkidir**, "güçlü" değil. Burada tam da Örnek 2'nin başında verdiğimiz uyarıyla karşılaşıyoruz: **p-değeri son derece küçük ($p < 2.2\times10^{-16}$) olsa da, etki büyüklüğü mütevazı.** Yalnızca p-değerine bakıp "cinsiyetin kabul üzerinde güçlü bir etkisi var" demek, bu veriyi olduğundan daha dramatik göstermek olur.
+
+**Raporlama (APA formatına yakın bir cümle):** "Ki-kare bağımsızlık testi sonucunda, cinsiyet ile kabul durumu arasında istatistiksel olarak anlamlı ancak büyüklük olarak küçük-orta düzeyde bir ilişki bulunmuştur, $\chi^2(1, N = 4526) = 91.61$, $p < .001$, $V = 0.14$."
+
+### **Adım 7: Sonuçların Raporlanması**
+
+Bu analiz, cinsiyet ile kabul durumu arasında istatistiksel olarak anlamlı fakat mütevazı büyüklükte bir ilişki olduğunu göstermektedir. Ancak bu ilişkiyi "cinsiyet ayrımcılığı vardır" şeklinde yorumlamadan önce aşağıdaki uyarıyı mutlaka okuyun.
+
+::: callout-warning
+⚠️ **Dikkat: Simpson Paradoksu ve Berkeley Kabul Davası**
+
+Kullandığımız `UCBAdmissions` veri seti, istatistik tarihinin en ünlü örneklerinden biridir. 1973'te Berkeley Üniversitesi, kadın adaylara ayrımcılık yaptığı gerekçesiyle dava edilmişti — çünkü tam olarak yukarıda yaptığımız testte olduğu gibi, **toplam veriye bakıldığında** kadınların kabul oranı erkeklerden belirgin biçimde düşüktü.
+
+Ancak araştırmacılar veriyi **bölüm bazında** (veri setindeki üçüncü boyut: Dept A, B, C, D, E, F) ayrı ayrı incelediğinde şaşırtıcı bir şey buldu: **hemen hemen hiçbir bölümde kadınlar aleyhine bir önyargı yoktu — bazı bölümlerde tam tersine kadınların lehine küçük bir fark bile vardı.** Görünürdeki toplam eşitsizliğin asıl kaynağı, kadın adayların kabul oranı zaten düşük olan (rekabetçi) bölümlere, erkek adayların ise kabul oranı yüksek (nispeten kolay) bölümlere yoğunlaşmasıydı.
+
+Bu olguya **Simpson Paradoksu** denir: iki değişken arasındaki bir ilişki, üçüncü bir **karıştırıcı değişken** (burada: başvurulan bölüm) hesaba katıldığında zayıflayabilir, kaybolabilir, hatta yön değiştirebilir.
+
+**Soru:** İki değişkenli (Cinsiyet × Kabul) bir ki-kare testi bize "ilişki var" diyor. Peki üçüncü bir değişkeni (Bölüm) modele eklediğimizde bu ilişki nasıl değişir? Ki-kare testi bunu **tek başına cevaplayamaz** — çünkü aynı anda yalnızca iki kategorik değişkeni karşılaştırabilir. Birden fazla değişkenin bir sonucu **birlikte** nasıl etkilediğini test etmek için Modül 11-12'de göreceğimiz **çoklu regresyon** gerekir.
+:::

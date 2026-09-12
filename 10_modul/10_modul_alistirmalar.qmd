@@ -156,3 +156,35 @@ a\) Test varsayımı büyük olasılıkla ihlal edilmiştir, sonuç temkinli yor
 b) Test kesinlikle geçersizdir ve hiçbir şekilde kullanılamaz\
 c) Bu durum testin gücünü artırır\
 d) Beklenen frekans, gözlenen frekanstan büyük olmalıdır; bu bir hesaplama hatasıdır
+
+------------------------------------------------------------------------
+
+## Bölüm E — Etki Büyüklüğü ve Yorumlama Tuzakları
+
+**17.** $n = 8000$ kişilik bir ankette bir t-testi $p < 0.001$ vermiş, ancak Cohen's d $= 0.05$ bulunmuştur. Bu durumda en isabetli yorum hangisidir?
+
+a\) Fark hem istatistiksel hem pratik açıdan çok büyüktür\
+b) Fark istatistiksel olarak anlamlıdır, ancak etki büyüklüğü ihmal edilebilir düzeydedir — büyük örneklem küçük farkları bile "anlamlı" gösterebilir\
+c) $p<0.001$ olduğu için etki büyüklüğüne bakmaya gerek yoktur\
+d) Cohen's d küçük olduğu için test hatalıdır
+
+**18.** Bir ki-kare testinde $\chi^2$ çok yüksek çıkmış ve $p < .001$ bulunmuştur, ancak Cramér's $V = 0.08$'dir. Bu neyi gösterir?
+
+a\) İki değişken arasında güçlü bir ilişki vardır\
+b) İlişki istatistiksel olarak anlamlıdır ama pratikte çok zayıftır\
+c) Test yanlış uygulanmıştır\
+d) $\chi^2$ ile $V$ çelişemeyeceği için biri hesaplama hatasıdır
+
+**19.** Berkeley kabul davasında (`UCBAdmissions`), toplam veride kadınların kabul oranı erkeklerden düşükken, bölüm bazında ayrıştırıldığında bu fark büyük ölçüde ortadan kalkmıştır. Bu olguyu en iyi hangi kavram açıklar?
+
+a\) Tip I Hatası\
+b) P-hacking\
+c) Simpson Paradoksu — bir karıştırıcı değişkenin (bölüm) toplam ilişkiyi değiştirmesi\
+d) Örnekleme hatası
+
+**20.** Bir araştırmacı, elindeki 25 değişkeni birbiriyle tek tek test edip yalnızca $p<0.05$ çıkan ikisini makalesinde raporluyor. Bu uygulama en çok hangi kavramla ilişkilidir?
+
+a\) Etki büyüklüğü hesaplama\
+b) Varsayım denetimi\
+c) P-hacking / seçici raporlama\
+d) Welch düzeltmesi

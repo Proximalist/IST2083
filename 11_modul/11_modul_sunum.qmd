@@ -1,0 +1,220 @@
+---
+title: "Modül 11: Regresyon Analizi"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    toc: true
+    toc-depth: 2
+    incremental: true
+    code-overflow: scroll
+    code-line-numbers: false
+    transition: fade
+    math: mathjax
+editor: visual
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    fig.width: 8
+    fig.height: 4.2
+    dpi: 110
+---
+
+## Öğrenme Hedefleri
+
+Bu oturumun sonunda:
+
+-   **Korelasyon katsayısını** ($r$) hesaplayıp yorumlayabileceksiniz
+-   Korelasyonun **nedensellik olmadığını** ve karıştırıcı değişken riskini açıklayabileceksiniz
+-   **Basit doğrusal regresyon** modelini kurup `lm()` ile tahmin edebileceksiniz
+-   `summary()` çıktısındaki katsayı, $R^2$, p-değeri gibi unsurları yorumlayabileceksiniz
+-   Bir tahminin **residüelini** hesaplayıp yorumlayabileceksiniz
+-   $R^2$'nin bağlama göre neden çok farklı değerler alabileceğini açıklayabileceksiniz
+
+------------------------------------------------------------------------
+
+## Fonksiyon Olarak Model
+
+Bir **fonksiyon**, her girdiye karşılık tek bir çıktı verir: $f(x) = x^2$.
+
+-   İstatistiksel model: değişkenler arasındaki ilişkiyi bir fonksiyonla yaklaşık olarak tanımlama girişimi.
+-   Regresyon, bu modellemenin en basit ve en yaygın biçimidir.
+
+------------------------------------------------------------------------
+
+## Regresyon Türleri
+
+-   **Basit Doğrusal Regresyon:** $Y = \beta_0 + \beta_1 X_1 + \epsilon$ — bu modülün konusu
+-   **Çoklu Regresyon:** $Y = \beta_0 + \beta_1 X_1 + \cdots + \beta_n X_n + \epsilon$ — Modül 12
+-   **Lojistik Regresyon:** kategorik (ikili) bağımlı değişken — ileride
+
+------------------------------------------------------------------------
+
+## Korelasyon ($r$)
+
+İki sürekli değişken arasındaki **doğrusal ilişkinin gücü ve yönü**.
+
+| $|r|$ | Yorum |
+|----|----|
+| $\approx 0.1$ | Zayıf |
+| $\approx 0.3$ | Orta |
+| $\approx 0.5$+ | Güçlü |
+
+```{r}
+#| eval: false
+cor(x, y)
+cor.test(x, y)   # H0: rho = 0
+```
+
+------------------------------------------------------------------------
+
+## ⚠️ Anscombe Dörtlüsü
+
+```{r}
+data(anscombe)
+cor(anscombe$x1, anscombe$y1)
+cor(anscombe$x2, anscombe$y2)
+cor(anscombe$x3, anscombe$y3)
+cor(anscombe$x4, anscombe$y4)
+```
+
+Dördü de $r \approx 0.816$, aynı regresyon denklemi — ama dağılım grafikleri **tamamen farklı**.
+
+> **Ders:** Regresyon kurmadan önce her zaman grafiğe bakın.
+
+------------------------------------------------------------------------
+
+## ⚠️ Korelasyon Nedensellik Değildir
+
+Güçlü bir korelasyon üç nedenden kaynaklanabilir:
+
+-   (a) X, Y'yi gerçekten etkiliyor
+-   (b) İlişki ters yönlü (Y, X'i etkiliyor)
+-   (c) Üçüncü bir **karıştırıcı değişken**, her ikisini de etkiliyor
+
+> Modül 10'daki Simpson Paradoksu uyarısının doğal devamı. Örnek 3'te tam bu üçüncü duruma bakacağız.
+
+------------------------------------------------------------------------
+
+## Basit Doğrusal Regresyon
+
+$$Y = \beta_0 + \beta_1 X + \epsilon$$
+
+-   $\beta_0$: kesişim (intercept) — $X=0$ iken beklenen $Y$
+-   $\beta_1$: eğim (slope) — $X$ bir birim arttığında $Y$'deki beklenen değişim
+-   $\epsilon$: hata terimi (modelin açıklayamadığı kısım)
+
+**Residüel:** $e = y_{\text{gözlemlenen}} - y_{\text{tahmin edilen}}$
+
+------------------------------------------------------------------------
+
+## Örnek: Elle Hesaplama
+
+$$\text{Tahmin Edilen GPA} = 2.84 + 0.04 \times \text{Ders Kitabı Harcaması (\$)}$$
+
+```{r}
+predictedgpa <- function(x) 2.84 + 0.04*x/100
+predictedgpa(0)     # Intercept
+predictedgpa(970)   # 970 dolar harcayan öğrenci
+```
+
+Gerçek GPA 3.71, tahmin 2.84 olan bir öğrencinin residüeli: $3.71-2.84=0.87$ (model düşük tahmin etmiş).
+
+------------------------------------------------------------------------
+
+## `lm()` ile Regresyon
+
+```{r}
+#| eval: false
+model <- lm(y ~ x, data = veri)
+summary(model)
+```
+
+`summary()` çıktısında bakılacaklar:
+
+-   **Coefficients:** $\beta_0$, $\beta_1$ tahminleri + p-değerleri
+-   **Multiple R-squared:** modelin açıkladığı varyans oranı
+-   **F-statistic:** modelin genel anlamlılığı
+
+------------------------------------------------------------------------
+
+## Örnek: gapminder — GSYİH ve Yaşam Beklentisi
+
+```{r}
+library(gapminder)
+gapminder_2007 <- subset(gapminder, year == 2007)
+gapminder_2007$gdp_bin <- gapminder_2007$gdpPercap / 1000
+mod_gdp <- lm(lifeExp ~ gdp_bin, data = gapminder_2007)
+summary(mod_gdp)
+```
+
+$R^2 \approx 0.46$: kişi başı GSYİH tek başına yaşam beklentisindeki varyansın **%46**'sını açıklıyor.
+
+------------------------------------------------------------------------
+
+## Residüel: Türkiye Örneği
+
+```{r}
+turkiye <- subset(gapminder_2007, country == "Turkey")
+tahmin <- predict(mod_gdp, newdata = data.frame(gdp_bin = turkiye$gdp_bin))
+c(tahmin = tahmin, gercek = turkiye$lifeExp, residuel = turkiye$lifeExp - tahmin)
+```
+
+Model $\approx 65$ yıl tahmin ediyor, gerçek değer **71.8 yıl** — pozitif residüel: Türkiye, GSYİH'sine göre beklenenden daha iyi bir yaşam beklentisi performansı gösteriyor.
+
+------------------------------------------------------------------------
+
+## ⚠️ Örnek: Öğretmen Maaşı ve SAT Puanı
+
+```{r}
+#| eval: false
+library(mdsr)
+SAT_mod1 <- lm(total ~ Salary, data = SAT_2010)
+summary(SAT_mod1)
+```
+
+Sonuç: maaş arttıkça SAT puanı **düşüyor** ($R^2 \approx 0.11$, zayıf).
+
+**Gerçek açıklama:** katılım oranı! Bazı eyaletlerde sınava yalnızca seçkin bir grup girer (puan yüksek çıkar) — karıştırıcı değişken.
+
+------------------------------------------------------------------------
+
+## Örnek: Sigorta Talepleri ve Ödemeler
+
+```{r}
+#| eval: false
+reg <- lm(Payment ~ Claims, data = motor_insurance)
+summary(reg)
+```
+
+$R^2 \approx 0.99$ — neredeyse mekanik/deterministik bir ilişki.
+
+------------------------------------------------------------------------
+
+## $R^2$ Bağlama Göre Değişir
+
+| Örnek | İlişki | $R^2$ |
+|----|----|----|
+| GSYİH $\to$ Yaşam Beklentisi | Orta-güçlü | $\approx 0.46$ |
+| Maaş $\to$ SAT Puanı | Zayıf, karıştırıcı değişkenli | $\approx 0.11$ |
+| Talep $\to$ Ödeme (sigorta) | Neredeyse deterministik | $\approx 0.99$ |
+
+> İnsan davranışında düşük $R^2$ **normaldir**. Tek eşik yoktur.
+
+------------------------------------------------------------------------
+
+## Özet
+
+-   Korelasyon, doğrusal ilişkinin **gücünü ve yönünü** özetler — nedensellik değildir
+-   Regresyon kurmadan önce **her zaman** grafiğe bakın (Anscombe!)
+-   $\beta_1$'in yorumu: $X$ bir birim artınca $Y$'deki beklenen değişim
+-   $R^2$, regresyonun "etki büyüklüğüdür" — p-değeriyle birlikte raporlayın
+-   Karıştırıcı değişkenlere dikkat: güçlü bir ilişki her zaman nedensel değildir
