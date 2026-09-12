@@ -55,6 +55,7 @@ jobs:
             any::here
             any::ggplot2
             any::dplyr
+            any::tidyr
             any::readr
             any::gapminder
             any::mosaicData
