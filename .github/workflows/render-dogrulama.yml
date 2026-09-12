@@ -57,12 +57,12 @@ jobs:
             any::dplyr
             any::tidyr
             any::tidyverse
+            any::readr
             any::gapminder
             any::mosaicData
             any::scales
             any::ggrepel
             any::patchwork
-            any::readr
             any::readxl
             any::writexl
             any::gtsummary
