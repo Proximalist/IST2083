@@ -55,11 +55,14 @@ jobs:
             any::here
             any::ggplot2
             any::dplyr
+            any::tidyr
+            any::tidyverse
             any::gapminder
             any::mosaicData
             any::scales
             any::ggrepel
             any::patchwork
+            any::readr
             any::readxl
             any::writexl
             any::gtsummary
