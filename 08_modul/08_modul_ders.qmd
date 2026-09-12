@@ -137,7 +137,7 @@ ggplot(data.frame(k = 0:n_deneme, p = olasiliklar_binom), aes(k, p)) +
 
 ```{r}
 #| label: fig-poisson
-#| fig-cap: "Poisson dağılımı ($\mu=3$)"
+#| fig-cap: 'Poisson dağılımı ($\mu=3$)'
 mu_poisson <- 3
 k_poisson <- 0:14
 olasiliklar_poisson <- dpois(k_poisson, lambda = mu_poisson)
@@ -185,7 +185,7 @@ regresyonu**) denir.
 
 ```{r}
 #| label: fig-normal
-#| fig-cap: "Standart normal dağılım ($\mu=0$, $\sigma=1$)"
+#| fig-cap: 'Standart normal dağılım ($\mu=0$, $\sigma=1$)'
 ggplot(data.frame(x = c(-4, 4)), aes(x)) +
   stat_function(fun = dnorm, color = "#2E4E8E", linewidth = 1) +
   labs(x = "Değer", y = "Yoğunluk") +
@@ -224,7 +224,7 @@ normalliğine dayanır.
 
 ```{r}
 #| label: fig-ustel
-#| fig-cap: "Üstel dağılım ($1/\lambda=1$)"
+#| fig-cap: 'Üstel dağılım ($1/\lambda=1$)'
 ggplot(data.frame(x = c(0, 4)), aes(x)) +
   stat_function(fun = dexp, args = list(rate = 1), color = "#C97A2B", linewidth = 1) +
   labs(x = "Süre", y = "Yoğunluk") +
@@ -342,7 +342,7 @@ dbinom(x = 5, size = 10, prob = 0.5)
 
 ```{r}
 #| label: fig-yogunluk
-#| fig-cap: "Standart normal dağılımda $P(-1 \le X \le 1)$"
+#| fig-cap: 'Standart normal dağılımda $P(-1 \le X \le 1)$'
 ggplot(data.frame(x = c(-4, 4)), aes(x)) +
   stat_function(fun = dnorm, geom = "line", color = "#1F4EBF", linewidth = 1) +
   stat_function(fun = dnorm, xlim = c(-1, 1), geom = "area",
@@ -378,7 +378,7 @@ pbinom(3, size = 10, prob = 0.5)
 
 ```{r}
 #| label: fig-kumulatif
-#| fig-cap: "Kümülatif olasılık: $P(X \le 1)$"
+#| fig-cap: 'Kümülatif olasılık: $P(X \le 1)$'
 ggplot(data.frame(x = c(-4, 4)), aes(x)) +
   stat_function(fun = dnorm, geom = "line", color = "#1F4EBF", linewidth = 1) +
   stat_function(fun = dnorm, xlim = c(-4, 1), geom = "area",
