@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="tr"><head>
-<script src="10_modul_sunum_files/libs/clipboard/clipboard.min.js"></script>
-<script src="10_modul_sunum_files/libs/quarto-html/tabby.min.js"></script>
-<script src="10_modul_sunum_files/libs/quarto-html/popper.min.js"></script>
-<script src="10_modul_sunum_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="10_modul_sunum_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="10_modul_sunum_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="10_modul_sunum_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="10_modul_sunum_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="11_modul_sunum_files/libs/clipboard/clipboard.min.js"></script>
+<script src="11_modul_sunum_files/libs/quarto-html/tabby.min.js"></script>
+<script src="11_modul_sunum_files/libs/quarto-html/popper.min.js"></script>
+<script src="11_modul_sunum_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="11_modul_sunum_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="11_modul_sunum_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="11_modul_sunum_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="11_modul_sunum_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.57">
 
   <meta name="author" content="Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik">
   <meta name="dcterms.date" content="2026-09-12">
-  <title>Modül 10: Hipotez Testi</title>
+  <title>Modül 11: Regresyon Analizi</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="10_modul_sunum_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="10_modul_sunum_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="11_modul_sunum_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="11_modul_sunum_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -96,11 +96,11 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="10_modul_sunum_files/libs/revealjs/dist/theme/quarto.css">
-  <link href="10_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="10_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="10_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="10_modul_sunum_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="11_modul_sunum_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="11_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="11_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="11_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="11_modul_sunum_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -392,7 +392,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Modül 10: Hipotez Testi</h1>
+  <h1 class="title">Modül 11: Regresyon Analizi</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -408,26 +408,19 @@ Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik
 <h2 id="toc-title">Içindekiler</h2>
 <ul>
 <li class="fragment"><a href="#/öğrenme-hedefleri" id="/toc-öğrenme-hedefleri">Öğrenme Hedefleri</a></li>
-<li class="fragment"><a href="#/hipotez-testi-nedir" id="/toc-hipotez-testi-nedir">Hipotez Testi Nedir?</a></li>
-<li class="fragment"><a href="#/dört-temel-kavram" id="/toc-dört-temel-kavram">Dört Temel Kavram</a></li>
-<li class="fragment"><a href="#/null-ve-alternatif-hipotez" id="/toc-null-ve-alternatif-hipotez">Null ve Alternatif Hipotez</a></li>
-<li class="fragment"><a href="#/tip-i-ve-tip-ii-hataları" id="/toc-tip-i-ve-tip-ii-hataları">Tip I ve Tip II Hataları</a></li>
-<li class="fragment"><a href="#/p-hacking-ve-replikasyon-krizi" id="/toc-p-hacking-ve-replikasyon-krizi">⚠️ P-Hacking ve Replikasyon Krizi</a></li>
-<li class="fragment"><a href="#/p-değeri-ve-alpha" id="/toc-p-değeri-ve-alpha">p-Değeri ve <span class="math inline">\(\alpha\)</span></a></li>
-<li class="fragment"><a href="#/etki-büyüklüğü-p-değeri-tek-başına-yetmez" id="/toc-etki-büyüklüğü-p-değeri-tek-başına-yetmez">Etki Büyüklüğü: P-Değeri Tek Başına Yetmez</a></li>
-<li class="fragment"><a href="#/t.test-fonksiyonu" id="/toc-t.test-fonksiyonu"><code>t.test()</code> Fonksiyonu</a></li>
-<li class="fragment"><a href="#/örnek-bir-örneklem-t-testi" id="/toc-örnek-bir-örneklem-t-testi">Örnek: Bir Örneklem t-Testi</a></li>
-<li class="fragment"><a href="#/örnek-anlamsız-çıkan-bir-sonuç" id="/toc-örnek-anlamsız-çıkan-bir-sonuç">Örnek: Anlamsız Çıkan Bir Sonuç</a></li>
-<li class="fragment"><a href="#/örnek-eşleştirilmiş-t-testi" id="/toc-örnek-eşleştirilmiş-t-testi">Örnek: Eşleştirilmiş t-Testi</a></li>
-<li class="fragment"><a href="#/örnek-iki-örneklem-t-testi" id="/toc-örnek-iki-örneklem-t-testi">Örnek: İki Örneklem t-Testi</a></li>
-<li class="fragment"><a href="#/örnek-welch-t-testi-sınırda-bir-karar" id="/toc-örnek-welch-t-testi-sınırda-bir-karar">Örnek: Welch t-Testi — Sınırda Bir Karar</a></li>
-<li class="fragment"><a href="#/varsayımların-denetlenmesi" id="/toc-varsayımların-denetlenmesi">Varsayımların Denetlenmesi</a></li>
-<li class="fragment"><a href="#/anova-gapminder-ile-kıtalara-göre-yaşam-beklentisi" id="/toc-anova-gapminder-ile-kıtalara-göre-yaşam-beklentisi">ANOVA: gapminder ile Kıtalara Göre Yaşam Beklentisi</a></li>
-<li class="fragment"><a href="#/anova-varsayım-denetimi-bu-kez-gerçek-veriyle" id="/toc-anova-varsayım-denetimi-bu-kez-gerçek-veriyle">ANOVA: Varsayım Denetimi — Bu Kez Gerçek Veriyle</a></li>
-<li class="fragment"><a href="#/anova-görselleştirme" id="/toc-anova-görselleştirme">ANOVA: Görselleştirme</a></li>
-<li class="fragment"><a href="#/ki-kare-bağımsızlık-testi" id="/toc-ki-kare-bağımsızlık-testi">Ki-Kare Bağımsızlık Testi</a></li>
-<li class="fragment"><a href="#/simpson-paradoksu-berkeley-kabul-davası" id="/toc-simpson-paradoksu-berkeley-kabul-davası">⚠️ Simpson Paradoksu: Berkeley Kabul Davası</a></li>
-<li class="fragment"><a href="#/hangi-test-ne-zaman" id="/toc-hangi-test-ne-zaman">Hangi Test, Ne Zaman?</a></li>
+<li class="fragment"><a href="#/fonksiyon-olarak-model" id="/toc-fonksiyon-olarak-model">Fonksiyon Olarak Model</a></li>
+<li class="fragment"><a href="#/regresyon-türleri" id="/toc-regresyon-türleri">Regresyon Türleri</a></li>
+<li class="fragment"><a href="#/korelasyon-r" id="/toc-korelasyon-r">Korelasyon (<span class="math inline">\(r\)</span>)</a></li>
+<li class="fragment"><a href="#/anscombe-dörtlüsü" id="/toc-anscombe-dörtlüsü">⚠️ Anscombe Dörtlüsü</a></li>
+<li class="fragment"><a href="#/korelasyon-nedensellik-değildir" id="/toc-korelasyon-nedensellik-değildir">⚠️ Korelasyon Nedensellik Değildir</a></li>
+<li class="fragment"><a href="#/basit-doğrusal-regresyon" id="/toc-basit-doğrusal-regresyon">Basit Doğrusal Regresyon</a></li>
+<li class="fragment"><a href="#/örnek-elle-hesaplama" id="/toc-örnek-elle-hesaplama">Örnek: Elle Hesaplama</a></li>
+<li class="fragment"><a href="#/lm-ile-regresyon" id="/toc-lm-ile-regresyon"><code>lm()</code> ile Regresyon</a></li>
+<li class="fragment"><a href="#/örnek-gapminder-gsyih-ve-yaşam-beklentisi" id="/toc-örnek-gapminder-gsyih-ve-yaşam-beklentisi">Örnek: gapminder — GSYİH ve Yaşam Beklentisi</a></li>
+<li class="fragment"><a href="#/residüel-türkiye-örneği" id="/toc-residüel-türkiye-örneği">Residüel: Türkiye Örneği</a></li>
+<li class="fragment"><a href="#/örnek-öğretmen-maaşı-ve-sat-puanı" id="/toc-örnek-öğretmen-maaşı-ve-sat-puanı">⚠️ Örnek: Öğretmen Maaşı ve SAT Puanı</a></li>
+<li class="fragment"><a href="#/örnek-sigorta-talepleri-ve-ödemeler" id="/toc-örnek-sigorta-talepleri-ve-ödemeler">Örnek: Sigorta Talepleri ve Ödemeler</a></li>
+<li class="fragment"><a href="#/r2-bağlama-göre-değişir" id="/toc-r2-bağlama-göre-değişir"><span class="math inline">\(R^2\)</span> Bağlama Göre Değişir</a></li>
 <li class="fragment"><a href="#/özet" id="/toc-özet">Özet</a></li>
 </ul>
 </nav>
@@ -436,288 +429,207 @@ Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik
 <h2>Öğrenme Hedefleri</h2>
 <p>Bu oturumun sonunda:</p>
 <ul>
-<li class="fragment"><strong>Null</strong> ve <strong>alternatif hipotez</strong> kurabileceksiniz</li>
-<li class="fragment"><strong>p-değeri</strong> ile <strong>anlamlılık düzeyi (<span class="math inline">\(\alpha\)</span>)</strong> arasındaki ilişkiyi yorumlayabileceksiniz</li>
-<li class="fragment"><strong>Tip I/II hataları</strong> ve <strong>p-hacking</strong> riskini ayırt edebileceksiniz</li>
-<li class="fragment">Doğru <strong>t-testi</strong> türünü seçip R’da çalıştırabileceksiniz</li>
-<li class="fragment"><strong>ANOVA</strong> ve <strong>ki-kare</strong> testlerini yorumlayabileceksiniz</li>
-<li class="fragment">Bir testin <strong>varsayımlarını</strong> denetleyebileceksiniz</li>
-<li class="fragment">Bir sonucun p-değeri <strong>yanında</strong> <strong>etki büyüklüğünü</strong> (Cohen’s d, Cramér’s V) raporlayabileceksiniz</li>
+<li class="fragment"><strong>Korelasyon katsayısını</strong> (<span class="math inline">\(r\)</span>) hesaplayıp yorumlayabileceksiniz</li>
+<li class="fragment">Korelasyonun <strong>nedensellik olmadığını</strong> ve karıştırıcı değişken riskini açıklayabileceksiniz</li>
+<li class="fragment"><strong>Basit doğrusal regresyon</strong> modelini kurup <code>lm()</code> ile tahmin edebileceksiniz</li>
+<li class="fragment"><code>summary()</code> çıktısındaki katsayı, <span class="math inline">\(R^2\)</span>, p-değeri gibi unsurları yorumlayabileceksiniz</li>
+<li class="fragment">Bir tahminin <strong>residüelini</strong> hesaplayıp yorumlayabileceksiniz</li>
+<li class="fragment"><span class="math inline">\(R^2\)</span>’nin bağlama göre neden çok farklı değerler alabileceğini açıklayabileceksiniz</li>
 </ul>
 </section>
-<section id="hipotez-testi-nedir" class="slide level2">
-<h2>Hipotez Testi Nedir?</h2>
-<p>Örneklemden elde edilen verilerle, <strong>popülasyon</strong> hakkında bir iddiayı (hipotezi) sınama süreci.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/hipotez_testi1.png" class="quarto-figure quarto-figure-center" height="450"></p>
-</figure>
-</div>
-</section>
-<section id="dört-temel-kavram" class="slide level2">
-<h2>Dört Temel Kavram</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/tahmin1.png" class="quarto-figure quarto-figure-center" height="450"></p>
-</figure>
-</div>
-</section>
-<section id="null-ve-alternatif-hipotez" class="slide level2">
-<h2>Null ve Alternatif Hipotez</h2>
+<section id="fonksiyon-olarak-model" class="slide level2">
+<h2>Fonksiyon Olarak Model</h2>
+<p>Bir <strong>fonksiyon</strong>, her girdiye karşılık tek bir çıktı verir: <span class="math inline">\(f(x) = x^2\)</span>.</p>
 <ul>
-<li class="fragment"><strong>Null Hipotez (</strong><span class="math inline">\(H_0\)</span>): “Fark yok / etki yok” iddiası
-<ul>
-<li class="fragment">Örnek: <span class="math inline">\(H_0: \mu_1 = \mu_2\)</span></li>
-</ul></li>
-<li class="fragment"><strong>Alternatif Hipotez (</strong><span class="math inline">\(H_a\)</span> ya da <span class="math inline">\(H_1\)</span>): <span class="math inline">\(H_0\)</span>’a karşı öne sürülen iddia
-<ul>
-<li class="fragment">Örnek: <span class="math inline">\(H_1: \mu_1 &gt; \mu_2\)</span></li>
-</ul></li>
+<li class="fragment">İstatistiksel model: değişkenler arasındaki ilişkiyi bir fonksiyonla yaklaşık olarak tanımlama girişimi.</li>
+<li class="fragment">Regresyon, bu modellemenin en basit ve en yaygın biçimidir.</li>
 </ul>
-<blockquote>
-<p>Test her zaman <span class="math inline">\(H_0\)</span>’ı <strong>reddetmeye çalışarak</strong> ilerler; <span class="math inline">\(H_0\)</span>’ı hiçbir zaman “doğruladık” demeyiz.</p>
-</blockquote>
 </section>
-<section id="tip-i-ve-tip-ii-hataları" class="slide level2">
-<h2>Tip I ve Tip II Hataları</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Not</strong></p>
-</div>
-<div class="callout-content">
-<p>👋 <strong>Mahkeme Benzetmesi</strong></p>
+<section id="regresyon-türleri" class="slide level2">
+<h2>Regresyon Türleri</h2>
 <ul>
-<li class="fragment"><span class="math inline">\(H_0\)</span>: Sanık masumdur — <span class="math inline">\(H_a\)</span>: Sanık suçludur</li>
-<li class="fragment"><strong>Tip I Hatası:</strong> Masum sanığı suçlu bulmak</li>
-<li class="fragment"><strong>Tip II Hatası:</strong> Suçlu sanığı beraat ettirmek</li>
+<li class="fragment"><strong>Basit Doğrusal Regresyon:</strong> <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \epsilon\)</span> — bu modülün konusu</li>
+<li class="fragment"><strong>Çoklu Regresyon:</strong> <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \cdots + \beta_n X_n + \epsilon\)</span> — Modül 12</li>
+<li class="fragment"><strong>Lojistik Regresyon:</strong> kategorik (ikili) bağımlı değişken — ileride</li>
 </ul>
-</div>
-</div>
-</div>
+</section>
+<section id="korelasyon-r" class="slide level2">
+<h2>Korelasyon (<span class="math inline">\(r\)</span>)</h2>
+<p>İki sürekli değişken arasındaki <strong>doğrusal ilişkinin gücü ve yönü</strong>.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th></th>
-<th><span class="math inline">\(H_0\)</span> Doğru</th>
-<th><span class="math inline">\(H_0\)</span> Yanlış</th>
+<th><span class="math inline">\(|r|\)</span></th>
+<th>Yorum</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">\(H_0\)</span> Reddedilmedi</td>
-<td>Doğru karar</td>
-<td>Tip II Hatası</td>
+<td><span class="math inline">\(\approx 0.1\)</span></td>
+<td>Zayıf</td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(H_0\)</span> Reddedildi</td>
-<td>Tip I Hatası</td>
-<td>Doğru karar</td>
+<td><span class="math inline">\(\approx 0.3\)</span></td>
+<td>Orta</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\approx 0.5\)</span>+</td>
+<td>Güçlü</td>
 </tr>
 </tbody>
 </table>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x, y)</span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(x, y)   <span class="co"># H0: rho = 0</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="p-hacking-ve-replikasyon-krizi" class="slide level2">
-<h2>⚠️ P-Hacking ve Replikasyon Krizi</h2>
-<ul>
-<li class="fragment"><span class="math inline">\(\alpha = 0.05\)</span>, <strong>her bir test için</strong> kabul edilen risktir</li>
-<li class="fragment">20 değişkeni test edersiniz <span class="math inline">\(\Rightarrow\)</span> şans eseri biri <span class="math inline">\(p&lt;0.05\)</span> çıkabilir</li>
-<li class="fragment">“İstediğim p-değerini bulana kadar değişken değiştirme” <span class="math inline">\(\Rightarrow\)</span> <strong>p-hacking</strong></li>
-<li class="fragment">Hipotezler veriye bakmadan <strong>önce</strong> kurulmalı</li>
-</ul>
-</section>
-<section id="p-değeri-ve-alpha" class="slide level2">
-<h2>p-Değeri ve <span class="math inline">\(\alpha\)</span></h2>
-<p><strong>p-değeri:</strong> <span class="math inline">\(H_0\)</span> doğruyken, gözlemlenen kadar (veya daha uç) bir sonucun gözlenme olasılığı.</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>p-Değeri</th>
-<th>Karar</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(p &lt; 0.01\)</span></td>
-<td><span class="math inline">\(H_0\)</span> çok güçlü şekilde reddedilir</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(0.01 \le p &lt; 0.05\)</span></td>
-<td><span class="math inline">\(H_0\)</span> reddedilir</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(0.05 \le p &lt; 0.10\)</span></td>
-<td>Zayıf/marjinal kanıt</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(p \ge 0.10\)</span></td>
-<td><span class="math inline">\(H_0\)</span> reddedilmez</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Kural:</strong> <span class="math inline">\(p \le \alpha \Rightarrow H_0\)</span> reddedilir.</p>
-</section>
-<section id="etki-büyüklüğü-p-değeri-tek-başına-yetmez" class="slide level2">
-<h2>Etki Büyüklüğü: P-Değeri Tek Başına Yetmez</h2>
-<p>Büyük örneklemlerde, önemsiz bir fark bile <span class="math inline">\(p&lt;0.05\)</span> çıkabilir.</p>
-<ul>
-<li class="fragment"><strong>Cohen’s d</strong> (t-testleri): <span class="math inline">\(d = (\bar{x}_1-\bar{x}_2)/s_{pooled}\)</span>
-<ul>
-<li class="fragment"><span class="math inline">\(0.2\)</span> küçük · <span class="math inline">\(0.5\)</span> orta · <span class="math inline">\(0.8\)</span>+ büyük</li>
-</ul></li>
-<li class="fragment"><strong>Cramér’s V</strong> (ki-kare): <span class="math inline">\(V=\sqrt{\chi^2 / (n \cdot \min(r{-}1,c{-}1))}\)</span>
-<ul>
-<li class="fragment"><span class="math inline">\(0.1\)</span> küçük · <span class="math inline">\(0.3\)</span> orta · <span class="math inline">\(0.5\)</span>+ güçlü</li>
-</ul></li>
-</ul>
+<section id="anscombe-dörtlüsü" class="slide level2">
+<h2>⚠️ Anscombe Dörtlüsü</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(anscombe)</span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(anscombe<span class="sc">$</span>x1, anscombe<span class="sc">$</span>y1)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8164205</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(anscombe<span class="sc">$</span>x2, anscombe<span class="sc">$</span>y2)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8162365</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(anscombe<span class="sc">$</span>x3, anscombe<span class="sc">$</span>y3)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8162867</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(anscombe<span class="sc">$</span>x4, anscombe<span class="sc">$</span>y4)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8165214</code></pre>
+</div>
+</div>
+<p>Dördü de <span class="math inline">\(r \approx 0.816\)</span>, aynı regresyon denklemi — ama dağılım grafikleri <strong>tamamen farklı</strong>.</p>
 <blockquote>
-<p>Sonuç raporlanırken p-değeri <strong>ve</strong> etki büyüklüğü birlikte verilir.</p>
+<p><strong>Ders:</strong> Regresyon kurmadan önce her zaman grafiğe bakın.</p>
 </blockquote>
 </section>
-<section id="t.test-fonksiyonu" class="slide level2">
-<h2><code>t.test()</code> Fonksiyonu</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
-<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">"two.sided"</span>, <span class="st">"less"</span>, <span class="st">"greater"</span>),</span>
-<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu =</span> <span class="dv">0</span>, <span class="at">paired =</span> <span class="cn">FALSE</span>, <span class="at">var.equal =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="korelasyon-nedensellik-değildir" class="slide level2">
+<h2>⚠️ Korelasyon Nedensellik Değildir</h2>
+<p>Güçlü bir korelasyon üç nedenden kaynaklanabilir:</p>
 <ul>
-<li class="fragment"><code>mu</code>: karşılaştırılacak referans değeri</li>
-<li class="fragment"><code>paired</code>: eşleştirilmiş örneklem mi?</li>
-<li class="fragment"><code>var.equal</code>: grup varyansları eşit mi varsayılsın? (varsayılan: <strong>FALSE</strong> = Welch)</li>
+<li class="fragment"><ol type="a">
+<li class="fragment">X, Y’yi gerçekten etkiliyor</li>
+</ol></li>
+<li class="fragment"><ol start="2" type="a">
+<li class="fragment">İlişki ters yönlü (Y, X’i etkiliyor)</li>
+</ol></li>
+<li class="fragment"><ol start="3" type="a">
+<li class="fragment">Üçüncü bir <strong>karıştırıcı değişken</strong>, her ikisini de etkiliyor</li>
+</ol></li>
+</ul>
+<blockquote>
+<p>Modül 10’daki Simpson Paradoksu uyarısının doğal devamı. Örnek 3’te tam bu üçüncü duruma bakacağız.</p>
+</blockquote>
+</section>
+<section id="basit-doğrusal-regresyon" class="slide level2">
+<h2>Basit Doğrusal Regresyon</h2>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 X + \epsilon\]</span></p>
+<ul>
+<li class="fragment"><span class="math inline">\(\beta_0\)</span>: kesişim (intercept) — <span class="math inline">\(X=0\)</span> iken beklenen <span class="math inline">\(Y\)</span></li>
+<li class="fragment"><span class="math inline">\(\beta_1\)</span>: eğim (slope) — <span class="math inline">\(X\)</span> bir birim arttığında <span class="math inline">\(Y\)</span>’deki beklenen değişim</li>
+<li class="fragment"><span class="math inline">\(\epsilon\)</span>: hata terimi (modelin açıklayamadığı kısım)</li>
+</ul>
+<p><strong>Residüel:</strong> <span class="math inline">\(e = y_{\text{gözlemlenen}} - y_{\text{tahmin edilen}}\)</span></p>
+</section>
+<section id="örnek-elle-hesaplama" class="slide level2">
+<h2>Örnek: Elle Hesaplama</h2>
+<p><span class="math display">\[\text{Tahmin Edilen GPA} = 2.84 + 0.04 \times \text{Ders Kitabı Harcaması (\$)}\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>predictedgpa <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fl">2.84</span> <span class="sc">+</span> <span class="fl">0.04</span><span class="sc">*</span>x<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">predictedgpa</span>(<span class="dv">0</span>)     <span class="co"># Intercept</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.84</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">predictedgpa</span>(<span class="dv">970</span>)   <span class="co"># 970 dolar harcayan öğrenci</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.228</code></pre>
+</div>
+</div>
+<p>Gerçek GPA 3.71, tahmin 2.84 olan bir öğrencinin residüeli: <span class="math inline">\(3.71-2.84=0.87\)</span> (model düşük tahmin etmiş).</p>
+</section>
+<section id="lm-ile-regresyon" class="slide level2">
+<h2><code>lm()</code> ile Regresyon</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> veri)</span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>summary()</code> çıktısında bakılacaklar:</p>
+<ul>
+<li class="fragment"><strong>Coefficients:</strong> <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span> tahminleri + p-değerleri</li>
+<li class="fragment"><strong>Multiple R-squared:</strong> modelin açıkladığı varyans oranı</li>
+<li class="fragment"><strong>F-statistic:</strong> modelin genel anlamlılığı</li>
 </ul>
 </section>
-<section id="örnek-bir-örneklem-t-testi" class="slide level2">
-<h2>Örnek: Bir Örneklem t-Testi</h2>
-<p>Belediye başkanlarının yaş ortalaması 40’tan farklı mı?</p>
+<section id="örnek-gapminder-gsyih-ve-yaşam-beklentisi" class="slide level2">
+<h2>Örnek: gapminder — GSYİH ve Yaşam Beklentisi</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>baskan_yaslari <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">52</span>, <span class="dv">48</span>, <span class="dv">61</span>, <span class="dv">55</span>, <span class="dv">58</span>, <span class="dv">50</span>, <span class="dv">63</span>, <span class="dv">47</span>, <span class="dv">54</span>, <span class="dv">59</span>, <span class="dv">51</span>, <span class="dv">56</span>, <span class="dv">62</span>, <span class="dv">49</span>, <span class="dv">57</span>)</span>
-<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(baskan_yaslari, <span class="at">mu =</span> <span class="dv">40</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">&lt;-</span> <span class="fu">subset</span>(gapminder, year <span class="sc">==</span> <span class="dv">2007</span>)</span>
+<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a>gapminder_2007<span class="sc">$</span>gdp_bin <span class="ot">&lt;-</span> gapminder_2007<span class="sc">$</span>gdpPercap <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb15-4"><a href="" aria-hidden="true" tabindex="-1"></a>mod_gdp <span class="ot">&lt;-</span> <span class="fu">lm</span>(lifeExp <span class="sc">~</span> gdp_bin, <span class="at">data =</span> gapminder_2007)</span>
+<span id="cb15-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod_gdp)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    One Sample t-test
+Call:
+lm(formula = lifeExp ~ gdp_bin, data = gapminder_2007)
 
-data:  baskan_yaslari
-t = 11.025, df = 14, p-value = 2.752e-08
-alternative hypothesis: true mean is not equal to 40
-95 percent confidence interval:
- 51.92094 57.67906
-sample estimates:
-mean of x 
-     54.8 </code></pre>
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-22.828  -6.316   1.922   6.898  13.128 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 59.56565    1.01041   58.95   &lt;2e-16 ***
+gdp_bin      0.63713    0.05827   10.93   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 8.899 on 140 degrees of freedom
+Multiple R-squared:  0.4606,    Adjusted R-squared:  0.4567 
+F-statistic: 119.5 on 1 and 140 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
-<p><span class="math inline">\(p \approx 2.8\times10^{-8} &lt; \alpha \Rightarrow H_0\)</span> reddedilir; <span class="math inline">\(d \approx 2.85\)</span> (çok büyük etki).</p>
+<p><span class="math inline">\(R^2 \approx 0.46\)</span>: kişi başı GSYİH tek başına yaşam beklentisindeki varyansın <strong>%46</strong>’sını açıklıyor.</p>
 </section>
-<section id="örnek-anlamsız-çıkan-bir-sonuç" class="slide level2">
-<h2>Örnek: Anlamsız Çıkan Bir Sonuç</h2>
-<p>e-Devlet memnuniyeti (10 ilçe), ulusal ortalama 72’den farklı mı?</p>
+<section id="residüel-türkiye-örneği" class="slide level2">
+<h2>Residüel: Türkiye Örneği</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a>memnuniyet <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">74</span>, <span class="dv">70</span>, <span class="dv">73</span>, <span class="dv">69</span>, <span class="dv">75</span>, <span class="dv">71</span>, <span class="dv">76</span>, <span class="dv">68</span>, <span class="dv">72</span>, <span class="dv">77</span>)</span>
-<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(memnuniyet, <span class="at">mu =</span> <span class="dv">72</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a>turkiye <span class="ot">&lt;-</span> <span class="fu">subset</span>(gapminder_2007, country <span class="sc">==</span> <span class="st">"Turkey"</span>)</span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>tahmin <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod_gdp, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">gdp_bin =</span> turkiye<span class="sc">$</span>gdp_bin))</span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">tahmin =</span> tahmin, <span class="at">gercek =</span> turkiye<span class="sc">$</span>lifeExp, <span class="at">residuel =</span> turkiye<span class="sc">$</span>lifeExp <span class="sc">-</span> tahmin)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-    One Sample t-test
-
-data:  memnuniyet
-t = 0.52223, df = 9, p-value = 0.6141
-alternative hypothesis: true mean is not equal to 72
-95 percent confidence interval:
- 70.33415 74.66585
-sample estimates:
-mean of x 
-     72.5 </code></pre>
+<pre><code>  tahmin.1     gercek residuel.1 
+ 64.954707  71.777000   6.822293 </code></pre>
 </div>
 </div>
-<p><span class="math inline">\(p \approx 0.61 \Rightarrow H_0\)</span> reddedilmez; <span class="math inline">\(d \approx 0.17\)</span> (ihmal edilebilir). <strong>p-değeri ve etki büyüklüğü aynı hikâyeyi anlatıyor.</strong></p>
+<p>Model <span class="math inline">\(\approx 65\)</span> yıl tahmin ediyor, gerçek değer <strong>71.8 yıl</strong> — pozitif residüel: Türkiye, GSYİH’sine göre beklenenden daha iyi bir yaşam beklentisi performansı gösteriyor.</p>
 </section>
-<section id="örnek-eşleştirilmiş-t-testi" class="slide level2">
-<h2>Örnek: Eşleştirilmiş t-Testi</h2>
-<p>Vatandaş memnuniyeti eğitim öncesi/sonrası (12 belediye):</p>
+<section id="örnek-öğretmen-maaşı-ve-sat-puanı" class="slide level2">
+<h2>⚠️ Örnek: Öğretmen Maaşı ve SAT Puanı</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>egitim_oncesi  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">62</span>, <span class="dv">58</span>, <span class="dv">65</span>, <span class="dv">60</span>, <span class="dv">55</span>, <span class="dv">63</span>, <span class="dv">59</span>, <span class="dv">61</span>, <span class="dv">57</span>, <span class="dv">70</span>, <span class="dv">60</span>, <span class="dv">56</span>)</span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>egitim_sonrasi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">68</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">58</span>, <span class="dv">59</span>, <span class="dv">66</span>, <span class="dv">63</span>, <span class="dv">65</span>, <span class="dv">61</span>, <span class="dv">69</span>, <span class="dv">62</span>, <span class="dv">64</span>)</span>
-<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(egitim_oncesi, egitim_sonrasi, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Paired t-test
-
-data:  egitim_oncesi and egitim_sonrasi
-t = -4.068, df = 11, p-value = 0.001858
-alternative hypothesis: true mean difference is not equal to 0
-95 percent confidence interval:
- -5.00839 -1.49161
-sample estimates:
-mean difference 
-          -3.25 </code></pre>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mdsr)</span>
+<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a>SAT_mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(total <span class="sc">~</span> Salary, <span class="at">data =</span> SAT_2010)</span>
+<span id="cb19-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(SAT_mod1)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p><span class="math inline">\(p \approx 0.002\)</span>, <span class="math inline">\(d \approx 1.17\)</span> (büyük etki).</p>
+<p>Sonuç: maaş arttıkça SAT puanı <strong>düşüyor</strong> (<span class="math inline">\(R^2 \approx 0.11\)</span>, zayıf).</p>
+<p><strong>Gerçek açıklama:</strong> katılım oranı! Bazı eyaletlerde sınava yalnızca seçkin bir grup girer (puan yüksek çıkar) — karıştırıcı değişken.</p>
 </section>
-<section id="örnek-iki-örneklem-t-testi" class="slide level2">
-<h2>Örnek: İki Örneklem t-Testi</h2>
-<p>Demokrasi/otokrasi grupları arası kişi başı GSYİH (temsili veri):</p>
+<section id="örnek-sigorta-talepleri-ve-ödemeler" class="slide level2">
+<h2>Örnek: Sigorta Talepleri ve Ödemeler</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>demokrasi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">38</span>, <span class="dv">41</span>, <span class="dv">35</span>, <span class="dv">44</span>, <span class="dv">39</span>, <span class="dv">42</span>, <span class="dv">37</span>, <span class="dv">40</span>)</span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>otokrasi  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">19</span>, <span class="dv">25</span>, <span class="dv">21</span>, <span class="dv">18</span>, <span class="dv">24</span>, <span class="dv">20</span>, <span class="dv">23</span>)</span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(demokrasi, otokrasi, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Two Sample t-test
-
-data:  demokrasi and otokrasi
-t = 13.47, df = 14, p-value = 2.094e-09
-alternative hypothesis: true difference in means is not equal to 0
-95 percent confidence interval:
- 15.13391 20.86609
-sample estimates:
-mean of x mean of y 
-     39.5      21.5 </code></pre>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Payment <span class="sc">~</span> Claims, <span class="at">data =</span> motor_insurance)</span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Uyarı</strong></p>
-</div>
-<div class="callout-content">
-<p>⚠️ Korelasyon nedensellik değildir — bkz. ders notundaki Simpson Paradoksu tartışması.</p>
-</div>
-</div>
-</div>
+<p><span class="math inline">\(R^2 \approx 0.99\)</span> — neredeyse mekanik/deterministik bir ilişki.</p>
 </section>
-<section id="örnek-welch-t-testi-sınırda-bir-karar" class="slide level2">
-<h2>Örnek: Welch t-Testi — Sınırda Bir Karar</h2>
-<p>AB üyesi / aday ülkeler arası yolsuzluk algı endeksi (temsili veri):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>ab_uyesi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">58</span>, <span class="dv">65</span>, <span class="dv">52</span>, <span class="dv">61</span>, <span class="dv">45</span>, <span class="dv">68</span>, <span class="dv">55</span>, <span class="dv">50</span>, <span class="dv">63</span>)</span>
-<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a>aday     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">48</span>, <span class="dv">42</span>, <span class="dv">55</span>, <span class="dv">51</span>, <span class="dv">40</span>, <span class="dv">58</span>)</span>
-<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(ab_uyesi, aday)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Welch Two Sample t-test
-
-data:  ab_uyesi and aday
-t = 2.1977, df = 11.368, p-value = 0.04953
-alternative hypothesis: true difference in means is not equal to 0
-95 percent confidence interval:
-  0.02062228 16.86826661
-sample estimates:
-mean of x mean of y 
- 57.44444  49.00000 </code></pre>
-</div>
-</div>
-<p><span class="math inline">\(p \approx 0.0495\)</span> — tam sınırda! <span class="math inline">\(\alpha=0.05\)</span> eşiği keyfidir, sonucu tek başına kesin kabul etmeyin.</p>
-</section>
-<section id="varsayımların-denetlenmesi" class="slide level2">
-<h2>Varsayımların Denetlenmesi</h2>
+<section id="r2-bağlama-göre-değişir" class="slide level2">
+<h2><span class="math inline">\(R^2\)</span> Bağlama Göre Değişir</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -726,168 +638,41 @@ mean of x mean of y
 </colgroup>
 <thead>
 <tr class="header">
-<th>Test</th>
-<th>Varsayım</th>
-<th>R Fonksiyonu</th>
+<th>Örnek</th>
+<th>İlişki</th>
+<th><span class="math inline">\(R^2\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>t-testi</td>
-<td>Normallik</td>
-<td><code>shapiro.test()</code></td>
+<td>GSYİH <span class="math inline">\(\to\)</span> Yaşam Beklentisi</td>
+<td>Orta-güçlü</td>
+<td><span class="math inline">\(\approx 0.46\)</span></td>
 </tr>
 <tr class="even">
-<td>İki örn. t-testi</td>
-<td>Varyans homojenliği</td>
-<td><code>bartlett.test()</code>, <code>var.test()</code></td>
+<td>Maaş <span class="math inline">\(\to\)</span> SAT Puanı</td>
+<td>Zayıf, karıştırıcı değişkenli</td>
+<td><span class="math inline">\(\approx 0.11\)</span></td>
 </tr>
 <tr class="odd">
-<td>ANOVA</td>
-<td>Normallik + varyans homojenliği</td>
-<td><code>shapiro.test(residuals(...))</code>, <code>bartlett.test()</code></td>
-</tr>
-<tr class="even">
-<td>Ki-kare</td>
-<td>Beklenen frekans <span class="math inline">\(\ge 5\)</span></td>
-<td><code>chisq.test(...)$expected</code></td>
+<td>Talep <span class="math inline">\(\to\)</span> Ödeme (sigorta)</td>
+<td>Neredeyse deterministik</td>
+<td><span class="math inline">\(\approx 0.99\)</span></td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p>Sınavda: <strong>testi siz hesaplamazsınız</strong>, hazır bir çıktı verilir ve p-değerini <strong>yorumlamanız</strong> istenir.</p>
+<p>İnsan davranışında düşük <span class="math inline">\(R^2\)</span> <strong>normaldir</strong>. Tek eşik yoktur.</p>
 </blockquote>
-</section>
-<section id="anova-gapminder-ile-kıtalara-göre-yaşam-beklentisi" class="slide level2">
-<h2>ANOVA: gapminder ile Kıtalara Göre Yaşam Beklentisi</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">&lt;-</span> <span class="fu">subset</span>(gapminder, year <span class="sc">==</span> <span class="dv">2007</span>)</span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>anova_result <span class="ot">&lt;-</span> <span class="fu">aov</span>(lifeExp <span class="sc">~</span> continent, <span class="at">data =</span> gapminder_2007)</span>
-<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_result)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
-continent     4  13061    3265   59.71 &lt;2e-16 ***
-Residuals   137   7491      55                   
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
-</div>
-</div>
-</section>
-<section id="anova-varsayım-denetimi-bu-kez-gerçek-veriyle" class="slide level2">
-<h2>ANOVA: Varsayım Denetimi — Bu Kez Gerçek Veriyle</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(anova_result))</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Shapiro-Wilk normality test
-
-data:  residuals(anova_result)
-W = 0.96708, p-value = 0.001696</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(lifeExp <span class="sc">~</span> continent, <span class="at">data =</span> gapminder_2007)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Bartlett test of homogeneity of variances
-
-data:  lifeExp by continent
-Bartlett's K-squared = 45.85, df = 4, p-value = 2.646e-09</code></pre>
-</div>
-</div>
-<p>Her iki testte de <span class="math inline">\(p &lt; 0.05\)</span>: <strong>varsayımlar ihlal ediliyor</strong> (Oceania’da yalnızca <span class="math inline">\(n=2\)</span> ülke var). Çözüm: Welch ANOVA.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">oneway.test</span>(lifeExp <span class="sc">~</span> continent, <span class="at">data =</span> gapminder_2007, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    One-way analysis of means (not assuming equal variances)
-
-data:  lifeExp and continent
-F = 81.514, num df = 4.000, denom df = 17.581, p-value = 4.183e-11</code></pre>
-</div>
-</div>
-<p>Standart (<span class="math inline">\(F=59.7\)</span>) ve Welch (<span class="math inline">\(F=81.5\)</span>) ANOVA aynı sonuca işaret ediyor; <span class="math inline">\(\eta^2 \approx 0.64\)</span> (çok büyük etki).</p>
-</section>
-<section id="anova-görselleştirme" class="slide level2">
-<h2>ANOVA: Görselleştirme</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(lifeExp <span class="sc">~</span> continent, <span class="at">data =</span> gapminder_2007,</span>
-<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Kıtaya Göre Yaşam Beklentisi (2007)"</span>,</span>
-<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Kıta"</span>, <span class="at">ylab =</span> <span class="st">"Yaşam Beklentisi (yıl)"</span>,</span>
-<span id="cb20-4"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"lightgreen"</span>, <span class="st">"pink"</span>, <span class="st">"khaki"</span>, <span class="st">"lightgray"</span>))</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="10_modul_sunum_files/figure-revealjs/unnamed-chunk-10-1.png" width="880" class="r-stretch"></section>
-<section id="ki-kare-bağımsızlık-testi" class="slide level2">
-<h2>Ki-Kare Bağımsızlık Testi</h2>
-<p>Cinsiyet ile kabul durumu arasında ilişki var mı? (<code>UCBAdmissions</code>)</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(UCBAdmissions)</span>
-<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a>admission_table <span class="ot">&lt;-</span> <span class="fu">apply</span>(UCBAdmissions, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), sum)</span>
-<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(admission_table)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Pearson's Chi-squared test with Yates' continuity correction
-
-data:  admission_table
-X-squared = 91.61, df = 1, p-value &lt; 2.2e-16</code></pre>
-</div>
-</div>
-<p><span class="math inline">\(p &lt; 2.2 \times 10^{-16}\)</span> ama Cramér’s <span class="math inline">\(V \approx 0.14\)</span> — <strong>anlamlı, fakat küçük-orta düzeyde bir ilişki.</strong></p>
-</section>
-<section id="simpson-paradoksu-berkeley-kabul-davası" class="slide level2">
-<h2>⚠️ Simpson Paradoksu: Berkeley Kabul Davası</h2>
-<ul>
-<li class="fragment">Toplam veride: kadınların kabul oranı daha düşük görünüyor</li>
-<li class="fragment"><strong>Bölüm bazında</strong> ayrıştırınca: hemen hiçbir bölümde kadın aleyhine önyargı yok</li>
-<li class="fragment">Neden? Kadınlar rekabetçi (düşük kabul oranlı) bölümlere daha çok başvurmuş</li>
-<li class="fragment"><strong>Karıştırıcı değişken</strong> (bölüm), görünürdeki ilişkiyi tamamen değiştiriyor</li>
-</ul>
-<blockquote>
-<p>İki değişkenli ki-kare testi bunu <strong>tek başına göremez</strong> — bkz. Modül 11-12: çoklu regresyon.</p>
-</blockquote>
-</section>
-<section id="hangi-test-ne-zaman" class="slide level2">
-<h2>Hangi Test, Ne Zaman?</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Soru Tipi</th>
-<th>Test</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1 grup ort. <span class="math inline">\(\leftrightarrow\)</span> sabit değer</td>
-<td>Tek örneklem t-testi</td>
-</tr>
-<tr class="even">
-<td>Aynı birimler, öncesi/sonrası</td>
-<td>Eşleştirilmiş t-testi</td>
-</tr>
-<tr class="odd">
-<td>2 bağımsız grup ortalaması</td>
-<td>İki örneklem t-testi</td>
-</tr>
-<tr class="even">
-<td>3+ grup ortalaması</td>
-<td>ANOVA</td>
-</tr>
-<tr class="odd">
-<td>2 kategorik değişken</td>
-<td>Ki-kare bağımsızlık testi</td>
-</tr>
-</tbody>
-</table>
 </section>
 <section id="özet" class="slide level2">
 <h2>Özet</h2>
 <ul>
-<li class="fragment">Hipotez testi, <span class="math inline">\(H_0\)</span>’ı <strong>reddetmeye çalışan</strong> bir karar sürecidir</li>
-<li class="fragment">Karar kuralı tek: <span class="math inline">\(p \le \alpha \Rightarrow H_0\)</span> reddedilir</li>
-<li class="fragment"><strong>Varsayımları denetlemeden</strong> sonucu raporlamayın</li>
-<li class="fragment"><strong>p-değeri yetmez</strong> — etki büyüklüğünü de raporlayın</li>
-<li class="fragment">İlişki <span class="math inline">\(\neq\)</span> nedensellik; karıştırıcı değişkenlere dikkat (Simpson Paradoksu)</li>
-<li class="fragment">Sınavda beklenen: R çıktısını <strong>okuyup yorumlamak</strong>, ezbere hesaplamak değil</li>
+<li class="fragment">Korelasyon, doğrusal ilişkinin <strong>gücünü ve yönünü</strong> özetler — nedensellik değildir</li>
+<li class="fragment">Regresyon kurmadan önce <strong>her zaman</strong> grafiğe bakın (Anscombe!)</li>
+<li class="fragment"><span class="math inline">\(\beta_1\)</span>’in yorumu: <span class="math inline">\(X\)</span> bir birim artınca <span class="math inline">\(Y\)</span>’deki beklenen değişim</li>
+<li class="fragment"><span class="math inline">\(R^2\)</span>, regresyonun “etki büyüklüğüdür” — p-değeriyle birlikte raporlayın</li>
+<li class="fragment">Karıştırıcı değişkenlere dikkat: güçlü bir ilişki her zaman nedensel değildir</li>
 </ul>
 
 <div class="quarto-auto-generated-content">
@@ -900,19 +685,19 @@ X-squared = 91.61, df = 1, p-value &lt; 2.2e-16</code></pre>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="10_modul_sunum_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="10_modul_sunum_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="11_modul_sunum_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
