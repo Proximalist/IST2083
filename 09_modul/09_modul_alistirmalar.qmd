@@ -1,0 +1,181 @@
+---
+title: "Modül 09 — Alıştırmalar"
+subtitle: "Tahmin ve Güven Aralıkları"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+---
+
+## Bu Alıştırmalar Hakkında
+
+Bu alıştırmalar **notlandırılmaz ve teslim edilmez.** Amacı, sınavdan önce kendi durumunuzu ölçebilmenizdir. Sınav soruları da bu biçimde (çoktan seçmeli, tek doğru cevap) kurgulanır.
+
+Her soru 4 şıklıdır ve yalnızca **bir tanesi** doğrudur.
+
+Cevaplarınızı not edin, sonra `09_modul_cevap_anahtari.qmd` dosyasıyla karşılaştırın.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Tahmin Kavramları
+
+**1.** Nokta tahmini (point estimation) nedir?
+
+a\) Bir parametrenin düşmesi muhtemel olduğu bir aralık verir\
+b) Bir parametre için tek bir en iyi tahmin sağlar\
+c) Her zaman %95 güvenilirdir\
+d) Yalnızca kesikli değişkenlerde kullanılır
+
+**2.** Aralık tahmini, nokta tahminine göre ek olarak ne sağlar?
+
+a\) Hiçbir ek bilgi sağlamaz\
+b) Tahminin belirsizliğini bir güven düzeyiyle birlikte ifade eder\
+c) Örneklem büyüklüğünü otomatik olarak küçültür\
+d) Popülasyonu tamamen ortadan kaldırır
+
+**3.** "Bir sınıftaki öğrencilerin ortalama IQ'su için %95 güven aralığı [98, 100]" ifadesi ne anlama gelir?
+
+a\) Öğrencilerin %95'inin IQ'su 98 ile 100 arasındadır\
+b) %95 güvenle, gerçek popülasyon ortalaması bu aralık içinde yer alır\
+c) Örneklemin %95'i yanlış ölçülmüştür\
+d) Bir sonraki öğrencinin IQ'sunun %95 ihtimalle bu aralıkta çıkacağı
+
+------------------------------------------------------------------------
+
+## Bölüm B — Z-Skoru
+
+**4.** Z-skoru formülü aşağıdakilerden hangisidir?
+
+a\) $z = (X-\mu)/\sigma$\
+b) $z = (\mu-X) \times \sigma$\
+c) $z = X \times \mu / \sigma$\
+d) $z = \sigma/(X-\mu)$
+
+**5.** Bir veri noktasının z-skoru 1.5 ise bu ne anlama gelir?
+
+a\) Veri, ortalamanın 1.5 katı büyüklüğündedir\
+b) Veri, ortalamadan 1.5 standart sapma yukarıdadır\
+c) Veri ile ortalama arasındaki fark 1.5 birimdir\
+d) Bu değerin gerçekleşme olasılığı 1.5'tir
+
+**6.** Z-skorunun temel amacı nedir?
+
+a\) Hesaplamayı zorlaştırmak\
+b) Farklı dağılımlardaki değerleri standart bir ölçekte karşılaştırılabilir hale getirmek\
+c) Yalnızca kesikli veriler için kullanılabilir bir dönüşüm yapmak\
+d) Örneklem büyüklüğünü artırmak
+
+**7.** Ortalaması 70, standart sapması 10 olan bir dağılımda $X=85$ değerinin solundaki kümülatif olasılığı hesaplamak istiyorsunuz. Aşağıdaki iki R ifadesi için ne söylenebilir: `pnorm(85, mean=70, sd=10)` ve `pnorm(1.5)`?
+
+a\) Birbirinden tamamen farklı sonuçlar verirler\
+b) Aynı sonucu verirler, çünkü $(85-70)/10=1.5$\
+c) İkincisi her zaman daha büyük bir değer verir\
+d) Karşılaştırılamazlar, çünkü farklı fonksiyonlardır
+
+------------------------------------------------------------------------
+
+## Bölüm C — Güven Aralığı Temelleri
+
+**8.** Standart hata (SE) hangi formülle hesaplanır?
+
+a\) $SE = \sigma \times \sqrt{n}$\
+b) $SE = \sigma/\sqrt{n}$\
+c) $SE = \sqrt{\sigma}/n$\
+d) $SE = \sigma/n$
+
+**9.** %95 güven düzeyi için kritik z-değeri yaklaşık kaçtır?
+
+a\) 1.00\
+b) 1.65\
+c) 1.96\
+d) 2.58
+
+**10.** Güven aralığı formülü aşağıdakilerden hangisidir?
+
+a\) $\bar{x} \pm (z \times SE)$\
+b) $\bar{x} \times (z + SE)$\
+c) $\bar{x} - (z / SE)$\
+d) $z \pm (\bar{x} \times SE)$
+
+**11.** Örneklem büyüklüğü (n) arttıkça standart hata (SE) nasıl değişir?
+
+a\) Artar\
+b) Azalır\
+c) Değişmez\
+d) Sıfır olur
+
+------------------------------------------------------------------------
+
+## Bölüm D — Z mi, t mi?
+
+**12.** Örneklem büyüklüğü küçükse (n\<30) **ve** popülasyonun gerçek standart sapması bilinmiyorsa hangi dağılım kullanılır?
+
+a\) Normal dağılım (z)\
+b) t-dağılımı\
+c) Poisson dağılımı\
+d) Binom dağılımı
+
+**13.** `qt(p, df)` fonksiyonunda `df` neyi ifade eder?
+
+a\) Dağılım fonksiyonunu\
+b) Serbestlik derecesini (genellikle $n-1$)\
+c) Veri sayısını (n)\
+d) Güven düzeyini
+
+**14.** `t.test()` fonksiyonunun temel avantajı nedir?
+
+a\) Yalnızca özet istatistiklerle (ortalama, SS) çalışır, ham veri gerektirmez\
+b) Ham veriden hem hipotez testi hem güven aralığını otomatik hesaplar\
+c) Yalnızca büyük örneklemlerde (n\>30) kullanılabilir\
+d) z-skoru hesaplayamaz
+
+------------------------------------------------------------------------
+
+## Bölüm E — R Çıktısını Yorumlama
+
+**15.** Bir öğrenci %99 güven aralığı için `qnorm(1 - confidence/2)` kodunu `confidence=0.99` ile çalıştırıyor. Bu neden yanlıştır?
+
+a\) `qnorm` bu iş için yanlış fonksiyondur\
+b) `confidence` yerine `alpha` (yani $1-\text{confidence}$) kullanılıp onun yarısı alınmalıydı\
+c) 0.99 değeri R için çok büyüktür\
+d) Kod tamamen doğrudur, bir sorun yoktur
+
+**16.** `t.test(notlar, conf.level=0.95)$conf.int` çıktısı `45.2 52.8` ise bu ne anlama gelir?
+
+a\) Notların tamamı 45.2 ile 52.8 arasındadır\
+b) Gerçek popülasyon ortalamasının %95 güvenle bu aralıkta olduğu tahmin edilir\
+c) Not ortalaması kesinlikle 49'dur\
+d) Örneklem büyüklüğü 45 ile 52 arasındadır
+
+**17.** `qnorm(0.975)` çalıştırıldığında yaklaşık 1.96 elde edilir. Bu değer neyi temsil eder?
+
+a\) %97.5'lik bir olasılık değerini\
+b) %95 güven aralığı için kullanılan kritik z-değerini\
+c) Alfa ($\alpha$) değerini doğrudan\
+d) Verinin 50. yüzdelik dilimini
+
+------------------------------------------------------------------------
+
+## Bölüm F — Güven Aralığı vs. Tahmin Aralığı
+
+**18.** Güven aralığı (Confidence Interval) esas olarak neyi tahmin etmeye çalışır?
+
+a\) Tek bir yeni gözlemin değerini\
+b) Popülasyonun ortalamasını\
+c) Örneklem büyüklüğünü\
+d) Standart sapmayı doğrudan
+
+**19.** Tahmin aralığı (Prediction Interval), güven aralığından (Confidence Interval) neden daha geniştir?
+
+a\) Hesaplama sırasında hata payı eklenir\
+b) Tek bir gözlemdeki belirsizlik, ortalamanın belirsizliğinden daha büyüktür\
+c) Tahmin aralığı her zaman yanlış hesaplanır\
+d) Yalnızca küçük örneklemler için geçerlidir
+
+**20.** Örneklem büyüklüğü (n) çok artarsa, tahmin aralığı (PI) nasıl davranır?
+
+a\) Sıfıra yaklaşır\
+b) Güven aralığı kadar hızlı daralmaz, hâlâ geniş kalır\
+c) Güven aralığından daha hızlı daralır\
+d) Güven aralığına birebir eşit hale gelir

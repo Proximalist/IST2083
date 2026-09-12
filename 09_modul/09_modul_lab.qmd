@@ -1,0 +1,186 @@
+---
+title: "Modül 09 — Rehberli Laboratuvar"
+subtitle: "Tahmin ve Güven Aralıkları"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
+---
+
+## Bu Belge Nedir?
+
+Bu bir **sınav provası değildir**; ders saatinde birlikte, bilgisayar başında yapılacak bir uygulama defteridir. Notlandırılmaz.
+
+Belge iki bölümden oluşur:
+
+-   **Görevler** (Bölüm A–D): her görevde ne yapmanız gerektiği yazılıdır ve altında **eksik bırakılmış** bir kod iskeleti vardır. `____` gördüğünüz yerleri siz dolduracaksınız. Bu kodlar render sırasında çalıştırılmaz — sizin RStudio'da elle tamamlamanız içindir.
+-   **Çözümler** (belgenin sonu): tüm görevlerin çalışan hâli.
+
+Her görevden sonra **bir cümleyle** sonucu yorumlayın (kod öbeğinin altına, düz metin olarak). Sınavda sizden istenecek olan kod yazmak değil, bu yorumu kurabilmektir.
+
+Bu modülde kullanılan tüm fonksiyonlar (`pnorm`, `qnorm`, `qt`, `t.test` vb.) R'ın temel `stats` paketindendir; ek bir paket yüklemenize gerek yoktur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Nokta Tahmini ve Z-Skoru
+
+### Görev A1 — Bireysel değerin olasılığı
+
+Bir üniversitenin giriş sınavı puanları ortalaması 500, standart sapması 80 olan bir normal dağılım izliyor. Rastgele seçilen bir öğrencinin puanının **420'den düşük** olma olasılığını hesaplayın.
+
+```{r}
+#| eval: false
+pnorm(____, mean = ____, sd = ____)
+```
+
+### Görev A2 — Z-skoru ile aynı soruyu çözün
+
+Aynı soruyu önce z-skorunu hesaplayıp sonra standart normal dağılımda çözün. (İpucu: $z = (X-\mu)/\sigma$)
+
+```{r}
+#| eval: false
+z <- (420 - ____) / ____
+pnorm(z)
+```
+
+Görev A1 ve A2'deki sonuçlar birbirine eşit çıkmalı — neden?
+
+------------------------------------------------------------------------
+
+## Bölüm B — Aralık Tahmini
+
+### Görev B1 — İki sınır arasındaki olasılık
+
+Aynı sınavda, puanı **450 ile 550 arasında** olan bir öğrencinin olasılığını hesaplayın. (İpucu: üst sınırın kümülatif olasılığından alt sınırınkini çıkarın.)
+
+```{r}
+#| eval: false
+ust <- pnorm(____, mean = 500, sd = 80)
+alt <- pnorm(____, mean = 500, sd = 80)
+ust - alt
+```
+
+------------------------------------------------------------------------
+
+## Bölüm C — Güven Aralığı: Manuel Hesaplama
+
+Bir anket şirketi, 150 kişilik bir örneklemde günlük ortalama ekran süresini **4.2 saat**, standart sapmayı **1.1 saat** olarak ölçtü. **%95 güven aralığını** manuel olarak hesaplayın.
+
+### Görev C1 — Bileşenleri tanımlayın
+
+```{r}
+#| eval: false
+x_bar <- ____   # örneklem ortalaması
+s <- ____       # standart sapma
+n <- ____       # örneklem büyüklüğü
+guven <- 0.95
+```
+
+### Görev C2 — Kritik z-değerini ve standart hatayı hesaplayın
+
+```{r}
+#| eval: false
+alpha <- 1 - guven
+z <- qnorm(1 - alpha / ____)
+se <- s / sqrt(____)
+```
+
+### Görev C3 — Alt ve üst sınırı hesaplayın
+
+```{r}
+#| eval: false
+alt_sinir <- x_bar - z * se
+ust_sinir <- x_bar + z * se
+c(alt_sinir, ust_sinir)
+```
+
+**Dikkat:** Görev C2'de `qnorm(1 - guven / 2)` YAZMAYIN — bu yaygın bir hatadır (bkz. ders notu). Doğrusu her zaman `1 - alpha/2`'dir, `alpha = 1 - güven`.
+
+------------------------------------------------------------------------
+
+## Bölüm D — `t.test` ile Otomatik Hesaplama
+
+Elinizde artık özet sayılar değil, **ham veri** var: 8 öğrencinin sınav sonrası anket memnuniyet puanı (10 üzerinden):
+
+```
+7, 8, 6, 9, 7, 8, 5, 9
+```
+
+### Görev D1 — Veriyi tanımlayın ve t.test çalıştırın
+
+```{r}
+#| eval: false
+puanlar <- c(____, ____, ____, ____, ____, ____, ____, ____)
+sonuc <- t.test(puanlar, conf.level = ____)
+sonuc$conf.int
+```
+
+### Görev D2 — Neden `t.test`, neden `qnorm` değil?
+
+Bir cümleyle açıklayın: örneklem büyüklüğü küçükken (n\<30) ve popülasyon standart sapması bilinmiyorken hangi dağılım kullanılır ve `t.test` bunu sizin için nasıl otomatikleştirir?
+
+------------------------------------------------------------------------
+
+## Çözümler
+
+### A1
+
+```{r}
+pnorm(420, mean = 500, sd = 80)
+```
+
+### A2
+
+```{r}
+z <- (420 - 500) / 80
+pnorm(z)
+```
+
+İki sonuç eşittir çünkü z-skoru dönüşümü, dağılımın şeklini değil yalnızca ölçeğini değiştirir — `pnorm` hangi ölçekte çağrılırsa çağrılsın aynı kümülatif alanı verir.
+
+### B1
+
+```{r}
+ust <- pnorm(550, mean = 500, sd = 80)
+alt <- pnorm(450, mean = 500, sd = 80)
+ust - alt
+```
+
+### C1–C3
+
+```{r}
+x_bar <- 4.2
+s <- 1.1
+n <- 150
+guven <- 0.95
+
+alpha <- 1 - guven
+z <- qnorm(1 - alpha / 2)
+se <- s / sqrt(n)
+
+alt_sinir <- x_bar - z * se
+ust_sinir <- x_bar + z * se
+c(alt_sinir, ust_sinir)
+```
+
+### D1
+
+```{r}
+puanlar <- c(7, 8, 6, 9, 7, 8, 5, 9)
+sonuc <- t.test(puanlar, conf.level = 0.95)
+sonuc$conf.int
+```
+
+### D2
+
+Örneklem küçük (n=8\<30) ve popülasyonun gerçek standart sapması bilinmiyor — yalnızca örneklemden tahmin ediliyor. Bu durumda normal dağılım yerine **t-dağılımı** kullanılır (kalın kuyruklu, küçük örneklemdeki ek belirsizliği hesaba katar). `t.test()` serbestlik derecesini (df=n-1), standart hatayı ve kritik t-değerini otomatik hesaplayıp güven aralığını `$conf.int` içinde döndürür — manuel formülle uğraşmanıza gerek kalmaz.

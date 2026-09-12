@@ -1,0 +1,214 @@
+---
+title: "Modül 09: Tahmin ve Güven Aralıkları"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    toc: true
+    toc-depth: 2
+    incremental: true
+    code-overflow: scroll
+    code-line-numbers: false
+    transition: fade
+    math: mathjax
+editor: visual
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+df-print: kable
+knitr:
+  opts_chunk:
+    fig.width: 8
+    fig.height: 4.2
+    dpi: 110
+    dev: "cairo_pdf"
+---
+
+## Öğrenme Hedefleri
+
+Bu oturumun sonunda:
+
+-   **Nokta tahmini** ile **aralık tahmini** arasındaki farkı açıklayabileceksiniz
+-   **Z-skoru**nu hesaplayıp yorumlayabileceksiniz
+-   Bir **güven aralığının** unsurlarını (güven düzeyi, standart hata, kritik değer) sayabileceksiniz
+-   Ne zaman **z**, ne zaman **t** dağılımı kullanılacağına karar verebileceksiniz
+-   **Güven aralığı** ile **tahmin aralığı** arasındaki farkı ayırt edebileceksiniz
+
+------------------------------------------------------------------------
+
+## Tahmin (Estimation)
+
+Örneklem verilerini kullanarak popülasyondaki bilinmeyen bir parametreyi tahmin etmek.
+
+-   **Nokta Tahmini:** tek bir en iyi tahmin (örn. örneklem ortalaması)
+-   **Aralık Tahmini:** parametrenin düşmesi muhtemel olduğu bir aralık + güven düzeyi
+
+> "Ortalama boyun 165–175 cm arasında olduğuna %95 güveniyoruz" — bu bir **aralık tahminidir**.
+
+------------------------------------------------------------------------
+
+## Z-Skoru
+
+$$z = \frac{X - \mu}{\sigma}$$
+
+-   **X:** Değer
+-   $\mu$: Ortalama
+-   $\sigma$: Standart sapma
+
+Z-skoru, bir değeri **standart sapma cinsinden** ortalamaya olan uzaklığıyla ifade eder.
+
+------------------------------------------------------------------------
+
+## Z-Skoru — R'da İki Eşdeğer Yol
+
+```{r}
+# Doğrudan: ortalaması 100, ss 15 olan dağılımda 110'un altında kalma olasılığı
+pnorm(110, mean = 100, sd = 15)
+```
+
+```{r}
+# Z-skoru üzerinden aynı soru
+z <- (110 - 100) / 15
+pnorm(z)
+```
+
+İkisi de **aynı sonucu** verir — z-skoru yalnızca ölçeği değiştirir, dağılımın şeklini değil.
+
+------------------------------------------------------------------------
+
+## Aralık Tahmini
+
+IQ dağılımı $\mu=100, \sigma=15$ olsun. 89 ile 101 arasında olma olasılığı?
+
+```{r}
+having_89 <- pnorm(89, 100, 15)
+having_101 <- pnorm(101, 100, 15)
+having_101 - having_89
+```
+
+Üst sınırın kümülatif olasılığından, alt sınırınkini çıkarıyoruz.
+
+------------------------------------------------------------------------
+
+## Güven Aralığının Unsurları
+
+1.  **Güven Düzeyi:** genellikle %90, %95 veya %99
+2.  **Standart Hata (SE):** $SE = \sigma/\sqrt{n}$
+3.  **Kritik Değer:** z (büyük örneklem) veya t (küçük örneklem)
+4.  **Nokta Tahmini:** genellikle $\bar{x}$
+
+$$\text{Güven Aralığı} = \bar{x} \pm (z_{\alpha/2} \times SE)$$
+
+------------------------------------------------------------------------
+
+## Güven Aralığı — Örnek
+
+Örneklem ortalaması 100, $\sigma=15$, $n=30$, güven düzeyi %95:
+
+```{r}
+x_bar <- 100
+sigma <- 15
+n <- 30
+z <- qnorm(0.975)  # %95 için kritik z
+
+se <- sigma / sqrt(n)
+c(x_bar - z * se, x_bar + z * se)
+```
+
+------------------------------------------------------------------------
+
+## En Sık Yapılan Hata
+
+```r
+# YANLIŞ — confidence'ın kendisi ikiye bölünüyor
+z <- qnorm(1 - confidence / 2)
+
+# DOĞRU — önce alpha = 1 - confidence hesaplanır
+alpha <- 1 - confidence
+z <- qnorm(1 - alpha / 2)
+```
+
+`confidence = 0.99` için: yanlış kod $z\approx0.01$, doğru kod $z\approx2.58$ verir.
+
+------------------------------------------------------------------------
+
+## Z mi, t mi?
+
+| Durum | Kullanım |
+|----|----|
+| Büyük örneklem ($n \ge 30$) | `qnorm` / z-tablosu |
+| Küçük örneklem ($n < 30$) **ve** $\sigma$ bilinmiyor | `qt` / t-tablosu |
+
+`qt(p, df)`'de `df` = serbestlik derecesi = $n-1$.
+
+------------------------------------------------------------------------
+
+## `t.test()` ile Otomatik Hesaplama
+
+```{r}
+notlar <- c(45, 50, 48, 52, 55, 47, 49, 51, 53, 50)
+sonuc <- t.test(notlar, conf.level = 0.95)
+sonuc$conf.int
+```
+
+Tek komutla hem hipotez testi hem güven aralığı — ham veri varsa en pratik yol.
+
+------------------------------------------------------------------------
+
+## Güven Aralığı vs. Tahmin Aralığı
+
+::: columns
+::: {.column width="50%"}
+**Güven Aralığı (CI)**
+
+-   Neyi arar? **Ortalamayı**
+-   "Sınıfın boy ortalaması kaç?"
+-   $n$ arttıkça **daralır**
+:::
+
+::: {.column width="50%"}
+**Tahmin Aralığı (PI)**
+
+-   Neyi arar? **Tek bir gözlemi**
+-   "Sıradaki öğrencinin boyu kaç?"
+-   $n$ artsa da **çok daralmaz**
+:::
+:::
+
+------------------------------------------------------------------------
+
+## CI vs PI — R ile Görelim
+
+```{r}
+set.seed(123)
+notlar <- rnorm(100, mean = 50, sd = 10)
+model <- lm(notlar ~ 1)
+
+ci <- predict(model, interval = "confidence", level = 0.95)[1, ]
+pi_araligi <- predict(model, interval = "prediction", level = 0.95)[1, ]
+
+round(ci[c("lwr","upr")], 1)
+round(pi_araligi[c("lwr","upr")], 1)
+```
+
+Tahmin aralığı gözle görülür şekilde daha geniş.
+
+------------------------------------------------------------------------
+
+## Özet
+
+-   **Nokta tahmini:** tek sayı — **Aralık tahmini:** sayı + güven düzeyi
+-   **Z-skoru:** değeri standart sapma cinsinden ifade eder
+-   **Güven aralığı:** $\bar{x} \pm (\text{kritik değer} \times SE)$
+-   **Büyük örneklem → z, küçük örneklem → t**
+-   **CI ortalamayı, PI tek bir gözlemi** hedefler
+
+## Sırada Ne Var?
+
+-   Bu haftanın **alıştırmaları** ve **rehberli lab**'ı depoda
+-   Final sınavı, 6.–12. oturumlarda ağırlıklı — bu modül kapsam içinde

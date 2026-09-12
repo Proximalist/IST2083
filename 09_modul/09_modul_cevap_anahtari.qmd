@@ -1,0 +1,75 @@
+---
+title: "Modül 09 — Cevap Anahtarı"
+subtitle: "Tahmin ve Güven Aralıkları"
+author: "Prof. Dr. Hakan Mehmetcik"
+date: "`r Sys.Date()`"
+lang: tr
+format: pdf
+editor: visual
+---
+
+Bu belge `09_modul_alistirmalar.qmd` dosyasındaki 20 sorunun doğru cevaplarını ve gerekçelerini içerir. Gerekçeler yalnızca "doğru cevap bu" demekle kalmaz — neden doğru olduğunu da açıklar, çünkü sınavda sizden istenen de budur.
+
+------------------------------------------------------------------------
+
+## Bölüm A — Tahmin Kavramları
+
+**1. Doğru cevap: b)** Nokta tahmini, bir popülasyon parametresi için **tek bir sayısal değer** verir (örneğin örneklem ortalaması). Aralık ve güven düzeyi kavramları nokta tahminine değil, aralık tahminine aittir.
+
+**2. Doğru cevap: b)** Aralık tahmini, nokta tahminin üzerine **belirsizliğin büyüklüğünü** bir güven düzeyiyle birlikte ekler — "tek bir sayı" yerine "bu aralıkta, şu güvenle" der.
+
+**3. Doğru cevap: b)** Güven aralığı, **veri noktaları** hakkında değil, **popülasyon parametresi** (burada ortalama) hakkında bir ifadedir. "%95 güvenle gerçek ortalama bu aralıktadır" demektir; tek bir gözlemin veya gelecekteki bir ölçümün nerede çıkacağıyla ilgili bir garanti değildir (bu, tahmin aralığının işidir — bkz. Bölüm F).
+
+------------------------------------------------------------------------
+
+## Bölüm B — Z-Skoru
+
+**4. Doğru cevap: a)** $z = (X-\mu)/\sigma$ — değerin ortalamadan farkının, standart sapma cinsinden ifadesidir.
+
+**5. Doğru cevap: b)** Z-skoru **standart sapma cinsinden uzaklık** ölçer, ham birim veya oran değil. $z=1.5$, verinin ortalamanın 1.5 standart sapma üzerinde olduğunu gösterir.
+
+**6. Doğru cevap: b)** Z-skorunun amacı, farklı ortalama/standart sapmaya sahip dağılımlardaki değerleri **ortak bir ölçekte** (standart normal dağılımda) karşılaştırılabilir hale getirmektir.
+
+**7. Doğru cevap: b)** `pnorm(x, mean, sd)` içeride tam olarak $z=(x-\text{mean})/\text{sd}$ hesaplayıp `pnorm(z)`'ye eşdeğer bir sonuç üretir — bu yüzden iki çağrı da aynı kümülatif olasılığı verir.
+
+------------------------------------------------------------------------
+
+## Bölüm C — Güven Aralığı Temelleri
+
+**8. Doğru cevap: b)** $SE = \sigma/\sqrt{n}$ — standart sapmanın örneklem büyüklüğünün kareköküne bölünmesiyle bulunur.
+
+**9. Doğru cevap: c)** `qnorm(0.975)` $\approx 1.96$, istatistikte en sık kullanılan kritik değerlerden biridir ve %95 güven düzeyine karşılık gelir.
+
+**10. Doğru cevap: a)** Güven aralığı = örneklem ortalaması ± (kritik değer × standart hata). Diğer şıklardaki işlemler (çarpma, bölme) formülü anlamsızlaştırır.
+
+**11. Doğru cevap: b)** $n$ paydada olduğu için büyüdükçe $SE=\sigma/\sqrt{n}$ küçülür — daha büyük örneklem, ortalamayı daha kesin tahmin etmemizi sağlar.
+
+------------------------------------------------------------------------
+
+## Bölüm D — Z mi, t mi?
+
+**12. Doğru cevap: b)** Küçük örneklem ($n<30$) ve bilinmeyen popülasyon standart sapması birlikte olduğunda, normal dağılım yerine daha kalın kuyruklu **t-dağılımı** kullanılır; bu, küçük örneklemdeki ek belirsizliği hesaba katar.
+
+**13. Doğru cevap: b)** `df` (degrees of freedom / serbestlik derecesi), genellikle $n-1$ ile hesaplanır ve t-dağılımının şeklini belirler.
+
+**14. Doğru cevap: b)** `t.test()`, ham veriyi girdi olarak alır; serbestlik derecesini, standart hatayı ve kritik t-değerini kendisi hesaplayıp hem hipotez testi sonucunu hem güven aralığını (`$conf.int`) otomatik döndürür.
+
+------------------------------------------------------------------------
+
+## Bölüm E — R Çıktısını Yorumlama
+
+**15. Doğru cevap: b)** Doğru formül her zaman $1-\alpha/2$'dir, burada $\alpha = 1-\text{confidence}$. `confidence/2` kullanmak (`confidence`'ın kendisini ikiye bölmek) tamamen farklı ve **yanlış** bir sonuç üretir — örneğin `confidence=0.99` için doğru $z \approx 2.576$ iken, hatalı kod $z \approx 0.0125$ verir.
+
+**16. Doğru cevap: b)** Güven aralığı çıktısı, örneklemdeki notların kendisi hakkında değil, bu örneklemin temsil ettiği **popülasyonun gerçek ortalaması** hakkında bir tahmindir.
+
+**17. Doğru cevap: b)** `qnorm(0.975)` sorusu "toplam alanın %97.5'inin altında kalan değer nedir?" sorusunun cevabıdır; bu da %95 güven aralığının (iki taraflı, her kuyrukta %2.5 kalacak şekilde) kritik z-değeridir.
+
+------------------------------------------------------------------------
+
+## Bölüm F — Güven Aralığı vs. Tahmin Aralığı
+
+**18. Doğru cevap: b)** Güven aralığı (CI), popülasyonun **ortalamasını** hedefler — "genel eğilim nedir?" sorusuna cevap arar.
+
+**19. Doğru cevap: b)** Bir ortalamayı tahmin etmek, tek bir bireysel gözlemi tahmin etmekten çok daha kolaydır çünkü ortalama, bireysel farklılıkları söndürür (averajlar). Tek bir gözlem ise insan/veri çeşitliliğinin tamamını taşır, bu yüzden onun aralığı (PI) daha geniştir.
+
+**20. Doğru cevap: b)** Örneklem büyüklüğü arttıkça güven aralığı belirgin şekilde daralır (çünkü $SE=\sigma/\sqrt{n}$ küçülür), ama tahmin aralığı büyük ölçüde bireysel gözlemlerin doğal değişkenliğine ($\sigma$'nın kendisine) bağlı olduğu için $n$ artsa da fazla daralmaz.

@@ -27,7 +27,7 @@ project:
     - 06_modul/*.qmd
     - 07_modul/*.qmd
     - 08_modul/*.qmd
-    # - 09_modul/*.qmd     # denetim bekliyor
+    - 09_modul/*.qmd
     # - 10_modul/*.qmd     # denetim bekliyor
     # - 11_modul/*.qmd     # denetim bekliyor
     # - 12_modul/*.qmd     # denetim bekliyor

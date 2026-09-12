@@ -11,6 +11,9 @@ execute:
   message: false
   cache: false
 df-print: kable
+knitr:
+  opts_chunk:
+    dev: "cairo_pdf"
 ---
 
 ------------------------------------------------------------------------
@@ -29,8 +32,7 @@ Tahmin iki türdedir:
 
 ------------------------------------------------------------------------
 
-::: callout-note
-🧠 💡 **Hatırlayalım: Çıkarımsal istatistik (Inferential Statistics)**, örneklemlerden elde edilen veriler yardımıyla, bir popülasyon hakkında genelleme yapmayı veya çıkarımda bulunmayı amaçlayan istatistik dalıdır. Yani, çıkarımsal istatistik, sınırlı bir veri kümesinden hareketle daha geniş bir kitleye yönelik tahminlerde bulunmamıza olanak sağlar.
+**Hatırlayalım: Çıkarımsal istatistik (Inferential Statistics)**, örneklemlerden elde edilen veriler yardımıyla, bir popülasyon hakkında genelleme yapmayı veya çıkarımda bulunmayı amaçlayan istatistik dalıdır. Yani, çıkarımsal istatistik, sınırlı bir veri kümesinden hareketle daha geniş bir kitleye yönelik tahminlerde bulunmamıza olanak sağlar.
 
 ### **Çıkarımsal İstatistiğin Araçları ve Yöntemleri**
 
@@ -55,13 +57,12 @@ Tahmin iki türdedir:
     -   Verilerin belirli bir dağılıma (örneğin normal dağılım) uyup uymadığını incelemek.
 
 ![](images/hipotez_testi1.png)
-:::
 
 ## Nokta Tahmini (Point Estimation)
 
 -   Bir popülasyon parametresinin tek bir sayısal değerle tahmin edilmesidir.
 
-İstatistikte, R dilindeki **pnorm** fonksiyonu, normal dağılım için kümülatif dağılım fonksiyonunu (CDF) hesaplamak için kullanılır. Eğer popülasyonun gerçek ortalaması (μ\\mu) ve standart sapması (σ\\sigma) biliniyorsa, olasılıkları hesaplamak için **pnorm** fonksiyonunu doğrudan kullanabilirsiniz.
+İstatistikte, R dilindeki **pnorm** fonksiyonu, normal dağılım için kümülatif dağılım fonksiyonunu (CDF) hesaplamak için kullanılır. Eğer popülasyonun gerçek ortalaması ($\mu$) ve standart sapması ($\sigma$) biliniyorsa, olasılıkları hesaplamak için **pnorm** fonksiyonunu doğrudan kullanabilirsiniz.
 
 ```{r}
 # Sahte IQ puanları oluşturalım
@@ -80,7 +81,7 @@ cat("Bir öğrencinin IQ puanının 89 veya daha düşük olma olasılığı:", 
 
 ![](images/normal_iq-01.png)
 
-Grafikte, normal dağılım $(μ=100,σ=15)$ gösterilmektedir. Kırmızı kesik çizgi, x=89'u temsil ederken, mavi gölgeli alan P(X≤89) olasılığını ifade etmektedir. Bu, X rastgele değişkeninin 89 veya daha düşük IQ'da olma olasılığıdır.
+Grafikte, normal dağılım $(\mu=100,\sigma=15)$ gösterilmektedir. Kırmızı kesik çizgi, $x=89$'u temsil ederken, mavi gölgeli alan $P(X\le89)$ olasılığını ifade etmektedir. Bu, X rastgele değişkeninin 89 veya daha düşük IQ'da olma olasılığıdır.
 
 Peki 89'dan büyük olma olasılığını nasıl hesaplarız?
 
@@ -93,7 +94,7 @@ cat("Bir öğrencinin IQ puanının 89'dan büyük olma olasılığı:", round(1
 
 ```
 
-Bir ek örnek olarak mtcars veri setinden tahmini bir yakıt tüketimi dağılımına bakalım ve bu veri setinden rastgele bir araç seçtiğimizde yakıt tüketiminin mil başına 25 glaondan daha az olma ihtimalini kontrol edelim.
+Bir ek örnek olarak mtcars veri setinden tahmini bir yakıt tüketimi dağılımına bakalım ve bu veri setinden rastgele bir araç seçtiğimizde yakıt tüketiminin mil başına 25 galondan daha az olma ihtimalini kontrol edelim.
 
 ```{r}
 # Ortalama yakıt tüketimi 
@@ -101,19 +102,19 @@ mean_mpg <- mean(mtcars$mpg)  # Ortalama yakıt tüketimi (mpg)
 sd_mpg <- sd(mtcars$mpg)      # Yakıt tüketimi standart sapması
 value <- 25                  # Kontrol edilecek değer
 
-# P(X ≤ 25) olasılığını hesaplama
+# P(X <= 25) olasılığını hesaplama
 prob <- pnorm(25, mean=mean_mpg, sd=sd_mpg)
 
 # Sonuçları yazdır
 cat("mtcars veri setindeki ortalama yakıt tüketimi (mpg):", mean_mpg, "\n")
-cat("Yakıt tüketiminin 25 veya daha düşük olma olasılığı (P(X ≤ 25)):", round(prob, 4), "\n")
+cat("Yakıt tüketiminin 25 veya daha düşük olma olasılığı (P(X <= 25)):", round(prob, 4), "\n")
 
 
 ```
 
 ![](images/ortalam_yakit.png)
 
-Grafik, mtcars veri setinden tahmini bir yakıt tüketimi dağılımını göstermektedir. Kırmızı kesik çizgi X=25 değerini temsil ederken, mavi gölgeli alan P(X≤25), yani yakıt tüketiminin 25 mpg veya daha az olma olasılığını ifade eder.
+Grafik, mtcars veri setinden tahmini bir yakıt tüketimi dağılımını göstermektedir. Kırmızı kesik çizgi $X=25$ değerini temsil ederken, mavi gölgeli alan $P(X\le25)$, yani yakıt tüketiminin 25 mpg veya daha az olma olasılığını ifade eder.
 
 Yakıt tüketiminin 25 galondan fazla olma ihtimali?
 
@@ -124,7 +125,7 @@ Yakıt tüketiminin 25 galondan fazla olma ihtimali?
 
 # sonucu yazdıralım
 
-cat("Yakıt tüketiminin 25 veya daha düşük olma olasılığı (P(X ≤ 25)):", round(1- pnorm(25, mean=mean_mpg, sd=sd_mpg), 4), "\n")
+cat("Yakıt tüketiminin 25 veya daha düşük olma olasılığı (P(X <= 25)):", round(1- pnorm(25, mean=mean_mpg, sd=sd_mpg), 4), "\n")
 
 ```
 
@@ -138,9 +139,9 @@ $$z = \frac{(X - \mu)}{\sigma}$$
 
 -   X: Değer
 
--   μ: Ortalama (popülasyon ortalaması)
+-   $\mu$: Ortalama (popülasyon ortalaması)
 
--   σ: Standart sapma (popülasyon standart sapması)
+-   $\sigma$: Standart sapma (popülasyon standart sapması)
 
 #### **Z-Skorunun Anlamı:**
 
@@ -247,7 +248,7 @@ print(plot)
 
 ### Örnek 2: Z Skoru Kullanma
 
-Öncelikle IQ puanları için tipik parametreleri tanımlayalım: bir ortalama (μ\\mu) 100 ve bir standart sapma (σ\\sigma) 15. Daha sonra, bir IQ puanının 85 ile 115 arasında olma olasılığını hesaplayacağız.
+Öncelikle IQ puanları için tipik parametreleri tanımlayalım: bir ortalama ($\mu$) 100 ve bir standart sapma ($\sigma$) 15. Daha sonra, bir IQ puanının 85 ile 115 arasında olma olasılığını hesaplayacağız.
 
 ```{r}
 # 1. Parametreleri Tanımla
@@ -299,11 +300,10 @@ ggplot(data=NULL, aes(x=x)) +
 
 | **Durum** | **Kullanım** | **Kod Örneği** |
 |----|----|----|
-| Standart normal dağılım (μ=0,σ=1) | Z-skoru girilmeli | `pnorm(-1.5)` |
-| Orijinal dağılım (μ≠0,σ≠1) | Veri değerleri ve dağılım parametreleri girilmeli | `pnorm(85, mean=100, sd=15)` |
+| Standart normal dağılım ($\mu=0, \sigma=1$) | Z-skoru girilmeli | `pnorm(-1.5)` |
+| Orijinal dağılım ($\mu \ne 0, \sigma \ne 1$) | Veri değerleri ve dağılım parametreleri girilmeli | `pnorm(85, mean=100, sd=15)` |
 
-::: callout-note
-💡 **Standart Normal Dağılımı Dönüşütürme** basit bir şekilde verilerin z-skorlarının hesaplanmasıdır. Örneğin veri setimiz 4 kişilik bir örneklemin 85, 100, 115, 130 şeklinde IQ skorları olduğunu var sayalım,:
+**Standart Normal Dağılıma Dönüştürme** basit bir şekilde verilerin z-skorlarının hesaplanmasıdır. Örneğin veri setimiz 4 kişilik bir örneklemin 85, 100, 115, 130 şeklinde IQ skorları olduğunu var sayalım:
 
 ```{r}
 # Veriler
@@ -316,7 +316,7 @@ z_scores <- (x - mu) / sigma
 z_scores
 ```
 
-Bu durumda **standart normal dağılıma dönüşütürlmüş veriler -1, 0, 1, 2 olacaktır. Yani z-scorlarıdır.** Standart normal dağılıma dönüştürmek, verilerinizi ortalamadan ve standart sapmadan bağımsız bir ölçekte ifade etmeyi sağlar. ,
+Bu durumda **standart normal dağılıma dönüştürülmüş veriler -1, 0, 1, 2 olacaktır. Yani z-skorlarıdır.** Standart normal dağılıma dönüştürmek, verilerinizi ortalamadan ve standart sapmadan bağımsız bir ölçekte ifade etmeyi sağlar.
 
 Örneğin **`mtcars` veri setini kullanarak standart normal dağılıma dönüştürmeyi açıklayalım.**
 
@@ -370,8 +370,6 @@ head(mtcars[, c("mpg", "z_mpg")])
 Verileri standart normal dağılıma dönüştürdüğümüzü göstermek için bir histogram çizelim. Orijinal **mpg** değerlerini ve z-skorlarını görselleştireceğiz.
 
 ```{r}
-# Gerekli kütüphane
-if(!require(ggplot2)) install.packages("ggplot2", dependencies=TRUE)
 library(ggplot2)
 
 # Orijinal mpg histogramı
@@ -390,7 +388,7 @@ ggplot(mtcars, aes(x=z_mpg)) +
 
 ### **Adım 4: Olasılık Hesaplama**
 
-**Örnek:** P(15≤mpg≤25)
+**Örnek:** $P(15 \le \text{mpg} \le 25)$
 
 Bu aralıktaki olasılığı hesaplayalım:
 
@@ -439,7 +437,6 @@ Ancak z-skorları:
 -   Dağılımın genel özelliklerini daha iyi anlamanızı sağlar.
 
 Özellikle eğitim ve standart hesaplamalarda, z-skorlarını öğrenmek ve kullanmak faydalıdır, çünkü daha karmaşık analizlerin temelini oluşturur.
-:::
 
 ## **Güven Aralığı ile Tahmin Yapma (Confidence Interval)**
 
@@ -475,7 +472,7 @@ Bir güven aralığı, örneklem verilerinden hesaplanır ve iki sınırdan olu�
 
     -   Formülü: $$SE = \frac{\sigma}{\sqrt{n}}$$​
 
-        -   σ\sigma: Standart sapma
+        -   $\sigma$: Standart sapma
 
         -   n: Örneklem büyüklüğü
 
@@ -509,7 +506,7 @@ $$ \text{Güven Aralığı} = \bar{x} \pm (z_{\alpha/2} \times SE)$$
 
 -   Ortalama $(\bar{x})$ = 100
 
--   Standart sapma (σ\sigmaσ) = 15
+-   Standart sapma ($\sigma$) = 15
 
 -   Örneklem büyüklüğü (n) = 30
 
@@ -517,7 +514,7 @@ $$ \text{Güven Aralığı} = \bar{x} \pm (z_{\alpha/2} \times SE)$$
 
 Standart hata:
 
-$$SSE = \frac{\sigma}{\sqrt{n}} = \frac{15}{\sqrt{30}} = 2.74$$
+$$SE = \frac{\sigma}{\sqrt{n}} = \frac{15}{\sqrt{30}} = 2.74$$
 
 Güven aralığı:
 
@@ -630,14 +627,15 @@ confidence <- 0.99      # %99 güven aralığı için anlamlılık seviyesi
 
 #### 2. Kritik Z-Skoru Hesaplama
 
-Kritik z-değeri, %99 güven aralığı için α=0.01. Bu durumda:
+Kritik z-değeri, %99 güven aralığı için $\alpha=0.01$. Bu durumda:
 
 $$
 z = qnorm(1 - \alpha / 2) = qnorm(0.995)
 $$
 
 ```{r}
-z <- qnorm(1 - confidence / 2) 
+alpha <- 1 - confidence
+z <- qnorm(1 - alpha / 2)
 ```
 
 #### **3. Standart Hata Hesapla**
@@ -676,7 +674,7 @@ Burada:
 
 -   t: İstenen güven düzeyine ve serbestlik derecesine (df=n−1) göre t-dağılım tablosundan alınan t-skoru
 
-**R'da `qnorm()` kullanarak güven aralığı hesaplama**, büyük örneklemlerde (örneğin n≥30) standart normal dağılım varsayılarak yapılır. Eğer küçük örneklemle çalışıyorsanız, **t-dağılımı** kullanarak `qt()` ile aynı işlemi yapabilirsiniz. R'daki `qt()` fonksiyonu, **t-dağılımı tablosundan kritik değerleri** bulmak için kullanılır. Bu fonksiyon özellikle **küçük örneklemler** (n\<30 ) veya popülasyon standart sapmasının bilinmediği durumlarda güven aralığı ve hipotez testlerinde kullanılır.
+**R'da `qnorm()` kullanarak güven aralığı hesaplama**, büyük örneklemlerde (örneğin $n \ge 30$) standart normal dağılım varsayılarak yapılır. Eğer küçük örneklemle çalışıyorsanız, **t-dağılımı** kullanarak `qt()` ile aynı işlemi yapabilirsiniz. R'daki `qt()` fonksiyonu, **t-dağılımı tablosundan kritik değerleri** bulmak için kullanılır. Bu fonksiyon özellikle **küçük örneklemler** ($n < 30$) veya popülasyon standart sapmasının bilinmediği durumlarda güven aralığı ve hipotez testlerinde kullanılır.
 
 qt(p,df) fonksiyonunda:
 
@@ -729,7 +727,6 @@ confidence_interval
 
 ```{r}
 # Yaşam süresi tahmini (gapminder veri seti)
-if(!require(gapminder)) install.packages("gapminder")
 library(gapminder)
 
 # Ortalama ve standart sapma hesaplama
@@ -737,7 +734,7 @@ mean_life <- mean(gapminder$lifeExp)  # Ortalama yaşam süresi
 sd_life <- sd(gapminder$lifeExp)      # Standart sapma
 n_life <- length(gapminder$lifeExp)  # Örneklem büyüklüğü
 
-# P(X ≤ 70) olasılığını hesaplama
+# P(X <= 70) olasılığını hesaplama
 value <- 70
 prob <- pnorm(value, mean=mean_life, sd=sd_life)
 
@@ -795,7 +792,7 @@ Bu yöntemi, elinizde ham veri olmadığında kullanırsınız. Örneğin bir ma
 
 **Kullanılan Fonksiyon:** `qnorm()` (Normal Dağılım için kritik değer hesaplar).
 
-### 📝 Adım Adım Kod (RStudio'da Çalıştırın)
+### Adım Adım Kod (RStudio'da Çalıştırın)
 
 ```{r}
 # --- ADIM 1: Bilinenleri Tanımlayalım ---
@@ -827,7 +824,7 @@ ust_sinir <- x_bar + hata_payi
 cat("Manuel Hesaplanan %95 Güven Aralığı: [", alt_sinir, "-", ust_sinir, "]")
 ```
 
-> **💡 İpucu:** Eğer örneklem sayınız çok azsa ($n < 30$), `qnorm` yerine `qt` (t-dağılımı) kullanmak daha doğru sonuç verir.
+> **İpucu:** Eğer örneklem sayınız çok azsa ($n < 30$), `qnorm` yerine `qt` (t-dağılımı) kullanmak daha doğru sonuç verir.
 
 ------------------------------------------------------------------------
 
@@ -837,7 +834,7 @@ Bu yöntem en pratik olandır. Elinizde bir anket sonucu veya ölçüm verileri 
 
 **Kullanılan Fonksiyon:** `t.test()`
 
-### 📝 Adım Adım Kod (RStudio'da Çalıştırın)
+### Adım Adım Kod (RStudio'da Çalıştırın)
 
 ```{r}
 # --- ADIM 1: Veri Setimizi Oluşturalım ---
@@ -858,7 +855,7 @@ cat("Otomatik Hesaplanan %95 Güven Aralığı:", sonuc$conf.int)
 
 ------------------------------------------------------------------------
 
-## 🎯 Özet Karşılaştırma Tablosu
+## Özet Karşılaştırma Tablosu
 
 Hangi durumda hangi kodu kullanmalısınız?
 
@@ -872,9 +869,9 @@ Hangi durumda hangi kodu kullanmalısınız?
 
 ------------------------------------------------------------------------
 
-🧠 Hatırlatma: Güven aralığı, "Gerçek ortalamanın, %95 olasılıkla bu iki sayı arasında olduğunu" tahmin etmektir.
+**Hatırlatma:** Güven aralığı, "Gerçek ortalamanın, %95 olasılıkla bu iki sayı arasında olduğunu" tahmin etmektir.
 
-# ⚠️ Kritik Ayrım: Güven Aralığı vs. Tahmin Aralığı
+## Kritik Ayrım: Güven Aralığı vs. Tahmin Aralığı
 
 İki kavram birbirine çok benzer ama hedefleri farklıdır:
 
@@ -896,7 +893,7 @@ Hangi durumda hangi kodu kullanmalısınız?
 
 ------------------------------------------------------------------------
 
-### 🧪 R ile İspatlayalım (Görsel Fark)
+### R ile İspatlayalım (Görsel Fark)
 
 Aşağıdaki kodu RStudio'da çalıştırdığında, senin tanımının (Tahmin Aralığı) neden Güven Aralığından çok daha geniş olduğunu göreceksin.
 
@@ -915,13 +912,13 @@ model <- lm(notlar ~ 1)
 ci <- predict(model, interval = "confidence", level = 0.95)[1, ]
 
 # B) Tahmin Aralığı (Prediction Interval) - Sadece ilk satırı alıyoruz
-pi <- predict(model, interval = "prediction", level = 0.95)[1, ]
+pi_araligi <- predict(model, interval = "prediction", level = 0.95)[1, ]
 
 # 3. SONUÇLARI KARŞILAŞTIRMA
 cat("--- SONUÇLAR ---\n")
 # ci["lwr"] ve ci["upr"] isimleriyle çağırıyoruz
 cat("Güven Aralığı (Ortalama nerede?): [", round(ci["lwr"], 2), "-", round(ci["upr"], 2), "]\n")
-cat("Tahmin Aralığı (Sıradaki öğrenci kaç alır?): [", round(pi["lwr"], 2), "-", round(pi["upr"], 2), "]\n")
+cat("Tahmin Aralığı (Sıradaki öğrenci kaç alır?): [", round(pi_araligi["lwr"], 2), "-", round(pi_araligi["upr"], 2), "]\n")
 ```
 
 **Çıktıyı yorumlarsak (yaklaşık değerler):**
@@ -930,7 +927,7 @@ cat("Tahmin Aralığı (Sıradaki öğrenci kaç alır?): [", round(pi["lwr"], 2
 
 -   **Tahmin Aralığı:** `[30 - 70]` -\> "Ama rastgele bir öğrenci seçersen notu 30 da olabilir, 70 de." (Geniş aralık)
 
-### 🎯 Özet
+### Özet
 
 -   Eğer **"Genel durum (trend/ortalama) nedir?"** diyorsan -\> **Güven Aralığı**
 
