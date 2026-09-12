@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="tr"><head>
-<script src="08_modul_sunum_files/libs/clipboard/clipboard.min.js"></script>
-<script src="08_modul_sunum_files/libs/quarto-html/tabby.min.js"></script>
-<script src="08_modul_sunum_files/libs/quarto-html/popper.min.js"></script>
-<script src="08_modul_sunum_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="08_modul_sunum_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="08_modul_sunum_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="08_modul_sunum_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="08_modul_sunum_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="09_modul_sunum_files/libs/clipboard/clipboard.min.js"></script>
+<script src="09_modul_sunum_files/libs/quarto-html/tabby.min.js"></script>
+<script src="09_modul_sunum_files/libs/quarto-html/popper.min.js"></script>
+<script src="09_modul_sunum_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="09_modul_sunum_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="09_modul_sunum_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="09_modul_sunum_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="09_modul_sunum_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.57">
 
   <meta name="author" content="Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik">
   <meta name="dcterms.date" content="2026-09-12">
-  <title>Modül 08: Olasılık Dağılımları ve Dağılım Fonksiyonları</title>
+  <title>Modül 09: Tahmin ve Güven Aralıkları</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="08_modul_sunum_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="08_modul_sunum_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="09_modul_sunum_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="09_modul_sunum_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -96,11 +96,11 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="08_modul_sunum_files/libs/revealjs/dist/theme/quarto.css">
-  <link href="08_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="08_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="08_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="08_modul_sunum_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="09_modul_sunum_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="09_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="09_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="09_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="09_modul_sunum_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -392,7 +392,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Modül 08: Olasılık Dağılımları ve Dağılım Fonksiyonları</h1>
+  <h1 class="title">Modül 09: Tahmin ve Güven Aralıkları</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -407,274 +407,221 @@ Prof.&nbsp;Dr.&nbsp;Hakan Mehmetcik
 <nav role="doc-toc"> 
 <h2 id="toc-title">Içindekiler</h2>
 <ul>
-<li class="fragment"><a href="#/öğrenme-hedefleri" id="/toc-öğrenme-hedefleri">🎯 Öğrenme Hedefleri</a></li>
-<li class="fragment"><a href="#/rastgele-değişken-nedir" id="/toc-rastgele-değişken-nedir">Rastgele Değişken Nedir?</a></li>
-<li class="fragment"><a href="#/olasılık-dağılımı-pmf-vs-pdf" id="/toc-olasılık-dağılımı-pmf-vs-pdf">Olasılık Dağılımı: PMF vs PDF</a></li>
-<li class="fragment"><a href="#/kesikli-örnek-iki-para-atışı" id="/toc-kesikli-örnek-iki-para-atışı">Kesikli Örnek: İki Para Atışı</a></li>
-<li class="fragment"><a href="#/sürekli-örnek-araç-hızı" id="/toc-sürekli-örnek-araç-hızı">Sürekli Örnek: Araç Hızı</a></li>
-<li class="fragment"><a href="#/dağılım-ailelerine-genel-bakış" id="/toc-dağılım-ailelerine-genel-bakış">Dağılım Ailelerine Genel Bakış</a></li>
-<li class="fragment"><a href="#/binom-dağılımı" id="/toc-binom-dağılımı">Binom Dağılımı</a></li>
-<li class="fragment"><a href="#/poisson-dağılımı" id="/toc-poisson-dağılımı">Poisson Dağılımı</a></li>
-<li class="fragment"><a href="#/normal-dağılım" id="/toc-normal-dağılım">Normal Dağılım</a></li>
-<li class="fragment"><a href="#/üstel-dağılım-ve-poisson-ile-ilişkisi" id="/toc-üstel-dağılım-ve-poisson-ile-ilişkisi">Üstel Dağılım ve Poisson ile İlişkisi</a></li>
-<li class="fragment"><a href="#/rda-d-p-q-r-çerçevesi" id="/toc-rda-d-p-q-r-çerçevesi">R’da d-p-q-r Çerçevesi</a></li>
-<li class="fragment"><a href="#/d-density" id="/toc-d-density"><code>d</code> — Density</a></li>
-<li class="fragment"><a href="#/p-probability" id="/toc-p-probability"><code>p</code> — Probability</a></li>
-<li class="fragment"><a href="#/q-quantile" id="/toc-q-quantile"><code>q</code> — Quantile</a></li>
-<li class="fragment"><a href="#/r-random" id="/toc-r-random"><code>r</code> — Random</a></li>
+<li class="fragment"><a href="#/öğrenme-hedefleri" id="/toc-öğrenme-hedefleri">Öğrenme Hedefleri</a></li>
+<li class="fragment"><a href="#/tahmin-estimation" id="/toc-tahmin-estimation">Tahmin (Estimation)</a></li>
+<li class="fragment"><a href="#/z-skoru" id="/toc-z-skoru">Z-Skoru</a></li>
+<li class="fragment"><a href="#/z-skoru-rda-iki-eşdeğer-yol" id="/toc-z-skoru-rda-iki-eşdeğer-yol">Z-Skoru — R’da İki Eşdeğer Yol</a></li>
+<li class="fragment"><a href="#/aralık-tahmini" id="/toc-aralık-tahmini">Aralık Tahmini</a></li>
+<li class="fragment"><a href="#/güven-aralığının-unsurları" id="/toc-güven-aralığının-unsurları">Güven Aralığının Unsurları</a></li>
+<li class="fragment"><a href="#/güven-aralığı-örnek" id="/toc-güven-aralığı-örnek">Güven Aralığı — Örnek</a></li>
+<li class="fragment"><a href="#/en-sık-yapılan-hata" id="/toc-en-sık-yapılan-hata">En Sık Yapılan Hata</a></li>
+<li class="fragment"><a href="#/z-mi-t-mi" id="/toc-z-mi-t-mi">Z mi, t mi?</a></li>
+<li class="fragment"><a href="#/t.test-ile-otomatik-hesaplama" id="/toc-t.test-ile-otomatik-hesaplama"><code>t.test()</code> ile Otomatik Hesaplama</a></li>
+<li class="fragment"><a href="#/güven-aralığı-vs.-tahmin-aralığı" id="/toc-güven-aralığı-vs.-tahmin-aralığı">Güven Aralığı vs.&nbsp;Tahmin Aralığı</a></li>
+<li class="fragment"><a href="#/ci-vs-pi-r-ile-görelim" id="/toc-ci-vs-pi-r-ile-görelim">CI vs PI — R ile Görelim</a></li>
 <li class="fragment"><a href="#/özet" id="/toc-özet">Özet</a></li>
 <li class="fragment"><a href="#/sırada-ne-var" id="/toc-sırada-ne-var">Sırada Ne Var?</a></li>
 </ul>
 </nav>
 </section>
 <section id="öğrenme-hedefleri" class="slide level2">
-<h2>🎯 Öğrenme Hedefleri</h2>
+<h2>Öğrenme Hedefleri</h2>
 <p>Bu oturumun sonunda:</p>
 <ul>
-<li class="fragment">Kesikli ve sürekli rastgele değişkeni ayırt edebileceksiniz</li>
-<li class="fragment">Olasılık kütle fonksiyonu (PMF) ile olasılık yoğunluk fonksiyonu (PDF) arasındaki farkı açıklayabileceksiniz</li>
-<li class="fragment">Binom, Poisson, Normal ve Üstel dağılımların hangi durumu modellediğini bilebileceksiniz</li>
-<li class="fragment">R’daki <strong>d-p-q-r</strong> fonksiyon ailesini (<code>dnorm</code>, <code>pnorm</code>, <code>qnorm</code>, <code>rnorm</code> vb.) doğru fonksiyonu seçerek kullanabileceksiniz</li>
+<li class="fragment"><strong>Nokta tahmini</strong> ile <strong>aralık tahmini</strong> arasındaki farkı açıklayabileceksiniz</li>
+<li class="fragment"><strong>Z-skoru</strong>nu hesaplayıp yorumlayabileceksiniz</li>
+<li class="fragment">Bir <strong>güven aralığının</strong> unsurlarını (güven düzeyi, standart hata, kritik değer) sayabileceksiniz</li>
+<li class="fragment">Ne zaman <strong>z</strong>, ne zaman <strong>t</strong> dağılımı kullanılacağına karar verebileceksiniz</li>
+<li class="fragment"><strong>Güven aralığı</strong> ile <strong>tahmin aralığı</strong> arasındaki farkı ayırt edebileceksiniz</li>
 </ul>
 </section>
-<section id="rastgele-değişken-nedir" class="slide level2">
-<h2>Rastgele Değişken Nedir?</h2>
-<p>Sayısal bir değişkenden bahsettiğimizde, aslında rastgele bir olayın sayısal özetini ifade eden bir <strong>rastgele değişkenden</strong> söz ederiz.</p>
+<section id="tahmin-estimation" class="slide level2">
+<h2>Tahmin (Estimation)</h2>
+<p>Örneklem verilerini kullanarak popülasyondaki bilinmeyen bir parametreyi tahmin etmek.</p>
 <ul>
-<li class="fragment"><strong>Kesikli:</strong> Sayılabilir sayıda sonuca sahip (çocuk sayısı, hatalı ürün sayısı)</li>
-<li class="fragment"><strong>Sürekli:</strong> Sayılamayacak kadar çok (sonsuz) sonuca sahip (boy, sıcaklık, süre)</li>
+<li class="fragment"><strong>Nokta Tahmini:</strong> tek bir en iyi tahmin (örn. örneklem ortalaması)</li>
+<li class="fragment"><strong>Aralık Tahmini:</strong> parametrenin düşmesi muhtemel olduğu bir aralık + güven düzeyi</li>
 </ul>
+<blockquote>
+<p>“Ortalama boyun 165–175 cm arasında olduğuna %95 güveniyoruz” — bu bir <strong>aralık tahminidir</strong>.</p>
+</blockquote>
 </section>
-<section id="olasılık-dağılımı-pmf-vs-pdf" class="slide level2">
-<h2>Olasılık Dağılımı: PMF vs PDF</h2>
+<section id="z-skoru" class="slide level2">
+<h2>Z-Skoru</h2>
+<p><span class="math display">\[z = \frac{X - \mu}{\sigma}\]</span></p>
+<ul>
+<li class="fragment"><strong>X:</strong> Değer</li>
+<li class="fragment"><span class="math inline">\(\mu\)</span>: Ortalama</li>
+<li class="fragment"><span class="math inline">\(\sigma\)</span>: Standart sapma</li>
+</ul>
+<p>Z-skoru, bir değeri <strong>standart sapma cinsinden</strong> ortalamaya olan uzaklığıyla ifade eder.</p>
+</section>
+<section id="z-skoru-rda-iki-eşdeğer-yol" class="slide level2">
+<h2>Z-Skoru — R’da İki Eşdeğer Yol</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Doğrudan: ortalaması 100, ss 15 olan dağılımda 110'un altında kalma olasılığı</span></span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">110</span>, <span class="at">mean =</span> <span class="dv">100</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7475075</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Z-skoru üzerinden aynı soru</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> (<span class="dv">110</span> <span class="sc">-</span> <span class="dv">100</span>) <span class="sc">/</span> <span class="dv">15</span></span>
+<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(z)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7475075</code></pre>
+</div>
+</div>
+<p>İkisi de <strong>aynı sonucu</strong> verir — z-skoru yalnızca ölçeği değiştirir, dağılımın şeklini değil.</p>
+</section>
+<section id="aralık-tahmini" class="slide level2">
+<h2>Aralık Tahmini</h2>
+<p>IQ dağılımı <span class="math inline">\(\mu=100, \sigma=15\)</span> olsun. 89 ile 101 arasında olma olasılığı?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>having_89 <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="dv">89</span>, <span class="dv">100</span>, <span class="dv">15</span>)</span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>having_101 <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="dv">101</span>, <span class="dv">100</span>, <span class="dv">15</span>)</span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a>having_101 <span class="sc">-</span> having_89</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2948989</code></pre>
+</div>
+</div>
+<p>Üst sınırın kümülatif olasılığından, alt sınırınkini çıkarıyoruz.</p>
+</section>
+<section id="güven-aralığının-unsurları" class="slide level2">
+<h2>Güven Aralığının Unsurları</h2>
+<ol type="1">
+<li class="fragment"><strong>Güven Düzeyi:</strong> genellikle %90, %95 veya %99</li>
+<li class="fragment"><strong>Standart Hata (SE):</strong> <span class="math inline">\(SE = \sigma/\sqrt{n}\)</span></li>
+<li class="fragment"><strong>Kritik Değer:</strong> z (büyük örneklem) veya t (küçük örneklem)</li>
+<li class="fragment"><strong>Nokta Tahmini:</strong> genellikle <span class="math inline">\(\bar{x}\)</span></li>
+</ol>
+<p><span class="math display">\[\text{Güven Aralığı} = \bar{x} \pm (z_{\alpha/2} \times SE)\]</span></p>
+</section>
+<section id="güven-aralığı-örnek" class="slide level2">
+<h2>Güven Aralığı — Örnek</h2>
+<p>Örneklem ortalaması 100, <span class="math inline">\(\sigma=15\)</span>, <span class="math inline">\(n=30\)</span>, güven düzeyi %95:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb7-4"><a href="" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)  <span class="co"># %95 için kritik z</span></span>
+<span id="cb7-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb7-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(x_bar <span class="sc">-</span> z <span class="sc">*</span> se, x_bar <span class="sc">+</span> z <span class="sc">*</span> se)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  94.63242 105.36758</code></pre>
+</div>
+</div>
+</section>
+<section id="en-sık-yapılan-hata" class="slide level2">
+<h2>En Sık Yapılan Hata</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># YANLIŞ — confidence'ın kendisi ikiye bölünüyor</span></span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> confidence <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># DOĞRU — önce alpha = 1 - confidence hesaplanır</span></span>
+<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> confidence</span>
+<span id="cb9-6"><a href="" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha <span class="sc">/</span> <span class="dv">2</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>confidence = 0.99</code> için: yanlış kod <span class="math inline">\(z\approx0.01\)</span>, doğru kod <span class="math inline">\(z\approx2.58\)</span> verir.</p>
+</section>
+<section id="z-mi-t-mi" class="slide level2">
+<h2>Z mi, t mi?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Durum</th>
+<th>Kullanım</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Büyük örneklem (<span class="math inline">\(n \ge 30\)</span>)</td>
+<td><code>qnorm</code> / z-tablosu</td>
+</tr>
+<tr class="even">
+<td>Küçük örneklem (<span class="math inline">\(n &lt; 30\)</span>) <strong>ve</strong> <span class="math inline">\(\sigma\)</span> bilinmiyor</td>
+<td><code>qt</code> / t-tablosu</td>
+</tr>
+</tbody>
+</table>
+<p><code>qt(p, df)</code>’de <code>df</code> = serbestlik derecesi = <span class="math inline">\(n-1\)</span>.</p>
+</section>
+<section id="t.test-ile-otomatik-hesaplama" class="slide level2">
+<h2><code>t.test()</code> ile Otomatik Hesaplama</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>notlar <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">48</span>, <span class="dv">52</span>, <span class="dv">55</span>, <span class="dv">47</span>, <span class="dv">49</span>, <span class="dv">51</span>, <span class="dv">53</span>, <span class="dv">50</span>)</span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a>sonuc <span class="ot">&lt;-</span> <span class="fu">t.test</span>(notlar, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a>sonuc<span class="sc">$</span>conf.int</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 47.89405 52.10595
+attr(,"conf.level")
+[1] 0.95</code></pre>
+</div>
+</div>
+<p>Tek komutla hem hipotez testi hem güven aralığı — ham veri varsa en pratik yol.</p>
+</section>
+<section id="güven-aralığı-vs.-tahmin-aralığı" class="slide level2">
+<h2>Güven Aralığı vs.&nbsp;Tahmin Aralığı</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><strong>Kesikli → PMF</strong></p>
-<p>Her sonucun kendi olasılığı, bir liste/tablo ile verilir.</p>
-<p><span class="math display">\[P(X=k)\]</span></p>
+<p><strong>Güven Aralığı (CI)</strong></p>
+<ul>
+<li class="fragment">Neyi arar? <strong>Ortalamayı</strong></li>
+<li class="fragment">“Sınıfın boy ortalaması kaç?”</li>
+<li class="fragment"><span class="math inline">\(n\)</span> arttıkça <strong>daralır</strong></li>
+</ul>
 </div><div class="column" style="width:50%;">
-<p><strong>Sürekli → PDF</strong></p>
-<p>Olasılık, eğrinin altındaki <strong>alan</strong>dır; tek bir noktanın olasılığı 0.</p>
-<p><span class="math display">\[P(a \le X \le b) = \int_a^b f(x)\,dx\]</span></p>
+<p><strong>Tahmin Aralığı (PI)</strong></p>
+<ul>
+<li class="fragment">Neyi arar? <strong>Tek bir gözlemi</strong></li>
+<li class="fragment">“Sıradaki öğrencinin boyu kaç?”</li>
+<li class="fragment"><span class="math inline">\(n\)</span> artsa da <strong>çok daralmaz</strong></li>
+</ul>
 </div></div>
 </section>
-<section id="kesikli-örnek-iki-para-atışı" class="slide level2">
-<h2>Kesikli Örnek: İki Para Atışı</h2>
-<p>Yazı sayısını <span class="math inline">\(X\)</span> ile gösterelim:</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th><span class="math inline">\(X\)</span> (Yazı Sayısı)</th>
-<th><span class="math inline">\(P(X)\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>0.25</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>0.50</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>0.25</td>
-</tr>
-</tbody>
-</table>
-<p>Olasılıkların toplamı <strong>1</strong>’e eşit olmalı — geçerli bir dağılımın tanımı budur.</p>
-</section>
-<section id="sürekli-örnek-araç-hızı" class="slide level2">
-<h2>Sürekli Örnek: Araç Hızı</h2>
-<p>Hız <span class="math inline">\(X\)</span>, 0–120 km/s arasında <strong>eşit olasılıkla</strong> dağılıyor olsun:</p>
-<p><span class="math display">\[
-f(X) = \begin{cases} \dfrac{1}{120} &amp; 0 \le X \le 120 \\ 0 &amp; \text{diğer} \end{cases}
-\]</span></p>
-<p>60–80 km/s arasında olma olasılığı:</p>
-<p><span class="math display">\[
-P(60 \le X \le 80) = \int_{60}^{80} \frac{1}{120}\,dx = \frac{20}{120} \approx 0.167
-\]</span></p>
-</section>
-<section id="dağılım-ailelerine-genel-bakış" class="slide level2">
-<h2>Dağılım Ailelerine Genel Bakış</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Dağılım</th>
-<th>Tür</th>
-<th>Ne Modeller?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Binom</strong></td>
-<td>Kesikli</td>
-<td>Sabit sayıda denemede başarı sayısı</td>
-</tr>
-<tr class="even">
-<td><strong>Poisson</strong></td>
-<td>Kesikli</td>
-<td>Belirli aralıkta nadir olay sayısı</td>
-</tr>
-<tr class="odd">
-<td><strong>Normal</strong></td>
-<td>Sürekli</td>
-<td>Ortalama etrafında simetrik ölçüm</td>
-</tr>
-<tr class="even">
-<td><strong>Üstel</strong></td>
-<td>Sürekli</td>
-<td>İki olay arasındaki süre</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="binom-dağılımı" class="slide level2">
-<h2>Binom Dağılımı</h2>
-<p><img data-src="images/binom.png" height="320"></p>
-<ul>
-<li class="fragment">Sabit deneme sayısı, iki olası sonuç, sabit başarı olasılığı</li>
-<li class="fragment">Örnek: 10 üründen kaçının hatalı olduğu</li>
-</ul>
+<section id="ci-vs-pi-r-ile-görelim" class="slide level2">
+<h2>CI vs PI — R ile Görelim</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)  <span class="co"># tam olarak 5 başarı</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a>notlar <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(notlar <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">interval =</span> <span class="st">"confidence"</span>, <span class="at">level =</span> <span class="fl">0.95</span>)[<span class="dv">1</span>, ]</span>
+<span id="cb12-6"><a href="" aria-hidden="true" tabindex="-1"></a>pi_araligi <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">interval =</span> <span class="st">"prediction"</span>, <span class="at">level =</span> <span class="fl">0.95</span>)[<span class="dv">1</span>, ]</span>
+<span id="cb12-7"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ci[<span class="fu">c</span>(<span class="st">"lwr"</span>,<span class="st">"upr"</span>)], <span class="dv">1</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2460938</code></pre>
+<pre><code> lwr  upr 
+49.1 52.7 </code></pre>
 </div>
-</div>
-</section>
-<section id="poisson-dağılımı" class="slide level2">
-<h2>Poisson Dağılımı</h2>
-<p><img data-src="images/poison.png" height="320"></p>
-<ul>
-<li class="fragment">Nadir, bağımsız olaylar; sabit ortalama hız <span class="math inline">\(\lambda\)</span></li>
-<li class="fragment">Örnek: bir saatte mağazaya gelen müşteri sayısı</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">3</span>, <span class="at">lambda =</span> <span class="dv">3</span>)  <span class="co"># ortalaması 3 olan dağılımda tam 3 olay</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(pi_araligi[<span class="fu">c</span>(<span class="st">"lwr"</span>,<span class="st">"upr"</span>)], <span class="dv">1</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2240418</code></pre>
+<pre><code> lwr  upr 
+32.7 69.1 </code></pre>
 </div>
 </div>
+<p>Tahmin aralığı gözle görülür şekilde daha geniş.</p>
 </section>
-<section id="normal-dağılım" class="slide level2">
-<h2>Normal Dağılım</h2>
-<p><img data-src="images/normal.png" height="320"></p>
-<ul>
-<li class="fragment">Sürekli, ortalama <span class="math inline">\(\mu\)</span> etrafında simetrik, çan biçimli</li>
-<li class="fragment">Örnek: boy, kilo, sınav notları</li>
-</ul>
-</section>
-<section id="üstel-dağılım-ve-poisson-ile-ilişkisi" class="slide level2">
-<h2>Üstel Dağılım ve Poisson ile İlişkisi</h2>
-<p><img data-src="images/ustsel.png" height="300"></p>
-<ul>
-<li class="fragment">Poisson → belirli sürede <strong>kaç</strong> olay olduğunu modeller</li>
-<li class="fragment">Üstel → bu olaylar <strong>arasında ne kadar süre</strong> geçtiğini modeller</li>
-<li class="fragment">İkisi aynı <span class="math inline">\(\lambda\)</span> ile birbirine bağlıdır</li>
-</ul>
-</section>
-<section id="rda-d-p-q-r-çerçevesi" class="slide level2">
-<h2>R’da d-p-q-r Çerçevesi</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Önek</th>
-<th>Anlamı</th>
-<th>Sorusu</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>d</strong></td>
-<td>Density</td>
-<td>Bu noktanın yoğunluğu/olasılığı ne?</td>
-</tr>
-<tr class="even">
-<td><strong>p</strong></td>
-<td>Probability</td>
-<td>Bu değere kadar kümülatif olasılık ne?</td>
-</tr>
-<tr class="odd">
-<td><strong>q</strong></td>
-<td>Quantile</td>
-<td>Bu olasılığa karşılık gelen x ne?</td>
-</tr>
-<tr class="even">
-<td><strong>r</strong></td>
-<td>Random</td>
-<td>Bu dağılımdan rastgele değer üret</td>
-</tr>
-</tbody>
-</table>
-<p>Aynı mantık <code>norm</code>, <code>binom</code>, <code>pois</code>, <code>exp</code> gibi tüm dağılımlar için geçerlidir.</p>
-</section>
-<section id="d-density" class="slide level2">
-<h2><code>d</code> — Density</h2>
-<p>Eğrinin/olasılığın <strong>yüksekliği</strong>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="dv">0</span>)                          <span class="co"># standart normalin tepe noktası</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.3989423</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="at">x =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2460938</code></pre>
-</div>
-</div>
-</section>
-<section id="p-probability" class="slide level2">
-<h2><code>p</code> — Probability</h2>
-<p><strong>Solda kalan kümülatif alan</strong>, <span class="math inline">\(P(X \le x)\)</span>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="fl">1.96</span>)                       <span class="co"># solundaki kümülatif alan</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9750021</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">3</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)  <span class="co"># en fazla 3 başarı</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.171875</code></pre>
-</div>
-</div>
-</section>
-<section id="q-quantile" class="slide level2">
-<h2><code>q</code> — Quantile</h2>
-<p><code>p</code>’nin <strong>tam tersi</strong>: olasılıktan x değerine gidilir.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.90</span>, <span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">10</span>)   <span class="co"># en başarılı %10'un sınırı</span></span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 72.81552</code></pre>
-</div>
-</div>
-</section>
-<section id="r-random" class="slide level2">
-<h2><code>r</code> — Random</h2>
-<p>Dağılıma uygun <strong>simülasyon verisi</strong>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
-<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="at">mean =</span> <span class="dv">100</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 107.80884  83.80464 102.08857  98.72877  90.00041</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>), <span class="at">main =</span> <span class="st">"1000 Rastgele Normal Gözlem"</span>,</span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">col =</span> <span class="st">"gray85"</span>, <span class="at">border =</span> <span class="st">"white"</span>)</span></code><button title="Panoya Kopyala" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="08_modul_sunum_files/figure-revealjs/unnamed-chunk-7-1.png" width="880" class="r-stretch"></section>
 <section id="özet" class="slide level2">
 <h2>Özet</h2>
 <ul>
-<li class="fragment">Rastgele değişken <strong>kesikli</strong> ise PMF, <strong>sürekli</strong> ise PDF ile tanımlanır</li>
-<li class="fragment">Binom/Poisson kesikli; Normal/Üstel sürekli dağılım ailelerindendir</li>
-<li class="fragment">R’da her dağılım için aynı dört fonksiyon kalıbı çalışır: <code>d</code> (yoğunluk), <code>p</code> (kümülatif), <code>q</code> (ters kümülatif), <code>r</code> (rastgele üretim)</li>
+<li class="fragment"><strong>Nokta tahmini:</strong> tek sayı — <strong>Aralık tahmini:</strong> sayı + güven düzeyi</li>
+<li class="fragment"><strong>Z-skoru:</strong> değeri standart sapma cinsinden ifade eder</li>
+<li class="fragment"><strong>Güven aralığı:</strong> <span class="math inline">\(\bar{x} \pm (\text{kritik değer} \times SE)\)</span></li>
+<li class="fragment"><strong>Büyük örneklem → z, küçük örneklem → t</strong></li>
+<li class="fragment"><strong>CI ortalamayı, PI tek bir gözlemi</strong> hedefler</li>
 </ul>
 </section>
 <section id="sırada-ne-var" class="slide level2">
 <h2>Sırada Ne Var?</h2>
-<p>Bir sonraki oturumda: <strong>örnekleme, örneklem dağılımı ve Merkezi Limit Teoremi</strong> — tek bir gözlemden değil, <strong>örneklem ortalamalarının kendi dağılımından</strong> söz etmeye başlayacağız.</p>
+<ul>
+<li class="fragment">Bu haftanın <strong>alıştırmaları</strong> ve <strong>rehberli lab</strong>’ı depoda</li>
+<li class="fragment">Final sınavı, 6.–12. oturumlarda ağırlıklı — bu modül kapsam içinde</li>
+</ul>
 
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
@@ -686,19 +633,19 @@ P(60 \le X \le 80) = \int_{60}^{80} \frac{1}{120}\,dx = \frac{20}{120} \approx 0
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="08_modul_sunum_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="08_modul_sunum_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="09_modul_sunum_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
